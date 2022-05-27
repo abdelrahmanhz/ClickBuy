@@ -9,4 +9,8 @@ interface RemoteSource {
     suspend fun getAllProductsInCollectionByID(collectionID: String):Response<Products>
     suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
     suspend fun getAllCustomCollections():  Response<CustomCollections>
+
+    suspend fun getAvailableCoupons():  Response<Coupon>
+    suspend fun getAvailableAds():  Response<Ads>
+    suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
 }

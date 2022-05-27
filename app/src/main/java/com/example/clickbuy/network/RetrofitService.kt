@@ -37,4 +37,32 @@ interface RetrofitService {
     @GET("custom_collections.json")
     suspend fun getAllCustomCollections(): Response<CustomCollections>
 
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("collections/{id}/products.json?fields=product_type")
+    suspend fun getAllSubCategoriesForSpecificCategory(
+        @Path("id") id: String
+    ): Response<Products>
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET()
+    suspend fun getAvailableAds(): Response<Ads>
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET()
+    suspend fun getAvailableCoupons(): Response<Coupon>
+
+
 }

@@ -45,4 +45,16 @@ class RetrofitClient : RemoteSource {
         Log.i(TAG, "getAllCustomCollections: response ---->\n ${response.body()}")
         return response
     }
+
+    override suspend fun getAvailableCoupons(): Response<Coupon> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAvailableAds(): Response<Ads> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products> {
+        TODO("Not yet implemented")
+    }
 }
