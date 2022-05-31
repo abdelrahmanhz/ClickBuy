@@ -7,9 +7,13 @@ plugins {
 android {
     compileSdk 32
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId "com.example.clickbuy"
-        minSdk 21
+        minSdk 28
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -59,4 +63,10 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //Circular Image View
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //CircleIndicator
+    implementation 'me.relex:circleindicator:2.1.6'
 }
