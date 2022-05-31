@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
 
-    private const val API_URL = "https://madalex20220.myshopify.com/admin/api/2022-01/"
+    private const val API_URL ="https://madalex20220.myshopify.com/admin/api/2022-01/"
 
     fun getClient(): Retrofit {
         return Retrofit.Builder()
