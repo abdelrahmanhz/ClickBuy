@@ -26,12 +26,11 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
-        var response = retrofitHelper.getAllProductsInCollectionByID("273053679755")
+        var response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
         Log.i(TAG, "getAllProductsInCollectionByID code \n ${response.code()}")
         Log.i(TAG, "getAllProductsInCollectionByID body\n ${response.body()}")
         return response
     }
-
     override suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement> {
         var response = retrofitHelper.getCustomCollectionsByID(collectionID)
         Log.i(TAG, "getCustomCollectionsByID: responseCode ---->\n ${response.code()}")
@@ -55,6 +54,23 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products> {
-        TODO("Not yet implemented")
+        var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(collectionID)
+        Log.i(
+            TAG,
+            "getCustomCollectionsByID: responseCode ---->\n ${response.code()}"
+        )
+        Log.i(
+            TAG,
+            "getCustomCollectionsByID: response ---->\n ${response.body()}"
+        )
+        return response
     }
+
+
+    override suspend fun getAllBrands(): Response<Brands> {
+        var response = retrofitHelper.getAllBrands()
+        Log.i(TAG, "getAllBrands: ${response.body()}")
+        return response
+    }
+
 }
