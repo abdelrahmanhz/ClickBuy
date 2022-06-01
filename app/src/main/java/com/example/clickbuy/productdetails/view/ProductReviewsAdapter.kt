@@ -11,8 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Review
 
-class ProductReviewsAdapter (var reviews: List<Review>) : RecyclerView.Adapter<ProductReviewsAdapter.ProductReviewViewHolder>(){
+class ProductReviewsAdapter () : RecyclerView.Adapter<ProductReviewsAdapter.ProductReviewViewHolder>(){
 
+    private var reviews = listOf(
+        Review("Ahmed S.", 3.7f, "Oversize.", 1),
+        Review("Mohammed K.", 4.5f, "it’s a really nice t-shirts and i will definitely buy it again", 1),
+        Review("Hanna A.", 5f, "Nice and loose.", 1),
+        Review("Aya H.", 5f, "love this too so much! quality is great.", 1),
+        Review("Asmaa H.", 2.8f, "nice material", 1),
+        Review("Hager S.", 3.2f, "beautiful colors, looks just like the pictures.", 1),
+        Review("Hala N.", 4.8f, "Very nice. Thanks for it!!", 1),
+        Review("Naira R.", 4.8f, "Really good quality!! I absolutely love this!", 1),
+    )
     private val count = (1..reviews.size).shuffled().take(1)[0]
 
     inner class ProductReviewViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

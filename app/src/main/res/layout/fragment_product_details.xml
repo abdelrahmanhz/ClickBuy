@@ -6,43 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".productdetails.view.ProductDetailsFragment">
 
-    <ScrollView
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
-        android:scrollbars="none"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:weightSum="2"
-            android:orientation="vertical">
-
-
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/item_images_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:layout_weight="1"
-                android:src="@drawable/shirt_image"
-                tools:ignore="MissingConstraints">
-
-            </androidx.viewpager2.widget.ViewPager2>
-
-
-
-            <include
-                android:id="@+id/product_info"
-                layout="@layout/product_bottom_sheet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header" />
 
     <include layout="@layout/header_layout"
         android:layout_alignParentTop="true"
@@ -51,6 +23,43 @@
         android:layout_marginTop="30dp"
         android:id="@+id/header"
         />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/item_images_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:paddingHorizontal="16dp"
+                android:src="@drawable/shirt_image"
+                tools:ignore="MissingConstraints">
+
+            </androidx.viewpager2.widget.ViewPager2>
+
+            <include
+                android:id="@+id/product_info"
+                layout="@layout/product_bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

@@ -45,4 +45,11 @@ class Repository private constructor(
         return remoteSource.getAllCustomCollections()
     }
 
+    override suspend fun getProductById(productId: String): Response<ProductParent> {
+        Log.i(TAG, "getProductByID: ")
+        var response = remoteSource.getProductByID(productId)
+        Log.i(TAG, "getProductByID: $response")
+        return response
+    }
+
 }

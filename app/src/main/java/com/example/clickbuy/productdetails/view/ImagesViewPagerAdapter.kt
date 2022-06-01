@@ -25,13 +25,17 @@ class ImagesViewPagerAdapter(private var images: List<String>) : RecyclerView.Ad
         Glide.with(holder.itemView.context)
             .load(images.get(position))
             .centerCrop()
-            .placeholder(R.drawable.shirt_image)
-            .thumbnail(0.5f)
+            .placeholder(R.drawable.default_image)
             .into(holder.productImage)
     }
 
     override fun getItemCount(): Int {
         return images.size
+    }
+
+    fun setImages(images: List<String>) {
+        this.images = images
+        notifyDataSetChanged()
     }
 
 }

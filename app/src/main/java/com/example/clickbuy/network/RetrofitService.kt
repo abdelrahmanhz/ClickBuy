@@ -27,6 +27,13 @@ interface RetrofitService {
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
     )
+    @GET("products/{id}.json")
+    suspend fun getProductById(@Path("id") id: String): Response<ProductParent>
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
     @GET("custom_collections.json")
     suspend fun getAllCustomCollections(): Response<CustomCollections>
 

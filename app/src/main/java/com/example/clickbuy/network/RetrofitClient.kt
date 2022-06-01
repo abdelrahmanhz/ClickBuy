@@ -31,6 +31,12 @@ class RetrofitClient : RemoteSource {
         Log.i(TAG, "getAllProductsInCollectionByID body\n ${response.body()}")
         return response
     }
+
+    override suspend fun getProductByID(productId: String): Response<ProductParent> {
+        var response = retrofitHelper.getProductById(productId)
+        return response
+    }
+
     override suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement> {
         var response = retrofitHelper.getCustomCollectionsByID(collectionID)
         Log.i(TAG, "getCustomCollectionsByID: responseCode ---->\n ${response.code()}")
