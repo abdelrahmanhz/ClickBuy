@@ -70,7 +70,8 @@
             android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
             android:background="@drawable/spinner_shape"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <Spinner
             android:id="@+id/colorSpinner"
