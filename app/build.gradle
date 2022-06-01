@@ -91,25 +91,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     //bttomnav
     implementation 'com.etebarian:meow-bottom-navigation:1.0.4'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //circular
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
