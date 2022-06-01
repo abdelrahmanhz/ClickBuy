@@ -1,16 +1,12 @@
 package com.example.clickbuy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.example.clickbuy.category.CategoryFragment
+import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.me.MeFragment
-import com.example.clickbuy.network.RetrofitClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -25,48 +21,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-//        replaceFragment(HomeFragment())
-//        meo = findViewById(R.id.bottom_nav)
-//
-//
-//
-//        meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
-//        meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
-//        meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
-//
-//
-//        meo.setOnClickMenuListener {
-//            when (it.id) {
-//                ID_HOME -> {
-//                    fragmentShow = ID_HOME
-//                    replaceFragment(HomeFragment())
-//                }
-//                ID_CATEGORY -> {
-//                    fragmentShow = ID_CATEGORY
-//                    replaceFragment(CategoryFragment())
-//                }
-//                ID_PROFILE -> {
-//                    fragmentShow = ID_PROFILE
-//                    replaceFragment(MeFragment())
-//
-//                }
-//            }
-//        }
-//
-//        meo.setOnShowListener { item ->
-//            fragmentShow = item.id
-//        }
-//
-//        CoroutineScope(Dispatchers.Main).launch {
-//            var response =
-//                RetrofitClient.getInstance().getAllProducts()
-//
-//            Log.i(TAG, "onCreate: code---------------> " + response.code())
-//            Log.i(TAG, "onCreate: body---------------> " + response.body())
-//            Log.i(TAG, "onCreate: code---------------> " + response.body()?.products?.size)
-//        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(HomeFragment())
+        meo = findViewById(R.id.bottom_nav)
+
+        meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
+        meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
+        meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
+
+
+        meo.setOnClickMenuListener {
+            when (it.id) {
+                ID_HOME -> {
+                    fragmentShow = ID_HOME
+                    replaceFragment(HomeFragment())
+                }
+                ID_CATEGORY -> {
+                    fragmentShow = ID_CATEGORY
+                    replaceFragment(CategoryFragment())
+                }
+                ID_PROFILE -> {
+                    fragmentShow = ID_PROFILE
+                    replaceFragment(MeFragment())
+
+                }
+            }
+        }
+
+        meo.setOnShowListener { item ->
+            fragmentShow = item.id
+        }
+
+     meo.show(ID_HOME, true)
 //            Log.i(Companion.TAG, "onCreate: body----> " + response.body())
 //            Log.i(Companion.TAG, "onCreate: products?.count()----> " + response.body()?.products?.count())
 //            Log.i(Companion.TAG, "onCreate: title----> " + response.body()?.products?.get(0)?.product_type)
@@ -136,14 +123,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-//    companion object {
-//        private const val TAG = "RetrofitClient"
-//
-//    }
-//    private fun replaceFragment(fragment: Fragment) {
-//        val fragmentManager = supportFragmentManager
-//        val fragmentTransaction = fragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.frame, fragment)
-//        fragmentTransaction.commit()
-//    }
+    companion object {
+        private const val TAG = "RetrofitClient"
+
+    }
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame, fragment)
+        fragmentTransaction.commit()
+    }
     }

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.clickbuy.models.Brands
 import com.example.clickbuy.models.CustomCollections
+import com.example.clickbuy.models.Products
 import com.example.clickbuy.models.RepositoryInterface
 
 import kotlinx.coroutines.Dispatchers
@@ -21,12 +22,15 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
 
     private var _brand = MutableLiveData<Brands>()
     var brand: LiveData<Brands> = _brand
-
     private var _sale = MutableLiveData<CustomCollections>()
     var sale: LiveData<CustomCollections> = _sale
-    fun getAllBrands(){
+
+    private var _saleId = MutableLiveData<Products>()
+    var saleId: LiveData<Products> = _saleId
+
+    fun getAllBrands() {
         viewModelScope.launch {
-            var brands: Brands? =  null
+            var brands: Brands? = null
             val brandResponse = _irepo.getAllBrands()
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
@@ -36,23 +40,39 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
                 _brand.postValue(brands!!)
                 Log.i(
                     TAG,
-                    "getAllBrands View Model--------------------->: $brands")
+                    "getAllBrands View Model--------------------->: $brands"
+                )
             }
         }
     }
-    fun getSalesById() {
+
+    fun getSalesId() {
         viewModelScope.launch {
-            var brands: CustomCollections? =  null
-            val brandResponse = _irepo.getSalesId()
+            var brands: CustomCollections? = null
+            val brandResponse = _irepo.getCategoryIdByTitle("SALE")
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
             }
-
             withContext(Dispatchers.Main) {
                 _sale.postValue(brands!!)
                 Log.i(TAG, "getSalesById View Model--------------------->: $brands")
                 brands.custom_collections[0].id
 
+            }
+        }
+    }
+    fun getAllSalesById() {
+       // getSalesId()
+        viewModelScope.launch {
+            var brands: Products? = null
+            val brandResponse = _irepo.getAllProductsInCollectionByID("273053778059")
+            if (brandResponse.code() == 200) {
+                brands = brandResponse.body()!!
+            }
+            withContext(Dispatchers.Main) {
+                _saleId.postValue(brands!!)
+                Log.i(TAG, "getAllSalesById View Model--------------------->: $brands")
+                brands.products
             }
         }
     }

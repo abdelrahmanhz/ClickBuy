@@ -35,14 +35,25 @@ class Repository private constructor(
 
     }
 
-    override suspend fun getAllBrandsDetais(id : String): Response<Products> {
-        Log.i(TAG, "getAllBrandsDetails: ")
+//    override suspend fun getAllBrandsDetais(id: String): Response<Products> {
+//        Log.i(TAG, "getAllBrandsDetails: ")
+//        return remoteSource.getAllProductsInCollectionByID(id)
+//    }
+
+    override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
+        Log.i(TAG, "getAllSalesById: ")
         return remoteSource.getAllProductsInCollectionByID(id)
     }
 
-    override suspend fun getSalesId(): Response<CustomCollections> {
-        Log.i(TAG, "getAllCustomCollections: ")
-        return remoteSource.getAllCustomCollections()
+    override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
+        return remoteSource.getCategoryIdByTitle(categoryTitle)
+    }
+
+    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleComingFromHome: String
+    ): Response<Products> {
+      return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
     }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
