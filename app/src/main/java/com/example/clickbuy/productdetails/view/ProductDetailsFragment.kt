@@ -15,6 +15,8 @@ import com.example.clickbuy.databinding.FragmentProductDetailsBinding
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.productdetails.adapters.ImagesViewPagerAdapter
+import com.example.clickbuy.productdetails.adapters.ProductReviewsAdapter
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 

@@ -34,7 +34,7 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:padding="5dp"
-        android:src="@drawable/ic_baseline_favorite" />
+        android:src="@drawable/ic_favorite_border" />
 
 
 
