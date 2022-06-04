@@ -12,11 +12,6 @@ class FavouritesFragment : Fragment() {
 
     private lateinit var binding : FragmentFavouritesBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +28,7 @@ class FavouritesFragment : Fragment() {
     }
 
     private fun setupUI() {
+        binding.header.rightDrawable.visibility = View.GONE
         binding.header.titleTv.text = "Favourites"
     }
 }

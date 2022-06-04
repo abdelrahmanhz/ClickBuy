@@ -28,6 +28,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/favourite_item"
         app:layout_constraintTop_toBottomOf="@+id/header" />
