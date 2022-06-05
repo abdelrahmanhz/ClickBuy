@@ -7,11 +7,14 @@ import com.example.clickbuy.models.Favorite
 @Dao
 interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavorite(favorite: Favorite)
+    fun insertFavorite(favorite: Favorite)
 
     @Query("SELECT * FROM favorite")
     fun getFavorites(): LiveData<List<Favorite>>
 
-    @Delete
-    suspend fun deleteFavorite(favorite: Favorite)
+    @Query("SELECT EXISTS(SELECT * FROM favorite WHERE id = :productId)")
+    fun isFavorite(productId: Long): Boolean
+
+    @Query("DELETE FROM favorite WHERE id = :productId")
+    fun deleteFavorite(productId: Long)
 }

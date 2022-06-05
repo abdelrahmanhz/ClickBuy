@@ -19,6 +19,7 @@ import com.example.clickbuy.network.RetrofitClient
 import android.view.animation.AnimationUtils
 import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
+import com.example.clickbuy.db.ConcreteLocalSource
 
 
 private const val TAG = "HomeView"
@@ -46,6 +47,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
         homeFactory = HomeViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
+                ConcreteLocalSource(requireContext()),
                 requireContext()
             )
         )
@@ -99,10 +101,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
 
     override fun categoryBrandShow(categoryTitleDetails: String) {
        Log.i(TAG, "brandDetailsShow: $categoryTitleDetails")
-        var categoryDetails = CategoryFragment()
-        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, categoryDetails).commit()
-//        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
-       categoryDetails.setCategoryTitle(categoryTitleDetails)
+//        var categoryDetails = CategoryFragment()
+//        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, categoryDetails).commit()
+////        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
+//       categoryDetails.setCategoryTitle(categoryTitleDetails)
     }
     override fun productDetailsShow(id: String) {
         // Open Product Details

@@ -7,11 +7,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
+import com.example.clickbuy.favourites.view.FavouritesFragmentInterface
 import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.util.Extensions.load
 
 class FavouritesAdapter(
-    private var favourites: List<Favorite>,
+    private var favourites: ArrayList<Favorite>,
+    private var view: FavouritesFragmentInterface
 ): RecyclerView.Adapter<FavouritesAdapter.FavouriteViewHolder>() {
     inner class FavouriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val favouriteImage: ImageView = itemView.findViewById(R.id.fav_item_img)
@@ -26,15 +28,21 @@ class FavouritesAdapter(
 
     override fun onBindViewHolder(holder: FavouriteViewHolder, position: Int) {
         holder.favouriteImage.load(favourites[position].image)
-        holder.favouriteTitle.text = favourites[position].price
-        holder.favouriteDeleteImage.setOnClickListener {  }
+        holder.favouriteTitle.text = favourites[position].title
+        holder.favouritesPrice.text = favourites[position].price
+        holder.favouriteDeleteImage.setOnClickListener {
+            favourites.removeAt(position)
+            view.deleteFavouriteItem(favourites[position])
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int {
         return favourites.size
     }
 
-    fun setFavourites(favourites: List<Favorite>){
+    fun setFavourites(favourites: ArrayList<Favorite>){
         this.favourites = favourites
+        notifyDataSetChanged()
     }
 }

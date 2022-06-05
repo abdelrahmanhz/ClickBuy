@@ -2,6 +2,8 @@ package com.example.clickbuy.models
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import com.example.clickbuy.db.LocalSource
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
 import retrofit2.Response
@@ -11,6 +13,7 @@ private const val TAG = "Repository"
 
 class Repository private constructor(
     var remoteSource: RemoteSource,
+    var localSource: LocalSource,
     var context: Context
 ) : RepositoryInterface {
 
@@ -18,10 +21,10 @@ class Repository private constructor(
     companion object {
         private var instance: Repository? = null
         fun getInstance(
-            remoteSource: RetrofitClient, context: Context
+            remoteSource: RetrofitClient, localSource: LocalSource, context: Context
         ): Repository {
 
-            return instance ?: Repository(remoteSource, context)
+            return instance ?: Repository(remoteSource, localSource, context)
         }
     }
 
@@ -61,6 +64,23 @@ class Repository private constructor(
         var response = remoteSource.getProductByID(productId)
         Log.i(TAG, "getProductByID: $response")
         return response
+    }
+
+    // local (room)
+    override fun addFavorite(favorite: Favorite) {
+        localSource.insertFavorite(favorite)
+    }
+
+    override fun getFavorites(): LiveData<List<Favorite>> {
+        return localSource.getFavorites()
+    }
+
+    override fun deleteFavorite(productId: Long) {
+        localSource.deleteFavorite(productId)
+    }
+
+    override fun isFavorite(productId: Long): Boolean {
+        return localSource.isFavorite(productId)
     }
 
 }

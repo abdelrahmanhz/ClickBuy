@@ -21,39 +21,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        replaceFragment(HomeFragment())
-        meo = findViewById(R.id.bottom_nav)
-
-        meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
-        meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
-        meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
-
-
-        meo.setOnClickMenuListener {
-            when (it.id) {
-                ID_HOME -> {
-                    fragmentShow = ID_HOME
-                    replaceFragment(HomeFragment())
-                }
-                ID_CATEGORY -> {
-                    fragmentShow = ID_CATEGORY
-                    replaceFragment(CategoryFragment())
-                }
-                ID_PROFILE -> {
-                    fragmentShow = ID_PROFILE
-                    replaceFragment(MeFragment())
-
-                }
-            }
-        }
-
-        meo.setOnShowListener { item ->
-            fragmentShow = item.id
-        }
-
-     meo.show(ID_HOME, true)
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+//        replaceFragment(HomeFragment())
+//        meo = findViewById(R.id.bottom_nav)
+//
+//        meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
+//        meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
+//        meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
+//
+//
+//        meo.setOnClickMenuListener {
+//            when (it.id) {
+//                ID_HOME -> {
+//                    fragmentShow = ID_HOME
+//                    replaceFragment(HomeFragment())
+//                }
+//                ID_CATEGORY -> {
+//                    fragmentShow = ID_CATEGORY
+//                    replaceFragment(CategoryFragment())
+//                }
+//                ID_PROFILE -> {
+//                    fragmentShow = ID_PROFILE
+//                    replaceFragment(MeFragment())
+//
+//                }
+//            }
+//        }
+//
+//        meo.setOnShowListener { item ->
+//            fragmentShow = item.id
+//        }
+//
+//     meo.show(ID_HOME, true)
 //            Log.i(Companion.TAG, "onCreate: body----> " + response.body())
 //            Log.i(Companion.TAG, "onCreate: products?.count()----> " + response.body()?.products?.count())
 //            Log.i(Companion.TAG, "onCreate: title----> " + response.body()?.products?.get(0)?.product_type)
@@ -123,14 +123,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    companion object {
-        private const val TAG = "RetrofitClient"
-
-    }
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame, fragment)
-        fragmentTransaction.commit()
-    }
+//    companion object {
+//        private const val TAG = "RetrofitClient"
+//
+//    }
+//    private fun replaceFragment(fragment: Fragment) {
+//        val fragmentManager = supportFragmentManager
+//        val fragmentTransaction = fragmentManager.beginTransaction()
+//        fragmentTransaction.replace(R.id.frame, fragment)
+//        fragmentTransaction.commit()
+//    }
     }

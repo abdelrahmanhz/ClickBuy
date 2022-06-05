@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.category.CategoryAdapter
 import com.example.clickbuy.category.viewmodel.CategoryViewModel
 import com.example.clickbuy.category.viewmodel.CategoryViewModelFactory
+import com.example.clickbuy.db.ConcreteLocalSource
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import de.hdodenhof.circleimageview.CircleImageView
@@ -50,6 +51,7 @@ class CategoryFragment : Fragment() {
         categoryFactory = CategoryViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
+                ConcreteLocalSource(requireContext()),
                 requireContext()
             )
         )
