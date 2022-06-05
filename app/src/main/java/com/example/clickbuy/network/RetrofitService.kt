@@ -64,5 +64,23 @@ interface RetrofitService {
     @GET()
     suspend fun getAvailableCoupons(): Response<Coupon>
 
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("customers.json?")
+    suspend fun getCustomerDetails(
+        @Query("email") email: String
+    ): Response<Customers>
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("currencies.json")
+    suspend fun getCurrencies(
+    ): Response<Currencies>
+
 
 }
