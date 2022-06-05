@@ -63,4 +63,16 @@ class Repository private constructor(
         return response
     }
 
+    override suspend fun getCustomerDetails(email: String): Response<Customers> {
+        var response = remoteSource.getCustomerDetails(email)
+        Log.i(TAG, "getCustomerDetails: " + response.code())
+        return response
+    }
+
+    override suspend fun getCurrencies(): Response<Currencies> {
+        var response = remoteSource.getCurrencies()
+        Log.i(TAG, "getCurrencies: " + response.code())
+        return response
+    }
+
 }

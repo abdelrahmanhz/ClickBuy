@@ -14,7 +14,13 @@ interface RepositoryInterface {
     //suspend fun getAllBrandsDetais(id: String): Response<Products>
     suspend fun getAllProductsInCollectionByID(id: String): Response<Products>
     suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails : String,
-                             categoryTitleComingFromHome : String): Response<Products>
+    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleComingFromHome: String
+    ): Response<Products>
+
+
+    suspend fun getCustomerDetails(email: String): Response<Customers>
+    suspend fun getCurrencies(): Response<Currencies>
 
 }

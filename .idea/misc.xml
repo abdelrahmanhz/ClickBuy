@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/card_backfround.xml" value="0.2203125" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.12409420289855072" />
+<<<<<<< Updated upstream
+=======
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_custom_row.xml" value="0.12864583333333332" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_details_custom_row.xml" value="0.13269927536231885" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/card_item_details_brands.xml" value="0.13858695652173914" />
@@ -16,6 +17,25 @@
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/sales_custom_row.xml" value="0.13489583333333333" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/salescustomrow.xml" value="0.128125" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_add_address.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_left.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_right.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_back_ground_bag.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_check.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_edit.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_minus.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_savebutton.xml" value="0.2265" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_address.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_bag.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_currency.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_history.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_address.xml" value="0.18432971014492755" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_bag.xml" value="0.2" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_currency.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.264" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_history.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_profile_edit.xml" value="0.18432971014492755" />
+>>>>>>> Stashed changes
       </map>
     </option>
   </component>
