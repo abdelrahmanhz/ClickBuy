@@ -18,6 +18,7 @@ import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.snackbar.Snackbar
+import java.text.FieldPosition
 
 
 class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
@@ -27,6 +28,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     private lateinit var viewModelFactory: FavouritesViewModelFactory
     private lateinit var favouritesAdapter: FavouritesAdapter
     private lateinit var layoutManager: LinearLayoutManager
+    private var favorites = ArrayList<Favorite>()
 
 
     override fun onCreateView(
@@ -74,9 +76,11 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     }
 
     private fun getFavourites(){
+        viewModel.getFavourites()
         viewModel.favourites.observe(requireActivity()){
             if (!it.isNullOrEmpty()) {
                 Log.i("TAG", "product: $it")
+                favorites = it as ArrayList<Favorite>
                 displayFavourites(it)
             }
             else{
@@ -94,7 +98,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         binding.progressBar.visibility = View.GONE
     }
 
-    override fun deleteFavouriteItem(favorite: Favorite) {
+    override fun deleteFavouriteItem(favorite: Favorite, position: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.apply {
 
@@ -103,13 +107,12 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
 
             setPositiveButton("Remove"){ _, _ ->
                 viewModel.deleteFavourite(favorite.id)
-                Snackbar.make(
-                    binding.favRecyclerView,
-                    "An Item deleted",
-                    Snackbar.LENGTH_LONG
-                ).setAction("undo") {
-                    viewModel.addFavourite(favorite)
-                }.show()
+                favorites.removeAt(position)
+                favouritesAdapter.setFavourites(favorites)
+                if (favorites.isEmpty()){
+                    binding.favRecyclerView.visibility = View.GONE
+                    binding.favEmptyImageView.visibility = View.VISIBLE
+                }
             }
             setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss()}
             show()

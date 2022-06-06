@@ -15,13 +15,15 @@ interface RepositoryInterface {
     //suspend fun getAllBrandsDetais(id: String): Response<Products>
     suspend fun getAllProductsInCollectionByID(id: String): Response<Products>
     suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails : String,
-                             categoryTitleComingFromHome : String): Response<Products>
+    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleComingFromHome: String
+    ): Response<Products>
 
     // room
-    fun addFavorite(favorite: Favorite)
-    fun getFavorites(): LiveData<List<Favorite>>
-    fun deleteFavorite(productId: Long)
-    fun isFavorite(productId: Long): Boolean
+    suspend fun addFavorite(favorite: Favorite)
+    suspend fun getFavorites(): List<Favorite>
+    suspend fun deleteFavorite(productId: Long)
+    suspend fun isFavorite(productId: Long): Boolean
 
 }

@@ -27,9 +27,9 @@ import com.google.android.material.snackbar.Snackbar
 
 const val TAG = "ProductDetailsFragment"
 
-class ProductDetailsFragment : Fragment()  {
+class ProductDetailsFragment : Fragment() {
 
-    private lateinit var binding : FragmentProductDetailsBinding
+    private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var viewModel: ProductDetailsViewModel
     private lateinit var modelFactory: ProductDetailsViewModelFactory
     private lateinit var imagesAdapter: ImagesViewPagerAdapter
@@ -86,15 +86,19 @@ class ProductDetailsFragment : Fragment()  {
         viewModel = ViewModelProvider(this, modelFactory)
             .get(ProductDetailsViewModel::class.java)
         viewModel.getProductById("6870135046283")
+        viewModel.isFavourite(6870135046283)
         viewModel.product.observe(requireActivity()) {
             if (it != null) {
                 Log.i("TAG", "product: $it")
                 favorite = Favorite(it.id!!, it.title!!, it.variants!![0].price, it.image!!.src)
-                isFavourite = viewModel.isFavourite(6870135046283)
+                viewModel.isFav.observe(requireActivity()) { it ->
+                    isFavourite = it
+                    Log.i(TAG, "setUpViewModel: it-------------> " + it)
+                    Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
+                }
                 displayProduct(it)
                 showUIComponent()
-            }
-            else{
+            } else {
                 binding.progressBar.visibility = View.GONE
                 binding.itemImagesViewPager.visibility = View.GONE
                 binding.productInfo.productBottomSheet.visibility = View.GONE
@@ -117,12 +121,14 @@ class ProductDetailsFragment : Fragment()  {
         val sizesAdapter = activity?.applicationContext?.let {
             ArrayAdapter(
                 it,
-                R.layout.simple_spinner_item, sizes)
+                R.layout.simple_spinner_item, sizes
+            )
         }
         val colorsAdapter = activity?.applicationContext?.let {
             ArrayAdapter(
                 it,
-                R.layout.simple_spinner_item, colors)
+                R.layout.simple_spinner_item, colors
+            )
         }
         sizeSpinner.adapter = sizesAdapter
         colorSpinner.adapter = colorsAdapter
@@ -136,43 +142,47 @@ class ProductDetailsFragment : Fragment()  {
 
     private fun displayProduct(product: Product) {
         binding.productDetailsHeader.rightDrawable.let {
-            it.setImageResource(if(isFavourite) (r.drawable.ic_favorite) else(r.drawable.ic_favorite_border))
+            it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
         }
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
         binding.productInfo.productAvailability.text = product.status
         binding.priceNumTextView.text = product.variants?.get(0)?.price ?: "No price available"
-        binding.addToCartButton.text = if(product.status.equals("active")) "available" else "not available"
+        binding.addToCartButton.text =
+            if (product.status.equals("active")) "Add to cart" else "not available"
 
         // images
-        product.images?.forEach { image -> imagesList.add(image.src)}
+        product.images?.forEach { image -> imagesList.add(image.src) }
         imagesAdapter.setImages(imagesList)
 
         // spinners
-        product.options?.get(0)?.values?.forEach { value -> sizes.add(value)}
-        product.options?.get(1)?.values?.forEach { value -> colors.add(value)}
+        product.options?.get(0)?.values?.forEach { value -> sizes.add(value) }
+        product.options?.get(1)?.values?.forEach { value -> colors.add(value) }
         setUpSpinners()
 
         // details
         binding.productInfo.detailsButton.setOnClickListener {
-            binding.productInfo.productDescTextView.maxLines = if (binding.productInfo.productDescTextView.maxLines == 3) 8 else 3
+            binding.productInfo.productDescTextView.maxLines =
+                if (binding.productInfo.productDescTextView.maxLines == 3) 8 else 3
         }
 
         // favorite
-        binding.productDetailsHeader.rightDrawable.setOnClickListener{
-            if (!isFavourite){
+        binding.productDetailsHeader.rightDrawable.setOnClickListener {
+            Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
+            if (!isFavourite) {
                 viewModel.addFavourite(favorite)
+                isFavourite = true
                 binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite)
-            }
-            else{
+            } else {
                 val dialogBuilder = AlertDialog.Builder(requireContext())
                 dialogBuilder.apply {
 
                     setTitle("Removing Alert")
                     setMessage("Do you want to remove \"${favorite.title}\" from your favourites?")
 
-                    setPositiveButton("Remove"){ _, _ ->
+                    setPositiveButton("Remove") { _, _ ->
                         viewModel.deleteFavourite(favorite.id)
+                        isFavourite = false
                         binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite_border)
                         Snackbar.make(
                             binding.cardView,
@@ -182,7 +192,7 @@ class ProductDetailsFragment : Fragment()  {
                             viewModel.addFavourite(favorite)
                         }.show()
                     }
-                    setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss()}
+                    setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
                     show()
                 }
             }
@@ -194,7 +204,7 @@ class ProductDetailsFragment : Fragment()  {
         }
 
         // add to cart
-        binding.addToCartButton.setOnClickListener{
+        binding.addToCartButton.setOnClickListener {
             TODO()
         }
     }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import com.example.clickbuy.models.Favorite
 
 interface LocalSource {
-    fun insertFavorite(favorite: Favorite)
-    fun getFavorites(): LiveData<List<Favorite>>
-    fun deleteFavorite(productId: Long)
-    fun isFavorite(productId: Long): Boolean
+    suspend fun insertFavorite(favorite: Favorite)
+    suspend fun getFavorites(): List<Favorite>
+    suspend fun deleteFavorite(productId: Long)
+    suspend fun isFavorite(productId: Long): Boolean
 }

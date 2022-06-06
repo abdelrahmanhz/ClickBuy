@@ -31,9 +31,7 @@ class FavouritesAdapter(
         holder.favouriteTitle.text = favourites[position].title
         holder.favouritesPrice.text = favourites[position].price
         holder.favouriteDeleteImage.setOnClickListener {
-            favourites.removeAt(position)
-            view.deleteFavouriteItem(favourites[position])
-            notifyDataSetChanged()
+            view.deleteFavouriteItem(favourites[position], position)
         }
     }
 
@@ -42,6 +40,7 @@ class FavouritesAdapter(
     }
 
     fun setFavourites(favourites: ArrayList<Favorite>){
+        this.favourites.clear()
         this.favourites = favourites
         notifyDataSetChanged()
     }

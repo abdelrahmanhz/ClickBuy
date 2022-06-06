@@ -56,7 +56,10 @@ class Repository private constructor(
         idCollectionDetails: String,
         categoryTitleComingFromHome: String
     ): Response<Products> {
-      return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
+        return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleComingFromHome
+        )
     }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
@@ -67,19 +70,19 @@ class Repository private constructor(
     }
 
     // local (room)
-    override fun addFavorite(favorite: Favorite) {
+    override suspend fun addFavorite(favorite: Favorite) {
         localSource.insertFavorite(favorite)
     }
 
-    override fun getFavorites(): LiveData<List<Favorite>> {
+    override suspend fun getFavorites(): List<Favorite> {
         return localSource.getFavorites()
     }
 
-    override fun deleteFavorite(productId: Long) {
+    override suspend fun deleteFavorite(productId: Long) {
         localSource.deleteFavorite(productId)
     }
 
-    override fun isFavorite(productId: Long): Boolean {
+    override suspend fun isFavorite(productId: Long): Boolean {
         return localSource.isFavorite(productId)
     }
 

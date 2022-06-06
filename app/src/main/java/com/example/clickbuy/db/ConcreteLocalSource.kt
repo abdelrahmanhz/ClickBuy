@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.example.clickbuy.models.Favorite
 
-class ConcreteLocalSource(private val context: Context): LocalSource {
+class ConcreteLocalSource(private val context: Context) : LocalSource {
 
     private var productDao: ProductDao
 
@@ -13,19 +13,19 @@ class ConcreteLocalSource(private val context: Context): LocalSource {
         productDao = db!!.ProductDao()
     }
 
-    override fun insertFavorite(favorite: Favorite) {
+    override suspend fun insertFavorite(favorite: Favorite) {
         productDao.insertFavorite(favorite)
     }
 
-    override fun getFavorites(): LiveData<List<Favorite>> {
+    override suspend fun getFavorites(): List<Favorite> {
         return productDao.getFavorites()
     }
 
-    override fun deleteFavorite(productId: Long) {
+    override suspend fun deleteFavorite(productId: Long) {
         productDao.deleteFavorite(productId)
     }
 
-    override fun isFavorite(productId: Long): Boolean {
+    override suspend fun isFavorite(productId: Long): Boolean {
         return productDao.isFavorite(productId)
     }
 }
