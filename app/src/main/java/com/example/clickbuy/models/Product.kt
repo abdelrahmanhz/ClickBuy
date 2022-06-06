@@ -3,6 +3,11 @@ package com.example.clickbuy.models
 data class Products (
     val products: List<Product>
 )
+
+data class ProductParent (
+    val product : Product
+)
+
 data class Product (
     val id: Long? = null,
     val title: String? = null,
@@ -25,30 +30,26 @@ data class Product (
 )
 data class ProductImage (
     val id: Long,
-    val productID: Long,
+    val product_id: Long,
     val position: Long,
-    val createdAt: String,
-    val updatedAt: String,
+    val created_at: String,
+    val updated_at: String,
     val alt: Any? = null,
     val width: Long,
     val height: Long,
     val src: String,
-    val variantIDS: List<Any?>,
-    val adminGraphqlAPIID: String
+    val variant_ids: List<Any?>,
+    val admin_graphql_api_id: String
 )
 
 data class Option (
     val id: Long,
-    val productID: Long,
-    val name: Name,
+    val product_id: Long,
+    val name: String,
     val position: Long,
     val values: List<String>
 )
 
-enum class Name {
-    Color,
-    Size
-}
 
 
 data class Variant (
@@ -58,12 +59,12 @@ data class Variant (
     val price: String,
     val sku: String,
     val position: Long,
-    val inventoryPolicy: String,
+    val inventory_policy: String,
     val compare_at_price: String? = null,
     val fulfillment_service: String,
     val inventory_management: String,
     val option1: String,
-    val option2: Option2,
+    val option2: String,
     val option3: Any? = null,
     val created_at: String,
     val updated_at: String,
@@ -79,16 +80,3 @@ data class Variant (
     val requires_shipping: Boolean,
     val admin_graphql_api_id: String
 )
-
-data class Option2 (
-   val Beige : String,
-    val Black : String,
-    val Blue : String,
-    val Burgandy : String,
-    val Gray : String,
-    val LightBrown : String,
-    val Red : String,
-    val White : String,
-    val Yellow : String,
-)
-
