@@ -15,14 +15,17 @@ interface RetrofitService {
         "Content-Type: application/json"
     )
     @GET("products.json")
-    suspend fun getAllProducts(): Response<Products>
-
+    suspend fun getAllProducts(
+        @Query("collection_id") id : String,
+        @Query("vendor") vendor : String,
+        @Query("product_type") title: String) : Response<Products>
 
     //all products in any category
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
     )
+    //https://madalex20220.myshopify.com/admin/api/2022-01/
     @GET("collections/{id}/products.json")
     suspend fun getAllProductsInCollectionByID(@Path("id") id: String): Response<Products>
 
@@ -99,6 +102,24 @@ interface RetrofitService {
 
     ): Response<Products>
 
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("products.json?")
+    suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+        @Query("collection_id") id : String,
+        @Query("product_type") title: String
 
+    ): Response<Products>
+
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("products.json?")
+    suspend fun getSubCategories(): Response<Products>
 
 }

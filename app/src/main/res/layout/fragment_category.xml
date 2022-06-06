@@ -5,65 +5,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".category.view.CategoryFragment">
+<com.google.android.material.appbar.AppBarLayout
+    android:id="@+id/appBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/womenImage"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/wmoen"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="0dp"
+</com.google.android.material.appbar.AppBarLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/appbar"
+        app:navigationIcon="@drawable/ic_back_icon"
+        app:title="@string/app_name" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/menImage"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/men"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="0dp"
-        app:layout_constraintStart_toEndOf="@+id/womenImage"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/womenImage"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="96dp"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:src="@drawable/wmoen"-->
+<!--        app:civ_border_color="@color/black"-->
+<!--        app:civ_border_width="0dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/kidsImage"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="28dp"
-        android:src="@drawable/kids"
-        app:civ_border_color="@color/black"
-        app:civ_border_width="0dp"
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/menImage"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="96dp"-->
+<!--        android:layout_marginStart="36dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:src="@drawable/men"-->
+<!--        app:civ_border_color="@color/black"-->
+<!--        app:civ_border_width="0dp"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/womenImage"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <de.hdodenhof.circleimageview.CircleImageView-->
+<!--        android:id="@+id/kidsImage"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="96dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="28dp"-->
+<!--        android:src="@drawable/kids"-->
+<!--        app:civ_border_color="@color/black"-->
+<!--        app:civ_border_width="0dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <ScrollView-->
+<!--        android:layout_width="411dp"-->
+<!--        android:layout_height="609dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/menImage">-->
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:layout_width="411dp"
-        android:layout_height="609dp"
-        android:layout_marginTop="10dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menImage">
+        app:layout_constraintTop_toBottomOf="@+id/toolBar"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabPaddingEnd="10dp" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <ListView
+      android:layout_width="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/brandCategoryRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:spanCount="2"
+                android:paddingStart="30dp"
+
                 tools:listitem="@layout/category_custom_row" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    </ScrollView>-->

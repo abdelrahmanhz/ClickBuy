@@ -40,6 +40,7 @@ class SalesAdapter(val context: Context, homeFragment: ProductDetailsInterface) 
         Log.i(TAG, "sale position: " + sale[position])
         val imageComping = sale[position].image?.src
         holder.salesTitle.text = sale[position].title
+        holder.salesPrice.text = sale[position].variants?.get(position)?.price ?: "200"
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.saleImage);
         holder.itemView.setOnClickListener {
             productDetailsInterface.productDetailsShow(sale[position].id.toString())

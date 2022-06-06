@@ -4,18 +4,29 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/card_backfround.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.12409420289855072" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.18" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_custom_row.xml" value="0.12864583333333332" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_details_custom_row.xml" value="0.13269927536231885" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/card_item_details_brands.xml" value="0.13858695652173914" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/category_custom_row.xml" value="0.15625" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_brands_filter.xml" value="0.11458333333333333" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_sales.xml" value="0.16032608695652173" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_subcategory_row.xml" value="0.5" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/filter_popup.xml" value="0.22" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_brands_details.xml" value="0.13858695652173914" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.25" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_filter.xml" value="0.15" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.18" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.1" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/product_bottom_sheet.xml" value="0.1" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/sales_custom_row.xml" value="0.13489583333333333" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/salescustomrow.xml" value="0.128125" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/appbar.xml" value="0.20416666666666666" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/appbar_home.xml" value="0.1" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_menu.xml" value="0.12708333333333333" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_meu.xml" value="0.1296875" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/search.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

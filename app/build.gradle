@@ -99,4 +99,7 @@ dependencies {
     implementation 'com.etebarian:meow-bottom-navigation:1.0.4'
     //circular
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //tab
+    implementation 'io.github.ahmad-hamwi:tabsync:1.0.1'
+
 }

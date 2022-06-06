@@ -1,4 +1,4 @@
-package com.example.clickbuy.home
+package com.example.clickbuy.category
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -7,40 +7,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.TextView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Brand
-import com.bumptech.glide.Glide
-import com.example.clickbuy.home.view.CategoryBrandInterface
 
+private const val TAG = "BrandsFilterAdapter"
 
-private const val TAG = "BrandsAdapter"
-
-class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface ) :
-    RecyclerView.Adapter<BrandsAdapter.ViewHolder>()  {
-     var categoryBrandInterface : CategoryBrandInterface = homeFragment
+class BrandsFilterAdapter(val context: Context) :
+    RecyclerView.Adapter<BrandsFilterAdapter.ViewHolder>()  {
+ //   var categoryBrandInterface : CategoryBrandInterface = homeFragment
     var brand: List<Brand> = emptyList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ):BrandsAdapter.ViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.brands_custom_row, parent, false)
+    ):BrandsFilterAdapter.ViewHolder {
+        val view: View = LayoutInflater.from(context).inflate(R.layout.custom_row_brands_filter, parent, false)
         val holder=ViewHolder(view)
 
         return holder
     }
     override fun onBindViewHolder(
-        holder:BrandsAdapter.ViewHolder,
+        holder:BrandsFilterAdapter.ViewHolder,
         position: Int
-
     ){
         Log.i(TAG, "brand position: " + brand[position].id)
-        var imageComping = brand[position].image.src
-        Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
-
+//        var imageComping = brand[position].image.src
+//        Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
+    holder.brandTitle.text = brand[position].title
         holder.itemView.setOnClickListener {
-            categoryBrandInterface.categoryBrandShow(brand[position].title)
+          //  categoryBrandInterface.categoryBrandShow(brand[position].title)
         }
+
     }
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + brand.size)
@@ -53,9 +50,9 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface )
 
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var brandImage: ImageView
+        var brandTitle: TextView
         init {
-            brandImage = itemView.findViewById(R.id.brandImageCustomRow)
+            brandTitle = itemView.findViewById(R.id.brandFilterTitle)
         }
     }
 }
