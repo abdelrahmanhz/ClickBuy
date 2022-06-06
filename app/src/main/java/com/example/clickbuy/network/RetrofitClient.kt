@@ -3,13 +3,17 @@ package com.example.clickbuy.network
 import android.util.Log
 import com.example.clickbuy.models.*
 import retrofit2.Response
+import retrofit2.http.Query
 
 
 private const val TAG = "RetrofitClient"
 
 class RetrofitClient : RemoteSource {
 
-    private val retrofitHelper = RetrofitHelper.getClient().create(RetrofitService::class.java)
+    private val retrofitHelper =
+        RetrofitHelper.getClientShopify().create(RetrofitService::class.java)
+    private val retrofitCurrencyHelper =
+        RetrofitHelper.getClientCurrency().create(RetrofitService::class.java)
 
     companion object {
         private var instance: RetrofitClient? = null
@@ -122,6 +126,14 @@ class RetrofitClient : RemoteSource {
     override suspend fun getCurrencies(): Response<Currencies> {
         var response = retrofitHelper.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())
+        return response
+    }
+
+    override suspend fun getQualifiedValueCurrency(
+        to: String
+    ): Response<CurrencyConverter> {
+        var response = retrofitCurrencyHelper.getQualifiedValueCurrency(to)
+        Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
         return response
     }
 

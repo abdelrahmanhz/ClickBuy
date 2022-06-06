@@ -117,4 +117,12 @@ class Repository private constructor(
         Log.i(TAG, "getCurrencies: " + response.code())
         return response
     }
+
+    override suspend fun getQualifiedValueCurrency(
+        to: String
+    ): Response<CurrencyConverter> {
+        var response = remoteSource.getQualifiedValueCurrency(to)
+        Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
+        return response
+    }
 }

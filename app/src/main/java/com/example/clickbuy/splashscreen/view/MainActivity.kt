@@ -1,14 +1,27 @@
-package com.example.clickbuy
+package com.example.clickbuy.splashscreen.view
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
+import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.me.view.MeFragment
+import com.example.clickbuy.models.Repository
+import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModel
+import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModelFactory
+import com.example.clickbuy.util.ConstantsValue
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var viewModelFactory: MainActivityViewModelFactory
+    private lateinit var viewModel: MainActivityViewModel
     lateinit var binding: ActivityMainBinding
     private lateinit var meo: MeowBottomNavigation
     private val TAG = "MainActivity"
@@ -23,6 +36,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomeFragment())
+
+        viewModelFactory = MainActivityViewModelFactory(
+            Repository.getInstance(
+                RetrofitClient.getInstance(),
+                this
+            )
+        )
+
+        viewModel =
+            ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
+
+        viewModel.getQualifiedValueCurrency(ConstantsValue.to)
+
+        viewModel.currencyConverter.observe(this, Observer {
+            ConstantsValue.currencyValue = it.result
+            Log.i(TAG, "onCreate:  ConstantsValue.currencyValue ----------> " +  ConstantsValue.currencyValue )
+            Log.i(TAG, "onCreate:  it.result ----------> " +  it.result )
+        })
+
         meo = findViewById(R.id.bottom_nav)
 
         meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
@@ -52,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             fragmentShow = item.id
         }
 
-     meo.show(ID_HOME, true)
+        meo.show(ID_HOME, true)
 //            Log.i(Companion.TAG, "onCreate: body----> " + response.body())
 //            Log.i(Companion.TAG, "onCreate: products?.count()----> " + response.body()?.products?.count())
 //            Log.i(Companion.TAG, "onCreate: title----> " + response.body()?.products?.get(0)?.product_type)
@@ -126,10 +158,15 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "RetrofitClient"
 
     }
+
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame, fragment)
         fragmentTransaction.commit()
     }
+
+    fun updateCurrency() {
+        viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
+}

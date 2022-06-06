@@ -139,4 +139,10 @@ interface RetrofitService {
     @GET("currencies.json")
     suspend fun getCurrencies(
     ): Response<Currencies>
+
+    @GET("convert?apikey=fZAyG1gol2pWw81x7xVgwwh1Omu3MTkS&amount=1&from=EGP")
+    suspend fun getQualifiedValueCurrency(
+        @Query("to") to: String
+    ): Response<CurrencyConverter>
+
 }

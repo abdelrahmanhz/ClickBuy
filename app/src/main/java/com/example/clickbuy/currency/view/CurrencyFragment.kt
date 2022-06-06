@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.example.clickbuy.currency.viewmodel.CurrencyViewModel
 import com.example.clickbuy.currency.viewmodel.CurrencyViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.splashscreen.view.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -100,6 +102,7 @@ class CurrencyFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(TAG, "onDestroy: ")
+        (requireActivity() as MainActivity).updateCurrency()
     }
 
     override fun onDestroyView() {

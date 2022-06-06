@@ -3,6 +3,7 @@ package com.example.clickbuy.network
 import com.example.clickbuy.models.*
 import retrofit2.Response
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RemoteSource {
 
@@ -39,4 +40,5 @@ interface RemoteSource {
 
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun getCurrencies(): Response<Currencies>
+    suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
 }

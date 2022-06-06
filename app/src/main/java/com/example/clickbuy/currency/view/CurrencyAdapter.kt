@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Currency
+import com.example.clickbuy.util.ConstantsValue
 import java.util.*
 
 const val TAG = "CurrencyAdapter"
@@ -64,6 +65,8 @@ class CurrencyAdapter(context: Context) :
                 if (checkedPosition != adapterPosition) {
                     notifyItemChanged(checkedPosition)
                     checkedPosition = adapterPosition
+                    ConstantsValue.to = currencyTextView.text.toString()
+                    Log.i(TAG, "bind: " + ConstantsValue.to)
                 }
             }
         }
