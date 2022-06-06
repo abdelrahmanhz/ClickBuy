@@ -47,7 +47,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
         homeFactory = HomeViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
-                ConcreteLocalSource(requireContext()),
                 requireContext()
             )
         )
