@@ -18,6 +18,8 @@ class RetrofitClient : RemoteSource {
         }
     }
 
+
+
     override suspend fun getAllProducts(idCollectionDetails : String, categoryTitleComing : String, subCategory : String): Response<Products> {
         var response = retrofitHelper.getAllProducts(idCollectionDetails , categoryTitleComing , subCategory )
         Log.i(TAG, "getAllProducts code \n ${response.code()}")
@@ -79,52 +81,6 @@ class RetrofitClient : RemoteSource {
         }
 
 
-        override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-            idCollectionDetails: String,
-            categoryTitleComingFromHome: String
-        ): Response<Products> {
-            var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-                idCollectionDetails,
-                categoryTitleComingFromHome
-            )
-            return response
-        }
-    }
-
-    override suspend fun getAvailableCoupons(): Response<Coupon> {
-        TODO("Not yet implemented")
-    }
-
-
-
-    override suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products> {
-        var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(collectionID)
-        Log.i(
-            TAG,
-            "getCustomCollectionsByID: responseCode ---->\n ${response.code()}"
-        )
-        Log.i(
-            TAG,
-            "getCustomCollectionsByID: response ---->\n ${response.body()}"
-        )
-        return response
-    }
-
-
-    override suspend fun getAllBrands(): Response<Brands> {
-        var response = retrofitHelper.getAllBrands()
-        Log.i(TAG, "getAllBrands: ${response.body()}")
-        return response
-    }
-    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products> {
-      var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
-        return  response
-    }
-
-}
         override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
             idCollectionDetails: String,
             categoryTitleComingFromHome: String

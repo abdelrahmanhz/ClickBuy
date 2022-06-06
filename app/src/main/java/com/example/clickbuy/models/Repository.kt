@@ -67,7 +67,6 @@ class Repository private constructor(
         return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleFromFilter)
     }
 
-
     override suspend fun getProductById(productId: String): Response<ProductParent> {
         Log.i(TAG, "getProductByID: ")
         var response = remoteSource.getProductByID(productId)
