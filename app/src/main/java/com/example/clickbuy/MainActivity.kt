@@ -6,8 +6,7 @@ import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-import com.example.clickbuy.me.MeFragment
-import kotlinx.coroutines.launch
+import com.example.clickbuy.me.view.MeFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

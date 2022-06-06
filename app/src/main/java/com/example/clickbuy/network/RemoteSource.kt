@@ -6,11 +6,15 @@ import retrofit2.http.Path
 
 interface RemoteSource {
 
-    suspend fun getAllProductsInCollectionByID(collectionID: String):Response<Products>
+    suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products>
     suspend fun getProductByID(productId: String): Response<ProductParent>
     //suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
 
-    suspend fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String):  Response<Products>
+    suspend fun getAllProducts(
+        idCollectionDetails: String,
+        categoryTitleComing: String,
+        subCategory: String
+    ): Response<Products>
 
     //suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
 
@@ -18,10 +22,21 @@ interface RemoteSource {
     suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
     suspend fun getAllBrands(): Response<Brands>
 
-   // suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails : String,categoryTitleComingFromHome : String): Response<Products>
-//  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
-suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails : String , categoryTitleFromFilter : String): Response<Products>
-suspend fun getSubCategories(): Response<Products>
+    // suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
+    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleComingFromHome: String
+    ): Response<Products>
 
+    //  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
+    suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleFromFilter: String
+    ): Response<Products>
+
+    suspend fun getSubCategories(): Response<Products>
+
+
+    suspend fun getCustomerDetails(email: String): Response<Customers>
+    suspend fun getCurrencies(): Response<Currencies>
 }

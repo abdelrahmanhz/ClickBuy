@@ -37,12 +37,16 @@ class Repository private constructor(
 
     }
 
-    override suspend fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String): Response<Products> {
-        return remoteSource.getAllProducts(idCollectionDetails ,categoryTitleComing , subCategory)
+    override suspend fun getAllProducts(
+        idCollectionDetails: String,
+        categoryTitleComing: String,
+        subCategory: String
+    ): Response<Products> {
+        return remoteSource.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
     }
 
     override suspend fun getSubCategories(): Response<Products> {
-        return  remoteSource.getSubCategories()
+        return remoteSource.getSubCategories()
     }
 
 
@@ -69,7 +73,10 @@ class Repository private constructor(
         idCollectionDetails: String,
         categoryTitleFromFilter: String
     ): Response<Products> {
-        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleFromFilter)
+        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleFromFilter
+        )
     }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
@@ -86,7 +93,7 @@ class Repository private constructor(
     }
 
     override suspend fun getFavorites(): List<Favorite> {
-       //return localSource.getFavorites()
+        //return localSource.getFavorites()
         return emptyList()
     }
 
@@ -99,4 +106,15 @@ class Repository private constructor(
         return false
     }
 
+    override suspend fun getCustomerDetails(email: String): Response<Customers> {
+        var response = remoteSource.getCustomerDetails(email)
+        Log.i(TAG, "getCustomerDetails: " + response.code())
+        return response
+    }
+
+    override suspend fun getCurrencies(): Response<Currencies> {
+        var response = remoteSource.getCurrencies()
+        Log.i(TAG, "getCurrencies: " + response.code())
+        return response
+    }
 }

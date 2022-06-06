@@ -19,13 +19,18 @@ class RetrofitClient : RemoteSource {
     }
 
 
-
-    override suspend fun getAllProducts(idCollectionDetails : String, categoryTitleComing : String, subCategory : String): Response<Products> {
-        var response = retrofitHelper.getAllProducts(idCollectionDetails , categoryTitleComing , subCategory )
+    override suspend fun getAllProducts(
+        idCollectionDetails: String,
+        categoryTitleComing: String,
+        subCategory: String
+    ): Response<Products> {
+        var response =
+            retrofitHelper.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
         Log.i(TAG, "getAllProducts code \n ${response.code()}")
         Log.i(TAG, "getAllProducts body \n ${response.body()}")
         return response
     }
+
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
         var response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
         Log.i(TAG, "getAllProductsInCollectionByID code \n ${response.code()}")
@@ -44,12 +49,12 @@ class RetrofitClient : RemoteSource {
 //        Log.i(TAG, "getCustomCollectionsByID: responseCode ---->\n ${response.code()}")
 //        Log.i(TAG, "getCustomCollectionsByID: response ---->\n ${response.body()}")
 
-        override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
-            var response = retrofitHelper.getCategoryIdByTitle(categoryTitle)
-            Log.i(TAG, "getCategoryIdByTitle: " + response.code())
+    override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
+        var response = retrofitHelper.getCategoryIdByTitle(categoryTitle)
+        Log.i(TAG, "getCategoryIdByTitle: " + response.code())
 
-            return response
-        }
+        return response
+    }
 
 //
 //        override suspend fun getAllCustomCollections(): Response<CustomCollections> {
@@ -74,23 +79,23 @@ class RetrofitClient : RemoteSource {
 //        }
 
 
-        override suspend fun getAllBrands(): Response<Brands> {
-            var response = retrofitHelper.getAllBrands()
-            Log.i(TAG, "getAllBrands: ${response.body()}")
-            return response
-        }
+    override suspend fun getAllBrands(): Response<Brands> {
+        var response = retrofitHelper.getAllBrands()
+        Log.i(TAG, "getAllBrands: ${response.body()}")
+        return response
+    }
 
 
-        override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-            idCollectionDetails: String,
-            categoryTitleComingFromHome: String
-        ): Response<Products> {
-            var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-                idCollectionDetails,
-                categoryTitleComingFromHome
-            )
-            return response
-        }
+    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleComingFromHome: String
+    ): Response<Products> {
+        var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleComingFromHome
+        )
+        return response
+    }
 
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
@@ -100,11 +105,24 @@ class RetrofitClient : RemoteSource {
             idCollectionDetails,
             categoryTitleFromFilter
         )
-        return response    }
+        return response
+    }
 
     override suspend fun getSubCategories(): Response<Products> {
         var response = retrofitHelper.getSubCategories()
-        return  response
+        return response
+    }
+
+    override suspend fun getCustomerDetails(email: String): Response<Customers> {
+        var response = retrofitHelper.getCustomerDetails(email)
+        Log.i(TAG, "getCustomerDetails: " + response.code())
+        return response
+    }
+
+    override suspend fun getCurrencies(): Response<Currencies> {
+        var response = retrofitHelper.getCurrencies()
+        Log.i(TAG, "getCurrencies: " + response.code())
+        return response
     }
 
 

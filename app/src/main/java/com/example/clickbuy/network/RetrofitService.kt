@@ -16,9 +16,10 @@ interface RetrofitService {
     )
     @GET("products.json")
     suspend fun getAllProducts(
-        @Query("collection_id") id : String,
-        @Query("vendor") vendor : String,
-        @Query("product_type") title: String) : Response<Products>
+        @Query("collection_id") id: String,
+        @Query("vendor") vendor: String,
+        @Query("product_type") title: String
+    ): Response<Products>
 
     //all products in any category
     @Headers(
@@ -97,7 +98,7 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id : String,
+        @Query("collection_id") id: String,
         @Query("vendor") title: String
 
     ): Response<Products>
@@ -108,11 +109,10 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id : String,
+        @Query("collection_id") id: String,
         @Query("product_type") title: String
 
     ): Response<Products>
-
 
 
     @Headers(
@@ -122,4 +122,21 @@ interface RetrofitService {
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
 
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("customers.json?")
+    suspend fun getCustomerDetails(
+        @Query("email") email: String
+    ): Response<Customers>
+
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("currencies.json")
+    suspend fun getCurrencies(
+    ): Response<Currencies>
 }
