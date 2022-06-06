@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.clickbuy.R
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -19,6 +20,7 @@ private const val TAG = "categoryAdapter"
 
 class CategoryAdapter(val context: Context) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
+
      //var brandInterface : BrandDetailsInterface = homeFragment
     var category: List<Product> = emptyList()
     override fun onCreateViewHolder(
@@ -36,16 +38,15 @@ class CategoryAdapter(val context: Context) :
 
     ) {
       Log.i(TAG, "Category position: " + category[position])
-
        // holder.brandImage.setima = brand[position].vendor
         var imageComping = category[position].image?.src
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
-     //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
+        holder.titleTextView.text = category[position].title
+      //`     holder.priceTextView.text = category[position].variants!![position].price
+        //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
         holder.itemView.setOnClickListener {
             Toast.makeText(context, "Recycle Click$position", Toast.LENGTH_SHORT).show()
         }
-
-
     }
     fun setListOfCategory(brands: List<Product>){
         this.category = brands.toList()
@@ -60,8 +61,12 @@ class CategoryAdapter(val context: Context) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var brandImage: ImageView
+        var titleTextView : TextView
+        var priceTextView : TextView
         init {
             brandImage = itemView.findViewById(R.id.categoryImageCustomRow)
+            titleTextView = itemView.findViewById(R.id.categoryTitleTextView)
+            priceTextView = itemView.findViewById(R.id.categoryPriceTextView)
         }
     }
 }

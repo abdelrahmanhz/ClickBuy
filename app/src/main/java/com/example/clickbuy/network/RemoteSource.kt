@@ -6,6 +6,13 @@ import retrofit2.http.Path
 
 interface RemoteSource {
 
+<<<<<<< Updated upstream
+=======
+    suspend fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String):  Response<Products>
+    suspend fun getAllProductsInCollectionByID(collectionID: String):Response<Products>
+    suspend fun getProductByID(productId: String): Response<ProductParent>
+    //suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
+>>>>>>> Stashed changes
 
     suspend fun getAllProducts(): Response<Products>
     suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products>
@@ -16,4 +23,7 @@ interface RemoteSource {
     suspend fun getAvailableCoupons(): Response<Coupon>
     suspend fun getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails : String,categoryTitleComingFromHome : String): Response<Products>
 //  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
+suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails : String , categoryTitleFromFilter : String): Response<Products>
+suspend fun getSubCategories(): Response<Products>
+
 }

@@ -18,13 +18,12 @@ class RetrofitClient : RemoteSource {
         }
     }
 
-    override suspend fun getAllProducts(): Response<Products> {
-        var response = retrofitHelper.getAllProducts()
+    override suspend fun getAllProducts(idCollectionDetails : String, categoryTitleComing : String, subCategory : String): Response<Products> {
+        var response = retrofitHelper.getAllProducts(idCollectionDetails , categoryTitleComing , subCategory )
         Log.i(TAG, "getAllProducts code \n ${response.code()}")
         Log.i(TAG, "getAllProducts body \n ${response.body()}")
         return response
     }
-
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
         var response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
         Log.i(TAG, "getAllProductsInCollectionByID code \n ${response.code()}")
@@ -66,6 +65,7 @@ class RetrofitClient : RemoteSource {
     }
 
 
+<<<<<<< Updated upstream
     override suspend fun getAllBrands(): Response<Brands> {
         var response = retrofitHelper.getAllBrands()
         Log.i(TAG, "getAllBrands: ${response.body()}")
@@ -80,3 +80,33 @@ class RetrofitClient : RemoteSource {
     }
 
 }
+=======
+        override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+            idCollectionDetails: String,
+            categoryTitleComingFromHome: String
+        ): Response<Products> {
+            var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
+                idCollectionDetails,
+                categoryTitleComingFromHome
+            )
+            return response
+        }
+
+    override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleFromFilter: String
+    ): Response<Products> {
+        var response = retrofitHelper.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleFromFilter
+        )
+        return response    }
+
+    override suspend fun getSubCategories(): Response<Products> {
+        var response = retrofitHelper.getSubCategories()
+        return  response
+    }
+
+
+}
+>>>>>>> Stashed changes

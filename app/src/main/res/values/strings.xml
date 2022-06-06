@@ -3,4 +3,13 @@
 
     <string name="brands">Brands</string>
     <string name="sales">Sales</string>
+<<<<<<< Updated upstream
+=======
+    <string name="show_more">Show More</string>
+    <string name="dummy_text">dummy data</string>
+    <string name="SubCategory">Sub Category</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Done">Done</string>
+>>>>>>> Stashed changes
 </resources>

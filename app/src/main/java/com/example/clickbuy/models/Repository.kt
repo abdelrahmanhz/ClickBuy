@@ -35,10 +35,14 @@ class Repository private constructor(
 
     }
 
-//    override suspend fun getAllBrandsDetais(id: String): Response<Products> {
-//        Log.i(TAG, "getAllBrandsDetails: ")
-//        return remoteSource.getAllProductsInCollectionByID(id)
-//    }
+    override suspend fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String): Response<Products> {
+        return remoteSource.getAllProducts(idCollectionDetails ,categoryTitleComing , subCategory)
+    }
+
+    override suspend fun getSubCategories(): Response<Products> {
+        return  remoteSource.getSubCategories()
+    }
+
 
     override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
         Log.i(TAG, "getAllSalesById: ")
@@ -56,4 +60,21 @@ class Repository private constructor(
       return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
     }
 
+<<<<<<< Updated upstream
+=======
+    override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+        idCollectionDetails: String,
+        categoryTitleFromFilter: String
+    ): Response<Products> {
+        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleFromFilter)
+    }
+
+    override suspend fun getProductById(productId: String): Response<ProductParent> {
+        Log.i(TAG, "getProductByID: ")
+        var response = remoteSource.getProductByID(productId)
+        Log.i(TAG, "getProductByID: $response")
+        return response
+    }
+
+>>>>>>> Stashed changes
 }
