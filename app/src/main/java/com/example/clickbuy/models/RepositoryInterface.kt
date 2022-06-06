@@ -1,5 +1,6 @@
 package com.example.clickbuy.models
 
+import androidx.lifecycle.LiveData
 import retrofit2.Response
 
 interface RepositoryInterface {
@@ -27,6 +28,13 @@ interface RepositoryInterface {
         idCollectionDetails: String,
         categoryTitleComingFromHome: String
     ): Response<Products>
+
+
+    // room
+    suspend fun addFavorite(favorite: Favorite)
+    suspend fun getFavorites(): List<Favorite>
+    suspend fun deleteFavorite(productId: Long)
+    suspend fun isFavorite(productId: Long): Boolean
 
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,

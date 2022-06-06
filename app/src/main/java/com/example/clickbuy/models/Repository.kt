@@ -2,6 +2,8 @@ package com.example.clickbuy.models
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import com.example.clickbuy.db.LocalSource
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
 import retrofit2.Response
@@ -11,6 +13,7 @@ private const val TAG = "Repository"
 
 class Repository private constructor(
     var remoteSource: RemoteSource,
+    var localSource: LocalSource,
     var context: Context
 ) : RepositoryInterface {
 
@@ -18,10 +21,10 @@ class Repository private constructor(
     companion object {
         private var instance: Repository? = null
         fun getInstance(
-            remoteSource: RetrofitClient, context: Context
+            remoteSource: RetrofitClient, localSource: LocalSource, context: Context
         ): Repository {
 
-            return instance ?: Repository(remoteSource, context)
+            return instance ?: Repository(remoteSource, localSource, context)
         }
     }
 
@@ -57,7 +60,10 @@ class Repository private constructor(
         idCollectionDetails: String,
         categoryTitleComingFromHome: String
     ): Response<Products> {
-      return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
+        return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleComingFromHome
+        )
     }
 
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
@@ -74,5 +80,22 @@ class Repository private constructor(
         return response
     }
 
+
+    // local (room)
+    override suspend fun addFavorite(favorite: Favorite) {
+        localSource.insertFavorite(favorite)
+    }
+
+    override suspend fun getFavorites(): List<Favorite> {
+        return localSource.getFavorites()
+    }
+
+    override suspend fun deleteFavorite(productId: Long) {
+        localSource.deleteFavorite(productId)
+    }
+
+    override suspend fun isFavorite(productId: Long): Boolean {
+        return localSource.isFavorite(productId)
+    }
 
 }
