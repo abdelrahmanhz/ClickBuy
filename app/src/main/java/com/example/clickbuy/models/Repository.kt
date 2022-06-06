@@ -13,7 +13,6 @@ private const val TAG = "Repository"
 
 class Repository private constructor(
     var remoteSource: RemoteSource,
-    var localSource: LocalSource,
     var context: Context
 ) : RepositoryInterface {
 
@@ -21,10 +20,10 @@ class Repository private constructor(
     companion object {
         private var instance: Repository? = null
         fun getInstance(
-            remoteSource: RetrofitClient, localSource: LocalSource, context: Context
+            remoteSource: RetrofitClient, context: Context
         ): Repository {
 
-            return instance ?: Repository(remoteSource, localSource, context)
+            return instance ?: Repository(remoteSource, context)
         }
     }
 
@@ -83,19 +82,21 @@ class Repository private constructor(
 
     // local (room)
     override suspend fun addFavorite(favorite: Favorite) {
-        localSource.insertFavorite(favorite)
+        //localSource.insertFavorite(favorite)
     }
 
     override suspend fun getFavorites(): List<Favorite> {
-        return localSource.getFavorites()
+       //return localSource.getFavorites()
+        return emptyList()
     }
 
     override suspend fun deleteFavorite(productId: Long) {
-        localSource.deleteFavorite(productId)
+        //localSource.deleteFavorite(productId)
     }
 
     override suspend fun isFavorite(productId: Long): Boolean {
-        return localSource.isFavorite(productId)
+        //return localSource.isFavorite(productId)
+        return false
     }
 
 }

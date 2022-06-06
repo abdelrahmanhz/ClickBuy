@@ -60,7 +60,6 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         viewModelFactory = FavouritesViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
-                ConcreteLocalSource(requireContext()),
                 requireContext()
             )
         )

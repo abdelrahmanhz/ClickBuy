@@ -79,7 +79,6 @@ class ProductDetailsFragment : Fragment() {
         modelFactory = ProductDetailsViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
-                ConcreteLocalSource(requireContext()),
                 requireContext()
             )
         )
