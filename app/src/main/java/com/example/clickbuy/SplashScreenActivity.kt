@@ -8,12 +8,11 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
-import com.example.clickbuy.models.Repository
-import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.splashscreen.view.MainActivity
-import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModel
-import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModelFactory
+import com.example.clickbuy.mainscreen.view.MainActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var logo: ImageView
@@ -42,8 +41,14 @@ class SplashScreenActivity : AppCompatActivity() {
         logo.animation = bottomAnim
         description.animation = bottomAnim
 
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            finish()
+        }
 
 
-        startActivity(Intent(this, MainActivity::class.java))
     }
+
+
 }

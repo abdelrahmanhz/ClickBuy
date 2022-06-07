@@ -1,4 +1,4 @@
-package com.example.clickbuy.splashscreen.viewmodel
+package com.example.clickbuy.mainscreen.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickbuy.models.CurrencyConverter
-import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.RepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

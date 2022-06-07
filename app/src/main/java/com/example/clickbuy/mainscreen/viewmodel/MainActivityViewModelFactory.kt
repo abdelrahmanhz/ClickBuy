@@ -1,4 +1,4 @@
-package com.example.clickbuy.splashscreen.viewmodel
+package com.example.clickbuy.mainscreen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -1,4 +1,4 @@
-package com.example.clickbuy.splashscreen.view
+package com.example.clickbuy.mainscreen.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,8 +14,8 @@ import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.me.view.MeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModel
-import com.example.clickbuy.splashscreen.viewmodel.MainActivityViewModelFactory
+import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
+import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
 
 class MainActivity : AppCompatActivity() {

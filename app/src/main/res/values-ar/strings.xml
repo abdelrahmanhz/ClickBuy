@@ -28,4 +28,5 @@
     <string name="save">حفظ</string>
     <string name="no_currency_found">لا يوجد عملات متاحة</string>
     <string name="splash_desc">اشتر ما تريد, فقط اضغط</string>
+    <string name="no_data_error">لا يوجد منتجات في هذا القسم</string>
 </resources>

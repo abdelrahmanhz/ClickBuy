@@ -29,4 +29,5 @@
     <string name="save">Save</string>
     <string name="no_currency_found">No currency Founded</string>
     <string name="splash_desc">Buy what you want, Just Click</string>
+    <string name="no_data_error">There is no products in this category</string>
 </resources>

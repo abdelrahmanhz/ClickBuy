@@ -24,9 +24,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.WindowManager
 
 import android.widget.PopupWindow
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.category.BrandsFilterAdapter
 import com.example.clickbuy.category.SubCateogriesAdapter
+import com.google.android.material.snackbar.Snackbar
 
 
 private const val TAG = "CategoryFragment"
@@ -37,7 +39,7 @@ class CategoryFragment : Fragment(), FilterInterface {
     private var subCategoryId: String = ""
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
-
+    private lateinit var currentView: View
     private lateinit var brandFilterAdapter: BrandsFilterAdapter
     private lateinit var categoryFactory: CategoryViewModelFactory
     private lateinit var categoryRecyclerView: RecyclerView
@@ -98,9 +100,13 @@ class CategoryFragment : Fragment(), FilterInterface {
 
         viewModel = ViewModelProvider(this, categoryFactory).get(CategoryViewModel::class.java)
         viewModel.subCategory.observe(requireActivity()) {
-            if (it != null) {
+            if (!it?.products.isNullOrEmpty()) {
                 Log.i(TAG, "categoryProducts: $it")
                 categoryAdapter.setListOfCategory(it.products)
+            } else {
+                Log.i(TAG, "onViewCreated: no data ")
+                showSnackBar()
+                categoryAdapter.setListOfCategory(emptyList())
             }
         }
 
@@ -287,6 +293,7 @@ class CategoryFragment : Fragment(), FilterInterface {
         categoryRecyclerView = view.findViewById(R.id.brandCategoryRecyclerView)
         tabLayout = view.findViewById(R.id.tabLayout)
         myToolbar = view.findViewById(R.id.toolBar)
+        currentView = view
         //   filterBrandsRecyclerView = view.findViewById(R.id.brandsFilterRecyclerView)
 
 //        womenImageView = view.findViewById(R.id.womenImage)
@@ -320,10 +327,11 @@ class CategoryFragment : Fragment(), FilterInterface {
     fun setSubCategoryTitleAndId(subCategoryId: String, subCategoryTitleDetails: String) {
         this.subCategoryTitleDetails = subCategoryTitleDetails
         this.subCategoryId = subCategoryId
-       // viewModel.getAllSubCategoriesFromFilter(subCategoryId, subCategoryTitleDetails)
+        // viewModel.getAllSubCategoriesFromFilter(subCategoryId, subCategoryTitleDetails)
         productType = subCategoryTitleDetails
         Log.i(TAG, "setSUBCategoryName:  $subCategoryTitleDetails")
     }
+
     override fun onDestroy() {
         super.onDestroy()
         Log.i(TAG, "onDestroy: ")
@@ -333,6 +341,7 @@ class CategoryFragment : Fragment(), FilterInterface {
         super.onStop()
         Log.i(TAG, "onStop: ")
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         Log.i(TAG, "onDestroyView: ")
@@ -348,6 +357,18 @@ class CategoryFragment : Fragment(), FilterInterface {
 
     companion object {
 
+    }
+
+    private fun showSnackBar() {
+        Log.i(TAG, "showSnackBar: ")
+        var snackBar = Snackbar.make(
+            currentView.findViewById(R.id.category_fragment_ConstraintLayout),
+            getString(R.string.no_data_error),
+            Snackbar.LENGTH_SHORT
+        ).setActionTextColor(Color.WHITE)
+
+        snackBar.view.setBackgroundColor(Color.GREEN)
+        snackBar.show()
     }
 
 //    override fun showSubCategory(id: String, title: String) {
