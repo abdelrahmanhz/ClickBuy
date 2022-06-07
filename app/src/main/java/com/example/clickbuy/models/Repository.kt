@@ -125,4 +125,16 @@ class Repository private constructor(
         Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
         return response
     }
+
+    override suspend fun getAvailableCoupons(): Response<Coupons> {
+        val response = remoteSource.getAvailableCoupons()
+        Log.i(TAG, "getAvailableCoupons: " + response.code())
+        return response
+    }
+
+    override suspend fun validateCoupons(code: String): Response<Coupon> {
+        val response = remoteSource.validateCoupons(code)
+        Log.i(TAG, "validateCoupons: " + response.code())
+        return response
+    }
 }

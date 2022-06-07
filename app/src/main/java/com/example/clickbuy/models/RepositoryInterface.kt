@@ -50,4 +50,7 @@ interface RepositoryInterface {
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
+
+    suspend fun getAvailableCoupons(): Response<Coupons>
+    suspend fun validateCoupons(code: String): Response<Coupon>
 }

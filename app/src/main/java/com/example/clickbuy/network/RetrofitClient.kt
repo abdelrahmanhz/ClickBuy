@@ -3,6 +3,8 @@ package com.example.clickbuy.network
 import android.util.Log
 import com.example.clickbuy.models.*
 import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 
@@ -124,7 +126,7 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun getCurrencies(): Response<Currencies> {
-        var response = retrofitHelper.getCurrencies()
+        val response = retrofitHelper.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())
         return response
     }
@@ -132,8 +134,20 @@ class RetrofitClient : RemoteSource {
     override suspend fun getQualifiedValueCurrency(
         to: String
     ): Response<CurrencyConverter> {
-        var response = retrofitCurrencyHelper.getQualifiedValueCurrency(to)
+        val response = retrofitCurrencyHelper.getQualifiedValueCurrency(to)
         Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
+        return response
+    }
+
+    override suspend fun getAvailableCoupons(): Response<Coupons> {
+        val response = retrofitHelper.getAvailableCoupons()
+        Log.i(TAG, "getAvailableCoupons: " + response.code())
+        return response
+    }
+
+    override suspend fun validateCoupons(code: String): Response<Coupon> {
+        val response = retrofitHelper.validateCoupons(code)
+        Log.i(TAG, "validateCoupons: " + response.code())
         return response
     }
 

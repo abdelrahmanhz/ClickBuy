@@ -1,10 +1,8 @@
 package com.example.clickbuy.network
 
 import com.example.clickbuy.models.*
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
 import retrofit2.Response
+import retrofit2.http.*
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -66,12 +64,16 @@ interface RetrofitService {
     suspend fun getAllCustomCollections(): Response<CustomCollections>
 
     //Get all Coupons
-    @Headers(
-        "X-Shopify-Access-Token: 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",
-        "Content-Type: application/json"
-    )
-    @GET()
-    suspend fun getAvailableCoupons(): Response<Coupon>
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("price_rules/1089622311051/discount_codes.json")
+    suspend fun getAvailableCoupons(): Response<Coupons>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("discount_codes/lookup.json?")
+    suspend fun validateCoupons(
+        @Query("code") code: String
+    ): Response<Coupon>
+
 
     /*  @Headers(
           "X-Shopify-Access-Token: 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",
@@ -100,7 +102,6 @@ interface RetrofitService {
     suspend fun getAllSubCategoriesForSpecificCategoryByIDAndTitle(
         @Query("collection_id") id: String,
         @Query("vendor") title: String
-
     ): Response<Products>
 
     @Headers(
@@ -111,7 +112,6 @@ interface RetrofitService {
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         @Query("collection_id") id: String,
         @Query("product_type") title: String
-
     ): Response<Products>
 
 

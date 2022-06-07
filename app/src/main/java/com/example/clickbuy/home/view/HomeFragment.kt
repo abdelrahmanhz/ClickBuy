@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,6 @@ import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.smarteist.autoimageslider.SliderView
 
-
 private const val TAG = "HomeView"
 
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface {
@@ -32,7 +32,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var salesRecyclerView: RecyclerView
     private lateinit var viewModel: HomeViewModel
     private lateinit var adsSlider: SliderView
-    var sliderDataArrayList: ArrayList<Int> = ArrayList()
+    private lateinit var couponsSlider: SliderView
+    private lateinit var couponsAdapter: CouponsSliderAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +61,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 brandAdapter.setListOfBrands(it.smart_collections)
             }
         }
+
         viewModel.getAllSalesById()
         viewModel.saleId.observe(requireActivity()) {
             if (it != null) {
@@ -67,6 +69,13 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 saleAdapter.setListOfSales(it.products)
             }
         }
+
+        viewModel.getAvailableCoupons()
+        viewModel.coupons.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty()) {
+                couponsAdapter.setList(it)
+            }
+        })
     }
 
     private fun initUI(view: View) {
@@ -79,19 +88,19 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         salesRecyclerView = view.findViewById(R.id.salesRecyclerView)
 
         adsSlider = view.findViewById(R.id.ads_sliderView)
-        sliderDataArrayList.add(R.drawable.ads_logo)
-        sliderDataArrayList.add(R.drawable.ads_logo_1)
-        sliderDataArrayList.add(R.drawable.ads_logo_2)
-        sliderDataArrayList.add(R.drawable.ads_logo_3)
-        sliderDataArrayList.add(R.drawable.ads_logo_4)
-        sliderDataArrayList.add(R.drawable.ads_logo_5)
-
-        val adapter = SliderAdapter(requireContext(), sliderDataArrayList)
         adsSlider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
-        adsSlider.setSliderAdapter(adapter)
+        adsSlider.setSliderAdapter(AdsSliderAdapter())
         adsSlider.scrollTimeInSec = 3
         adsSlider.isAutoCycle = true
         adsSlider.startAutoCycle()
+
+        couponsSlider = view.findViewById(R.id.coupons_sliderView)
+        couponsSlider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
+        couponsAdapter = CouponsSliderAdapter(requireContext())
+        couponsSlider.setSliderAdapter(couponsAdapter)
+        couponsSlider.scrollTimeInSec = 3
+        couponsSlider.isAutoCycle = true
+        couponsSlider.startAutoCycle()
     }
 
     private fun setUpBrandRecyclerView() {

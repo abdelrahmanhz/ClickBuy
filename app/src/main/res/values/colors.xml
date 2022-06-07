@@ -10,4 +10,8 @@
     <color name="red">#730000</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="backgroundIconInProfile">#1A00C569</color>
+    <color name="background_coupons">#3A99EB</color>
+
+
+
 </resources>
