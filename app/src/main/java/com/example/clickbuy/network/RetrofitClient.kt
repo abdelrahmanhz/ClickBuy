@@ -107,5 +107,9 @@ class RetrofitClient : RemoteSource {
         return  response
     }
 
+    override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
+        return retrofitHelper.registerCustomer(customer)
+    }
+
 
 }

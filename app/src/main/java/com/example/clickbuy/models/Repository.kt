@@ -65,6 +65,10 @@ class Repository private constructor(
         )
     }
 
+    override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
+        return remoteSource.registerCustomer(customer)
+    }
+
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
         categoryTitleFromFilter: String

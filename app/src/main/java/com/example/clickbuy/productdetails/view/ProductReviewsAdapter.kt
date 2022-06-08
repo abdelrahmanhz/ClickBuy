@@ -1,4 +1,4 @@
-package com.example.clickbuy.productdetails.adapters
+package com.example.clickbuy.productdetails.view
 
 import android.util.Log
 import android.view.LayoutInflater

@@ -1,12 +1,12 @@
-package com.example.clickbuy.productdetails.adapters
+package com.example.clickbuy.productdetails.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.clickbuy.R
+import com.example.clickbuy.util.Extensions.load
 
 class ImagesViewPagerAdapter(private var images: List<String>) : RecyclerView.Adapter<ImagesViewPagerAdapter.ImagesViewHolder>(){
 
@@ -22,11 +22,7 @@ class ImagesViewPagerAdapter(private var images: List<String>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ImagesViewHolder, position: Int) {
-        Glide.with(holder.itemView.context)
-            .load(images.get(position))
-            .centerCrop()
-            .placeholder(R.drawable.default_image)
-            .into(holder.productImage)
+        holder.productImage.load(images[position])
     }
 
     override fun getItemCount(): Int {
