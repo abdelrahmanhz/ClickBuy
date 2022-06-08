@@ -16,11 +16,9 @@ import com.smarteist.autoimageslider.SliderViewAdapter
 
 private const val TAG = "CouponsSliderAdapter"
 
-class CouponsSliderAdapter(var context: Context) :
+class CouponsSliderAdapter(var context: Context, var brandDetailsInterface: BrandDetailsInterface) :
     SliderViewAdapter<CouponsSliderAdapter.SliderAdapterViewHolder>() {
 
-    private var clipboardManager: ClipboardManager =
-        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     private var couponsList: List<DiscountCode> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterViewHolder {
@@ -41,13 +39,7 @@ class CouponsSliderAdapter(var context: Context) :
             context.resources.getString(R.string.discount_code).plus(discountCode.code)
 
         viewHolder?.itemView?.setOnClickListener {
-            val data = ClipData.newPlainText("text", discountCode.code)
-            clipboardManager.setPrimaryClip(data)
-
-            Log.i(
-                TAG,
-                "onBindViewHolder: " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
-            )
+            brandDetailsInterface.brandDetailsShow(discountCode.code)
         }
     }
 

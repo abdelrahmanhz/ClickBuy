@@ -51,8 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.currencyConverter.observe(this, Observer {
             ConstantsValue.currencyValue = it.result
-            Log.i(TAG, "onCreate:  ConstantsValue.currencyValue ----------> " +  ConstantsValue.currencyValue )
-            Log.i(TAG, "onCreate:  it.result ----------> " +  it.result )
+            Log.i(
+                TAG,
+                "onCreate:  ConstantsValue.currencyValue ----------> " + ConstantsValue.currencyValue
+            )
+            Log.i(TAG, "onCreate:  it.result ----------> " + it.result)
         })
 
         meo = findViewById(R.id.bottom_nav)
@@ -169,4 +172,6 @@ class MainActivity : AppCompatActivity() {
     fun updateCurrency() {
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
+
+
 }

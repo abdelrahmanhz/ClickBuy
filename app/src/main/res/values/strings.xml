@@ -32,4 +32,16 @@
     <string name="no_data_error">There is no products in this category</string>
     <string name="off"> OFF </string>
     <string name="discount_code"> Use this code </string>
+    <string name="no_internet">No internet connection</string>
+    <string name="text_copied">text copy success</string>
+    <string name="enable_connection">Enable Connection</string>
+    <string name="payment">Payment</string>
+    <string name="required_amount">Required Amount</string>
+    <string name="enter_coupon">enter coupon here</string>
+    <string name="validate">Validate</string>
+    <string name="discount">Discount</string>
+    <string name="total">Total</string>
+    <string name="pay">Pay</string>
+    <string name="coupon_empty">Coupon can not be empty</string>
+    <string name="coupon_invalid">Invalid Coupon</string>
 </resources>

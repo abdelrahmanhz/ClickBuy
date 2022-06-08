@@ -30,4 +30,17 @@
     <string name="no_data_error">لا يوجد منتجات في هذا القسم</string>
     <string name="off"> خصم </string>
     <string name="discount_code"> استخدم هذا الكود </string>
+    <string name="no_internet">لا يوجد اتصال بالانترنت</string>
+    <string name="text_copied">تم نسخ النص</string>
+    <string name="enable_connection">الاتصال بالنت</string>
+    <string name="payment">الدفع</string>
+    <string name="required_amount">المبلغ المطلوب</string>
+    <string name="enter_coupon">ادخل كود الخصم هنا</string>
+    <string name="validate">تحقق</string>
+    <string name="discount">الخصم</string>
+    <string name="total">الإجمالي</string>
+    <string name="pay">الدفع</string>
+    <string name="coupon_empty">كود الخصم لا يجب ان يكون فارغا</string>
+    <string name="coupon_invalid">كود الخصم غير صحيح</string>
+
 </resources>

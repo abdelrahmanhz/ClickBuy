@@ -1,5 +1,8 @@
 package com.example.clickbuy.home.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,11 +23,13 @@ import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.payment.view.PaymentFragment
 import com.smarteist.autoimageslider.SliderView
 
 private const val TAG = "HomeView"
 
-class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface {
+class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
+    BrandDetailsInterface {
     private lateinit var brandAdapter: BrandsAdapter
     private lateinit var saleAdapter: SalesAdapter
     private lateinit var homeFactory: HomeViewModelFactory
@@ -34,6 +39,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var adsSlider: SliderView
     private lateinit var couponsSlider: SliderView
     private lateinit var couponsAdapter: CouponsSliderAdapter
+    private lateinit var clipboardManager: ClipboardManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +50,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        clipboardManager =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
         homeFactory = HomeViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
@@ -96,7 +106,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         couponsSlider = view.findViewById(R.id.coupons_sliderView)
         couponsSlider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
-        couponsAdapter = CouponsSliderAdapter(requireContext())
+        couponsAdapter = CouponsSliderAdapter(requireContext(), this)
         couponsSlider.setSliderAdapter(couponsAdapter)
         couponsSlider.scrollTimeInSec = 3
         couponsSlider.isAutoCycle = true
@@ -131,5 +141,18 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun productDetailsShow(id: String) {
         // Open Product Details
         Log.i(TAG, "productDetailsShow: " + id)
+    }
+
+    override fun brandDetailsShow(nameOfBrand: String) {
+        val data = ClipData.newPlainText("text", nameOfBrand)
+        clipboardManager.setPrimaryClip(data)
+
+        Log.i(
+            TAG, "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
+        )
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, PaymentFragment())
+            .addToBackStack(null).commit()
+
     }
 }

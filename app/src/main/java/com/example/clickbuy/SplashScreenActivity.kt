@@ -1,6 +1,7 @@
 package com.example.clickbuy
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
@@ -9,10 +10,14 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.clickbuy.mainscreen.view.MainActivity
+import com.example.clickbuy.util.isInternetAvailable
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import android.provider.Settings
+import android.view.Window
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var logo: ImageView
@@ -24,10 +29,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen)
 
         title = findViewById(R.id.title_textView)
@@ -43,11 +47,27 @@ class SplashScreenActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000)
-            startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
-            finish()
+            if (isInternetAvailable(this@SplashScreenActivity))
+                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            else
+                showSnackbar()
         }
 
 
+    }
+
+    private fun showSnackbar() {
+        val snackBar = Snackbar.make(
+            findViewById(R.id.splashScreenActivity_ConstraintLayout),
+            getString(R.string.no_internet),
+            Snackbar.LENGTH_INDEFINITE
+        ).setActionTextColor(Color.WHITE)
+
+        snackBar.setAction(getString(R.string.enable_connection)) {
+            startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+        }
+        snackBar.view.setBackgroundColor(Color.RED)
+        snackBar.show()
     }
 
 
