@@ -1,9 +1,9 @@
 package com.example.clickbuy.models
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.example.clickbuy.db.LocalSource
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
 import retrofit2.Response
@@ -16,9 +16,12 @@ class Repository private constructor(
     var context: Context
 ) : RepositoryInterface {
 
+    private var sharedPrefs: SharedPreferences? = null
+    var editor: SharedPreferences.Editor? = null
 
-    companion object {
-        private var instance: Repository? = null
+            companion object {
+        var instance: Repository? = null
+
         fun getInstance(
             remoteSource: RetrofitClient, context: Context
         ): Repository {
@@ -29,6 +32,8 @@ class Repository private constructor(
 
     init {
         this.remoteSource = remoteSource
+        this.sharedPrefs = context.getSharedPreferences("DeviceToken", MODE_PRIVATE)
+        this.editor = sharedPrefs!!.edit()
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
@@ -63,6 +68,31 @@ class Repository private constructor(
             idCollectionDetails,
             categoryTitleComingFromHome
         )
+    }
+
+    override suspend fun signIn(email: String, password: String): String {
+        var responseMessage: String = ""
+        val response =  remoteSource.signIn(email)
+        if (response.code() == 200){
+            if (response.body()?.customers.isNullOrEmpty()){
+                responseMessage = "No such user"
+            }
+            else {
+                // shared pref
+                if (response.body()?.customers!![0].tags == password){
+                    responseMessage = "Logged in successfully"
+                    editor?.putBoolean("IS_LOGGING", true)
+                    editor?.putLong("USER_ID", response.body()!!.customers[0].id!!)
+                    editor?.apply()
+                }
+                else
+                    responseMessage = "Entered a wrong password"
+            }
+        }
+        else{
+            responseMessage = "Something went wrong"
+        }
+        return responseMessage
     }
 
     override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {

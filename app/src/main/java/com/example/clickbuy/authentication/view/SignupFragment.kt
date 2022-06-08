@@ -21,7 +21,7 @@ class SignupFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignupBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -72,7 +72,6 @@ class SignupFragment : Fragment() {
             else
                 Toast.makeText(requireContext(), "Email is already registered, can't sign up!", Toast.LENGTH_LONG).show()
         }
-        Toast.makeText(requireContext(), customer.toString(), Toast.LENGTH_LONG).show()
     }
 
     private fun clearFields() {
@@ -98,7 +97,7 @@ class SignupFragment : Fragment() {
     private fun validEmail(): String?
     {
         val emailText = binding.emailSignupEditText.text.toString()
-        if(emailText.isNullOrBlank())
+        if(emailText.isBlank())
             return "Required"
         if(!Patterns.EMAIL_ADDRESS.matcher(emailText).matches())
             return "Invalid Email Address"
@@ -110,7 +109,7 @@ class SignupFragment : Fragment() {
     private fun validPassword(): String?
     {
         val passwordText = binding.passwordSignupEditText.text.toString()
-        if(passwordText.isNullOrBlank())
+        if(passwordText.isBlank())
             return "Required"
         if(passwordText.length < 8)
             return "Minimum 8 Character Password"
@@ -121,7 +120,7 @@ class SignupFragment : Fragment() {
     private fun validPasswordConfirm(): String?
     {
         val passwordConfirmText = binding.passwordConfirmSignupSignupEditText.text.toString()
-        if(passwordConfirmText.isNullOrBlank())
+        if(passwordConfirmText.isBlank())
             return "Required"
         if(passwordConfirmText == binding.passwordConfirmSignupSignupEditText.text.toString())
             return "Passwords don't match"
@@ -131,7 +130,7 @@ class SignupFragment : Fragment() {
     private fun validPhone(): String?
     {
         val phoneText = binding.phoneSignupSignupEditText.text.toString()
-        if(phoneText.isNullOrBlank())
+        if(phoneText.isBlank())
             return "Required"
         if(!phoneText.matches(".*[0-9].*".toRegex()))
             return "Must be all Digits"

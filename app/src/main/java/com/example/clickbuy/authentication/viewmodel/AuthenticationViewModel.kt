@@ -17,6 +17,8 @@ class AuthenticationViewModel(private val repo: RepositoryInterface): ViewModel(
 
     private var _isRegistered = MutableLiveData<Boolean>()
     var isRegistered: LiveData<Boolean> = _isRegistered
+    private var _loggingResult = MutableLiveData<String>()
+    var loggingResult: LiveData<String> = _loggingResult
 
     fun registerCustomer(customerParent: CustomerParent){
         viewModelScope.launch {
@@ -29,6 +31,16 @@ class AuthenticationViewModel(private val repo: RepositoryInterface): ViewModel(
                 }
             } else
                 Log.i(com.example.clickbuy.productdetails.viewmodel.TAG, "registerCustomer response failed!")
+        }
+    }
+
+    fun signIn(email: String, password: String){
+        viewModelScope.launch {
+            val response = repo.signIn(email, password)
+            withContext(Dispatchers.Main) {
+                Log.i(TAG, response)
+                _loggingResult.postValue(response)
+            }
         }
     }
 }

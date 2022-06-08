@@ -29,6 +29,7 @@ interface RepositoryInterface {
         idCollectionDetails: String,
         categoryTitleComingFromHome: String
     ): Response<Products>
+    suspend fun signIn(email: String, password: String): String
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
     // room
