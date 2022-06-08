@@ -153,7 +153,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
 
 
 
-                    
+
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
                         override fun onProgressChanged(

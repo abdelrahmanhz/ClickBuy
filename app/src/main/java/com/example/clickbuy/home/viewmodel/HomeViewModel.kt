@@ -18,12 +18,9 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
 
     private var _brand = MutableLiveData<Brands>()
     var brand: LiveData<Brands> = _brand
-    private var _sale = MutableLiveData<CustomCollections>()
-    var sale: LiveData<CustomCollections> = _sale
 
     private var _saleId = MutableLiveData<Products>()
     var saleId: LiveData<Products> = _saleId
-
     private var _order = MutableLiveData<Orders>()
     var order: LiveData<Orders> = _order
 //    fun getAllOrdersById(id : String){
@@ -40,6 +37,12 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
 //            }
 //        }
 //    }
+
+    private var _coupons = MutableLiveData<List<DiscountCode>>()
+    var coupons: LiveData<List<DiscountCode>> = _coupons
+
+    private var _coupon = MutableLiveData<Coupon>()
+    var coupon: LiveData<Coupon> = _coupon
 
     fun getAllBrands() {
         viewModelScope.launch {
@@ -59,23 +62,28 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-    fun getSalesId() {
+    fun getAvailableCoupons() {
         viewModelScope.launch {
-            var brands: CustomCollections? = null
-            val brandResponse = _irepo.getCategoryIdByTitle("SALE")
-            if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
-            }
+            val response = _irepo.getAvailableCoupons()
             withContext(Dispatchers.Main) {
-                _sale.postValue(brands!!)
-                Log.i(TAG, "getSalesById View Model--------------------->: $brands")
-                brands.custom_collections[0].id
+                Log.i(TAG, "getAvailableCoupons: ${response.code()}")
+                Log.i(TAG, "getAvailableCoupons: ${response.body()}")
+                if (response.code() == 200 && !response.body()?.discount_codes.isNullOrEmpty())
+                    _coupons.postValue(response.body()?.discount_codes)
 
             }
         }
     }
+
+    fun validateCoupons(code: String) {
+        viewModelScope.launch {
+
+        }
+    }
+
+
     fun getAllSalesById() {
-       // getSalesId()
+        // getSalesId()
         viewModelScope.launch {
             var brands: Products? = null
             val brandResponse = _irepo.getAllProductsInCollectionByID("273053778059")

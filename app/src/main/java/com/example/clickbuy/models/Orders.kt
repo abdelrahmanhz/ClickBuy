@@ -80,7 +80,7 @@ data class Order (
     val total_weight: Long,
     val updated_at: String,
     val user_id: Any? = null,
-    val customer: Customer,
+    val customer: OrderCustomer,
     val discount_applications: List<Any?>,
     val fulfillments: List<Any?>,
     val line_items: List<LineItem>,
@@ -123,7 +123,7 @@ data class Money (
     val currency_code: String
 )
 
-data class Customer (
+data class OrderCustomer (
     val id: Long,
     val email: String,
     val accepts_marketing: Boolean,

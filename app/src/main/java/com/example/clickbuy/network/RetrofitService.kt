@@ -1,10 +1,8 @@
 package com.example.clickbuy.network
 
 import com.example.clickbuy.models.*
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
 import retrofit2.Response
+import retrofit2.http.*
 import retrofit2.http.Query
 
 interface RetrofitService {
@@ -15,10 +13,11 @@ interface RetrofitService {
     )
     @GET("products.json")
     suspend fun getAllProducts(
-        @Query("collection_id") collectionId : String,
-        @Query("vendor") vendor : String,
-        @Query("product_type") productType: String) : Response<Products>
 
+        @Query("collection_id") id: String,
+        @Query("vendor") vendor: String,
+        @Query("product_type") title: String
+    ): Response<Products>
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -57,9 +56,39 @@ interface RetrofitService {
         "Content-Type: application/json"
     )
     @GET("products.json?")
+//    @GET("custom_collections.json")
+    suspend fun getAllCustomCollections(): Response<CustomCollections>
+
+    //Get all Coupons
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("price_rules/1089622311051/discount_codes.json")
+    suspend fun getAvailableCoupons(): Response<Coupons>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("discount_codes/lookup.json?")
+    suspend fun validateCoupons(
+        @Query("code") code: String
+    ): Response<Coupon>
+
+
+    /*  @Headers(
+          "X-Shopify-Access-Token: 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",
+          "Content-Type: application/json"
+      )
+      @GET("custom_collections/{id}.json")
+      suspend fun getCustomCollectionsByID(
+          @Path("id") id: String
+      ): Response<CustomCollectionElement>
+      */
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("products.json?")
     suspend fun getAllSubCategoriesForSpecificCategory(
-        @Query("fields") product_type : String,
-        @Query("collection_id") id : String
+        @Query("fields") product_type: String,
+        @Query("collection_id") id: String
     ): Response<SubCategories>
 
     @Headers(
@@ -68,10 +97,10 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id : String,
+        @Query("collection_id") id: String,
         @Query("vendor") title: String
-
     ): Response<Products>
+
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -79,11 +108,9 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id : String,
+        @Query("collection_id") id: String,
         @Query("product_type") title: String
-
     ): Response<Products>
-
 
 
     @Headers(
@@ -110,6 +137,27 @@ interface RetrofitService {
 //    suspend fun getAllOrdersById(): Response<Orders>
 
 
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("customers.json?")
+    suspend fun getCustomerDetails(
+        @Query("email") email: String
+    ): Response<Customers>
 
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("currencies.json")
+    suspend fun getCurrencies(
+    ): Response<Currencies>
+
+    @GET("convert?apikey=fZAyG1gol2pWw81x7xVgwwh1Omu3MTkS&amount=1&from=EGP")
+    suspend fun getQualifiedValueCurrency(
+        @Query("to") to: String
+    ): Response<CurrencyConverter>
 
 }

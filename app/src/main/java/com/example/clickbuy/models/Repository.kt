@@ -41,6 +41,7 @@ class Repository private constructor(
         productType: String
     ): Response<Products> {
         return remoteSource.getAllProducts(collectionId, vendor, productType)
+
     }
 
     override suspend fun getSubCategories(): Response<Products> {
@@ -91,28 +92,61 @@ class Repository private constructor(
 
 
     // local (room)
-    override suspend fun addFavorite(favorite: Favorite) {
-        //localSource.insertFavorite(favorite)
-    }
+        override suspend fun addFavorite(favorite: Favorite) {
+            //localSource.insertFavorite(favorite)
+        }
 
-    override suspend fun getFavorites(): List<Favorite> {
-        //return localSource.getFavorites()
-        return emptyList()
-    }
+        override suspend fun getFavorites(): List<Favorite> {
+            //return localSource.getFavorites()
+            return emptyList()
+        }
 
-    override suspend fun deleteFavorite(productId: Long) {
-        //localSource.deleteFavorite(productId)
-    }
+        override suspend fun deleteFavorite(productId: Long) {
+            //localSource.deleteFavorite(productId)
+        }
 
-    override suspend fun isFavorite(productId: Long): Boolean {
-        //return localSource.isFavorite(productId)
-        return false
-    }
+        override suspend fun isFavorite(productId: Long): Boolean {
+            //return localSource.isFavorite(productId)
+            return false
+        }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         var response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
+          return  response
+
+    }
+
+    override suspend fun getCustomerDetails(email: String): Response<Customers> {
+        var response = remoteSource.getCustomerDetails(email)
+        Log.i(TAG, "getCustomerDetails: " + response.code())
+        return response
+    }
+
+    override suspend fun getCurrencies(): Response<Currencies> {
+        var response = remoteSource.getCurrencies()
+        Log.i(TAG, "getCurrencies: " + response.code())
+        return response
+    }
+
+    override suspend fun getQualifiedValueCurrency(
+        to: String
+    ): Response<CurrencyConverter> {
+        var response = remoteSource.getQualifiedValueCurrency(to)
+        Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
+        return response
+    }
+
+    override suspend fun getAvailableCoupons(): Response<Coupons> {
+        val response = remoteSource.getAvailableCoupons()
+        Log.i(TAG, "getAvailableCoupons: " + response.code())
+        return response
+    }
+
+    override suspend fun validateCoupons(code: String): Response<Coupon> {
+        val response = remoteSource.validateCoupons(code)
+        Log.i(TAG, "validateCoupons: " + response.code())
         return response
     }
 }

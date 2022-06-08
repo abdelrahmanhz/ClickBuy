@@ -37,6 +37,37 @@
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_menu.xml" value="0.12708333333333333" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_meu.xml" value="0.1296875" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/search.xml" value="0.20416666666666666" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/background_coupons.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/background_view_border.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/btn_shape.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/button_bg.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_add_address.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_left.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_right.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_back_ground_bag.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_buy_now.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_check.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_edit.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_minus.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_savebutton.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_splash_icon.xml" value="0.18" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/activity_splash_screen.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_address.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_bag.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_coupons.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_currency.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_history.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_slider.xml" value="0.22871376811594202" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_address.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_bag.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_currency.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_history.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_payment.xml" value="0.264" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_profile_edit.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

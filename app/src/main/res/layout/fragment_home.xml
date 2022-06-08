@@ -6,101 +6,60 @@
     android:layout_height="match_parent"
     android:padding="10sp"
     tools:context=".home.view.HomeFragment">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarHome"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/white"
+        android:layout_height="wrap_content">
 
-    </com.google.android.material.appbar.AppBarLayout>
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolBarHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/adsImage"
-        app:menu="@menu/appbar_home"
-        app:title="@string/app_name" />
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:background="#FFEB3B"-->
-<!--            android:id="@+id/tool_bar"-->
-<!--            android:layout_width="379dp"-->
-<!--            android:layout_height="53dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:elevation="4sp"-->
-<!--            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
-
-
-<!--            <EditText-->
-<!--                android:id="@+id/search"-->
-<!--                android:layout_width="190dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@color/white"-->
-<!--                android:hint="Search Here"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                android:text="Search Here" />-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/search_button"-->
-<!--                android:layout_width="32dp"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:layout_marginEnd="128dp"-->
-<!--                android:background="@color/white"-->
-<!--                android:src="@drawable/ic_search_home"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/btnBag"-->
-<!--                android:layout_width="25sp"-->
-<!--                android:layout_height="25sp"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:layout_marginEnd="8dp"-->
-<!--                android:background="@color/white"-->
-<!--                android:src="@drawable/bag"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/btnShowFavorite"-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                android:layout_marginTop="12dp"-->
-<!--                android:background="@color/white"-->
-<!--                android:src="@drawable/ic_fav"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.679"-->
-<!--                app:layout_constraintStart_toEndOf="@+id/search_button"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
-<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-<!--        </androidx.appcompat.widget.Toolbar>-->
-
-        <ImageView
-            android:id="@+id/adsImage"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolBarHome"
             android:layout_width="match_parent"
-            android:layout_height="187dp"
-            android:layout_marginTop="12dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ads"
-            app:layout_constraintBottom_toTopOf="@+id/brandTextView"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/ads_sliderView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:menu="@menu/appbar_home"
+            app:title="@string/app_name" />
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/ads_sliderView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/brands_custom_row" />
+            app:layout_constraintTop_toBottomOf="@+id/toolBarHome"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderIndicatorEnabled="true"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1" />
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/coupons_sliderView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ads_sliderView"
+            app:sliderAnimationDuration="600"
+            app:sliderAutoCycleDirection="back_and_forth"
+            app:sliderIndicatorEnabled="true"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorMargin="15dp"
+            app:sliderIndicatorOrientation="horizontal"
+            app:sliderIndicatorPadding="3dp"
+            app:sliderIndicatorRadius="2dp"
+            app:sliderIndicatorSelectedColor="#5A5A5A"
+            app:sliderIndicatorUnselectedColor="#FFF"
+            app:sliderScrollTimeInSec="1" />
 
         <TextView
             android:id="@+id/brandTextView"
@@ -108,12 +67,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10sp"
             android:layout_marginBottom="5sp"
-            android:textColor="@color/black"
             android:text="@string/brands"
+            android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/adsImage" />
+            app:layout_constraintTop_toBottomOf="@id/coupons_sliderView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/brandsRecyclerView"
@@ -122,8 +81,7 @@
             android:layoutAnimation="@anim/lat"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/brandTextView"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/brandTextView" />
 
         <TextView
             android:id="@+id/salesTextView"
