@@ -9,7 +9,6 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    // Get all products in APP
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -19,17 +18,13 @@ interface RetrofitService {
         @Query("collection_id") id : String,
         @Query("vendor") vendor : String,
         @Query("product_type") title: String) : Response<Products>
-
-    //all products in any category
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
     )
-    //https://madalex20220.myshopify.com/admin/api/2022-01/
     @GET("collections/{id}/products.json")
     suspend fun getAllProductsInCollectionByID(@Path("id") id: String): Response<Products>
 
-    // get any category ID of custom collection (MAN ,WOMEN, KIDS)
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -40,7 +35,6 @@ interface RetrofitService {
     ): Response<CustomCollections>
 
 
-    //Get all Brands
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -49,7 +43,6 @@ interface RetrofitService {
     suspend fun getAllBrands(): Response<Brands>
 
 
-    // get all categories custom collection (MAN ,WOMEN, KIDS)
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -61,35 +54,11 @@ interface RetrofitService {
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
     )
-    @GET("custom_collections.json")
-    suspend fun getAllCustomCollections(): Response<CustomCollections>
-
-    //Get all Coupons
-    @Headers(
-        "X-Shopify-Access-Token: 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",
-        "Content-Type: application/json"
-    )
-    @GET()
-    suspend fun getAvailableCoupons(): Response<Coupon>
-
-    /*  @Headers(
-          "X-Shopify-Access-Token: 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",
-          "Content-Type: application/json"
-      )
-      @GET("custom_collections/{id}.json")
-      suspend fun getCustomCollectionsByID(
-          @Path("id") id: String
-      ): Response<CustomCollectionElement>
-      */
-
-    @Headers(
-        "X-Shopify-Access-Token: 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",
-        "Content-Type: application/json"
-    )
-    @GET("collections/{id}/products.json?fields=product_type")
+    @GET("products.json?")
     suspend fun getAllSubCategoriesForSpecificCategory(
-        @Path("id") id: String
-    ): Response<Products>
+        @Query("fields") product_type : String,
+        @Query("collection_id") id : String
+    ): Response<SubCategories>
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -121,5 +90,24 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
+//    @Headers(
+//        "X-Shopify-Access-Token: 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",
+//        "Content-Type: application/json"
+//    )
+//    @GET("orders/{id}.json")
+//    suspend fun getAllOrdersById(
+//        @Path("id") id: String
+//    ): Response<Orders>
+
+//
+//    @Headers(
+//        "X-Shopify-Access-Token: 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",
+//        "Content-Type: application/json"
+//    )
+//    @GET("orders.json")
+//    suspend fun getAllOrdersById(): Response<Orders>
+
+
+
 
 }

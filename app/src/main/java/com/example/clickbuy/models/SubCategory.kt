@@ -1,4 +1,9 @@
 package com.example.clickbuy.models
 
-class SubCategory {
-}
+data class SubCategories(
+    val products: HashSet<SubCategory>
+)
+
+data class SubCategory(
+    val product_type: String
+)

@@ -20,8 +20,6 @@ private const val TAG = "categoryAdapter"
 
 class CategoryAdapter(val context: Context) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
-
-     //var brandInterface : BrandDetailsInterface = homeFragment
     var category: List<Product> = emptyList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -38,14 +36,16 @@ class CategoryAdapter(val context: Context) :
 
     ) {
       Log.i(TAG, "Category position: " + category[position])
-       // holder.brandImage.setima = brand[position].vendor
         var imageComping = category[position].image?.src
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
         holder.titleTextView.text = category[position].title
-      //`     holder.priceTextView.text = category[position].variants!![position].price
+         holder.priceTextView.text = category[position].variants!![0].price
+//        Log.i(TAG, "onBindViewHolder: " + category[position].variants!![position].price)
         //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
         holder.itemView.setOnClickListener {
             Toast.makeText(context, "Recycle Click$position", Toast.LENGTH_SHORT).show()
+
+
         }
     }
     fun setListOfCategory(brands: List<Product>){

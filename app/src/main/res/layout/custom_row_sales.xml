@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="12sp"
-        app:cardCornerRadius="7sp"
-        app:cardElevation="10dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -24,7 +24,8 @@
                 android:id="@+id/salesImageCustomRow"
                 android:layout_width="150sp"
                 android:layout_height="150sp"
-                android:scaleType="fitXY"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
                 android:src="@drawable/adidas_logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

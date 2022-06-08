@@ -37,12 +37,16 @@ class Repository private constructor(
 
     }
 
-    override suspend fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String): Response<Products> {
-        return remoteSource.getAllProducts(idCollectionDetails ,categoryTitleComing , subCategory)
+    override suspend fun getAllProducts(
+        idCollectionDetails: String,
+        categoryTitleComing: String,
+        subCategory: String
+    ): Response<Products> {
+        return remoteSource.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
     }
 
     override suspend fun getSubCategories(): Response<Products> {
-        return  remoteSource.getSubCategories()
+        return remoteSource.getSubCategories()
     }
 
 
@@ -65,11 +69,19 @@ class Repository private constructor(
         )
     }
 
+//    override suspend fun getAllOrdersById(id: String): Response<Orders> {
+//        return remoteSource.getAllOrdersById(id)
+//
+//    }
+
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
         categoryTitleFromFilter: String
     ): Response<Products> {
-        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleFromFilter)
+        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+            idCollectionDetails,
+            categoryTitleFromFilter
+        )
     }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
@@ -86,7 +98,7 @@ class Repository private constructor(
     }
 
     override suspend fun getFavorites(): List<Favorite> {
-       //return localSource.getFavorites()
+        //return localSource.getFavorites()
         return emptyList()
     }
 
@@ -99,4 +111,10 @@ class Repository private constructor(
         return false
     }
 
+    override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
+        Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
+        var response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
+        Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
+        return response
+    }
 }

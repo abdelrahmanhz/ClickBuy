@@ -5,22 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clickbuy.models.Brands
-import com.example.clickbuy.models.CustomCollections
-import com.example.clickbuy.models.Products
-import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Response
-
 private const val TAG = "CategoryViewModel"
-
 class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
     private val _irepo: RepositoryInterface = irepo
 
-    private var _category = MutableLiveData<Products>()
-    var category: LiveData<Products> = _category
+    private var _category = MutableLiveData<HashSet<SubCategory>>()
+    var category: LiveData<HashSet<SubCategory>> = _category
     private var _brand = MutableLiveData<Brands>()
     var brand: LiveData<Brands> = _brand
 
@@ -33,78 +27,38 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
             }
-
             withContext(Dispatchers.Main) {
                 _brand.postValue(brands!!)
                 Log.i(TAG, "getAllBrands View Model filter--------------------->: $brands")
             }
         }
     }
-    fun getAllCategoryProducts( idCollectionDetails : String) {
+    fun getAllCategoryProducts(idCollectionDetails: String) {
         viewModelScope.launch {
-            var categories: Products? =  null
-            val brandResponse = _irepo.getAllProductsInCollectionByID(idCollectionDetails)
+            var categories: HashSet<SubCategory>? = null
+            val brandResponse = _irepo.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
 
             if (brandResponse.code() == 200) {
-                categories = brandResponse.body()!!
-            }
-            withContext(Dispatchers.Main) {
-                _category.postValue(categories!!)
-                Log.i(
-                    TAG,
-                    "getAllCategory View Model--------------------->: $categories")
-            }
-        }
-    }
-    fun getAllCategoryProductsBrandFromHome(  idCollectionDetails : String , categoryTitleComingFromHome : String) {
-        viewModelScope.launch {
-            var categories: Products? =  null
-            val brandResponse = _irepo.getAllProductsInSpecificCollectionByIDAndTitle(idCollectionDetails,categoryTitleComingFromHome)
-
-            if (brandResponse.code() == 200) {
-                categories = brandResponse.body()!!
-            }
-            withContext(Dispatchers.Main) {
-                _category.postValue(categories!!)
-                Log.i(
-                    TAG,
-                    "getAllCategory View Model--------------------->: $categories")
-            }
-        }
-    }
-
-    fun checkFromHomeOrCategory( idCollectionDetails : String , categoryTitleComingFromHome : String){
-        if (categoryTitleComingFromHome.isNullOrEmpty()){
-            getAllCategoryProducts(idCollectionDetails)
-        }
-        else if (categoryTitleComingFromHome.isNullOrEmpty() && idCollectionDetails.isNullOrEmpty()){
-            getAllSubCategoriesFromFilter(idCollectionDetails, categoryTitleComingFromHome)
-        }
-        else {
-            getAllCategoryProductsBrandFromHome( idCollectionDetails , categoryTitleComingFromHome)
-        }
-    }
-
-    fun getAllSubCategoriesFromFilter(idCollectionDetails : String , categoryTitleComingFilter : String) {
-            viewModelScope.launch {
-                var categories: Products? =  null
-                val brandResponse = _irepo.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(idCollectionDetails,categoryTitleComingFilter)
-
-                if (brandResponse.code() == 200) {
-                    categories = brandResponse.body()!!
-                }
+                categories = brandResponse.body()?.products
                 withContext(Dispatchers.Main) {
-                    _subCategory.postValue(categories!!)
+                    _category.postValue(categories!!)
                     Log.i(
                         TAG,
-                        "getAllCategory View Model--------------------->: $categories")
+                        "getAllCategory View Model--------------------->: ${categories.size}"
+                    )
                 }
             }
         }
-    fun getAllProducts(idCollectionDetails : String , categoryTitleComing : String , subCategory : String){
+    }
+    fun getAllProducts(
+        idCollectionDetails: String,
+        categoryTitleComing: String,
+        subCategory: String
+    ) {
         viewModelScope.launch {
-            var categories: Products? =  null
-            val brandResponse = _irepo.getAllProducts(idCollectionDetails , categoryTitleComing , subCategory )
+            var categories: Products? = null
+            val brandResponse =
+                _irepo.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
             if (brandResponse.code() == 200) {
                 categories = brandResponse.body()!!
             }
@@ -112,23 +66,9 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
                 _subCategory.postValue(categories!!)
                 Log.i(
                     TAG,
-                    "getAllCategory View Model--------------------->: $categories")
+                    "heya de getAllCategory View Model--------------------->: ${categories.products.size}"
+                )
             }
         }
     }
-    fun getSubCategories(){
-        viewModelScope.launch {
-            var categories: Products? =  null
-            val brandResponse = _irepo.getSubCategories()
-            if (brandResponse.code() == 200) {
-                categories = brandResponse.body()!!
-            }
-            withContext(Dispatchers.Main) {
-                _subCategory.postValue(categories!!)
-                Log.i(TAG, "getAllCategory View Model--------------------->: $categories")
-            }
-        }
-    }
-
-    }
-
+}

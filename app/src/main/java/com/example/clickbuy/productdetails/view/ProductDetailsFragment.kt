@@ -24,11 +24,11 @@ import com.example.clickbuy.productdetails.adapters.ProductReviewsAdapter
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import kotlin.math.log
 
 const val TAG = "ProductDetailsFragment"
 
 class ProductDetailsFragment : Fragment() {
-
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var viewModel: ProductDetailsViewModel
     private lateinit var modelFactory: ProductDetailsViewModelFactory
@@ -37,6 +37,7 @@ class ProductDetailsFragment : Fragment() {
     private var sizes = mutableListOf<String>()
     private var colors = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
+    private lateinit var  id :String
     private var isFavourite = false
     private var favorite = Favorite(0, "", "", "")
 
@@ -84,7 +85,7 @@ class ProductDetailsFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this, modelFactory)
             .get(ProductDetailsViewModel::class.java)
-        viewModel.getProductById("6870135046283")
+        viewModel.getProductById(id)
         viewModel.isFavourite(6870135046283)
         viewModel.product.observe(requireActivity()) {
             if (it != null) {
@@ -114,6 +115,10 @@ class ProductDetailsFragment : Fragment() {
         binding.productInfo.reviewsRecyclerView.adapter = reviewAdapter
     }
 
+     fun setIdProduct(id:String){
+        this.id = id
+        Log.i(TAG, "setIdProduct: " + id)
+    }
     private fun setUpSpinners() {
         val sizeSpinner = binding.productInfo.sizeSpinner
         val colorSpinner = binding.productInfo.colorSpinner
@@ -199,12 +204,12 @@ class ProductDetailsFragment : Fragment() {
 
         // back
         binding.productDetailsHeader.backBtn.setOnClickListener {
-            TODO()
+          //  TODO()
         }
 
         // add to cart
         binding.addToCartButton.setOnClickListener {
-            TODO()
+            //TODO()
         }
     }
 }

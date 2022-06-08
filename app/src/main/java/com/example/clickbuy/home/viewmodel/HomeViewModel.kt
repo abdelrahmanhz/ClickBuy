@@ -5,11 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
-import com.example.clickbuy.models.Brands
-import com.example.clickbuy.models.CustomCollections
-import com.example.clickbuy.models.Products
-import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.models.*
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +23,23 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
 
     private var _saleId = MutableLiveData<Products>()
     var saleId: LiveData<Products> = _saleId
+
+    private var _order = MutableLiveData<Orders>()
+    var order: LiveData<Orders> = _order
+//    fun getAllOrdersById(id : String){
+//        viewModelScope.launch {
+//            var orders: Orders? = null
+//            val brandResponse = _irepo.getAllOrdersById(id)
+//            if (brandResponse.code() == 200) {
+//                orders = brandResponse.body()!!
+//            }
+//            withContext(Dispatchers.Main) {
+//                _order.postValue(orders!!)
+//                Log.i(TAG, "getAllOrders View Model  all orderssss--------------------->: $orders"
+//                )
+//            }
+//        }
+//    }
 
     fun getAllBrands() {
         viewModelScope.launch {

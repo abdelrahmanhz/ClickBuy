@@ -19,7 +19,6 @@ import com.example.clickbuy.network.RetrofitClient
 import android.view.animation.AnimationUtils
 import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.db.ConcreteLocalSource
 
 
 private const val TAG = "HomeView"
@@ -30,18 +29,13 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
     private lateinit var homeFactory: HomeViewModelFactory
     private lateinit var brandsRecyclerView: RecyclerView
     private lateinit var salesRecyclerView: RecyclerView
-
     private lateinit var viewModel: HomeViewModel
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(com.example.clickbuy.R.layout.fragment_home, container, false)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeFactory = HomeViewModelFactory(
@@ -61,6 +55,13 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
                 brandAdapter.setListOfBrands(it.smart_collections)
             }
         }
+//        viewModel.getAllOrdersById("4186983235723")
+//        viewModel.order.observe(requireActivity()){
+//            if (it != null) {
+//                Log.i(TAG, "orderrrrr: $it")
+//            }
+//        }
+
         viewModel.getAllSalesById()
         viewModel.saleId.observe(requireActivity()) {
             if (it != null) {
@@ -100,10 +101,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
 
     override fun categoryBrandShow(categoryTitleDetails: String) {
        Log.i(TAG, "brandDetailsShow: $categoryTitleDetails")
-//        var categoryDetails = CategoryFragment()
-//        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, categoryDetails).commit()
-////        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
-//       categoryDetails.setCategoryTitle(categoryTitleDetails)
+        var categoryDetails = CategoryFragment()
+        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, categoryDetails).commit()
+//        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
+       categoryDetails.setCategoryTitle(categoryTitleDetails)
     }
     override fun productDetailsShow(id: String) {
         // Open Product Details

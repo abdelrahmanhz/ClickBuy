@@ -18,7 +18,6 @@ import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import de.hdodenhof.circleimageview.CircleImageView
 import android.graphics.drawable.BitmapDrawable
 
 import android.view.WindowManager
@@ -26,44 +25,41 @@ import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.category.BrandsFilterAdapter
+import com.example.clickbuy.category.SubCategoriesFromFilterInterface
 import com.example.clickbuy.category.SubCateogriesAdapter
-
-
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.clickbuy.models.Product
+import com.example.clickbuy.models.Products
 private const val TAG = "CategoryFragment"
-
-class CategoryFragment : Fragment(), FilterInterface {
-
-    private var subCategoryTitleDetails: String = ""
-    private var subCategoryId: String = ""
+class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
-
     private lateinit var brandFilterAdapter: BrandsFilterAdapter
     private lateinit var categoryFactory: CategoryViewModelFactory
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var filterBrandsRecyclerView: RecyclerView
-    private lateinit var brands: RecyclerView
+    private lateinit var subCategoryRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
     private lateinit var viewModel: CategoryViewModel
-    private lateinit var womenImageView: CircleImageView
-    private lateinit var menImageView: CircleImageView
-    private lateinit var kidsImageView: CircleImageView
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
     private val ID_KIDZ = "273053745291"
-    private lateinit var tabLayout: TabLayout
+    //private var default_id = ID_WOMEN
+    private var default_id = ""
 
-    // var categoryTitleComingFromHome: String = ""
-    val catergories = mutableListOf("Woman", "Men", "Kidz")
+    private lateinit var tabLayout: TabLayout
+    private lateinit var subCategoryData: ArrayList<Product>
+    val catergories = mutableListOf("All","Woman", "Men", "Kidz")
     var productType: String = ""
     var vendor: String = ""
-    var flag: Boolean = true
+    var comingProductType: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true);
-
+        setHasOptionsMenu(true)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,56 +78,45 @@ class CategoryFragment : Fragment(), FilterInterface {
                 requireContext()
             )
         )
-
         initUI(view)
         myToolbar.inflateMenu(R.menu.appbar)
-
         setUpCategoryRecyclerView()
-        //  setUpBrandFilterRecyclerView()
-//        initMediator()
-
         myToolbar.setNavigationOnClickListener {
             var home = HomeFragment()
             requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, home)
                 .commit()
         }
-
         viewModel = ViewModelProvider(this, categoryFactory).get(CategoryViewModel::class.java)
         viewModel.subCategory.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "categoryProducts: $it")
                 categoryAdapter.setListOfCategory(it.products)
+                subCategoryData = it.products as ArrayList<Product>
             }
         }
-
-//        viewModel.subCategory.observe(requireActivity()) {
-//            if (it != null) {
-//                Log.i(TAG, "categoryProducts: $it")
-//                subcategoryAdapter.setListOfBrands(it.products)
-//            }
-//        }
-
-
         initTabLayout()
-        setWomenCategory()
-        //  setSubWomenCategory()
-
+        setAllCategory()
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundColor(Color.GREEN)
+                tab.view.setBackgroundColor(Color.BLACK)
                 when (tab.position) {
-                    0 -> {
+                    0-> {
                         Log.i(TAG, "onTabSelected: women")
-                        setWomenCategory()
-                        //    setSubWomenCategory()
+                        default_id = ""
+                        setAllCategory()
                     }
                     1 -> {
-                        setMenCategory()
-                        //  setSubMenCategory()
+                        Log.i(TAG, "onTabSelected: women")
+                        default_id = ID_WOMEN
+                        setWomenCategory()
                     }
                     2 -> {
+                        default_id = ID_MEN
+                        setMenCategory()
+                    }
+                    3 -> {
+                        default_id = ID_KIDZ
                         setKidsCategory()
-                        //setSubKidsCategory()
                     }
                 }
             }
@@ -141,9 +126,7 @@ class CategoryFragment : Fragment(), FilterInterface {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-
             }
-
         })
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -151,47 +134,67 @@ class CategoryFragment : Fragment(), FilterInterface {
                     Log.i(TAG, "onOptionsItemSelected: searchhhhhhhhhhhh")
                     true
                 }
-
                 R.id.favorite_menu -> {
                     true
                 }
                 R.id.filter_menubar -> {
-                    //showPopup(myToolbar)
-                    // displayPopupWindow(view)
-                    showFilterFragment()
-                    Log.i(TAG, "onOptionsItemSelected: filterrrr")
-                    true
-                }
-                else -> false
-            }
-        }
+                    val dialog = BottomSheetDialog(requireContext())
+                    val viewLay = layoutInflater.inflate(R.layout.filter_popup, null)
+                    var recycler: RecyclerView =
+                        viewLay.findViewById(R.id.subCategoryFilterRecyclerViewPopUp)
+                    var btnDone: Button = viewLay.findViewById(R.id.doneButton)
+                    var priceSeeker: SeekBar = viewLay.findViewById(R.id.priceSlider)
+                    val layoutManager = LinearLayoutManager(CategoryFragment().context)
+                    layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+                    subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
+                    recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+                    recycler.adapter = subcategoryAdapter
+                    var subCategory: HashSet<String> = HashSet()
+                    viewModel.getAllCategoryProducts(default_id)
+                    viewModel.category.observe(viewLifecycleOwner, Observer {
+                        subcategoryAdapter.setListOfBrands(it)
+                    })
+                    priceSeeker?.setOnSeekBarChangeListener(object :
+                        SeekBar.OnSeekBarChangeListener {
+                        override fun onProgressChanged(
+                            seek: SeekBar,
+                            progress: Int, fromUser: Boolean
+                        ) {
+                        }
 
-//        viewModel.checkFromHomeOrCategory(ID_WOMEN, categoryTitleComingFromHome)
-//        womenImageView.borderWidth = 5
-//
-//        womenImageView.setOnClickListener {
-//            viewModel.checkFromHomeOrCategory(ID_WOMEN, categoryTitleComingFromHome)
-//            menImageView.borderWidth = 0
-//            womenImageView.borderWidth = 5
-//            kidsImageView.borderWidth = 0
-//        }
-//        menImageView.setOnClickListener {
-//            viewModel.checkFromHomeOrCategory(ID_MEN, categoryTitleComingFromHome)
-//            menImageView.borderWidth = 5
-//            womenImageView.borderWidth = 0
-//            kidsImageView.borderWidth = 0
-//        }
-//        kidsImageView.setOnClickListener {
-//            viewModel.checkFromHomeOrCategory(ID_KIDZ, categoryTitleComingFromHome)
-//            menImageView.borderWidth = 0
-//            womenImageView.borderWidth = 0
-//            kidsImageView.borderWidth = 5
-//        }
+                        override fun onStartTrackingTouch(seek: SeekBar) {
+                        }
+
+                        override fun onStopTrackingTouch(seek: SeekBar) {
+                            var arr: ArrayList<Product> = ArrayList()
+                            for (i in 0..subCategoryData.size - 1) {
+                                if (subCategoryData[i].variants?.get(0)!!.price.toDouble() <= seek.progress)
+                                    arr.add(subCategoryData[i])
+                                categoryAdapter.setListOfCategory(arr)
+                            }
+                            Log.i(TAG, "onStopTrackingTouch: arrrrr" + arr)
+                            Toast.makeText(
+                                requireContext(),
+                                "Progress is: " + seek.progress,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+                    btnDone.setOnClickListener {
+                        viewModel.getAllProducts(ID_WOMEN, comingProductType, vendor)
+                        dialog.dismiss()
+                    }
+
+                    dialog.behavior.isFitToContents
+                    dialog.setContentView(viewLay)
+                    dialog.show()
+                }
+            }
+            true
+        }
     }
 
-
     private fun displayPopupWindow(anchorView: View) {
-
         val popup = PopupWindow(requireContext())
         val layout: View = layoutInflater.inflate(R.layout.filter_popup, null)
         filterBrandsRecyclerView = anchorView.findViewById(R.id.brandsFilterRecyclerView)
@@ -201,10 +204,8 @@ class CategoryFragment : Fragment(), FilterInterface {
         popup.width = WindowManager.LayoutParams.MATCH_PARENT
         popup.isOutsideTouchable = true
         popup.isFocusable = true
-        // Show anchored to button
         popup.setBackgroundDrawable(BitmapDrawable())
         popup.showAsDropDown(anchorView)
-        setUpBrandFilterRecyclerView()
         viewModel.brand.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "categoryProducts: $it")
@@ -212,69 +213,14 @@ class CategoryFragment : Fragment(), FilterInterface {
             }
         }
     }
-
-    private fun showPopup(view: View) {
-        val popup = PopupMenu(requireContext(), view)
-        popup.inflate(R.menu.filter_menu)
-        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
-            Log.i(TAG, "showPopup: pop upp")
-            when (item!!.itemId) {
-                R.id.price_menu -> {
-                    Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT).show()
-                }
-                R.id.bags_menu -> {
-                    Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT).show()
-                }
-                R.id.accessories_menu -> {
-                    Toast.makeText(requireContext(), item.title, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            true
-        })
-
-        popup.show()
+    private fun setAllCategory() {
+        Log.i(TAG, "setAllCategory: ")
+        viewModel.getAllProducts("", productType, vendor)
     }
-
-    override fun showFilterFragment() {
-        //Log.i(TAG, "brandDetailsShow: $categoryTitleDetails")
-        var filterFragment = FilterFragment()
-        requireActivity()?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.frame, FilterFragment()).commit()
-//        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
-        //  categoryDetails.setCategoryTitle(categoryTitleDetails)
-        filterFragment.setCategoryTitleFromFilter(productType)
-
-    }
-
     private fun setWomenCategory() {
         Log.i(TAG, "setWomenCategory: ")
         viewModel.getAllProducts(ID_WOMEN, productType, vendor)
-
     }
-
-    private fun setSubWomenCategory() {
-        //subCategoryTitleDetails
-        //subCategoryId
-        viewModel.getAllSubCategoriesFromFilter("273053679755", subCategoryTitleDetails)
-        //  viewModel.checkFromHomeOrCategory("273053679755", "SHOES")
-
-    }
-
-    private fun setSubMenCategory() {
-        viewModel.getAllSubCategoriesFromFilter("273053679755", subCategoryTitleDetails)
-
-        // viewModel.checkFromHomeOrCategory("273053679755", "SHOES")
-
-    }
-
-    private fun setSubKidsCategory() {
-        viewModel.getAllSubCategoriesFromFilter("273053679755", subCategoryTitleDetails)
-
-//        viewModel.checkFromHomeOrCategory("273053679755", "SHOES")
-
-    }
-
     private fun setMenCategory() {
         viewModel.getAllProducts(ID_MEN, productType, vendor)
     }
@@ -282,24 +228,14 @@ class CategoryFragment : Fragment(), FilterInterface {
     private fun setKidsCategory() {
         viewModel.getAllProducts(ID_KIDZ, productType, vendor)
     }
-
     private fun initUI(view: View) {
         categoryRecyclerView = view.findViewById(R.id.brandCategoryRecyclerView)
         tabLayout = view.findViewById(R.id.tabLayout)
         myToolbar = view.findViewById(R.id.toolBar)
-        //   filterBrandsRecyclerView = view.findViewById(R.id.brandsFilterRecyclerView)
-
-//        womenImageView = view.findViewById(R.id.womenImage)
-//        menImageView = view.findViewById(R.id.menImage)
-//        kidsImageView = view.findViewById(R.id.kidsImage)
     }
 
     private fun setUpCategoryRecyclerView() {
-        // val layoutManager = LinearLayoutManager(HomeFragment().context)
-        //layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         categoryAdapter = CategoryAdapter(requireContext())
-        //subcategoryAdapter = SubCateogriesAdapter(requireContext())
-        //brandsDetailsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         categoryRecyclerView.adapter = categoryAdapter
     }
 
@@ -310,52 +246,19 @@ class CategoryFragment : Fragment(), FilterInterface {
         //brandsDetailsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         filterBrandsRecyclerView.adapter = brandFilterAdapter
     }
-
     fun setCategoryTitle(categoryTitleDetails: String) {
         this.productType = categoryTitleDetails
         Log.i(TAG, "setCategoryName:  $categoryTitleDetails")
     }
-
-    //////
-    fun setSubCategoryTitleAndId(subCategoryId: String, subCategoryTitleDetails: String) {
-        this.subCategoryTitleDetails = subCategoryTitleDetails
-        this.subCategoryId = subCategoryId
-       // viewModel.getAllSubCategoriesFromFilter(subCategoryId, subCategoryTitleDetails)
-        productType = subCategoryTitleDetails
-        Log.i(TAG, "setSUBCategoryName:  $subCategoryTitleDetails")
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(TAG, "onDestroy: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(TAG, "onStop: ")
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i(TAG, "onDestroyView: ")
-    }
-
-
     fun initTabLayout() {
-
         for (category in catergories) {
             tabLayout.addTab(tabLayout.newTab().setText(category))
         }
     }
 
-    companion object {
-
+    override fun showSubCategory(id: String, productTypeComing: String) {
+        comingProductType = productType
+        Log.i(TAG, "showSubCategory: comingggggggggggggggggg" + productTypeComing)
+        viewModel.getAllProducts(default_id, vendor, productTypeComing)
     }
-
-//    override fun showSubCategory(id: String, title: String) {
-//        Log.i(TAG, "sub title: $id")
-//        var category = CategoryFragment()
-//        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, category)
-//            .commit()
-////        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
-//        //categoryDetails.setCategoryTitle(categoryTitleDetails)    }
-//    }
 }

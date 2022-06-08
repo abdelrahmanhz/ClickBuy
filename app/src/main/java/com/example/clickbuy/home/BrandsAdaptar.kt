@@ -32,7 +32,6 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface )
     override fun onBindViewHolder(
         holder:BrandsAdapter.ViewHolder,
         position: Int
-
     ){
         Log.i(TAG, "brand position: " + brand[position].id)
         var imageComping = brand[position].image.src
@@ -50,7 +49,6 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface )
         this.brand = brands.toList()
         Log.i(TAG, "setListOfBrands: ")
         notifyDataSetChanged()
-
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var brandImage: ImageView
