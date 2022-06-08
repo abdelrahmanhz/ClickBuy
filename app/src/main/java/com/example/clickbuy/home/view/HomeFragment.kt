@@ -23,7 +23,7 @@ import com.example.clickbuy.category.view.CategoryFragment
 
 private const val TAG = "HomeView"
 
-class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterface {
+class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface {
     private lateinit var brandAdapter: BrandsAdapter
     private lateinit var saleAdapter: SalesAdapter
     private lateinit var homeFactory: HomeViewModelFactory
@@ -36,6 +36,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
     ): View? {
         return inflater.inflate(com.example.clickbuy.R.layout.fragment_home, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeFactory = HomeViewModelFactory(
@@ -98,14 +99,16 @@ class HomeFragment : Fragment(), CategoryBrandInterface , ProductDetailsInterfac
     }
 
 
-
-    override fun categoryBrandShow(categoryTitleDetails: String) {
-       Log.i(TAG, "brandDetailsShow: $categoryTitleDetails")
-        var categoryDetails = CategoryFragment()
-        requireActivity()?.supportFragmentManager?.beginTransaction()?.replace(R.id.frame, categoryDetails).commit()
+    override fun setBrandName(nameOfBrand: String) {
+        Log.i(TAG, "setBrandName: ---------> $nameOfBrand")
+        val categoryDetails = CategoryFragment()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, categoryDetails).commit()
+        //convert focus to category tab on bottom navigation
 //        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
-       categoryDetails.setCategoryTitle(categoryTitleDetails)
+        categoryDetails.setVendorName(nameOfBrand)
     }
+
     override fun productDetailsShow(id: String) {
         // Open Product Details
         Log.i(TAG, "productDetailsShow: " + id)

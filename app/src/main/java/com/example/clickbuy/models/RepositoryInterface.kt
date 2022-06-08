@@ -8,9 +8,9 @@ interface RepositoryInterface {
     //Network
     suspend fun getAllBrands(): Response<Brands>
     suspend fun getAllProducts(
-        idCollectionDetails: String,
-        categoryTitleComing: String,
-        subCategory: String
+        collectionId: String,
+        vendor: String,
+        productType: String
     )
             : Response<Products>
 

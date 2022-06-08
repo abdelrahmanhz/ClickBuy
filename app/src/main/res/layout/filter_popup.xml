@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <!--    <Button-->
-    <!--        android:id="@+id/accessoriesButton"-->
-    <!--        android:layout_width="144dp"-->
-    <!--        android:layout_height="48dp"-->
-    <!--        android:layout_marginStart="4dp"-->
-    <!--        android:layout_marginTop="20dp"-->
-    <!--        android:backgroundTint="@color/black"-->
-    <!--        android:text="ACCESSORIES"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/subCategoriesTextView" />-->
+    android:layout_height="match_parent"
+    android:padding="10sp">
 
     <TextView
         android:id="@+id/subCategoriesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:text="@string/SubCategory"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -34,16 +22,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/subCategoriesTextView" />
 
-<!--    <com.google.android.material.slider.RangeSlider-->
-<!--        android:id="@+id/priceSlider"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:valueFrom="0"-->
-<!--        android:valueTo="10000"-->
-<!--        app:labelBehavior="withinBounds"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/subCategoryFilterRecyclerViewPopUp"-->
-<!--        app:values="@array/initial_slider_values" />-->
     <TextView
         android:id="@+id/priceTextViewFilter"
         android:layout_width="wrap_content"
@@ -54,15 +32,17 @@
         android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subCategoryFilterRecyclerViewPopUp" />
+
     <SeekBar
-            android:id="@+id/priceSlider"
+        android:id="@+id/priceSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subCategoryFilterRecyclerViewPopUp"
         android:layout_margin="50dp"
         android:max="1000"
-        android:min="0" />
+        android:min="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subCategoryFilterRecyclerViewPopUp" />
+
     <TextView
         android:id="@+id/brandFilterTextView"
         android:layout_width="wrap_content"

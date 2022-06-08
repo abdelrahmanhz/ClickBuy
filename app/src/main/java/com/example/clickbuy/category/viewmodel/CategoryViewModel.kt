@@ -9,7 +9,9 @@ import com.example.clickbuy.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 private const val TAG = "CategoryViewModel"
+
 class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
     private val _irepo: RepositoryInterface = irepo
 
@@ -33,6 +35,7 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
             }
         }
     }
+
     fun getAllCategoryProducts(idCollectionDetails: String) {
         viewModelScope.launch {
             var categories: HashSet<SubCategory>? = null
@@ -50,15 +53,16 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
             }
         }
     }
+
     fun getAllProducts(
-        idCollectionDetails: String,
-        categoryTitleComing: String,
-        subCategory: String
+        collectionId: String,
+        vendor: String,
+        productType: String
     ) {
         viewModelScope.launch {
             var categories: Products? = null
             val brandResponse =
-                _irepo.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
+                _irepo.getAllProducts(collectionId, vendor, productType)
             if (brandResponse.code() == 200) {
                 categories = brandResponse.body()!!
             }

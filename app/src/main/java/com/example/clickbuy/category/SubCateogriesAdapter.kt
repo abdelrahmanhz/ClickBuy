@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.SubCategory
 
 private const val TAG = "SubCateogriesAdapter"
@@ -16,7 +15,6 @@ private const val TAG = "SubCateogriesAdapter"
 class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromFilterInterface) :
     RecyclerView.Adapter<SubCateogriesAdapter.ViewHolder>() {
     var subCategoryBrandInterface: SubCategoriesFromFilterInterface = subCategory
-    var subCategory: List<Product> = emptyList()
     var subCategorySet: HashSet<SubCategory> = HashSet()
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,17 +30,10 @@ class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromF
         holder: SubCateogriesAdapter.ViewHolder,
         position: Int
     ) {
-        //  Log.i(TAG, "brand position: " + brand[position])
-        /*     var categories = HashSet<Product>()
-             for (i in 0..subCategorySet.count()!! - 1) {
-                 categories.add(subCategory.get(i))
-             }
-             subCategory = categories.toList()*/
         holder.subCategoryTitle.text = subCategorySet.elementAt(position).product_type
         Log.i(TAG, "onCreate: categories---->Adapterrrrr " + subCategorySet)
         holder.itemView.setOnClickListener {
-            subCategoryBrandInterface.showSubCategory(
-                subCategorySet.elementAt(position).toString(),
+            subCategoryBrandInterface.setSubCategoryTitle(
                 subCategorySet.elementAt(position).product_type
             )
         }

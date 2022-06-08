@@ -2,8 +2,6 @@ package com.example.clickbuy.models
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.example.clickbuy.db.LocalSource
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
 import retrofit2.Response
@@ -38,11 +36,11 @@ class Repository private constructor(
     }
 
     override suspend fun getAllProducts(
-        idCollectionDetails: String,
-        categoryTitleComing: String,
-        subCategory: String
+        collectionId: String,
+        vendor: String,
+        productType: String
     ): Response<Products> {
-        return remoteSource.getAllProducts(idCollectionDetails, categoryTitleComing, subCategory)
+        return remoteSource.getAllProducts(collectionId, vendor, productType)
     }
 
     override suspend fun getSubCategories(): Response<Products> {

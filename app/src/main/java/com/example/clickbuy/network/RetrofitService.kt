@@ -15,9 +15,11 @@ interface RetrofitService {
     )
     @GET("products.json")
     suspend fun getAllProducts(
-        @Query("collection_id") id : String,
+        @Query("collection_id") collectionId : String,
         @Query("vendor") vendor : String,
-        @Query("product_type") title: String) : Response<Products>
+        @Query("product_type") productType: String) : Response<Products>
+
+
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"

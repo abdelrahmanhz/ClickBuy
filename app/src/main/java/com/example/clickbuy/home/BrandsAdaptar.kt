@@ -38,7 +38,7 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface )
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
 
         holder.itemView.setOnClickListener {
-            categoryBrandInterface.categoryBrandShow(brand[position].title)
+            categoryBrandInterface.setBrandName(brand[position].title)
         }
     }
     override fun getItemCount(): Int {

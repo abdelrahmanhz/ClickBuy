@@ -1,12 +1,15 @@
 package com.example.clickbuy
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-import com.example.clickbuy.me.MeFragment
+import com.example.clickbuy.network.RetrofitClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         replaceFragment(HomeFragment())
         meo = findViewById(R.id.bottom_nav)
+
+
 
         meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
         meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
@@ -53,7 +58,14 @@ class MainActivity : AppCompatActivity() {
             fragmentShow = item.id
         }
 
-     meo.show(ID_HOME, true)
+//        CoroutineScope(Dispatchers.Main).launch {
+//            var response =
+//                RetrofitClient.getInstance().getAllProducts()
+//
+//            Log.i(TAG, "onCreate: code---------------> " + response.code())
+//            Log.i(TAG, "onCreate: body---------------> " + response.body())
+//            Log.i(TAG, "onCreate: code---------------> " + response.body()?.products?.size)
+//        }
 //            Log.i(Companion.TAG, "onCreate: body----> " + response.body())
 //            Log.i(Companion.TAG, "onCreate: products?.count()----> " + response.body()?.products?.count())
 //            Log.i(Companion.TAG, "onCreate: title----> " + response.body()?.products?.get(0)?.product_type)
