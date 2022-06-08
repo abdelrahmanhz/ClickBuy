@@ -150,6 +150,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
                     viewModel.category.observe(viewLifecycleOwner, {
                         subcategoryAdapter.setListOfBrands(it)
                     })
+
+
+
+                    
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
                         override fun onProgressChanged(
