@@ -1,6 +1,8 @@
 package com.example.clickbuy.models
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.util.Log
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
@@ -14,6 +16,8 @@ class Repository private constructor(
     var context: Context
 ) : RepositoryInterface {
 
+    private var sharedPrefs: SharedPreferences? = null
+    var editor: SharedPreferences.Editor? = null
 
     companion object {
         private var instance: Repository? = null
@@ -27,6 +31,8 @@ class Repository private constructor(
 
     init {
         this.remoteSource = remoteSource
+        this.sharedPrefs = context.getSharedPreferences("DeviceToken", MODE_PRIVATE)
+        this.editor = sharedPrefs!!.edit()
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
@@ -72,6 +78,35 @@ class Repository private constructor(
 //        return remoteSource.getAllOrdersById(id)
 //
 //    }
+
+    override suspend fun signIn(email: String, password: String): String {
+        var responseMessage: String = ""
+        val response =  remoteSource.signIn(email)
+        if (response.code() == 200){
+            if (response.body()?.customers.isNullOrEmpty()){
+                responseMessage = "No such user"
+            }
+            else {
+                // shared pref
+                if (response.body()?.customers!![0].tags == password){
+                    responseMessage = "Logged in successfully"
+                    editor?.putBoolean("IS_LOGGING", true)
+                    editor?.putLong("USER_ID", response.body()!!.customers[0].id!!)
+                    editor?.apply()
+                }
+                else
+                    responseMessage = "Entered a wrong password"
+            }
+        }
+        else{
+            responseMessage = "Something went wrong"
+        }
+        return responseMessage
+    }
+
+    override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
+        return remoteSource.registerCustomer(customer)
+    }
 
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
