@@ -2,9 +2,11 @@ package com.example.clickbuy.network
 
 import android.util.Log
 import com.example.clickbuy.models.*
+import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -54,8 +56,6 @@ class RetrofitClient : RemoteSource {
 
         return response
     }
-
-
 
 
 //
@@ -155,11 +155,18 @@ class RetrofitClient : RemoteSource {
 //    }
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
-        var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
+        val response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
             "product_type",
             idCollectionDetails
         )
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
+        return response
+    }
+
+    override suspend fun getAllItemInBag(): Response<ShoppingBag> {
+        Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = retrofitHelper.getAllItemInBag(ConstantsValue.draftOrderID)
+        Log.i(TAG, "getAllItemInBag: $response")
         return response
     }
 }

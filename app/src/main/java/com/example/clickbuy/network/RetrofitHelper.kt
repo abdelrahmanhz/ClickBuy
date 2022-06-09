@@ -7,8 +7,6 @@ object RetrofitHelper {
 
 
     private const val API_URL = "https://madalex20220.myshopify.com/admin/api/2022-01/"
-
-    // https://api.apilayer.com/exchangerates_data/convert?to=EUR&from=EGP&amount=1&apikey=fZAyG1gol2pWw81x7xVgwwh1Omu3MTkS
     private const val CURRENCY_API = " https://api.apilayer.com/exchangerates_data/"
     const val HEADERS_CONTENT_TYPE = "Content-Type: application/json"
     const val HEADERS_ACCESS_TOKEN =

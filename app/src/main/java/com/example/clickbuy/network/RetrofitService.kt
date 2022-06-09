@@ -51,14 +51,6 @@ interface RetrofitService {
     @GET("products/{id}.json")
     suspend fun getProductById(@Path("id") id: String): Response<ProductParent>
 
-    @Headers(
-        "X-Shopify-Access-Token: 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",
-        "Content-Type: application/json"
-    )
-    @GET("products.json?")
-//    @GET("custom_collections.json")
-    suspend fun getAllCustomCollections(): Response<CustomCollections>
-
     //Get all Coupons
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("price_rules/1089622311051/discount_codes.json")
@@ -70,16 +62,6 @@ interface RetrofitService {
         @Query("code") code: String
     ): Response<Coupon>
 
-
-    /*  @Headers(
-          "X-Shopify-Access-Token: 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",
-          "Content-Type: application/json"
-      )
-      @GET("custom_collections/{id}.json")
-      suspend fun getCustomCollectionsByID(
-          @Path("id") id: String
-      ): Response<CustomCollectionElement>
-      */
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -119,23 +101,6 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
-//    @Headers(
-//        "X-Shopify-Access-Token: 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",
-//        "Content-Type: application/json"
-//    )
-//    @GET("orders/{id}.json")
-//    suspend fun getAllOrdersById(
-//        @Path("id") id: String
-//    ): Response<Orders>
-
-//
-//    @Headers(
-//        "X-Shopify-Access-Token: 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",
-//        "Content-Type: application/json"
-//    )
-//    @GET("orders.json")
-//    suspend fun getAllOrdersById(): Response<Orders>
-
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -147,10 +112,7 @@ interface RetrofitService {
     ): Response<Customers>
 
 
-    @Headers(
-        "X-Shopify-Access-Token: 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",
-        "Content-Type: application/json"
-    )
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("currencies.json")
     suspend fun getCurrencies(
     ): Response<Currencies>
@@ -160,4 +122,20 @@ interface RetrofitService {
         @Query("to") to: String
     ): Response<CurrencyConverter>
 
+
+    //Bag
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("draft_orders/{id}.json")
+    suspend fun getAllItemInBag(@Path("id") id: String): Response<ShoppingBag>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @PUT("draft_orders/{id}.json")
+    suspend fun addItemToBag(
+        @Path("id") id: String,
+        @Body shoppingBag: ShoppingBag
+    ): Response<ShoppingBag>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @DELETE("draft_orders/{id}.json")
+    suspend fun deleteItemFromBag(@Path("id") id: String): Response<ShoppingBag>
 }

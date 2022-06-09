@@ -10,7 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Bag
+import com.example.clickbuy.models.BagItem
+import com.example.clickbuy.models.LineItem
+import com.example.clickbuy.models.ShoppingBag
 import java.util.*
 
 private const val TAG = "BagAdapter"
@@ -19,7 +21,7 @@ class BagAdapter(context: Context) :
     RecyclerView.Adapter<BagAdapter.ViewHolder>() {
 
     private var context = context
-    private var bagList: List<Bag> = ArrayList()
+    private var bagList: List<BagItem> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.i(TAG, "onCreateViewHolder: ")
@@ -30,23 +32,23 @@ class BagAdapter(context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
-        var product = bagList[position]
-        holder.productImageView.setImageResource(product.imageView)
-        holder.productNameTextView.text = product.productName
-        holder.productPriceTextView.text = product.productPrice
-        holder.productNumberTextView.text = product.productCount.toString()
+        val product = bagList[position]
+        // holder.productImageView.setImageResource(product.imageView)
+        holder.productNameTextView.text = product.name
+        holder.productPriceTextView.text = product.price
+        holder.productNumberTextView.text = product.quantity.toString()
         holder.minusTextView.setOnClickListener {
-            product.productCount--
-            if (product.productCount == 0) {
+            product.quantity--
+            if (product.quantity == 0) {
                 Toast.makeText(context, "Product deleted", Toast.LENGTH_SHORT).show()
             } else {
-                holder.productNumberTextView.text = product.productCount.toString()
+                holder.productNumberTextView.text = product.quantity.toString()
             }
         }
 
         holder.plusTextView.setOnClickListener {
-            product.productCount++
-            holder.productNumberTextView.text = product.productCount.toString()
+            product.quantity++
+            holder.productNumberTextView.text = product.quantity.toString()
         }
     }
 
@@ -54,7 +56,7 @@ class BagAdapter(context: Context) :
         return bagList.size
     }
 
-    fun setList(bagList: List<Bag>) {
+    fun setList(bagList: List<BagItem>) {
         this.bagList = bagList
         notifyDataSetChanged()
     }

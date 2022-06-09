@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.example.clickbuy.network.RemoteSource
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
 
@@ -92,29 +93,29 @@ class Repository private constructor(
 
 
     // local (room)
-        override suspend fun addFavorite(favorite: Favorite) {
-            //localSource.insertFavorite(favorite)
-        }
+    override suspend fun addFavorite(favorite: Favorite) {
+        //localSource.insertFavorite(favorite)
+    }
 
-        override suspend fun getFavorites(): List<Favorite> {
-            //return localSource.getFavorites()
-            return emptyList()
-        }
+    override suspend fun getFavorites(): List<Favorite> {
+        //return localSource.getFavorites()
+        return emptyList()
+    }
 
-        override suspend fun deleteFavorite(productId: Long) {
-            //localSource.deleteFavorite(productId)
-        }
+    override suspend fun deleteFavorite(productId: Long) {
+        //localSource.deleteFavorite(productId)
+    }
 
-        override suspend fun isFavorite(productId: Long): Boolean {
-            //return localSource.isFavorite(productId)
-            return false
-        }
+    override suspend fun isFavorite(productId: Long): Boolean {
+        //return localSource.isFavorite(productId)
+        return false
+    }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         var response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
-          return  response
+        return response
 
     }
 
@@ -147,6 +148,13 @@ class Repository private constructor(
     override suspend fun validateCoupons(code: String): Response<Coupon> {
         val response = remoteSource.validateCoupons(code)
         Log.i(TAG, "validateCoupons: " + response.code())
+        return response
+    }
+
+    override suspend fun getAllItemInBag(): Response<ShoppingBag> {
+        Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = remoteSource.getAllItemInBag()
+        Log.i(TAG, "getAllItemInBag: $response")
         return response
     }
 }
