@@ -209,5 +209,16 @@ class ProductDetailsFragment : Fragment() {
             //TODO()
         }
     }
+
+    fun setProductId(productId: String) {
+        this.id = productId
+        Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
+    fun setProductIdFromCategory(productId: String) {
+        this.id = productId
+        Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
 }
 

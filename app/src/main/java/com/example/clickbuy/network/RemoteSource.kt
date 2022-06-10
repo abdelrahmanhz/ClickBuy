@@ -31,7 +31,7 @@ interface RemoteSource {
     suspend fun getSubCategories(): Response<Products>
     // suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
     //  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
-    suspend fun signIn(email: String): Response<CustomersList>
+    suspend fun signIn(email: String): Response<Customers>
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
     //suspend fun getAllOrdersById(id: String): Response<Orders>

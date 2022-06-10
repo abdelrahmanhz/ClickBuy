@@ -16,8 +16,6 @@
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-            android:name=".authentication.view.AuthenticationActivity"
-            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +26,10 @@
         <activity
             android:name=".mainscreen.view.MainActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".authentication.view.AuthenticationActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -4,33 +4,37 @@ data class Customers(
     val customers: List<Customer>
 )
 
+data class CustomerParent (
+    val customer: Customer
+)
+
 data class Customer(
-    val accepts_marketing: Boolean,
-    val accepts_marketing_updated_at: String,
-    val addresses: List<CustomerAddress>,
-    val admin_graphql_api_id: String,
-    val created_at: String,
-    val currency: String,
-    val default_address: DefaultAddress,
+    val accepts_marketing: Boolean? = null,
+    val accepts_marketing_updated_at: String? = null,
+    val addresses: List<CustomerAddress>? = null,
+    val admin_graphql_api_id: String? = null,
+    val created_at: String? = null,
+    val currency: String? = null,
+    val default_address: DefaultAddress? = null,
     val email: String,
     val first_name: String,
-    val id: Long,
+    val id: Long? = null,
     val last_name: String,
-    val last_order_id: Any,
-    val last_order_name: Any,
-    val marketing_opt_in_level: Any,
-    val multipass_identifier: Any,
-    val note: Any,
-    val orders_count: Int,
+    val last_order_id: Any? = null,
+    val last_order_name: Any? = null,
+    val marketing_opt_in_level: Any? = null,
+    val multipass_identifier: Any? = null,
+    val note: Any? = null,
+    val orders_count: Int? = null,
     val phone: String,
-    val sms_marketing_consent: SmsMarketingConsent,
-    val state: String,
+    val sms_marketing_consent: SmsMarketingConsent? = null,
+    val state: String? = null,
     val tags: String,
-    val tax_exempt: Boolean,
-    val tax_exemptions: List<Any>,
-    val total_spent: String,
-    val updated_at: String,
-    val verified_email: Boolean
+    val tax_exempt: Boolean? = null,
+    val tax_exemptions: List<Any>? = null,
+    val total_spent: String? = null,
+    val updated_at: String? = null,
+    val verified_email: Boolean = true,
 )
 
 data class CustomerAddress(

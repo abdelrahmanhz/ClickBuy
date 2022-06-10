@@ -13,14 +13,19 @@ import android.widget.TextView
 import com.example.clickbuy.R
 import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
+import com.example.clickbuy.home.view.CategoryBrandInterface
+import com.example.clickbuy.home.view.ProductDetailsInterface
 import com.example.clickbuy.models.Product
 
 
 private const val TAG = "categoryAdapter"
 
-class CategoryAdapter(val context: Context) :
+class CategoryAdapter(val context: Context , categoryFragment: ProductDetailsIDShow) :
     RecyclerView.Adapter<CategoryAdapter.ViewHolder>()  {
     var category: List<Product> = emptyList()
+    var productDetailsInterface: ProductDetailsIDShow = categoryFragment
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -44,8 +49,7 @@ class CategoryAdapter(val context: Context) :
         //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
         holder.itemView.setOnClickListener {
             Toast.makeText(context, "Recycle Click$position", Toast.LENGTH_SHORT).show()
-
-
+            productDetailsInterface.SetProductDetailsID(category[position].id.toString())
         }
     }
     fun setListOfCategory(brands: List<Product>){

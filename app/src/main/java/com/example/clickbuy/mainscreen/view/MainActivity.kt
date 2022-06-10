@@ -11,7 +11,6 @@ import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-
 import com.example.clickbuy.me.view.MeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModelFactory: MainActivityViewModelFactory
     private lateinit var viewModel: MainActivityViewModel
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var meo: MeowBottomNavigation
     private val TAG = "MainActivity"
     private var fragmentShow: Int = 0
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomeFragment())
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "onCreate:  it.result ----------> " + it.result)
         })
 
-        meo = findViewById(R.id.bottom_nav)
+        meo = binding.bottomNav
 
 
 

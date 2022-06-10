@@ -55,11 +55,11 @@ class SignupFragment : Fragment() {
     private fun signUp()
     {
         val customer = Customer(
-            binding.firstNameSignupEditText.text.toString(),
-            binding.lastNameSignupEditText.text.toString(),
-            binding.emailSignupEditText.text.toString(),
-            binding.passwordSignupEditText.text.toString(),
-            "+2"+binding.phoneSignupSignupEditText.text.toString(),
+            first_name = binding.firstNameSignupEditText.text.toString(),
+            last_name = binding.lastNameSignupEditText.text.toString(),
+            email = binding.emailSignupEditText.text.toString(),
+            tags = binding.passwordSignupEditText.text.toString(),
+            phone = "+2"+binding.phoneSignupSignupEditText.text.toString(),
         )
 
         val viewModel = (requireActivity() as AuthenticationActivity).viewModel
@@ -122,7 +122,7 @@ class SignupFragment : Fragment() {
         val passwordConfirmText = binding.passwordConfirmSignupSignupEditText.text.toString()
         if(passwordConfirmText.isBlank())
             return "Required"
-        if(passwordConfirmText == binding.passwordConfirmSignupSignupEditText.text.toString())
+        if(passwordConfirmText != binding.passwordSignupEditText.text.toString())
             return "Passwords don't match"
         return null
     }

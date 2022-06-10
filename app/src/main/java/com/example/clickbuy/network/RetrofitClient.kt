@@ -163,7 +163,7 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    override suspend fun signIn(email: String): Response<CustomersList> {
+    override suspend fun signIn(email: String): Response<Customers> {
         return retrofitHelper.signIn(email)
     }
 
