@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
@@ -14,6 +15,7 @@ import com.example.clickbuy.home.BrandsAdapter
 import com.example.clickbuy.home.OrdersAdapter
 import com.example.clickbuy.home.SalesAdapter
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
+import com.example.clickbuy.models.Image
 import com.example.clickbuy.models.ItemImage
 import com.example.clickbuy.models.LineItem
 private const val TAG = "OrderDetailsFragment"
@@ -23,7 +25,7 @@ class OrderDetailsFragment : Fragment(),OrderDetailsInterface {
         private lateinit var itemImageList: List<ItemImage>
     private lateinit var orderDetailsAdapter: OrderDetailsAdapter
     private lateinit var orderDetailsRecyclerView: RecyclerView
-    private lateinit var backButton :Button
+    private lateinit var backButton :ImageView
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -39,7 +41,9 @@ class OrderDetailsFragment : Fragment(),OrderDetailsInterface {
         super.onViewCreated(view, savedInstanceState)
         backButton = view.findViewById(R.id.BackButtonOrderDetails)
         backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, OrdersFragment()).commit()
+            //requireActivity().supportFragmentManager.popBackStack()
         }
         orderDetailsRecyclerView = view.findViewById(R.id.orderDetailsRecyclerView)
         setUpOrderDetailsRecyclerView()
