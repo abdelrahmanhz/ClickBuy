@@ -1,5 +1,6 @@
 package com.example.clickbuy.category.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -30,6 +31,7 @@ import com.example.clickbuy.category.SubCateogriesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
 
 private const val TAG = "CategoryFragment"
@@ -79,9 +81,11 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
         getAllProducts()
 
         myToolbar.setNavigationOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, HomeFragment())
-                .commit()
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.frame, MainActivity())
+//                .commit()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.subCategory.observe(requireActivity()) {
@@ -128,9 +132,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
 
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.search_menu -> {
-                    Log.i(TAG, "onOptionsItemSelected: search")
-                }
                 R.id.favorite_menu -> {
                 }
                 R.id.filter_menubar -> {
@@ -201,7 +202,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
         tabLayout = view.findViewById(R.id.tabLayout)
 
         myToolbar = view.findViewById(R.id.toolBar)
-        myToolbar.inflateMenu(R.menu.appbar)
+       // myToolbar.inflateMenu(R.menu.appbar)
 
         categoryAdapter = CategoryAdapter(requireContext())
         categoryRecyclerView.adapter = categoryAdapter

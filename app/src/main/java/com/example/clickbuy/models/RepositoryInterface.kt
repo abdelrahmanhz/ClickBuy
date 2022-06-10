@@ -33,7 +33,7 @@ interface RepositoryInterface {
         categoryTitleComingFromHome: String
     ): Response<Products>
 
-    //suspend fun getAllOrdersById(id: String): Response<Orders>
+    suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
 
 
     // room

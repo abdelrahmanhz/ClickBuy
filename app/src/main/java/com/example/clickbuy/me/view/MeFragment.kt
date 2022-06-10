@@ -18,7 +18,7 @@ import com.example.clickbuy.me.viewmodel.CustomerViewModelFactory
 import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.orders.view.OrderHistoryFragment
+import com.example.clickbuy.orders.OrdersFragment
 
 private const val TAG = "HomeView"
 
@@ -115,7 +115,7 @@ class MeFragment : Fragment() {
         orderHistoryRelativeLayout.setOnClickListener {
             Log.i("TAG", "orderHistoryRelativeLayout")
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, OrderHistoryFragment())
+                .replace(R.id.frame, OrdersFragment())
                 .addToBackStack(null).commit()
         }
 

@@ -146,15 +146,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun brandDetailsShow(nameOfBrand: String) {
         val data = ClipData.newPlainText("text", nameOfBrand)
         clipboardManager.setPrimaryClip(data)
-
-        Log.i(
-            TAG,
-            "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
-        )
+        Log.i(TAG, "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString())
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, PaymentFragment())
             .addToBackStack(null).commit()
-
     }
 
 }

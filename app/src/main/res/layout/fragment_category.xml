@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,6 +18,15 @@
         app:navigationIcon="@drawable/ic_back_icon"
         app:title="@string/app_name" />
 
+    <SearchView
+        android:id="@+id/categorySearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search For Your Item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar" />
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
@@ -24,7 +34,7 @@
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar"
+        app:layout_constraintTop_toBottomOf="@+id/categorySearchView"
         app:tabIndicatorAnimationMode="elastic"
         app:tabPaddingEnd="10dp" />
 
@@ -39,6 +49,4 @@
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:spanCount="2"
         tools:listitem="@layout/category_custom_row" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -68,10 +68,10 @@ class Repository private constructor(
         )
     }
 
-//    override suspend fun getAllOrdersById(id: String): Response<Orders> {
-//        return remoteSource.getAllOrdersById(id)
-//
-//    }
+    override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
+        return remoteSource.getAllOrdersForSpecificCustomerById(id)
+
+    }
 
     override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,

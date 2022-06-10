@@ -43,7 +43,7 @@ data class Order (
     val location_id: Any? = null,
     val name: String,
     val note: String? = null,
-    val note_attributes: List<Any?>,
+    val note_attributes: List<ItemImage>,
     val number: Long,
     val order_number: Long,
     val order_status_url: String,
@@ -188,3 +188,6 @@ data class LineItem (
     val duties: List<Any?>,
     val discount_allocations: List<Any?>
 )
+data class ItemImage(var name : String,
+                      var value : String){
+}

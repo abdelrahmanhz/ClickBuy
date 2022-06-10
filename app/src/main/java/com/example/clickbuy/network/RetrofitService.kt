@@ -119,14 +119,15 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
-//    @Headers(
-//        "X-Shopify-Access-Token: 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",
-//        "Content-Type: application/json"
-//    )
-//    @GET("orders/{id}.json")
-//    suspend fun getAllOrdersById(
-//        @Path("id") id: String
-//    ): Response<Orders>
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    //customers/5745222516875/orders.json
+    @GET("customers/{id}/orders.json")
+    suspend fun getAllOrdersForSpecificCustomerById(
+        @Path("id") id: String
+    ): Response<Orders>
 
 //
 //    @Headers(
@@ -159,5 +160,4 @@ interface RetrofitService {
     suspend fun getQualifiedValueCurrency(
         @Query("to") to: String
     ): Response<CurrencyConverter>
-
 }
