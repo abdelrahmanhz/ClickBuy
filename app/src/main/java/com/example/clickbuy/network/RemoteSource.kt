@@ -34,7 +34,7 @@ interface RemoteSource {
     suspend fun signIn(email: String): Response<Customers>
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
-    //suspend fun getAllOrdersById(id: String): Response<Orders>
+    suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
 
     suspend fun getCustomerDetails(email: String): Response<Customers>

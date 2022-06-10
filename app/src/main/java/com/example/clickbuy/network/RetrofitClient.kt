@@ -148,11 +148,11 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    //    override suspend fun getAllOrdersById(id: String): Response<Orders> {
-//        var response = retrofitHelper.getAllOrdersById(
-//        )
-//        return response
-//    }
+        override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
+        var response = retrofitHelper.getAllOrdersForSpecificCustomerById(id)
+            Log.i(TAG, "getAllOrdersForSpecificCustomerById: " + response)
+        return response
+    }
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(

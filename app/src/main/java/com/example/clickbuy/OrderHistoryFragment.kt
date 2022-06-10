@@ -1,4 +1,4 @@
-package com.example.clickbuy.orders.view
+package com.example.clickbuy
 
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clickbuy.OrderHistoryAdapter
 import com.example.clickbuy.R
 import com.example.clickbuy.models.OrderHistory
 import java.util.*

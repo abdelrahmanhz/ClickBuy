@@ -44,4 +44,5 @@
     <string name="pay">Pay</string>
     <string name="coupon_empty">Coupon can not be empty</string>
     <string name="coupon_invalid">Invalid Coupon</string>
+    <string name="orders">Orders</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.clickbuy.orders.view
+package com.example.clickbuy
 
 import android.content.Context
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clickbuy.R
 import com.example.clickbuy.models.OrderHistory
 import java.util.*
 
@@ -29,9 +28,7 @@ class OrderHistoryAdapter(context: Context) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
         var order = orderList[position]
-        holder.orderDateTextView.text = order.orderDate
         holder.orderNumberTextView.text = order.orderNumber
-        holder.orderPriceTextView.text = order.orderPrice
     }
 
     override fun getItemCount(): Int {
@@ -44,9 +41,7 @@ class OrderHistoryAdapter(context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var orderDateTextView: TextView = itemView.findViewById(R.id.order_date_textView)
-        var orderPriceTextView: TextView = itemView.findViewById(R.id.order_price_textView)
-        var orderNumberTextView: TextView = itemView.findViewById(R.id.order_number_textView)
+        var orderNumberTextView: TextView = itemView.findViewById(R.id.numberOfOrdersTextView)
 
     }
 

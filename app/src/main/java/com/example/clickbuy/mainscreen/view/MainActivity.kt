@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     private val ID_HOME = 1
     private val ID_CATEGORY = 2
     private val ID_PROFILE = 3
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -170,7 +169,6 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "RetrofitClient"
 
     }
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -182,6 +180,4 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "updateCurrency: ")
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
-
-
 }

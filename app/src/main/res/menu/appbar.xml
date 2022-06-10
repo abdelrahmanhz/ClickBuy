@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/search_menu"
-        android:icon="@drawable/ic_search_home"
-        android:title="search"
-        app:showAsAction="ifRoom"/>
+<!--    <item-->
+<!--        android:id="@+id/search_menu"-->
+<!--        android:icon="@drawable/ic_search_home"-->
+<!--        android:title="search"-->
+<!--        app:showAsAction="ifRoom"/>-->
 
     <item
         android:id="@+id/filter_menubar"
@@ -18,6 +18,6 @@
         android:id="@+id/favorite_menu"
         android:icon="@drawable/ic_fav"
         android:title="favortie"
-        app:showAsAction="ifRoom|withText"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>
