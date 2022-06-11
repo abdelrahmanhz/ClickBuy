@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import java.util.*
 
 fun isInternetAvailable(context: Context): Boolean {
     var isAvailable = false
@@ -42,4 +43,11 @@ fun isNetworkAvailable(context: Context): Boolean {
         }
     }
     return isConnected
+}
+
+fun isRTL(): Boolean {
+    val language = Locale.getDefault()
+    val directionality = Character.getDirectionality(language.displayName[0]).toInt()
+    return directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT.toInt() || directionality == Character.DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC.toInt()
+
 }

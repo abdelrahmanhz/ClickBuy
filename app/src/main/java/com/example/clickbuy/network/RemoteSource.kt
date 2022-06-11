@@ -2,9 +2,7 @@ package com.example.clickbuy.network
 
 import com.example.clickbuy.models.*
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
+import retrofit2.http.*
 import retrofit2.http.Query
 
 interface RemoteSource {
@@ -41,4 +39,5 @@ interface RemoteSource {
     suspend fun validateCoupons(code: String): Response<Coupon>
 
     suspend fun getAllItemInBag(): Response<ShoppingBag>
+    suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 }

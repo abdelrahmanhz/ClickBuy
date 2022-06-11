@@ -4,7 +4,7 @@ data class ShoppingBag(
     val draft_order: DraftOrder
 )
 
-data class DraftOrder(
+/*data class DraftOrder(
     val admin_graphql_api_id: String,
     val applied_discount: Any,
     val billing_address: Any,
@@ -33,6 +33,15 @@ data class DraftOrder(
     val total_price: String,
     val total_tax: String,
     val updated_at: String
+)*/
+data class DraftOrder(
+    val email: String,
+    val id: Long,
+    val line_items: List<BagItem>,
+    val note_attributes: List<NoteAttribute>,
+    val total_price: String="",
+    val total_tax: String = "",
+    val subtotal_price: String = "",
 )
 
 data class TaxLineX(

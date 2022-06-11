@@ -44,4 +44,9 @@
     <string name="pay">Pay</string>
     <string name="coupon_empty">Coupon can not be empty</string>
     <string name="coupon_invalid">Invalid Coupon</string>
+    <string name="delete_item">Delete product</string>
+    <string name="delete_item_message">Are you sure to delete this item from the bag</string>
+    <string name="no_button">No</string>
+    <string name="delete_button">Delete</string>
+    <string name="checkout">Checkout</string>
 </resources>

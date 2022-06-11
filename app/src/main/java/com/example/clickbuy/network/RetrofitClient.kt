@@ -4,10 +4,6 @@ import android.util.Log
 import com.example.clickbuy.models.*
 import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 
 private const val TAG = "RetrofitClient"
@@ -167,6 +163,13 @@ class RetrofitClient : RemoteSource {
         Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
         val response = retrofitHelper.getAllItemInBag(ConstantsValue.draftOrderID)
         Log.i(TAG, "getAllItemInBag: $response")
+        return response
+    }
+
+    override suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+        Log.i(TAG, "updateItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = retrofitHelper.updateItemsInBag(ConstantsValue.draftOrderID, shoppingBag)
+        Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
 }

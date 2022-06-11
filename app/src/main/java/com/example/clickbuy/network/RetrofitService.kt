@@ -130,7 +130,7 @@ interface RetrofitService {
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @PUT("draft_orders/{id}.json")
-    suspend fun addItemToBag(
+    suspend fun updateItemsInBag(
         @Path("id") id: String,
         @Body shoppingBag: ShoppingBag
     ): Response<ShoppingBag>

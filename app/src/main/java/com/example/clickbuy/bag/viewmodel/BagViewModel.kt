@@ -39,6 +39,26 @@ class BagViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     }
 
+    fun updateItemsInBag(shoppingBag: ShoppingBag) {
+        viewModelScope.launch {
+            val response = _iRepo.updateItemsInBag(shoppingBag)
+            withContext(Dispatchers.Main) {
+                if (response.code() == 200 && response.body()?.draft_order != null) {
+                    Log.i(
+                        com.example.clickbuy.me.viewmodel.TAG,
+                        "updateItemsInBag: " + response.body()
+                    )
+                    _shoppingBag.postValue(response.body())
+                } else {
+                    Log.i(
+                        com.example.clickbuy.me.viewmodel.TAG,
+                        "updateItemsInBag: response.body()-----> " + response.body()
+                    )
+                }
+            }
+        }
+    }
+
 
     init {
         Log.i(TAG, "init: ")

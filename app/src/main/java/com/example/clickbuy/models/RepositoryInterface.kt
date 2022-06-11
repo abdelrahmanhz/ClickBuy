@@ -56,4 +56,5 @@ interface RepositoryInterface {
     suspend fun validateCoupons(code: String): Response<Coupon>
 
     suspend fun getAllItemInBag(): Response<ShoppingBag>
+    suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 }

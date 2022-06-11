@@ -21,13 +21,8 @@ class Repository private constructor(
         fun getInstance(
             remoteSource: RetrofitClient, context: Context
         ): Repository {
-
             return instance ?: Repository(remoteSource, context)
         }
-    }
-
-    init {
-        this.remoteSource = remoteSource
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
@@ -86,7 +81,7 @@ class Repository private constructor(
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
         Log.i(TAG, "getProductByID: ")
-        var response = remoteSource.getProductByID(productId)
+        val response = remoteSource.getProductByID(productId)
         Log.i(TAG, "getProductByID: $response")
         return response
     }
@@ -113,20 +108,20 @@ class Repository private constructor(
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
-        var response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
+        val response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
         return response
 
     }
 
     override suspend fun getCustomerDetails(email: String): Response<Customers> {
-        var response = remoteSource.getCustomerDetails(email)
+        val response = remoteSource.getCustomerDetails(email)
         Log.i(TAG, "getCustomerDetails: " + response.code())
         return response
     }
 
     override suspend fun getCurrencies(): Response<Currencies> {
-        var response = remoteSource.getCurrencies()
+        val response = remoteSource.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())
         return response
     }
@@ -134,7 +129,7 @@ class Repository private constructor(
     override suspend fun getQualifiedValueCurrency(
         to: String
     ): Response<CurrencyConverter> {
-        var response = remoteSource.getQualifiedValueCurrency(to)
+        val response = remoteSource.getQualifiedValueCurrency(to)
         Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
         return response
     }
@@ -152,9 +147,15 @@ class Repository private constructor(
     }
 
     override suspend fun getAllItemInBag(): Response<ShoppingBag> {
-        Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
         val response = remoteSource.getAllItemInBag()
         Log.i(TAG, "getAllItemInBag: $response")
+        return response
+    }
+
+    override suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+        Log.i(TAG, "updateItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = remoteSource.updateItemsInBag(shoppingBag)
+        Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
 }
