@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import java.util.*
-
+/*
 fun isInternetAvailable(context: Context): Boolean {
     var isAvailable = false
     val manager =
@@ -16,7 +16,7 @@ fun isInternetAvailable(context: Context): Boolean {
             .isConnected
     ) isAvailable = true
     return isAvailable
-}
+}*/
 
 fun isNetworkAvailable(context: Context): Boolean {
     var isConnected = false

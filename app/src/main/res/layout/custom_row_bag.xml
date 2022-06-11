@@ -18,7 +18,7 @@
         android:layout_height="130sp"
         android:layout_margin="10sp"
         android:scaleType="fitXY"
-        android:src="@drawable/bag_image"
+        android:src="@drawable/ads_logo"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

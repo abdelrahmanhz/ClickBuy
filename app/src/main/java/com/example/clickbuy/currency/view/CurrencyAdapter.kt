@@ -1,6 +1,5 @@
 package com.example.clickbuy.currency.view
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +12,9 @@ import com.example.clickbuy.models.Currency
 import com.example.clickbuy.util.ConstantsValue
 import java.util.*
 
-const val TAG = "CurrencyAdapter"
+private const val TAG = "CurrencyAdapter"
 
-class CurrencyAdapter(context: Context) :
-    RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
+class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
 
     private var currencyList: List<Currency> = ArrayList()
     private var checkedPosition = 0
@@ -46,8 +44,8 @@ class CurrencyAdapter(context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var currencyTextView: TextView = itemView.findViewById(R.id.currency_textView)
-        var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
+        private var currencyTextView: TextView = itemView.findViewById(R.id.currency_textView)
+        private var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
 
         fun bind(currency: Currency) {
             if (checkedPosition == -1) {

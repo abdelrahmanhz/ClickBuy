@@ -1,18 +1,20 @@
 package com.example.clickbuy.bag.view
 
 import android.content.DialogInterface
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,7 @@ import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.isRTL
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -34,10 +37,13 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
     private lateinit var arrowBackImageView: ImageView
     private lateinit var bagRecyclerView: RecyclerView
     private lateinit var bagAdapter: BagAdapter
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private lateinit var relativeLayout: RelativeLayout
     private lateinit var viewModelFactory: BagViewModelFactory
     private lateinit var viewModel: BagViewModel
     private var bagList: List<BagItem> = emptyList()
     private var imagesList: List<NoteAttribute> = emptyList()
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,15 +53,9 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
 
         initUI(view)
         initViewModel()
+        observeViewModel()
         swipeToDelete()
         checkRTL()
-
-        viewModel.shoppingBag.observe(viewLifecycleOwner) {
-            bagList = it.draft_order.line_items
-            imagesList = it.draft_order.note_attributes
-            bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
-            priceTextView.text = it.draft_order.subtotal_price
-        }
 
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -67,13 +67,23 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         return view
     }
 
+
     private fun initUI(view: View) {
+        progressBar = view.findViewById(R.id.progress_bar)
         priceTextView = view.findViewById(R.id.price_textView)
         checkoutButton = view.findViewById(R.id.checkout_button)
         arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
         bagRecyclerView = view.findViewById(R.id.recyclerView_bag)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout)
+        relativeLayout = view.findViewById(R.id.relative_layout)
         bagAdapter = BagAdapter(this)
         bagRecyclerView.layoutManager = LinearLayoutManager(view.context)
+        bagRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                bagRecyclerView.context,
+                (bagRecyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
         bagRecyclerView.adapter = bagAdapter
     }
 
@@ -90,6 +100,20 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             ViewModelProvider(this, viewModelFactory).get(BagViewModel::class.java)
 
         viewModel.getAllItemsInBag()
+    }
+
+    private fun observeViewModel() {
+        viewModel.shoppingBag.observe(viewLifecycleOwner) {
+            progressBar.visibility = View.GONE
+            shimmerFrameLayout.stopShimmerAnimation()
+            shimmerFrameLayout.visibility = View.GONE
+            bagRecyclerView.visibility = View.VISIBLE
+            relativeLayout.visibility = View.VISIBLE
+            bagList = it.draft_order.line_items
+            imagesList = it.draft_order.note_attributes
+            bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
+            priceTextView.text = it.draft_order.subtotal_price
+        }
     }
 
     private fun swipeToDelete() {
@@ -132,23 +156,9 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         }).attachToRecyclerView(bagRecyclerView)
     }
 
-
     private fun checkRTL() {
         if (isRTL())
             arrowBackImageView.setImageResource(R.drawable.ic_arrow_right)
-    }
-
-    private fun updateItemsInBag() {
-        viewModel.updateItemsInBag(
-            ShoppingBag(
-                DraftOrder(
-                    "3bdorafaat@gmail.com",
-                    ConstantsValue.draftOrderID.toLong(),
-                    bagList,
-                    imagesList
-                )
-            )
-        )
     }
 
     override fun onQuantityIncreased(position: Int) {
@@ -185,9 +195,30 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             .show()
     }
 
+    private fun updateItemsInBag() {
+        progressBar.visibility = View.VISIBLE
+        Log.i(TAG, "updateItemsInBag: ")
+        viewModel.updateItemsInBag(
+            ShoppingBag(
+                DraftOrder(
+                    ConstantsValue.email,
+                    ConstantsValue.draftOrderID.toLong(),
+                    bagList,
+                    imagesList
+                )
+            )
+        )
+
+    }
+
     private fun deleteItem(position: Int) {
         (bagList as ArrayList).remove(bagList[position])
         (imagesList as ArrayList).remove(imagesList[position])
         updateItemsInBag()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shimmerFrameLayout.startShimmerAnimation()
     }
 }

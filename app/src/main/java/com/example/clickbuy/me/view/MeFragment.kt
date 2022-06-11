@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.clickbuy.R
+import com.example.clickbuy.address.view.AddressFragment
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.currency.view.CurrencyFragment
 import com.example.clickbuy.me.viewmodel.CustomerViewModel

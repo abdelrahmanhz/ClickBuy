@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="20sp"
     android:padding="10sp"
-    tools:context=".me.view.AddressFragment">
+    tools:context=".address.view.AddressFragment">
 
 
     <TextView
@@ -24,10 +24,11 @@
         android:id="@+id/arrow_back_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_right"
+        android:src="@drawable/ic_arrow_left"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/textView" />
+        app:layout_constraintTop_toTopOf="@id/textView"
+        android:contentDescription="@string/go_back" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_address"
@@ -48,6 +49,7 @@
         app:fabCustomSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_address" />
+        app:srcCompat="@drawable/ic_add_address"
+        android:contentDescription="@string/add_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

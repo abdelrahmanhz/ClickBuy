@@ -1,6 +1,5 @@
-package com.example.clickbuy.me.view
+package com.example.clickbuy.address.view
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +13,7 @@ import java.util.*
 
 private const val TAG = "AddressAdapter"
 
-class AddressAdapter(context: Context) :
-    RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
-
-    private var context = context
+class AddressAdapter : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
     private var addressList: List<CustomerAddress> = ArrayList()
     private var checkedPosition = 0
 
@@ -31,7 +27,7 @@ class AddressAdapter(context: Context) :
 
     override fun onBindViewHolder(holder: AddressAdapter.ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
-        var address = addressList[position]
+        val address = addressList[position]
         holder.bind(address)
     }
 
@@ -45,9 +41,10 @@ class AddressAdapter(context: Context) :
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var typeOfAddressTextView: TextView = itemView.findViewById(R.id.type_of_address_textView)
-        var addressTextView: TextView = itemView.findViewById(R.id.address_textView)
-        var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
+        private var typeOfAddressTextView: TextView =
+            itemView.findViewById(R.id.type_of_address_textView)
+        private var addressTextView: TextView = itemView.findViewById(R.id.address_textView)
+        private var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
 
 
         fun bind(address: CustomerAddress) {

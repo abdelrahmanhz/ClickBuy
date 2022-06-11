@@ -7,7 +7,7 @@ object RetrofitHelper {
 
 
     private const val API_URL = "https://madalex20220.myshopify.com/admin/api/2022-01/"
-    private const val CURRENCY_API = " https://api.apilayer.com/exchangerates_data/"
+    private const val CURRENCY_API = "https://api.apilayer.com/currency_data/"
     const val HEADERS_CONTENT_TYPE = "Content-Type: application/json"
     const val HEADERS_ACCESS_TOKEN =
         "X-Shopify-Access-Token: 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"

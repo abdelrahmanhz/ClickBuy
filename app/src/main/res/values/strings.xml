@@ -49,4 +49,6 @@
     <string name="no_button">No</string>
     <string name="delete_button">Delete</string>
     <string name="checkout">Checkout</string>
+    <string name="add_address">Add Address</string>
+    <string name="go_back">Go back</string>
 </resources>

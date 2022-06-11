@@ -56,7 +56,7 @@
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/activity_splash_screen.xml" value="0.22826086956521738" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_address.xml" value="0.22826086956521738" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_bag.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_coupons.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_coupons.xml" value="0.4" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_currency.xml" value="0.22826086956521738" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_history.xml" value="0.22826086956521738" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_slider.xml" value="0.22871376811594202" />
@@ -73,6 +73,9 @@
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/pager_item.xml" value="0.22826086956521738" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/product_bottom_sheet.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/review_item.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_animation_layout.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_placeholder.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_placeholder_layout.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>
