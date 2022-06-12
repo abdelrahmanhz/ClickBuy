@@ -11,7 +11,6 @@ import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-
 import com.example.clickbuy.me.view.MeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
@@ -31,10 +30,8 @@ class MainActivity : AppCompatActivity() {
     private val ID_HOME = 1
     private val ID_CATEGORY = 2
     private val ID_PROFILE = 3
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomeFragment())
@@ -51,7 +48,8 @@ class MainActivity : AppCompatActivity() {
             Log.i(TAG, "onCreate:  it.result ----------> " + it.result)
         }
 
-        meo = findViewById(R.id.bottom_nav)
+        meo = binding.bottomNav
+
         meo.add(MeowBottomNavigation.Model(ID_HOME, R.drawable.home))
         meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
         meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
@@ -97,7 +95,6 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
-
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()
@@ -107,6 +104,4 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "updateCurrency: ")
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
-
-
 }

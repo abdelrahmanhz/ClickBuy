@@ -24,6 +24,7 @@ import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.payment.view.PaymentFragment
+import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.smarteist.autoimageslider.SliderView
 
 private const val TAG = "HomeView"
@@ -141,20 +142,22 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun productDetailsShow(id: String) {
         // Open Product Details
         Log.i(TAG, "productDetailsShow: " + id)
+        val salesDetails = ProductDetailsFragment()
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, salesDetails )
+            .addToBackStack(null).commit()
+        salesDetails.setProductId(id)
+
     }
 
     override fun brandDetailsShow(nameOfBrand: String) {
         val data = ClipData.newPlainText("text", nameOfBrand)
         clipboardManager.setPrimaryClip(data)
-
-        Log.i(
-            TAG,
-            "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
-        )
+        Log.i(TAG, "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString())
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, PaymentFragment())
             .addToBackStack(null).commit()
-
     }
 
 }

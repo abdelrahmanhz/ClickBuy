@@ -1,5 +1,6 @@
 package com.example.clickbuy.category.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -30,11 +31,14 @@ import com.example.clickbuy.category.SubCateogriesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
+import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
+import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 
 private const val TAG = "CategoryFragment"
 
-class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
+class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductDetailsIDShow {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
     private lateinit var brandFilterAdapter: BrandsFilterAdapter
@@ -79,9 +83,11 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
         getAllProducts()
 
         myToolbar.setNavigationOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, HomeFragment())
-                .commit()
+//            requireActivity().supportFragmentManager.beginTransaction()
+//                .replace(R.id.frame, MainActivity())
+//                .commit()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
         }
 
         viewModel.subCategory.observe(requireActivity()) {
@@ -128,9 +134,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
 
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.search_menu -> {
-                    Log.i(TAG, "onOptionsItemSelected: search")
-                }
                 R.id.favorite_menu -> {
                 }
                 R.id.filter_menubar -> {
@@ -201,9 +204,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
         tabLayout = view.findViewById(R.id.tabLayout)
 
         myToolbar = view.findViewById(R.id.toolBar)
-        myToolbar.inflateMenu(R.menu.appbar)
+       // myToolbar.inflateMenu(R.menu.appbar)
 
-        categoryAdapter = CategoryAdapter(requireContext())
+        categoryAdapter = CategoryAdapter(requireContext(),this)
         categoryRecyclerView.adapter = categoryAdapter
     }
 
@@ -258,5 +261,15 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface {
         brandFilterAdapter = BrandsFilterAdapter(requireContext())
         //brandsDetailsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         filterBrandsRecyclerView.adapter = brandFilterAdapter
+    }
+
+    override fun SetProductDetailsID(id: String) {
+        Log.i(TAG, "productDetailsShow: " + id)
+        val salesDetails = ProductDetailsFragment()
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, salesDetails )
+            .addToBackStack(null).commit()
+        salesDetails.setProductIdFromCategory(id)
+
     }
 }

@@ -14,13 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.clickbuy.databinding.FragmentProductDetailsBinding
-import com.example.clickbuy.db.ConcreteLocalSource
 import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.productdetails.adapters.ImagesViewPagerAdapter
-import com.example.clickbuy.productdetails.adapters.ProductReviewsAdapter
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -212,5 +209,16 @@ class ProductDetailsFragment : Fragment() {
             //TODO()
         }
     }
+
+    fun setProductId(productId: String) {
+        this.id = productId
+        Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
+    fun setProductIdFromCategory(productId: String) {
+        this.id = productId
+        Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
 }
 

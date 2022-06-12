@@ -83,7 +83,6 @@ interface RetrofitService {
         @Query("vendor") title: String
     ): Response<Products>
 
-
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -101,6 +100,16 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    //customers/5745222516875/orders.json
+    @GET("customers/{id}/orders.json")
+    suspend fun getAllOrdersForSpecificCustomerById(
+        @Path("id") id: String
+    ): Response<Orders>
+
 
     @Headers(
         "X-Shopify-Access-Token: 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",
@@ -123,6 +132,7 @@ interface RetrofitService {
     ): Response<CurrencyConverter>
 
 
+
     //Bag
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("draft_orders/{id}.json")
@@ -135,7 +145,20 @@ interface RetrofitService {
         @Body shoppingBag: ShoppingBag
     ): Response<ShoppingBag>
 
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @DELETE("draft_orders/{id}.json")
-    suspend fun deleteItemFromBag(@Path("id") id: String): Response<ShoppingBag>
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @GET("customers.json?")
+    suspend fun signIn(
+        @Query("email") email: String
+    ): Response<Customers>
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @POST("customers.json")
+    suspend fun registerCustomer(@Body customerParent: CustomerParent): Response<CustomerParent>
+
 }

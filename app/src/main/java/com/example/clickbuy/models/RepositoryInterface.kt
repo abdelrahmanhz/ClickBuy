@@ -2,6 +2,7 @@ package com.example.clickbuy.models
 
 import androidx.lifecycle.LiveData
 import retrofit2.Response
+import retrofit2.http.Body
 
 interface RepositoryInterface {
 
@@ -33,8 +34,10 @@ interface RepositoryInterface {
         categoryTitleComingFromHome: String
     ): Response<Products>
 
-    //suspend fun getAllOrdersById(id: String): Response<Orders>
+    suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
 
+    suspend fun signIn(email: String, password: String): String
+    suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
     // room
     suspend fun addFavorite(favorite: Favorite)

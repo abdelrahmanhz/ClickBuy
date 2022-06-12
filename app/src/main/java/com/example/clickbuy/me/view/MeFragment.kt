@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.clickbuy.R
 import com.example.clickbuy.address.view.AddressFragment
@@ -20,8 +19,9 @@ import com.example.clickbuy.me.viewmodel.CustomerViewModelFactory
 import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.orders.view.OrderHistoryFragment
 import com.example.clickbuy.util.isRTL
+import com.example.clickbuy.orders.OrdersFragment
+
 
 private const val TAG = "HomeView"
 
@@ -51,7 +51,7 @@ class MeFragment : Fragment() {
     private val addressFragment = AddressFragment()
     private val currencyFragment = CurrencyFragment()
     private val bagFragment = BagFragment()
-    private val orderHistoryFragment = OrderHistoryFragment()
+    private val orderHistoryFragment = OrdersFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +69,11 @@ class MeFragment : Fragment() {
         initViewModel()
         checkRTL()
 
-        viewModel.customerDetails.observe(viewLifecycleOwner, Observer {
+        viewModel.customerDetails.observe(viewLifecycleOwner) {
             customerDetails = it[0]
             welcomeTextView.text = getString(R.string.welcome).plus(customerDetails.first_name)
 
-        })
+        }
 
 
         editProfileRelativeLayout.setOnClickListener {
@@ -89,9 +89,6 @@ class MeFragment : Fragment() {
         wishListRelativeLayout.setOnClickListener {
             Log.i("TAG", "wishListRelativeLayout")
             //Replace AddressFragment() with FavoriteFragment()
-            /* requireActivity().supportFragmentManager.beginTransaction()
-                 .replace(R.id.frame, AddressFragment())
-                 .addToBackStack(null).commit()*/
         }
 
         bagRelativeLayout.setOnClickListener {
