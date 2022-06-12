@@ -6,6 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
+import kotlin.math.log
 
 
 private const val TAG = "RetrofitClient"
@@ -148,14 +149,14 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-        override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
-        var response = retrofitHelper.getAllOrdersForSpecificCustomerById(id)
+    override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
+        val response = retrofitHelper.getAllOrdersForSpecificCustomerById(id)
             Log.i(TAG, "getAllOrdersForSpecificCustomerById: " + response)
         return response
     }
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
-        var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
+        val response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
             "product_type",
             idCollectionDetails
         )
@@ -171,5 +172,10 @@ class RetrofitClient : RemoteSource {
         return retrofitHelper.registerCustomer(customer)
     }
 
+    override suspend fun getDraftOrders(): Response<DraftOrders> {
+        val response = retrofitHelper.getDraftOrders()
+        Log.i(TAG, "getDraftOrders: ${response.code()} $response")
+        return response
+    }
 
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.currency.view.CurrencyFragment
+import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.me.viewmodel.CustomerViewModel
 import com.example.clickbuy.me.viewmodel.CustomerViewModelFactory
 import com.example.clickbuy.models.Customer
@@ -92,10 +93,9 @@ class MeFragment : Fragment() {
 
         wishListRelativeLayout.setOnClickListener {
             Log.i("TAG", "wishListRelativeLayout")
-            //Replace AddressFragment() with FavoriteFragment()
-            /* requireActivity().supportFragmentManager.beginTransaction()
-                 .replace(R.id.frame, AddressFragment())
-                 .addToBackStack(null).commit()*/
+             requireActivity().supportFragmentManager.beginTransaction()
+                 .replace(R.id.frame, FavouritesFragment())
+                 .addToBackStack(null).commit()
         }
 
         bagRelativeLayout.setOnClickListener {

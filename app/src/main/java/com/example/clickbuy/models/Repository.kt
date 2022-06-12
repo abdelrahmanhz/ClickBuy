@@ -127,23 +127,23 @@ class Repository private constructor(
 
 
     // local (room)
-        override suspend fun addFavorite(favorite: Favorite) {
-            //localSource.insertFavorite(favorite)
-        }
-
-        override suspend fun getFavorites(): List<Favorite> {
-            //return localSource.getFavorites()
-            return emptyList()
-        }
-
-        override suspend fun deleteFavorite(productId: Long) {
-            //localSource.deleteFavorite(productId)
-        }
-
-        override suspend fun isFavorite(productId: Long): Boolean {
-            //return localSource.isFavorite(productId)
-            return false
-        }
+//        override suspend fun addFavorite(favorite: Favorite) {
+//            //localSource.insertFavorite(favorite)
+//        }
+//
+//        override suspend fun getFavorites(): List<Favorite> {
+//            //return localSource.getFavorites()
+//            return emptyList()
+//        }
+//
+//        override suspend fun deleteFavorite(productId: Long) {
+//            //localSource.deleteFavorite(productId)
+//        }
+//
+//        override suspend fun isFavorite(productId: Long): Boolean {
+//            //return localSource.isFavorite(productId)
+//            return false
+//        }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
@@ -182,6 +182,16 @@ class Repository private constructor(
     override suspend fun validateCoupons(code: String): Response<Coupon> {
         val response = remoteSource.validateCoupons(code)
         Log.i(TAG, "validateCoupons: " + response.code())
+        return response
+    }
+
+    override suspend fun getFavourites(): Response<DraftOrders> {
+        val response = remoteSource.getDraftOrders()
+        if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()){
+            Log.i(TAG, "getFavourites")
+            // filter with user id too
+            response.body()?.draft_orders = response.body()?.draft_orders?.filter { it.note == "fav" }
+        }
         return response
     }
 }

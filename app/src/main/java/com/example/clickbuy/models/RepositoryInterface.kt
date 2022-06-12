@@ -40,10 +40,10 @@ interface RepositoryInterface {
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
     // room
-    suspend fun addFavorite(favorite: Favorite)
-    suspend fun getFavorites(): List<Favorite>
-    suspend fun deleteFavorite(productId: Long)
-    suspend fun isFavorite(productId: Long): Boolean
+//    suspend fun addFavorite(favorite: Favorite)
+//    suspend fun getFavorites(): List<Favorite>
+//    suspend fun deleteFavorite(productId: Long)
+//    suspend fun isFavorite(productId: Long): Boolean
 
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
@@ -57,4 +57,6 @@ interface RepositoryInterface {
 
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
+
+    suspend fun getFavourites(): Response<DraftOrders>
 }

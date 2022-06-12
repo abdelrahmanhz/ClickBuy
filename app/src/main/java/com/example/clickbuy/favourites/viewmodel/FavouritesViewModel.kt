@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.clickbuy.models.DraftOrders
 import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.RepositoryInterface
@@ -15,31 +16,34 @@ import kotlinx.coroutines.withContext
 const val TAG = "FavouritesViewModel"
 class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
 
-    private var _favourites = MutableLiveData<List<Favorite>>()
-    var favourites: LiveData<List<Favorite>> = _favourites
+    private var _favourites = MutableLiveData<DraftOrders>()
+    var favourites: LiveData<DraftOrders> = _favourites
 
     fun getFavourites(){
         viewModelScope.launch {
-            val response = repo.getFavorites()
-            withContext(Dispatchers.Main) {
-                Log.i(com.example.clickbuy.productdetails.viewmodel.TAG, response.toString())
-                _favourites.postValue(response)
+
+            val response = repo.getFavourites()
+            if (response.isSuccessful) {
+                withContext(Dispatchers.Main) {
+                    Log.i(
+                        TAG,
+                        response.body()?.toString()!!
+                    )
+                    _favourites.postValue(response.body())
+                }
             }
-        }
-        viewModelScope.launch {
-             repo.getFavorites()
         }
     }
 
     fun addFavourite(favorite: Favorite){
         viewModelScope.launch {
-            repo.addFavorite(favorite)
+            //repo.addFavorite(favorite)
         }
     }
 
     fun deleteFavourite(productId: Long){
         viewModelScope.launch {
-            repo.deleteFavorite(productId)
+            //repo.deleteFavorite(productId)
         }
     }
 }

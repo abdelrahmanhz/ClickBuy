@@ -36,23 +36,23 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
 
     fun addFavourite(favorite: Favorite) {
         viewModelScope.launch {
-            repo.addFavorite(favorite)
+            //repo.addFavorite(favorite)
         }
     }
 
     fun deleteFavourite(productId: Long) {
         viewModelScope.launch {
-            repo.deleteFavorite(productId)
+            //repo.deleteFavorite(productId)
         }
 
     }
 
     fun isFavourite(productId: Long) {
         viewModelScope.launch {
-            val response = repo.isFavorite(productId)
+            //val response = repo.isFavorite(productId)
             withContext(Dispatchers.Main) {
-                Log.i(TAG, response.toString())
-                _isFav.postValue(response)
+                //Log.i(TAG, response.toString())
+               // _isFav.postValue(response)
             }
         }
     }
