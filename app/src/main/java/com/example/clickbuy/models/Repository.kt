@@ -80,7 +80,7 @@ class Repository private constructor(
     }
 
     override suspend fun signIn(email: String, password: String): String {
-        var responseMessage: String = ""
+        val responseMessage: String
         val response =  remoteSource.signIn(email)
         if (response.code() == 200){
             if (response.body()?.customers.isNullOrEmpty()){
@@ -92,6 +92,7 @@ class Repository private constructor(
                     responseMessage = "Logged in successfully"
                     editor?.putBoolean("IS_LOGGING", true)
                     editor?.putLong("USER_ID", response.body()!!.customers[0].id!!)
+                    editor?.putString("USER_EMAIL", response.body()!!.customers[0].email)
                     editor?.apply()
                 }
                 else
@@ -124,26 +125,6 @@ class Repository private constructor(
         Log.i(TAG, "getProductByID: $response")
         return response
     }
-
-
-    // local (room)
-//        override suspend fun addFavorite(favorite: Favorite) {
-//            //localSource.insertFavorite(favorite)
-//        }
-//
-//        override suspend fun getFavorites(): List<Favorite> {
-//            //return localSource.getFavorites()
-//            return emptyList()
-//        }
-//
-//        override suspend fun deleteFavorite(productId: Long) {
-//            //localSource.deleteFavorite(productId)
-//        }
-//
-//        override suspend fun isFavorite(productId: Long): Boolean {
-//            //return localSource.isFavorite(productId)
-//            return false
-//        }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
@@ -193,5 +174,10 @@ class Repository private constructor(
             response.body()?.draft_orders = response.body()?.draft_orders?.filter { it.note == "fav" }
         }
         return response
+    }
+
+    override suspend fun addFavourite(favorite: DraftOrder): Response<DraftOrderParent> {
+        //favorite.draftOrder.email = "hager.magdy@gmail.com"
+        return remoteSource.addFavourite(favorite)
     }
 }

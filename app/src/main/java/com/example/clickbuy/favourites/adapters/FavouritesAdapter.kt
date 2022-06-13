@@ -1,5 +1,6 @@
 package com.example.clickbuy.favourites.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.favourites.view.FavouritesFragmentInterface
 import com.example.clickbuy.models.DraftOrder
-import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.util.Extensions.load
 
 class FavouritesAdapter(
@@ -42,6 +42,7 @@ class FavouritesAdapter(
                 view.showFavouriteItemDetails(id)
             }
         }
+        Log.i("FavouritesAdapter", "onBindViewHolder $position")
     }
 
     override fun getItemCount(): Int {
@@ -49,8 +50,9 @@ class FavouritesAdapter(
     }
 
     fun setFavourites(favourites: ArrayList<DraftOrder>){
-        this.favourites.clear()
+       // this.favourites.clear()
         this.favourites = favourites
+        Log.i("FavouritesAdapter", "setFavourites")
         notifyDataSetChanged()
     }
 }

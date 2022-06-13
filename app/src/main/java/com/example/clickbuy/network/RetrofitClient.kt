@@ -173,8 +173,14 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun getDraftOrders(): Response<DraftOrders> {
-        val response = retrofitHelper.getDraftOrders()
+        val response = retrofitHelper.getFavourites()
         Log.i(TAG, "getDraftOrders: ${response.code()} $response")
+        return response
+    }
+
+    override suspend fun addFavourite(favorite: DraftOrder): Response<DraftOrderParent> {
+        val response = retrofitHelper.addFavourite(favorite)
+        Log.i(TAG, "addFavourite: ${response.code()} $response")
         return response
     }
 

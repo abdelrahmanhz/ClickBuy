@@ -5,10 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clickbuy.models.DraftOrders
-import com.example.clickbuy.models.Favorite
-import com.example.clickbuy.models.Product
-import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,6 +15,8 @@ class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
 
     private var _favourites = MutableLiveData<DraftOrders>()
     var favourites: LiveData<DraftOrders> = _favourites
+    private var _isAdded = MutableLiveData<Boolean>()
+    var isAdded: LiveData<Boolean> = _isAdded
 
     fun getFavourites(){
         viewModelScope.launch {
@@ -35,10 +34,14 @@ class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
         }
     }
 
-    fun addFavourite(favorite: Favorite){
-        viewModelScope.launch {
-            //repo.addFavorite(favorite)
-        }
+    fun addFavourite(favorite: DraftOrderParent){
+//        viewModelScope.launch {
+//            val response = repo.addFavourite(favorite)
+//                withContext(Dispatchers.Main) {
+//                    Log.i(TAG, response.body()?.toString()!!)
+//                    _isAdded.postValue(response.code() == 200)
+//            }
+//        }
     }
 
     fun deleteFavourite(productId: Long){

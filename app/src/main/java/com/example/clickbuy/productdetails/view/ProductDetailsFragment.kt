@@ -14,9 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.clickbuy.databinding.FragmentProductDetailsBinding
-import com.example.clickbuy.models.Favorite
-import com.example.clickbuy.models.Product
-import com.example.clickbuy.models.Repository
+import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
@@ -34,9 +32,11 @@ class ProductDetailsFragment : Fragment() {
     private var sizes = mutableListOf<String>()
     private var colors = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
+
     private lateinit var  id :String
+    private lateinit var product: Product
+
     private var isFavourite = false
-    private var favorite = Favorite(0, "", "", "")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,12 +82,14 @@ class ProductDetailsFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this, modelFactory)
             .get(ProductDetailsViewModel::class.java)
+
         viewModel.getProductById(id)
-        viewModel.isFavourite(6870135046283)
+        viewModel.isFavourite(id)
+
         viewModel.product.observe(requireActivity()) {
             if (it != null) {
                 Log.i("TAG", "product: $it")
-                favorite = Favorite(it.id!!, it.title!!, it.variants!![0].price, it.image!!.src)
+                product = it
                 viewModel.isFav.observe(requireActivity()) { it ->
                     isFavourite = it
                     Log.i(TAG, "setUpViewModel: it-------------> " + it)
@@ -112,10 +114,6 @@ class ProductDetailsFragment : Fragment() {
         binding.productInfo.reviewsRecyclerView.adapter = reviewAdapter
     }
 
-     fun setIdProduct(id:String){
-        this.id = id
-        Log.i(TAG, "setIdProduct: " + id)
-    }
     private fun setUpSpinners() {
         val sizeSpinner = binding.productInfo.sizeSpinner
         val colorSpinner = binding.productInfo.colorSpinner
@@ -171,7 +169,21 @@ class ProductDetailsFragment : Fragment() {
         binding.productDetailsHeader.rightDrawable.setOnClickListener {
             Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
             if (!isFavourite) {
-                viewModel.addFavourite(favorite)
+                Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
+//                val fav = DraftOrderParent(
+//                    DraftOrder(
+//                     email = "hager.magdy@gmail.com",
+//                       note = "fav",
+//                        line_items = listOf(LineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
+//                    )
+//                )
+                val fav = DraftOrder(
+//                        email = "hager.magdy@gmail.com",
+//                        note = "fav",
+                    line_items = listOf(LineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
+                )
+                Log.i(TAG, "displayProduct: fav = $fav")
+                viewModel.addFavourite(fav)
                 isFavourite = true
                 binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite)
             } else {
@@ -179,19 +191,12 @@ class ProductDetailsFragment : Fragment() {
                 dialogBuilder.apply {
 
                     setTitle("Removing Alert")
-                    setMessage("Do you want to remove \"${favorite.title}\" from your favourites?")
+                    setMessage("Do you want to remove \"${product.title}\" from your favourites?")
 
                     setPositiveButton("Remove") { _, _ ->
-                        viewModel.deleteFavourite(favorite.id)
+                        //viewModel.deleteFavourite(1)
                         isFavourite = false
                         binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite_border)
-                        Snackbar.make(
-                            binding.cardView,
-                            "An Item deleted",
-                            Snackbar.LENGTH_LONG
-                        ).setAction("undo") {
-                            viewModel.addFavourite(favorite)
-                        }.show()
                     }
                     setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
                     show()

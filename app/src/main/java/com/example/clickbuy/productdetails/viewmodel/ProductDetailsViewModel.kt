@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clickbuy.models.Favorite
-import com.example.clickbuy.models.Product
-import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.models.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.GlobalScope.coroutineContext
 
@@ -19,6 +17,7 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
     private var _isFav = MutableLiveData<Boolean>()
     var product: LiveData<Product> = _product
     var isFav: LiveData<Boolean> = _isFav
+
 
     fun getProductById(productId: String) {
         viewModelScope.launch {
@@ -34,9 +33,13 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
         }
     }
 
-    fun addFavourite(favorite: Favorite) {
+    fun addFavourite(favorite: DraftOrder){
         viewModelScope.launch {
-            //repo.addFavorite(favorite)
+            val response = repo.addFavourite(favorite)
+            withContext(Dispatchers.Main) {
+                Log.i(TAG, response.body().toString())
+                _isFav.postValue(response.code() == 200)
+            }
         }
     }
 
@@ -44,16 +47,17 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
         viewModelScope.launch {
             //repo.deleteFavorite(productId)
         }
-
     }
 
-    fun isFavourite(productId: Long) {
-        viewModelScope.launch {
-            //val response = repo.isFavorite(productId)
-            withContext(Dispatchers.Main) {
-                //Log.i(TAG, response.toString())
-               // _isFav.postValue(response)
-            }
-        }
+    fun isFavourite(productId: String) {
+//        viewModelScope.launch {
+//            val response = repo.getFavourites()
+//            withContext(Dispatchers.Main) {
+//                Log.i(TAG, response.body()?.toString()!!)
+//                _isFav.postValue((response.isSuccessful &&
+//                        response.body()?.draft_orders?.none
+//                        { it.line_items?.get(0)?.product_id == productId.toLong() } == false))
+//            }
+//        }
     }
 }

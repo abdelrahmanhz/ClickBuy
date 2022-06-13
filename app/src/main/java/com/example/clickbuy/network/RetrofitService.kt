@@ -181,5 +181,12 @@ interface RetrofitService {
         "Content-Type: application/json"
     )
     @GET("draft_orders.json")
-    suspend fun getDraftOrders(): Response<DraftOrders>
+    suspend fun getFavourites(): Response<DraftOrders>
+
+    @Headers(
+        "X-Shopify-Access-Token: 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",
+        "Content-Type: application/json"
+    )
+    @POST("draft_orders.json")
+    suspend fun addFavourite(@Body favorite: DraftOrder): Response<DraftOrderParent>
 }

@@ -11,7 +11,7 @@ data class DraftOrderParent(
 data class DraftOrder (
     val id: Long? = null,
     val note: String? = null,
-    val email: String? = null,
+    var email: String? = null,
     val taxes_included: Boolean? = null,
     val currency: String? = null,
     val invoice_sent_at: Any? = null,

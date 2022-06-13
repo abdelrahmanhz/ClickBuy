@@ -22,11 +22,14 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.google.android.material.snackbar.Snackbar
 import java.text.FieldPosition
+import kotlin.math.log
 
+
+private const val TAG = "FavouritesFragment"
 
 class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
 
-    private lateinit var binding : FragmentFavouritesBinding
+    private lateinit var binding: FragmentFavouritesBinding
     private lateinit var viewModel: FavouritesViewModel
     private lateinit var viewModelFactory: FavouritesViewModelFactory
     private lateinit var favouritesAdapter: FavouritesAdapter
@@ -38,10 +41,10 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentFavouritesBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +70,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             )
         )
         viewModel = ViewModelProvider(this, viewModelFactory).get(FavouritesViewModel::class.java)
+        viewModel.getFavourites()
     }
 
     private fun initRecyclerView() {
@@ -77,27 +81,32 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         binding.favRecyclerView.adapter = favouritesAdapter
     }
 
-    private fun getFavourites(){
-        viewModel.getFavourites()
-        viewModel.favourites.observe(requireActivity()){
+    private fun getFavourites() {
+        Log.i(TAG, "getFavourites: ")
+        //viewModel.getFavourites()
+        viewModel.favourites.observe(requireActivity()) {
+            Log.i(TAG, "getFavourites: observe" + it)
             if (!it.draft_orders.isNullOrEmpty()) {
-                Log.i("TAG", "product: $it")
+                Log.i(TAG, "getFavourites: if")
+                Log.i(TAG, "product: $it")
                 favorites = it.draft_orders as ArrayList<DraftOrder>
                 displayFavourites(favorites)
-            }
-            else{
+            } else {
+                Log.i(TAG, "getFavourites: else")
                 binding.favRecyclerView.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
                 binding.favEmptyImageView.visibility = View.VISIBLE
             }
         }
-        viewModel.getFavourites()
+
     }
 
     private fun displayFavourites(it: ArrayList<DraftOrder>) {
+        Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
         favouritesAdapter.setFavourites(it)
         binding.favRecyclerView.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
+        Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
     }
 
     override fun deleteFavouriteItem(favorite: DraftOrder, position: Int) {
@@ -107,16 +116,16 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             setTitle("Removing Alert")
             setMessage("Do you want to remove \"${favorite.line_items?.get(0)?.title}\" from your favourites?")
 
-            setPositiveButton("Remove"){ _, _ ->
+            setPositiveButton("Remove") { _, _ ->
                 //viewModel.deleteFavourite(favorite.id)
                 favorites.removeAt(position)
                 favouritesAdapter.setFavourites(favorites)
-                if (favorites.isEmpty()){
+                if (favorites.isEmpty()) {
                     binding.favRecyclerView.visibility = View.GONE
                     binding.favEmptyImageView.visibility = View.VISIBLE
                 }
             }
-            setNegativeButton("Cancel"){ dialog, _ -> dialog.dismiss()}
+            setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
             show()
         }
     }
