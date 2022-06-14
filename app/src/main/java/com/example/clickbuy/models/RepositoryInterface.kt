@@ -59,5 +59,5 @@ interface RepositoryInterface {
     suspend fun validateCoupons(code: String): Response<Coupon>
 
     suspend fun getFavourites(): Response<DraftOrders>
-    suspend fun addFavourite(favorite: DraftOrder): Response<DraftOrderParent>
+    suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent>
 }

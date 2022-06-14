@@ -94,6 +94,9 @@ class ProductDetailsFragment : Fragment() {
                     isFavourite = it
                     Log.i(TAG, "setUpViewModel: it-------------> " + it)
                     Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
+                    binding.productDetailsHeader.rightDrawable.let {
+                        it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
+                    }
                 }
                 displayProduct(it)
                 showUIComponent()
@@ -140,9 +143,7 @@ class ProductDetailsFragment : Fragment() {
     }
 
     private fun displayProduct(product: Product) {
-        binding.productDetailsHeader.rightDrawable.let {
-            it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
-        }
+
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
         binding.productInfo.productAvailability.text = product.status
@@ -170,17 +171,12 @@ class ProductDetailsFragment : Fragment() {
             Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
             if (!isFavourite) {
                 Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
-//                val fav = DraftOrderParent(
-//                    DraftOrder(
-//                     email = "hager.magdy@gmail.com",
-//                       note = "fav",
-//                        line_items = listOf(LineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
-//                    )
-//                )
-                val fav = DraftOrder(
-//                        email = "hager.magdy@gmail.com",
-//                        note = "fav",
-                    line_items = listOf(LineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
+                val fav = DraftOrderParent(
+                    DraftOrder(
+                        note = "fav",
+                        line_items = listOf(DraftOrderLineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
+                        note_attributes = listOf(NoteAttribute(name = "image", value = product.image?.src))
+                    )
                 )
                 Log.i(TAG, "displayProduct: fav = $fav")
                 viewModel.addFavourite(fav)

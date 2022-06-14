@@ -93,6 +93,7 @@ class Repository private constructor(
                     editor?.putBoolean("IS_LOGGING", true)
                     editor?.putLong("USER_ID", response.body()!!.customers[0].id!!)
                     editor?.putString("USER_EMAIL", response.body()!!.customers[0].email)
+
                     editor?.apply()
                 }
                 else
@@ -171,13 +172,16 @@ class Repository private constructor(
         if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()){
             Log.i(TAG, "getFavourites")
             // filter with user id too
-            response.body()?.draft_orders = response.body()?.draft_orders?.filter { it.note == "fav" }
+            val email = sharedPrefs?.getString("USER_EMAIL", "")
+            if (!email.isNullOrEmpty())
+                response.body()?.draft_orders = response.body()?.draft_orders?.filter { it.note == "fav" && it.email == email}
         }
         return response
     }
 
-    override suspend fun addFavourite(favorite: DraftOrder): Response<DraftOrderParent> {
-        //favorite.draftOrder.email = "hager.magdy@gmail.com"
+    override suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent> {
+        val email = sharedPrefs?.getString("USER_EMAIL", "")
+        favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)
     }
 }

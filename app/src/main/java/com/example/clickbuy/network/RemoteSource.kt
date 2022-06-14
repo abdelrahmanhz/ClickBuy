@@ -43,5 +43,5 @@ interface RemoteSource {
     suspend fun validateCoupons(code: String): Response<Coupon>
 
     suspend fun getDraftOrders(): Response<DraftOrders>
-    suspend fun addFavourite(favorite: DraftOrder): Response<DraftOrderParent>
+    suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent>
 }

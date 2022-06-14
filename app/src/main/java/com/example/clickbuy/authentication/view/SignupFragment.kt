@@ -69,8 +69,13 @@ class SignupFragment : Fragment() {
                 clearFields()
                 Toast.makeText(requireContext(), "You have successfully signed up!", Toast.LENGTH_LONG).show()
             }
-            else
-                Toast.makeText(requireContext(), "Email is already registered, can't sign up!", Toast.LENGTH_LONG).show()
+            else {
+                Toast.makeText(
+                    requireContext(),
+                    "Email or phone number is already taken",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
@@ -79,6 +84,7 @@ class SignupFragment : Fragment() {
         binding.lastNameSignupEditText.text?.clear()
         binding.emailSignupEditText.text?.clear()
         binding.passwordSignupEditText.text?.clear()
+        binding.passwordConfirmSignupSignupEditText.text?.clear()
         binding.phoneSignupSignupEditText.text?.clear()
     }
 

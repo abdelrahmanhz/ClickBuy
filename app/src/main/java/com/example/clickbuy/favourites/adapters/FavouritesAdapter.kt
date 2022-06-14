@@ -31,14 +31,14 @@ class FavouritesAdapter(
 
     override fun onBindViewHolder(holder: FavouriteViewHolder, position: Int) {
         favourites[position].note_attributes?.first()?.value?.let { holder.favouriteImage.load(it) }
-        favourites[position].line_items?.first()?.title.let { holder.favouriteTitle.text = it}
-        favourites[position].line_items?.first()?.price.let { holder.favouritesPrice.text = it}
+        favourites[position].line_items.first().title.let { holder.favouriteTitle.text = it}
+        favourites[position].line_items.first().price.let { holder.favouritesPrice.text = it}
         holder.favouriteDeleteImage.setOnClickListener {
             view.deleteFavouriteItem(favourites[position], position)
         }
 
         holder.favouriteCardView.setOnClickListener {
-            favourites[position].line_items?.get(0)?.product_id?.let { id ->
+            favourites[position].line_items[0].product_id?.let { id ->
                 view.showFavouriteItemDetails(id)
             }
         }
