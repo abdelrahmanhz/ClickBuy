@@ -184,4 +184,8 @@ class Repository private constructor(
         favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)
     }
+
+    override suspend fun deleteFavourite(favId: String) {
+        remoteSource.removeFavourite(favId)
+    }
 }

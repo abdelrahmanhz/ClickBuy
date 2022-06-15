@@ -14,9 +14,9 @@ const val TAG = "ProductDetailsViewModel"
 class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel() {
 
     private var _product = MutableLiveData<Product>()
-    private var _isFav = MutableLiveData<Boolean>()
+    private var _isFavAndId = MutableLiveData<Pair<String, Boolean>>()
     var product: LiveData<Product> = _product
-    var isFav: LiveData<Boolean> = _isFav
+    var isFavAndId: LiveData<Pair<String, Boolean>> = _isFavAndId
 
 
     fun getProductById(productId: String) {
@@ -38,30 +38,30 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
             val response = repo.addFavourite(favorite)
             withContext(Dispatchers.Main) {
                 Log.i(TAG, response.body().toString())
-                _isFav.postValue(response.isSuccessful)
+                _isFavAndId.postValue(Pair(response.body()?.draft_order?.id.toString(), response.isSuccessful))
             }
         }
     }
 
-    fun deleteFavourite(productId: Long) {
+    fun deleteFavourite(favId: String) {
         viewModelScope.launch {
-            //repo.deleteFavorite(productId)
+            repo.deleteFavourite(favId)
         }
     }
 
-    fun isFavourite(productId: String) {
+    fun isFavourite(productId: String){
         viewModelScope.launch {
             val response = repo.getFavourites()
-            var isFavourite = false
+            var isFavAndId = Pair("", false)
             withContext(Dispatchers.Main) {
                 Log.i(TAG, response.body()?.toString()!!)
                 if (!response.body()?.draft_orders.isNullOrEmpty()) {
                     response.body()?.draft_orders?.forEach {
                         if (it.line_items[0].product_id == productId.toLong())
-                            isFavourite = true
+                            isFavAndId = isFavAndId.copy(it.id.toString(), true)
                     }
-                } else isFavourite = false
-                _isFav.postValue(isFavourite)
+                } else isFavAndId = isFavAndId.copy("", false)
+                _isFavAndId.postValue(isFavAndId)
             }
         }
     }

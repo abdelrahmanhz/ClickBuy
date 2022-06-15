@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.clickbuy.R as r
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -37,6 +38,7 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var product: Product
 
     private var isFavourite = false
+    private var favId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,8 +92,9 @@ class ProductDetailsFragment : Fragment() {
             if (it != null) {
                 Log.i("TAG", "product: $it")
                 product = it
-                viewModel.isFav.observe(requireActivity()) { it ->
-                    isFavourite = it
+                viewModel.isFavAndId.observe(requireActivity()) { isFavAndId ->
+                    favId = isFavAndId.first
+                    isFavourite = isFavAndId.second
                     Log.i(TAG, "setUpViewModel: it-------------> " + it)
                     Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
                     binding.productDetailsHeader.rightDrawable.let {
@@ -190,7 +193,11 @@ class ProductDetailsFragment : Fragment() {
                     setMessage("Do you want to remove \"${product.title}\" from your favourites?")
 
                     setPositiveButton("Remove") { _, _ ->
-                        //viewModel.deleteFavourite(1)
+                        Toast.makeText(
+                            context,
+                            "Successfully removed!",
+                            Toast.LENGTH_LONG).show()
+                        viewModel.deleteFavourite(favId)
                         isFavourite = false
                         binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite_border)
                     }
@@ -202,7 +209,7 @@ class ProductDetailsFragment : Fragment() {
 
         // back
         binding.productDetailsHeader.backBtn.setOnClickListener {
-          //  TODO()
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         // add to cart
@@ -215,11 +222,5 @@ class ProductDetailsFragment : Fragment() {
         this.id = productId
         Log.i(TAG, "setVendorName: -------> $productId")
     }
-
-//    fun setProductIdFromCategory(productId: String) {
-//        this.id = productId
-//        Log.i(TAG, "setVendorName: -------> $productId")
-//    }
-
 }
 

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.R
@@ -60,6 +61,10 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         binding.favHeader.titleTv.text = "Favourites"
         binding.favRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
+        // back
+        binding.favHeader.backBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     private fun initViewModel() {
@@ -117,9 +122,13 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             setMessage("Do you want to remove \"${favorite.line_items?.get(0)?.title}\" from your favourites?")
 
             setPositiveButton("Remove") { _, _ ->
-                //viewModel.deleteFavourite(favorite.id)
+                viewModel.deleteFavourite(favorite.id.toString())
                 favorites.removeAt(position)
                 favouritesAdapter.setFavourites(favorites)
+                Toast.makeText(
+                    context,
+                    "Successfully removed!",
+                    Toast.LENGTH_LONG).show()
                 if (favorites.isEmpty()) {
                     binding.favRecyclerView.visibility = View.GONE
                     binding.favEmptyImageView.visibility = View.VISIBLE

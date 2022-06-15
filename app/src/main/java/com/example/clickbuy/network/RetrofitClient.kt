@@ -185,4 +185,8 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun removeFavourite(id: String): Response<Any> {
+        return retrofitHelper.removeFavourite(id)
+    }
+
 }

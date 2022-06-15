@@ -15,8 +15,6 @@ class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
 
     private var _favourites = MutableLiveData<DraftOrders>()
     var favourites: LiveData<DraftOrders> = _favourites
-    private var _isAdded = MutableLiveData<Boolean>()
-    var isAdded: LiveData<Boolean> = _isAdded
 
     fun getFavourites(){
         viewModelScope.launch {
@@ -34,19 +32,9 @@ class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
         }
     }
 
-    fun addFavourite(favorite: DraftOrderParent){
-//        viewModelScope.launch {
-//            val response = repo.addFavourite(favorite)
-//                withContext(Dispatchers.Main) {
-//                    Log.i(TAG, response.body()?.toString()!!)
-//                    _isAdded.postValue(response.code() == 200)
-//            }
-//        }
-    }
-
-    fun deleteFavourite(productId: Long){
+    fun deleteFavourite(favId: String){
         viewModelScope.launch {
-            //repo.deleteFavorite(productId)
+            repo.deleteFavourite(favId)
         }
     }
 }
