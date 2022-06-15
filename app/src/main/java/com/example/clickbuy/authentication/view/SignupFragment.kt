@@ -29,7 +29,7 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.moveToSignInSignup.setOnClickListener { findNavController().navigate(R.id.action_signupFragment_to_loginFragment) }
+        binding.moveToSignInSignup.setOnClickListener { findNavController().popBackStack() }
         binding.signUp.setOnClickListener { submitForm() }
     }
 
@@ -52,8 +52,7 @@ class SignupFragment : Fragment() {
             signUp()
     }
 
-    private fun signUp()
-    {
+    private fun signUp() {
         val customer = Customer(
             first_name = binding.firstNameSignupEditText.text.toString(),
             last_name = binding.lastNameSignupEditText.text.toString(),
@@ -64,13 +63,21 @@ class SignupFragment : Fragment() {
 
         val viewModel = (requireActivity() as AuthenticationActivity).viewModel
         viewModel.registerCustomer(CustomerParent(customer))
-        viewModel.isRegistered.observe(viewLifecycleOwner){
-            if(it){
+        viewModel.isRegistered.observe(viewLifecycleOwner) {
+            if (it) {
                 clearFields()
-                Toast.makeText(requireContext(), "You have successfully signed up!", Toast.LENGTH_LONG).show()
-            }
-            else
-                Toast.makeText(requireContext(), "Email is already registered, can't sign up!", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.successful_register),
+                    Toast.LENGTH_LONG
+                ).show()
+                findNavController().popBackStack()
+            } else
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.register_fail),
+                    Toast.LENGTH_LONG
+                ).show()
         }
     }
 
@@ -83,59 +90,55 @@ class SignupFragment : Fragment() {
     }
 
     private fun validFirstName(): String? {
-        if(binding.firstNameSignupEditText.text.isNullOrBlank())
-            return "Required"
+        if (binding.firstNameSignupEditText.text.isNullOrBlank())
+            return getString(R.string.required)
         return null
     }
 
     private fun validLastName(): String? {
-        if(binding.lastNameSignupEditText.text.isNullOrBlank())
-            return "Required"
+        if (binding.lastNameSignupEditText.text.isNullOrBlank())
+            return getString(R.string.required)
         return null
     }
 
-    private fun validEmail(): String?
-    {
+    private fun validEmail(): String? {
         val emailText = binding.emailSignupEditText.text.toString()
-        if(emailText.isBlank())
-            return "Required"
-        if(!Patterns.EMAIL_ADDRESS.matcher(emailText).matches())
-            return "Invalid Email Address"
+        if (emailText.isBlank())
+            return getString(R.string.required)
+        if (!Patterns.EMAIL_ADDRESS.matcher(emailText).matches())
+            return getString(R.string.invalid_email)
         return null
     }
 
 
-
-    private fun validPassword(): String?
-    {
+    private fun validPassword(): String? {
         val passwordText = binding.passwordSignupEditText.text.toString()
-        if(passwordText.isBlank())
-            return "Required"
-        if(passwordText.length < 8)
-            return "Minimum 8 Character Password"
+        if (passwordText.isBlank())
+            return getString(R.string.required)
+        if (passwordText.length < 8)
+            return getString(R.string.invalid_password)
         return null
     }
 
 
-    private fun validPasswordConfirm(): String?
-    {
+    private fun validPasswordConfirm(): String? {
         val passwordConfirmText = binding.passwordConfirmSignupSignupEditText.text.toString()
-        if(passwordConfirmText.isBlank())
-            return "Required"
-        if(passwordConfirmText != binding.passwordSignupEditText.text.toString())
-            return "Passwords don't match"
+        if (passwordConfirmText.isBlank())
+            return getString(R.string.required)
+        if (passwordConfirmText != binding.passwordSignupEditText.text.toString())
+            return getString(R.string.password_not_match)
         return null
     }
 
-    private fun validPhone(): String?
-    {
+    private fun validPhone(): String? {
         val phoneText = binding.phoneSignupSignupEditText.text.toString()
-        if(phoneText.isBlank())
-            return "Required"
-        if(!phoneText.matches(".*[0-9].*".toRegex()))
-            return "Must be all Digits"
-        if(phoneText.length != 11)
-            return "Must be 11 Digits"
+        if (phoneText.isBlank())
+            return getString(R.string.required)
+        if (!phoneText.matches(".*[0-9].*".toRegex()))
+            return getString(R.string.invalid_phone)
+        if (phoneText.length != 11)
+            return getString(R.string.invalid_phone_length)
+
         return null
     }
 }

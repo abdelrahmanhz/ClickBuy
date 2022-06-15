@@ -100,6 +100,7 @@ interface RetrofitService {
     )
     @GET("products.json?")
     suspend fun getSubCategories(): Response<Products>
+
     @Headers(
         "X-Shopify-Access-Token: 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",
         "Content-Type: application/json"
@@ -120,6 +121,12 @@ interface RetrofitService {
         @Query("email") email: String
     ): Response<Customers>
 
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @PUT("customers/{id}.json")
+    suspend fun updateCustomerDetails(
+        @Path("id") id: String, @Body customer: CustomerParent
+    ): Response<CustomerParent>
+
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("currencies.json")
@@ -130,7 +137,6 @@ interface RetrofitService {
     suspend fun getQualifiedValueCurrency(
         @Query("to") to: String
     ): Response<CurrencyConverter>
-
 
 
     //Bag
@@ -145,6 +151,11 @@ interface RetrofitService {
         @Body shoppingBag: ShoppingBag
     ): Response<ShoppingBag>
 
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @POST("draft_orders.json")
+    suspend fun createBag(
+        @Body shoppingBag: ShoppingBag
+    ): Response<ShoppingBag>
 
 
     @Headers(

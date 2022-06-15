@@ -10,7 +10,7 @@
     <string name="Done">Done</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">Password must be more than 7 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="address">Address</string>
@@ -54,5 +54,13 @@
     <string name="login">Login / Register</string>
     <string name="add_to_bag_fail">add to bag fail</string>
     <string name="add_to_bag_success">add to bag success</string>
+    <string name="successful_register">You have successfully signed up!</string>
+    <string name="register_fail">Email or phone is already taken, can\'t sign up!</string>
+    <string name="required">Required</string>
+    <string name="invalid_email">Invalid Email Address</string>
+    <string name="password_not_match">Password don\'t matched</string>
+    <string name="invalid_phone">Must be all Digits</string>
+    <string name="invalid_phone_length">Must be 11 Digits</string>
+    <string name="empty_bag">Your bag is empty</string>
 
 </resources>

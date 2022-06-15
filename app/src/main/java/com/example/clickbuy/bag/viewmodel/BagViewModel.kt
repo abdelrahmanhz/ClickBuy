@@ -23,10 +23,11 @@ class BagViewModel(iRepo: RepositoryInterface) : ViewModel() {
             val response = _iRepo.getAllItemsInBag()
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && response.body()?.draft_order != null) {
-                    Log.i(TAG, "getAllItemsInBag: " + response.body())
+                    Log.i(TAG, "getAllItemsInBag in if: response.body()-------> " + response.body())
                     _shoppingBag.postValue(response.body())
                 } else {
-                    Log.i(TAG, "getAllItemsInBag: response.body()-----> " + response.body())
+                    Log.i(TAG, "getAllItemsInBag in else: response.body()-----> " + response.body())
+                    _shoppingBag.postValue(response.body())
                 }
             }
         }

@@ -13,14 +13,14 @@ import kotlinx.coroutines.withContext
 
 const val TAG = "AuthenticationViewModel"
 
-class AuthenticationViewModel(private val repo: RepositoryInterface): ViewModel() {
+class AuthenticationViewModel(private val repo: RepositoryInterface) : ViewModel() {
 
     private var _isRegistered = MutableLiveData<Boolean>()
     var isRegistered: LiveData<Boolean> = _isRegistered
     private var _loggingResult = MutableLiveData<String>()
     var loggingResult: LiveData<String> = _loggingResult
 
-    fun registerCustomer(customerParent: CustomerParent){
+    fun registerCustomer(customerParent: CustomerParent) {
         viewModelScope.launch {
             val response = repo.registerCustomer(customerParent)
 
@@ -30,11 +30,11 @@ class AuthenticationViewModel(private val repo: RepositoryInterface): ViewModel(
                     _isRegistered.postValue(response.body()?.toString()?.contains("email"))
                 }
             } else
-                Log.i(com.example.clickbuy.productdetails.viewmodel.TAG, "registerCustomer response failed!")
+                Log.i(TAG, "registerCustomer response failed!")
         }
     }
 
-    fun signIn(email: String, password: String){
+    fun signIn(email: String, password: String) {
         viewModelScope.launch {
             val response = repo.signIn(email, password)
             withContext(Dispatchers.Main) {

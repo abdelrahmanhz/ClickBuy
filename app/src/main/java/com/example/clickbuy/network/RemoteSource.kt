@@ -27,6 +27,7 @@ interface RemoteSource {
     ): Response<Products>
 
     suspend fun getSubCategories(): Response<Products>
+
     // suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
     //  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
     suspend fun signIn(email: String): Response<Customers>
@@ -36,6 +37,8 @@ interface RemoteSource {
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
 
     suspend fun getCustomerDetails(email: String): Response<Customers>
+    suspend fun updateCustomerDetails(customer: CustomerParent): Response<CustomerParent>
+
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
 
@@ -44,5 +47,6 @@ interface RemoteSource {
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
-  //  suspend fun addItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+    suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+
 }

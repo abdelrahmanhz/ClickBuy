@@ -47,24 +47,15 @@ class Repository private constructor(
         ConstantsValue.email = sharedPrefs?.getString("USER_EMAIL", "")!!
         ConstantsValue.draftOrderID = sharedPrefs?.getString("CART_ID", "")!!
 
-        Log.i(
-            TAG,
-            "setupConstantsValue:ConstantsValue.isLogged------------> ${ConstantsValue.isLogged}"
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:ConstantsValue.userID--------------> ${ConstantsValue.userID}"
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:ConstantsValue.email---------------> ${ConstantsValue.email}"
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:ConstantsValue.draftOrderID--------> ${ConstantsValue.draftOrderID}"
-        )
-        if (ConstantsValue.isLogged)
+        Log.i(TAG, "setupConstantsValue:isLogged------------> ${ConstantsValue.isLogged}")
+        Log.i(TAG, "setupConstantsValue:userID--------------> ${ConstantsValue.userID}")
+        Log.i(TAG, "setupConstantsValue:email---------------> ${ConstantsValue.email}")
+        Log.i(TAG, "setupConstantsValue:draftOrderID--------> ${ConstantsValue.draftOrderID}")
+        if (ConstantsValue.isLogged && !ConstantsValue.draftOrderID.isNullOrEmpty()) {
+            Log.i(TAG, "setupConstantsValue: in if to getALLITEMS From splash")
             getAllItemsInBag()
+        }
+
     }
 
     override suspend fun deleteSavedSettings() {
@@ -78,23 +69,11 @@ class Repository private constructor(
         editor?.remove("CART_ID")
         editor?.apply()
 
+        Log.i(TAG, "deleteSavedSettings:isLogged------------> ${ConstantsValue.isLogged}")
+        Log.i(TAG, "deleteSavedSettings:userID--------------> ${ConstantsValue.userID}")
+        Log.i(TAG, "deleteSavedSettings:email---------------> ${ConstantsValue.email}")
+        Log.i(TAG, "deleteSavedSettings:draftOrderID--------> ${ConstantsValue.draftOrderID}")
 
-        Log.i(
-            TAG,
-            "deleteSavedSettings:ConstantsValue.isLogged------------> ${ConstantsValue.isLogged}"
-        )
-        Log.i(
-            TAG,
-            "deleteSavedSettings:ConstantsValue.userID--------------> ${ConstantsValue.userID}"
-        )
-        Log.i(
-            TAG,
-            "deleteSavedSettings:ConstantsValue.email---------------> ${ConstantsValue.email}"
-        )
-        Log.i(
-            TAG,
-            "deleteSavedSettings:ConstantsValue.draftOrderID--------> ${ConstantsValue.draftOrderID}"
-        )
         val x = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
         val y = sharedPrefs?.getString("USER_ID", "")!!
         val z = sharedPrefs?.getString("USER_EMAIL", "")!!
@@ -104,7 +83,11 @@ class Repository private constructor(
         Log.i(TAG, "deleteSavedSettings: y---------------> $y")
         Log.i(TAG, "deleteSavedSettings: z---------------> $z")
         Log.i(TAG, "deleteSavedSettings: t---------------> $t")
+        lineItems = mutableListOf()
+        noteAttributes = mutableListOf()
 
+        Log.i(TAG, "deleteSavedSettings: lineItems.size()-------------->  " + lineItems.size)
+        Log.i(TAG, "deleteSavedSettings: noteAttributes.size()--------->  " + noteAttributes.size)
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
@@ -175,6 +158,7 @@ class Repository private constructor(
     }
 
     override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
+
         return remoteSource.registerCustomer(customer)
     }
 
@@ -262,8 +246,11 @@ class Repository private constructor(
         Log.i(TAG, "getAllItemInBag before add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "getAllItemInBag before add: noteAttributes------> " + noteAttributes.size)
 
-        lineItems = response.body()?.draft_order?.line_items?.toMutableList()!!
-        noteAttributes = response.body()?.draft_order?.note_attributes?.toMutableList()!!
+        if (!response.body()?.draft_order?.line_items.isNullOrEmpty()) {
+            lineItems = response.body()?.draft_order?.line_items?.toMutableList()!!
+            noteAttributes = response.body()?.draft_order?.note_attributes?.toMutableList()!!
+        }
+
 
         Log.i(TAG, "getAllItemInBag after add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "getAllItemInBag after add: noteAttributes------> " + noteAttributes.size)
@@ -276,6 +263,19 @@ class Repository private constructor(
         Log.i(TAG, "updateItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
         val response = remoteSource.updateItemsInBag(shoppingBag)
         Log.i(TAG, "updateItemsInBag: $response")
+        if (!response.body()?.draft_order?.note_attributes.isNullOrEmpty()) {
+            Log.i(TAG, "updateItemsInBag after update: noteAttributes----> " + response.body()?.draft_order?.line_items?.size)
+            Log.i(TAG, "updateItemsInBag after update: lineItems---------> " + response.body()?.draft_order?.note_attributes?.size)
+            lineItems = response.body()?.draft_order?.line_items!!.toMutableList()
+            noteAttributes = response.body()?.draft_order?.note_attributes!!.toMutableList()
+            Log.i(TAG, "updateItemsInBag after update: noteAttributes----> " + noteAttributes.size)
+            Log.i(TAG, "updateItemsInBag after update: lineItems---------> " + lineItems.size)
+        }else{
+            lineItems = mutableListOf()
+            noteAttributes =  mutableListOf()
+            Log.i(TAG, "updateItemsInBag clear: noteAttributes----> " + noteAttributes.size)
+            Log.i(TAG, "updateItemsInBag clear: lineItems---------> " + lineItems.size)
+        }
         return response
     }
 
@@ -285,22 +285,10 @@ class Repository private constructor(
         Log.i(TAG, "addItemsInBag before add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
 
-        var isExist = false
 
-        if (lineItems.size == 1 && noteAttributes.size == 0) {
-            lineItems.removeAt(0)
-            Log.i(TAG, "addItemsInBag: in if")
-        } else {
-            for (i in lineItems) {
-                if (i.variant_id == product.variants?.get(0)!!.id) {
-                    i.quantity++
-                    isExist = true
-                    break
-                }
-            }
-        }
+        if (ConstantsValue.draftOrderID.trim().isNullOrEmpty()) {
 
-        if (!isExist) {
+            Log.i(TAG, "addItemsInBag: create")
             lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
             noteAttributes.add(
                 NoteAttribute(
@@ -308,24 +296,87 @@ class Repository private constructor(
                     value = product.images?.get(0)!!.src
                 )
             )
-        }
-
-        Log.i(TAG, "addItemsInBag after add: lineItems-----------> " + lineItems.size)
-        Log.i(TAG, "addItemsInBag after add: noteAttributes------> " + noteAttributes.size)
-
-        val shoppingBag = ShoppingBag(
-            DraftOrder(
-                ConstantsValue.email,
-                ConstantsValue.draftOrderID.toLong(),
-                lineItems,
-                noteAttributes
+            val shoppingBag = ShoppingBag(
+                DraftOrder(
+                    email = ConstantsValue.email,
+                    line_items = lineItems,
+                    note_attributes = noteAttributes,
+                )
             )
-        )
 
-        Log.i(TAG, "addItemsInBag: shoppingBag----------> $shoppingBag")
+            Log.i(TAG, "addItemsInBag: shoppingBag----------> $shoppingBag")
 
-        val response = updateItemsInBag(shoppingBag)
-        Log.i(TAG, "addItemsInBag: $response")
+            val response = createBag(shoppingBag)
+            Log.i(TAG, "addItemsInBag: $response")
+            return response
+        } else {
+            Log.i(TAG, "addItemsInBag: exist")
+            var isExist = false
+
+            if (lineItems.size == 1 && noteAttributes.size == 0) {
+                lineItems.removeAt(0)
+                Log.i(TAG, "addItemsInBag: in if")
+            } else {
+                for (i in lineItems) {
+                    if (i.variant_id == product.variants?.get(0)!!.id) {
+                        i.quantity++
+                        isExist = true
+                        break
+                    }
+                }
+            }
+
+            if (!isExist) {
+                lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
+                noteAttributes.add(
+                    NoteAttribute(
+                        name = product.variants[0].id.toString(),
+                        value = product.images?.get(0)!!.src
+                    )
+                )
+            }
+
+            Log.i(TAG, "addItemsInBag after add: lineItems-----------> " + lineItems.size)
+            Log.i(TAG, "addItemsInBag after add: noteAttributes------> " + noteAttributes.size)
+
+            val shoppingBag = ShoppingBag(
+                DraftOrder(
+                    ConstantsValue.email,
+                    ConstantsValue.draftOrderID.toLong(),
+                    lineItems,
+                    noteAttributes
+                )
+            )
+
+            Log.i(TAG, "addItemsInBag: shoppingBag----------> $shoppingBag")
+
+            val response = updateItemsInBag(shoppingBag)
+            Log.i(TAG, "addItemsInBag: $response")
+            return response
+        }
+    }
+
+    override suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+        val response = remoteSource.createBag(shoppingBag)
+        Log.i(TAG, "createBag: -----------------> ${response.body()}")
+        if (response.isSuccessful) {
+            Log.i(TAG, "createBag: isSuccessful ---- ID -----> " + response.body()?.draft_order?.id)
+
+            val responseUpdate = remoteSource.updateCustomerDetails(
+                CustomerParent(
+                    Customer(
+                        id = ConstantsValue.userID.toLong(),
+                        email = ConstantsValue.email,
+                        note = response.body()?.draft_order?.id
+                    )
+                )
+            )
+
+            Log.i(TAG, "createBag: responseUpdate--------> $responseUpdate")
+            editor?.putString("CART_ID", responseUpdate.body()?.customer?.note?.toString())
+            editor?.apply()
+            ConstantsValue.draftOrderID = responseUpdate.body()?.customer?.note.toString()
+        }
         return response
     }
 }

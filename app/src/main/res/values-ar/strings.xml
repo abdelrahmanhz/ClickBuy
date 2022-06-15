@@ -10,7 +10,7 @@
     <string name="Done">تم</string>
     <string name="welcome">"مرحبا "</string>
     <string name="invalid_username">اسم المستخدم ليس صحيحا</string>
-    <string name="invalid_password">كلمة السر يجب ان تكون اكبر من 5 حروف</string>
+    <string name="invalid_password">كلمة السر يجب ان تكون اكبر من 7 حروف</string>
     <string name="login_failed">"فشل التسجيل"</string>
     <string name="edit_profile">تعديل الملف الشخصي</string>
     <string name="address">العنوان</string>
@@ -54,4 +54,12 @@
     <string name="login">تسجيل الدخول</string>
     <string name="add_to_bag_fail">فشل الإضافة</string>
     <string name="add_to_bag_success">تمت الإضافة بنجاح</string>
+    <string name="successful_register">سجلت الدخول بنجاح</string>
+    <string name="register_fail">البريد الالكتروني او رقم الهاتف غير متاحين</string>
+    <string name="required">مطلوب</string>
+    <string name="invalid_email">البريد الالكتروني غير صحيح</string>
+    <string name="password_not_match">كلمة السر لا تتطابق</string>
+    <string name="invalid_phone">يجب ان تكون ارقام</string>
+    <string name="invalid_phone_length">يجب ان يكون ١١ رقم</string>
+    <string name="empty_bag">حقيبة التسوق الخاصة بك فارغة</string>
 </resources>

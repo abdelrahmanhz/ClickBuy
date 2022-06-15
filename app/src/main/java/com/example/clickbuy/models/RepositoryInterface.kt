@@ -61,6 +61,7 @@ interface RepositoryInterface {
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
     suspend fun addItemsInBag(product: Product): Response<ShoppingBag>
+    suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     suspend fun setupConstantsValue()
     suspend fun deleteSavedSettings()

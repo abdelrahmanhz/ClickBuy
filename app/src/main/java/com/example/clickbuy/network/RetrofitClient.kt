@@ -105,6 +105,12 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun updateCustomerDetails(customer: CustomerParent): Response<CustomerParent> {
+        val response = retrofitHelper.updateCustomerDetails(ConstantsValue.userID, customer)
+        Log.i(TAG, "updateCustomerDetails: " + response.code())
+        return response
+    }
+
     override suspend fun getCurrencies(): Response<Currencies> {
         val response = retrofitHelper.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())
@@ -161,9 +167,11 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    /* override suspend fun addItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
-
-     }*/
+    override suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+        val response = retrofitHelper.createBag(shoppingBag)
+        Log.i(TAG, "createBag: $response")
+        return response
+    }
 
 
     override suspend fun signIn(email: String): Response<Customers> {
