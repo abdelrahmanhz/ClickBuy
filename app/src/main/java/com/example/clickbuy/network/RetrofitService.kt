@@ -56,6 +56,7 @@ interface RetrofitService {
 
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
     @GET("products.json?")
     suspend fun getAllSubCategoriesForSpecificCategory(
         @Query("fields") product_type: String,
@@ -92,6 +93,7 @@ interface RetrofitService {
 
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
     @GET("customers.json?")
     suspend fun getCustomerDetails(
         @Query("email") email: String
@@ -141,10 +143,21 @@ interface RetrofitService {
         @Path("id") id: String
     ): Response<Addresses>
 
-    @Headers(
-        "Accept: application/json",
-        "X-Shopify-Access-Token: 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"
-    )
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
     @POST("orders.json")
     suspend fun postOrders(@Body order: OrderPojo): Response<OrderPojo>
+
+    @GET("draft_orders.json?limit=250")
+    suspend fun getFavourites(): Response<Favourites>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @POST("draft_orders.json")
+    suspend fun addFavourite(@Body favorite: FavouriteParent): Response<FavouriteParent>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @DELETE("draft_orders/{id}.json")
+    suspend fun removeFavourite(@Path("id") id: String): Response<Any>
 }

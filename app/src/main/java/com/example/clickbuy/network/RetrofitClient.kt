@@ -6,6 +6,7 @@ import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
 
+
 private const val TAG = "RetrofitClient"
 
 class RetrofitClient : RemoteSource {
@@ -174,6 +175,23 @@ class RetrofitClient : RemoteSource {
     override suspend fun postOrders( order: OrderPojo): Response<OrderPojo>{
         Log.i(TAG, "postOrders: " )
         return retrofitHelper.postOrders(order)
+    }
+
+    override suspend fun getDraftOrders(): Response<Favourites> {
+        val response = retrofitHelper.getFavourites()
+        Log.i(TAG, "getDraftOrders: ${response.code()} $response")
+        return response
+    }
+
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
+        val response = retrofitHelper.addFavourite(favorite)
+        Log.v(TAG, "error body: ${response.errorBody().toString()}");
+        Log.i(TAG, "addFavourite: ${response.code()} $response")
+        return response
+    }
+
+    override suspend fun removeFavourite(id: String): Response<Any> {
+        return retrofitHelper.removeFavourite(id)
     }
 
 }

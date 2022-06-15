@@ -79,10 +79,10 @@ class Repository private constructor(
     }
 
     override suspend fun signIn(email: String, password: String): String {
-        var responseMessage = ""
-        val response = remoteSource.signIn(email)
-        if (response.code() == 200) {
-            if (response.body()?.customers.isNullOrEmpty()) {
+        val responseMessage: String
+        val response =  remoteSource.signIn(email)
+        if (response.code() == 200){
+            if (response.body()?.customers.isNullOrEmpty()){
                 responseMessage = "No such user"
             } else {
                 // shared pref
@@ -90,6 +90,7 @@ class Repository private constructor(
                     responseMessage = "Logged in successfully"
                     editor?.putBoolean("IS_LOGGING", true)
                     editor?.putLong("USER_ID", response.body()!!.customers[0].id!!)
+                    editor?.putString("USER_EMAIL", response.body()!!.customers[0].email)
                     editor?.apply()
                 } else
                     responseMessage = "Entered a wrong password"
@@ -119,26 +120,6 @@ class Repository private constructor(
         val response = remoteSource.getProductByID(productId)
         Log.i(TAG, "getProductByID: $response")
         return response
-    }
-
-
-    // local (room)
-    override suspend fun addFavorite(favorite: Favorite) {
-        //localSource.insertFavorite(favorite)
-    }
-
-    override suspend fun getFavorites(): List<Favorite> {
-        //return localSource.getFavorites()
-        return emptyList()
-    }
-
-    override suspend fun deleteFavorite(productId: Long) {
-        //localSource.deleteFavorite(productId)
-    }
-
-    override suspend fun isFavorite(productId: Long): Boolean {
-        //return localSource.isFavorite(productId)
-        return false
     }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
@@ -194,6 +175,7 @@ class Repository private constructor(
         Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
+
     override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>{
         val response = remoteSource.getAllAddresesForSpecificCustomer(id)
         Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
@@ -204,7 +186,28 @@ class Repository private constructor(
         return remoteSource.postOrders(order)
     }
 
+
+
+
+    override suspend fun getFavourites(): Response<Favourites> {
+        val response = remoteSource.getDraftOrders()
+        if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()){
+            Log.i(TAG, "getFavourites")
+            // filter with user id too
+            val email = sharedPrefs?.getString("USER_EMAIL", "")
+            if (!email.isNullOrEmpty())
+                response.body()?.draft_orders = response.body()?.draft_orders?.filter { it.note == "fav" && it.email == email}
+        }
+        return response
+    }
+
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
+        val email = sharedPrefs?.getString("USER_EMAIL", "")
+        favorite.draft_order?.email = email
+        return remoteSource.addFavourite(favorite)
+    }
+
+    override suspend fun deleteFavourite(favId: String) {
+        remoteSource.removeFavourite(favId)
+    }
 }
-
-
-

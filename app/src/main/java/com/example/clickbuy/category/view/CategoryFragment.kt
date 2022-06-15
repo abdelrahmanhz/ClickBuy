@@ -32,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
+import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
@@ -126,6 +127,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, FavouritesFragment())
+                        .addToBackStack(null).commit()
                 }
                 R.id.filter_menubar -> {
                     val dialog = BottomSheetDialog(requireContext())
@@ -264,7 +268,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
-        salesDetails.setProductIdFromCategory(id)
+        salesDetails.setProductId(id)
 
     }
 }

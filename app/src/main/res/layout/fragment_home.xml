@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/categorySearchView"
-
+        android:scrollbars="none"
         android:layout_height="wrap_content">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint"
