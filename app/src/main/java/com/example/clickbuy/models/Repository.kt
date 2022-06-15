@@ -176,7 +176,7 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getFavourites(): Response<DraftOrders> {
+    override suspend fun getFavourites(): Response<Favourites> {
         val response = remoteSource.getDraftOrders()
         if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()){
             Log.i(TAG, "getFavourites")
@@ -188,7 +188,7 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent> {
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
         val email = sharedPrefs?.getString("USER_EMAIL", "")
         favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)

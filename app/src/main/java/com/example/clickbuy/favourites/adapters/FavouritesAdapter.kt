@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.favourites.view.FavouritesFragmentInterface
 import com.example.clickbuy.models.DraftOrder
+import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.util.Extensions.load
 
 class FavouritesAdapter(
-    private var favourites: ArrayList<DraftOrder>,
+    private var favourites: ArrayList<Favourite>,
     private var view: FavouritesFragmentInterface
 ): RecyclerView.Adapter<FavouritesAdapter.FavouriteViewHolder>() {
     inner class FavouriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,7 +50,7 @@ class FavouritesAdapter(
         return favourites.size
     }
 
-    fun setFavourites(favourites: ArrayList<DraftOrder>){
+    fun setFavourites(favourites: ArrayList<Favourite>){
        // this.favourites.clear()
         this.favourites = favourites
         Log.i("FavouritesAdapter", "setFavourites")

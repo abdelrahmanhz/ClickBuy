@@ -53,8 +53,8 @@ interface RepositoryInterface {
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     // Favourites
-    suspend fun getFavourites(): Response<DraftOrders>
-    suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent>
+    suspend fun getFavourites(): Response<Favourites>
+    suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent>
     suspend fun deleteFavourite(favId: String)
 
 }

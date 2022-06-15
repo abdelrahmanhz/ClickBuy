@@ -13,8 +13,8 @@ import kotlinx.coroutines.withContext
 const val TAG = "FavouritesViewModel"
 class FavouritesViewModel(private val repo: RepositoryInterface): ViewModel() {
 
-    private var _favourites = MutableLiveData<DraftOrders>()
-    var favourites: LiveData<DraftOrders> = _favourites
+    private var _favourites = MutableLiveData<Favourites>()
+    var favourites: LiveData<Favourites> = _favourites
 
     fun getFavourites(){
         viewModelScope.launch {

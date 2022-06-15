@@ -174,11 +174,11 @@ class ProductDetailsFragment : Fragment() {
             Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
             if (!isFavourite) {
                 Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
-                val fav = DraftOrderParent(
-                    DraftOrder(
+                val fav = FavouriteParent(
+                    Favourite(
                         note = "fav",
-                        line_items = listOf(DraftOrderLineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
-                        note_attributes = listOf(NoteAttribute(name = "image", value = product.image?.src))
+                        line_items = listOf(FavouriteLineItem(variant_id = product.variants?.get(0)?.id, quantity = 1)),
+                        note_attributes = listOf(FavouriteNoteAttribute(name = "image", value = product.image.src))
                     )
                 )
                 Log.i(TAG, "displayProduct: fav = $fav")

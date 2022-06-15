@@ -1,8 +1,8 @@
 package com.example.clickbuy.favourites.view
 
-import com.example.clickbuy.models.DraftOrder
+import com.example.clickbuy.models.Favourite
 
 interface FavouritesFragmentInterface {
-    fun deleteFavouriteItem(favorite: DraftOrder, position: Int)
+    fun deleteFavouriteItem(favorite: Favourite, position: Int)
     fun showFavouriteItemDetails(id: Long)
 }

@@ -18,6 +18,7 @@ import com.example.clickbuy.favourites.viewmodel.FavouritesViewModel
 import com.example.clickbuy.favourites.viewmodel.FavouritesViewModelFactory
 import com.example.clickbuy.models.DraftOrder
 import com.example.clickbuy.models.Favorite
+import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
@@ -35,7 +36,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     private lateinit var viewModelFactory: FavouritesViewModelFactory
     private lateinit var favouritesAdapter: FavouritesAdapter
     private lateinit var layoutManager: LinearLayoutManager
-    private var favorites = ArrayList<DraftOrder>()
+    private var favorites = ArrayList<Favourite>()
 
 
     override fun onCreateView(
@@ -94,7 +95,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             if (!it.draft_orders.isNullOrEmpty()) {
                 Log.i(TAG, "getFavourites: if")
                 Log.i(TAG, "product: $it")
-                favorites = it.draft_orders as ArrayList<DraftOrder>
+                favorites = it.draft_orders as ArrayList<Favourite>
                 displayFavourites(favorites)
             } else {
                 Log.i(TAG, "getFavourites: else")
@@ -106,7 +107,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
 
     }
 
-    private fun displayFavourites(it: ArrayList<DraftOrder>) {
+    private fun displayFavourites(it: ArrayList<Favourite>) {
         Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
         favouritesAdapter.setFavourites(it)
         binding.favRecyclerView.visibility = View.VISIBLE
@@ -114,7 +115,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
     }
 
-    override fun deleteFavouriteItem(favorite: DraftOrder, position: Int) {
+    override fun deleteFavouriteItem(favorite: Favourite, position: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.apply {
 

@@ -33,7 +33,7 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
         }
     }
 
-    fun addFavourite(favorite: DraftOrderParent){
+    fun addFavourite(favorite: FavouriteParent){
         viewModelScope.launch {
             val response = repo.addFavourite(favorite)
             withContext(Dispatchers.Main) {

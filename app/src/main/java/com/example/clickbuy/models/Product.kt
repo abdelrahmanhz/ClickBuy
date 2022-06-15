@@ -26,7 +26,7 @@ data class Product (
     val variants: List<Variant>? = null,
     val options: List<Option>? = null,
     val images: List<ProductImage>? = null,
-    val image: ProductImage? = null
+    val image: ProductImage
 )
 data class ProductImage (
     val id: Long,
@@ -49,8 +49,6 @@ data class Option (
     val position: Long,
     val values: List<String>
 )
-
-
 
 data class Variant (
     val id: Long,

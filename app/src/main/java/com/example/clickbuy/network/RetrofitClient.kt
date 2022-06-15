@@ -2,6 +2,7 @@ package com.example.clickbuy.network
 
 import android.util.Log
 import com.example.clickbuy.models.*
+import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
 
@@ -167,13 +168,13 @@ class RetrofitClient : RemoteSource {
         return retrofitHelper.registerCustomer(customer)
     }
 
-    override suspend fun getDraftOrders(): Response<DraftOrders> {
+    override suspend fun getDraftOrders(): Response<Favourites> {
         val response = retrofitHelper.getFavourites()
         Log.i(TAG, "getDraftOrders: ${response.code()} $response")
         return response
     }
 
-    override suspend fun addFavourite(favorite: DraftOrderParent): Response<DraftOrderParent> {
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
         val response = retrofitHelper.addFavourite(favorite)
         Log.v(TAG, "error body: ${response.errorBody().toString()}");
         Log.i(TAG, "addFavourite: ${response.code()} $response")
