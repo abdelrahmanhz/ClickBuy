@@ -20,7 +20,7 @@ class MainActivityViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getQualifiedValueCurrency(to: String) {
         viewModelScope.launch {
-            var response = _iRepo.getQualifiedValueCurrency(to)
+            val response = _iRepo.getQualifiedValueCurrency(to)
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && response.body()?.success == true) {
                     Log.i(

@@ -20,19 +20,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:mbn_backgroundBottomColor="#fff" />
 
-
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/fragment_container_view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:name="com.example.clickbuy.productdetails.view.ProductDetailsFragment"-->
-    <!--        />-->
-</androidx.constraintlayout.widget.ConstraintLayout><!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/bottomNavigation"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:background="@color/white"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:menu="@menu/bottom_nav_menu"/>-->
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,10 +3,7 @@ package com.example.clickbuy.network
 import android.util.Log
 import com.example.clickbuy.models.*
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Headers
-import retrofit2.http.Query
-import kotlin.math.log
+
 
 
 private const val TAG = "RetrofitClient"
@@ -30,7 +27,7 @@ class RetrofitClient : RemoteSource {
         vendor: String,
         productType: String
     ): Response<Products> {
-        var response =
+        val response =
             retrofitHelper.getAllProducts(collectionId, vendor, productType)
         Log.i(TAG, "getAllProducts code \n ${response.code()}")
         Log.i(TAG, "getAllProducts body \n ${response.body()}")
@@ -38,52 +35,27 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
-        var response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
+        val response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
         Log.i(TAG, "getAllProductsInCollectionByID code \n ${response.code()}")
         Log.i(TAG, "getAllProductsInCollectionByID body\n ${response.body()}")
         return response
     }
 
     override suspend fun getProductByID(productId: String): Response<ProductParent> {
-        var response = retrofitHelper.getProductById(productId)
+        val response = retrofitHelper.getProductById(productId)
+        Log.i(TAG, "getProductByID: response.code()----> " + response.code())
         return response
     }
 
     override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
-        var response = retrofitHelper.getCategoryIdByTitle(categoryTitle)
+        val response = retrofitHelper.getCategoryIdByTitle(categoryTitle)
         Log.i(TAG, "getCategoryIdByTitle: " + response.code())
 
         return response
     }
 
-
-
-
-//
-//        override suspend fun getAllCustomCollections(): Response<CustomCollections> {
-//            var response = retrofitHelper.getAllCustomCollections()
-//            Log.i(TAG, "getAllCustomCollections: responseCode ---->\n ${response.code()}")
-//            Log.i(TAG, "getAllCustomCollections: response ---->\n ${response.body()}")
-//            return response
-//        }
-
-
-//        override suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products> {
-//            var response = retrofitHelper.getAllSubCategoriesForSpecificCategory(collectionID)
-//            Log.i(
-//                TAG,
-//                "getCustomCollectionsByID: responseCode ---->\n ${response.code()}"
-//            )
-//            Log.i(
-//                TAG,
-//                "getCustomCollectionsByID: response ---->\n ${response.body()}"
-//            )
-//            return response
-//        }
-
-
     override suspend fun getAllBrands(): Response<Brands> {
-        var response = retrofitHelper.getAllBrands()
+        val response = retrofitHelper.getAllBrands()
         Log.i(TAG, "getAllBrands: ${response.body()}")
         return response
     }
@@ -93,9 +65,13 @@ class RetrofitClient : RemoteSource {
         idCollectionDetails: String,
         categoryTitleComingFromHome: String
     ): Response<Products> {
-        var response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
+        val response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
             idCollectionDetails,
             categoryTitleComingFromHome
+        )
+        Log.i(
+            TAG,
+            "getAllProductsInSpecificCollectionByIDAndTitle: response.code()----> " + response.code()
         )
         return response
     }
@@ -104,21 +80,25 @@ class RetrofitClient : RemoteSource {
         idCollectionDetails: String,
         categoryTitleFromFilter: String
     ): Response<Products> {
-        var response = retrofitHelper.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
+        val response = retrofitHelper.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
             idCollectionDetails,
             categoryTitleFromFilter
+        )
+        Log.i(
+            TAG,
+            "getAllProductsInSpecificCollectionByIDAndTitle: response.code()----> " + response.code()
         )
         return response
     }
 
     override suspend fun getSubCategories(): Response<Products> {
-        var response = retrofitHelper.getSubCategories()
+        val response = retrofitHelper.getSubCategories()
+        Log.i(TAG, "getSubCategories: response.code()----> " + response.code())
         return response
-
     }
 
     override suspend fun getCustomerDetails(email: String): Response<Customers> {
-        var response = retrofitHelper.getCustomerDetails(email)
+        val response = retrofitHelper.getCustomerDetails(email)
         Log.i(TAG, "getCustomerDetails: " + response.code())
         return response
     }
@@ -151,9 +131,10 @@ class RetrofitClient : RemoteSource {
 
     override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
         val response = retrofitHelper.getAllOrdersForSpecificCustomerById(id)
-            Log.i(TAG, "getAllOrdersForSpecificCustomerById: " + response)
+        Log.i(TAG, "getAllOrdersForSpecificCustomerById: $response")
         return response
     }
+
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         val response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
@@ -161,6 +142,20 @@ class RetrofitClient : RemoteSource {
             idCollectionDetails
         )
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
+        return response
+    }
+
+    override suspend fun getAllItemInBag(): Response<ShoppingBag> {
+        Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = retrofitHelper.getAllItemInBag(ConstantsValue.draftOrderID)
+        Log.i(TAG, "getAllItemInBag: $response")
+        return response
+    }
+
+    override suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+        Log.i(TAG, "updateItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+        val response = retrofitHelper.updateItemsInBag(ConstantsValue.draftOrderID, shoppingBag)
+        Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
 

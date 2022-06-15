@@ -8,6 +8,7 @@
     android:layout_marginStart="20sp"
     android:layout_marginTop="20sp"
     android:layout_marginEnd="20sp"
+    android:background="@color/white"
     android:padding="5sp">
 
 
@@ -17,7 +18,7 @@
         android:layout_height="130sp"
         android:layout_margin="10sp"
         android:scaleType="fitXY"
-        android:src="@drawable/bag_image"
+        android:src="@drawable/ads_logo"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,15 +26,17 @@
 
     <TextView
         android:id="@+id/product_name_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30sp"
         android:layout_marginTop="10sp"
+        android:maxLines="1"
         android:text="Pizza"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_imageView"
         app:layout_constraintTop_toTopOf="@+id/product_imageView" />
 
@@ -47,15 +50,17 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_imageView"
         app:layout_constraintTop_toBottomOf="@+id/product_name_textView" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="20sp"
+        android:layout_marginStart="30sp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_imageView"
         app:layout_constraintTop_toBottomOf="@+id/product_price_textView">
 
         <de.hdodenhof.circleimageview.CircleImageView

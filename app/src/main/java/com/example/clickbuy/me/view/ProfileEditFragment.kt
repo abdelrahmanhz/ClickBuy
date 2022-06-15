@@ -6,32 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
 import com.example.clickbuy.R
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import java.util.*
 
 private const val TAG = "ProfileEditFragment"
 
 class ProfileEditFragment : Fragment() {
 
-    lateinit var arrowBackImageView: ImageView
-    lateinit var editImageView: ImageView
-    lateinit var nameEditText: TextInputEditText
-    lateinit var addressTextView: AutoCompleteTextView
-    lateinit var genderTextView: AutoCompleteTextView
-    lateinit var emailEditText: TextInputEditText
-    lateinit var phoneNumberEditText: TextInputEditText
-    lateinit var saveButton: AppCompatButton
+    private lateinit var arrowBackImageView: ImageView
+    private lateinit var editImageView: ImageView
+    private lateinit var nameEditText: TextInputEditText
+    private lateinit var addressTextView: AutoCompleteTextView
+    private lateinit var genderTextView: AutoCompleteTextView
+    private lateinit var emailEditText: TextInputEditText
+    private lateinit var phoneNumberEditText: TextInputEditText
+    private lateinit var saveButton: AppCompatButton
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

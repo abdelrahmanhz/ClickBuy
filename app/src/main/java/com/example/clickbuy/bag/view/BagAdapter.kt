@@ -1,6 +1,5 @@
 package com.example.clickbuy.bag.view
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Bag
+import com.example.clickbuy.models.BagItem
+import com.example.clickbuy.models.NoteAttribute
+import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.Extensions.load
 import java.util.*
 
 private const val TAG = "BagAdapter"
 
-class BagAdapter(context: Context) :
+class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
     RecyclerView.Adapter<BagAdapter.ViewHolder>() {
 
-    private var context = context
-    private var bagList: List<Bag> = ArrayList()
+    private var bagList: List<BagItem> = ArrayList()
+    private var imagesList: List<NoteAttribute> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.i(TAG, "onCreateViewHolder: ")
@@ -30,23 +33,18 @@ class BagAdapter(context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
-        var product = bagList[position]
-        holder.productImageView.setImageResource(product.imageView)
-        holder.productNameTextView.text = product.productName
-        holder.productPriceTextView.text = product.productPrice
-        holder.productNumberTextView.text = product.productCount.toString()
+        val product = bagList[position]
+        holder.productImageView.load(imagesList[position].value)
+        holder.productNameTextView.text = product.name
+        holder.productPriceTextView.text = product.price.plus(ConstantsValue.to)
+        holder.productNumberTextView.text = product.quantity.toString()
+
         holder.minusTextView.setOnClickListener {
-            product.productCount--
-            if (product.productCount == 0) {
-                Toast.makeText(context, "Product deleted", Toast.LENGTH_SHORT).show()
-            } else {
-                holder.productNumberTextView.text = product.productCount.toString()
-            }
+            updatingItemsAtBag.onQuantityDecreased(position)
         }
 
         holder.plusTextView.setOnClickListener {
-            product.productCount++
-            holder.productNumberTextView.text = product.productCount.toString()
+            updatingItemsAtBag.onQuantityIncreased(position)
         }
     }
 
@@ -54,8 +52,9 @@ class BagAdapter(context: Context) :
         return bagList.size
     }
 
-    fun setList(bagList: List<Bag>) {
+    fun setList(bagList: List<BagItem>, imagesList: List<NoteAttribute>) {
         this.bagList = bagList
+        this.imagesList = imagesList
         notifyDataSetChanged()
     }
 

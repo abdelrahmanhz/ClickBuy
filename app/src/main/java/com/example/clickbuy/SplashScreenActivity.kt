@@ -4,13 +4,11 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.clickbuy.mainscreen.view.MainActivity
-import com.example.clickbuy.util.isInternetAvailable
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.provider.Settings
 import android.view.Window
+import com.example.clickbuy.util.isNetworkAvailable
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var logo: ImageView
@@ -29,9 +28,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_splash_screen)
 
         title = findViewById(R.id.title_textView)
@@ -47,7 +44,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000)
-            if (isInternetAvailable(this@SplashScreenActivity))
+            if (isNetworkAvailable(this@SplashScreenActivity))
                 startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
             else
                 showSnackbar()

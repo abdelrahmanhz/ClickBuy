@@ -13,8 +13,8 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "HomeViewModel"
 
-class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
-    private val _irepo: RepositoryInterface = irepo
+class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
+    private val _iRepo: RepositoryInterface = iRepo
 
     private var _brand = MutableLiveData<Brands>()
     var brand: LiveData<Brands> = _brand
@@ -23,31 +23,15 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
     var saleId: LiveData<Products> = _saleId
     private var _order = MutableLiveData<Orders>()
     var order: LiveData<Orders> = _order
-//    fun getAllOrdersById(id : String){
-//        viewModelScope.launch {
-//            var orders: Orders? = null
-//            val brandResponse = _irepo.getAllOrdersById(id)
-//            if (brandResponse.code() == 200) {
-//                orders = brandResponse.body()!!
-//            }
-//            withContext(Dispatchers.Main) {
-//                _order.postValue(orders!!)
-//                Log.i(TAG, "getAllOrders View Model  all orderssss--------------------->: $orders"
-//                )
-//            }
-//        }
-//    }
 
     private var _coupons = MutableLiveData<List<DiscountCode>>()
     var coupons: LiveData<List<DiscountCode>> = _coupons
 
-    private var _coupon = MutableLiveData<Coupon>()
-    var coupon: LiveData<Coupon> = _coupon
 
     fun getAllBrands() {
         viewModelScope.launch {
             var brands: Brands? = null
-            val brandResponse = _irepo.getAllBrands()
+            val brandResponse = _iRepo.getAllBrands()
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
             }
@@ -64,7 +48,7 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
 
     fun getAvailableCoupons() {
         viewModelScope.launch {
-            val response = _irepo.getAvailableCoupons()
+            val response = _iRepo.getAvailableCoupons()
             withContext(Dispatchers.Main) {
                 Log.i(TAG, "getAvailableCoupons: ${response.code()}")
                 Log.i(TAG, "getAvailableCoupons: ${response.body()}")
@@ -75,18 +59,13 @@ class HomeViewModel(irepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-    fun validateCoupons(code: String) {
-        viewModelScope.launch {
-
-        }
-    }
 
 
     fun getAllSalesById() {
         // getSalesId()
         viewModelScope.launch {
             var brands: Products? = null
-            val brandResponse = _irepo.getAllProductsInCollectionByID("273053778059")
+            val brandResponse = _iRepo.getAllProductsInCollectionByID("273053778059")
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
             }

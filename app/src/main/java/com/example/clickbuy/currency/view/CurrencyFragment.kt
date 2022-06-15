@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,14 +17,19 @@ import com.example.clickbuy.currency.viewmodel.CurrencyViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.mainscreen.view.MainActivity
+import com.example.clickbuy.util.isRTL
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
 
+
+
+private const val TAG = "CurrencyFragment"
 
 class CurrencyFragment : Fragment() {
     private lateinit var arrowBackImageView: ImageView
     private lateinit var currencyRecyclerView: RecyclerView
     private lateinit var currencyAdapter: CurrencyAdapter
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private lateinit var viewModelFactory: CurrencyViewModelFactory
     private lateinit var viewModel: CurrencyViewModel
     private lateinit var currentView: View
@@ -43,21 +47,30 @@ class CurrencyFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_currency, container, false)
         currentView = view
 
-        currencyRecyclerView = view.findViewById(R.id.recyclerView_currency)
-        currencyAdapter = CurrencyAdapter(view.context)
-        currencyRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        currencyRecyclerView.adapter = currencyAdapter
+        initView(view)
+        initViewModel()
+        checkRTL()
+        observeViewModel()
 
-        arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
-
-        if (Locale.getDefault() == Locale.ENGLISH) {
-            arrowBackImageView.setImageResource(R.drawable.ic_arrow_left)
-            Log.i(TAG, "onCreateView: in if")
-        }
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
+
+        return view
+    }
+
+    private fun initView(view: View) {
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout)
+        currencyRecyclerView = view.findViewById(R.id.recyclerView_currency)
+        currencyAdapter = CurrencyAdapter()
+        currencyRecyclerView.layoutManager = LinearLayoutManager(view.context)
+        currencyRecyclerView.adapter = currencyAdapter
+
+        arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
+    }
+
+    private fun initViewModel() {
         viewModelFactory = CurrencyViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
@@ -69,21 +82,33 @@ class CurrencyFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory).get(CurrencyViewModel::class.java)
 
         viewModel.getCurrencies()
+    }
 
-        viewModel.currencies.observe(viewLifecycleOwner, Observer {
+    private fun checkRTL() {
+        if (isRTL())
+            arrowBackImageView.setImageResource(R.drawable.ic_arrow_right)
+    }
+
+    private fun observeViewModel() {
+        viewModel.currencies.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 showSnackBar()
             } else {
                 currencyAdapter.setList(it)
+                shimmerFrameLayout.stopShimmerAnimation()
+                shimmerFrameLayout.visibility = View.GONE
+                currencyRecyclerView.visibility = View.VISIBLE
             }
-        })
+        }
+    }
 
-
-        return view
+    override fun onResume() {
+        super.onResume()
+        shimmerFrameLayout.startShimmerAnimation()
     }
 
     private fun showSnackBar() {
-        var snackBar = Snackbar.make(
+        val snackBar = Snackbar.make(
             currentView.findViewById(R.id.ConstraintLayout_CurrencyFragment),
             getString(R.string.no_currency_found),
             Snackbar.LENGTH_SHORT

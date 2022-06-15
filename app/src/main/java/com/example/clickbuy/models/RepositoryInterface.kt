@@ -38,25 +38,19 @@ interface RepositoryInterface {
 
     suspend fun signIn(email: String, password: String): String
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
-
-    // room
-//    suspend fun addFavorite(favorite: Favorite)
-//    suspend fun getFavorites(): List<Favorite>
-//    suspend fun deleteFavorite(productId: Long)
-//    suspend fun isFavorite(productId: Long): Boolean
-
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
         categoryTitleFromFilter: String
     ): Response<Products>
-
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
-
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
+
+    suspend fun getAllItemInBag(): Response<ShoppingBag>
+    suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     // Favourites
     suspend fun getFavourites(): Response<DraftOrders>

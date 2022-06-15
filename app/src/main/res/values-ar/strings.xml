@@ -42,5 +42,12 @@
     <string name="pay">الدفع</string>
     <string name="coupon_empty">كود الخصم لا يجب ان يكون فارغا</string>
     <string name="coupon_invalid">كود الخصم غير صحيح</string>
-
+    <string name="delete_item">حذف المنتج</string>
+    <string name="delete_item_message">هل انت متاكد من حذف هذا المنتج</string>
+    <string name="no_button">لا</string>
+    <string name="delete_button">حذف</string>
+    <string name="checkout">الدفع</string>
+    <string name="add_address">أضف عنوان</string>
+    <string name="go_back">الرجوع</string>
+    <string name="orders">الطلبات</string>
 </resources>

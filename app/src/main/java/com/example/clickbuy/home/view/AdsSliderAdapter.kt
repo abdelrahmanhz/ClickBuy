@@ -20,8 +20,8 @@ class AdsSliderAdapter() :
         R.drawable.ads_logo_2,
         R.drawable.ads_logo_3,
         R.drawable.ads_logo_4,
-        R.drawable.ads_logo_5
-    )
+        R.drawable.ads_logo_5,
+        )
 
     override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterViewHolder {
         val view: View =
