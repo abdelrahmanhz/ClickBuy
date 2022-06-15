@@ -56,7 +56,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
-    private val categories = mutableListOf(getString(R.string.all),getString(R.string.women),getString(R.string.men), getString(R.string.kids))
     private var productType: String = ""
     private var vendor: String = ""
 
@@ -75,6 +74,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i(TAG, "onViewCreated: ")
+
 
         initViewModel()
         initUI(view)
@@ -210,6 +210,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun initTabLayout() {
+        val categories = mutableListOf(getString(R.string.all),getString(R.string.women),getString(R.string.men), getString(R.string.kids))
         for (category in categories) {
             tabLayout.addTab(tabLayout.newTab().setText(category))
         }
