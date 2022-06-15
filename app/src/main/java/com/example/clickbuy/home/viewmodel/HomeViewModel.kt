@@ -37,11 +37,9 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
             }
 
             withContext(Dispatchers.Main) {
+                Log.i(TAG, "getAllBrands View Model--------------------->: $brands")
+
                 _brand.postValue(brands!!)
-                Log.i(
-                    TAG,
-                    "getAllBrands View Model--------------------->: $brands"
-                )
             }
         }
     }
@@ -62,7 +60,6 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
 
     fun getAllSalesById() {
-        // getSalesId()
         viewModelScope.launch {
             var brands: Products? = null
             val brandResponse = _iRepo.getAllProductsInCollectionByID("273053778059")

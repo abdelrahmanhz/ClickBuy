@@ -1,8 +1,10 @@
 package com.example.clickbuy.models
 
-data class ShoppingBag(
+import java.io.Serializable
+
+class ShoppingBag(
     val draft_order: DraftOrder
-)
+) : Serializable
 
 /*data class DraftOrder(
     val admin_graphql_api_id: String,
@@ -42,18 +44,18 @@ data class DraftOrder(
     val total_price: String="",
     val total_tax: String = "",
     val subtotal_price: String = "",
-)
+) : Serializable
 
 data class TaxLineX(
     val price: String,
     val rate: Double,
     val title: String
-)
+): Serializable
 
 data class NoteAttribute(
     val name: String,
     val value: String
-)
+): Serializable
 
 data class BagItem(
     val admin_graphql_api_id: String,
@@ -76,4 +78,4 @@ data class BagItem(
     val variant_id: Long,
     val variant_title: String,
     val vendor: String
-)
+): Serializable

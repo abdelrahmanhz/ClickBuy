@@ -117,7 +117,7 @@ dependencies {
 
     //Shimmer Animation
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
-
-
+    ///view steps
+    implementation 'com.shuhart.stepview:stepview:1.5.1'
 
 }

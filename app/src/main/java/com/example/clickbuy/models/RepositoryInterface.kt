@@ -60,4 +60,9 @@ interface RepositoryInterface {
 
     suspend fun getAllItemInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+
+    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
+    suspend fun postOrders( order: OrderPojo): Response<OrderPojo>
+
+
 }

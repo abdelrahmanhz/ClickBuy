@@ -194,6 +194,16 @@ class Repository private constructor(
         Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
+    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>{
+        val response = remoteSource.getAllAddresesForSpecificCustomer(id)
+        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
+        return response
+    }
+    override suspend fun postOrders( order: OrderPojo): Response<OrderPojo>{
+        Log.i(TAG, "postOrders:")
+        return remoteSource.postOrders(order)
+    }
+
 }
 
 

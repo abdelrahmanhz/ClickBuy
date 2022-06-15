@@ -50,5 +50,13 @@
     <string name="add_address">Add Address</string>
     <string name="go_back">Go back</string>
     <string name="orders">Orders</string>
+    <string name="next">Next</string>
+    <string name="paypal">Paypal</string>
+    <string name="cash">Cash</string>
+    <string name="placeOrder">Place Order</string>
+    <string name="all">All</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="kids">Kidz</string>
 
 </resources>

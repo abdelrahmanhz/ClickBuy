@@ -140,7 +140,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     }
     override fun productDetailsShow(id: String) {
-        // Open Product Details
         Log.i(TAG, "productDetailsShow: " + id)
         val salesDetails = ProductDetailsFragment()
 

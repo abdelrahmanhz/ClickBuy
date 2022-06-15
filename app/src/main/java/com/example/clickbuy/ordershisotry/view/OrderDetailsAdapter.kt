@@ -1,4 +1,4 @@
-package com.example.clickbuy.orders
+package com.example.clickbuy.ordershisotry
 
 import android.content.Context
 import android.util.Log
@@ -10,10 +10,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Image
+import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.ItemImage
 import com.example.clickbuy.models.LineItem
-import com.example.clickbuy.models.Order
+import com.example.clickbuy.models.NoteAttribute
 
 
 private const val TAG = "OrdersDetailsAdapter"
@@ -21,8 +21,8 @@ private const val TAG = "OrdersDetailsAdapter"
 class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInterface) :
     RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder>()  {
     var orderDetailsInterface : OrderDetailsInterface = orderFragment
-    lateinit var lineItemList: List<LineItem>
-    lateinit var  itemImageList: List<ItemImage>
+    lateinit var lineItemList: List<BagItem>
+    lateinit var  itemImageList: List<NoteAttribute>
 
     //var order: List<Order> = emptyList()
     override fun onCreateViewHolder(
@@ -48,7 +48,7 @@ class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInt
         Log.i(TAG, "getItemCount: " + lineItemList.size)
         return lineItemList.size
     }
-    fun setListOfOrdersDetails(lineItemList: List<LineItem>, itemImageList: List<ItemImage>){
+    fun setListOfOrdersDetails(lineItemList: List<BagItem>, itemImageList: List<NoteAttribute>){
         this.lineItemList = lineItemList
         this.itemImageList = itemImageList
         notifyDataSetChanged()
@@ -63,4 +63,8 @@ class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInt
             orderDetailsPrice   = itemView.findViewById(R.id.priceItemTextViewOrderDetails)
         }
     }
+}
+
+interface OrderDetailsInterface {
+    fun showOrderDetails(lineItemList: List<BagItem>?, itemImageList: List<NoteAttribute>?)
 }

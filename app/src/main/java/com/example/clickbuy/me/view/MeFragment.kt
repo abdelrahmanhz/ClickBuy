@@ -19,8 +19,8 @@ import com.example.clickbuy.me.viewmodel.CustomerViewModelFactory
 import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.ordershisotry.view.OrdersFragment
 import com.example.clickbuy.util.isRTL
-import com.example.clickbuy.orders.OrdersFragment
 
 
 private const val TAG = "HomeView"

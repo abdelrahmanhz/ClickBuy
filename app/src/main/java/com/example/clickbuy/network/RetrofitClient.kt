@@ -159,12 +159,21 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
+        val response = retrofitHelper.getAllAddresesForSpecificCustomer(id)
+        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
+        return response    }
+
     override suspend fun signIn(email: String): Response<Customers> {
         return retrofitHelper.signIn(email)
     }
 
     override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
         return retrofitHelper.registerCustomer(customer)
+    }
+    override suspend fun postOrders( order: OrderPojo): Response<OrderPojo>{
+        Log.i(TAG, "postOrders: " )
+        return retrofitHelper.postOrders(order)
     }
 
 }

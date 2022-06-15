@@ -1,6 +1,7 @@
 package com.example.clickbuy.bag.view
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -21,12 +22,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.viewmodel.BagViewModel
 import com.example.clickbuy.bag.viewmodel.BagViewModelFactory
+import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.orders.view.AddressOrder
+import com.example.clickbuy.orders.view.OrderAddresFragment
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.io.Serializable
 
 
 private const val TAG = "BagFragment"
@@ -44,7 +49,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
     private var bagList: List<BagItem> = emptyList()
     private var imagesList: List<NoteAttribute> = emptyList()
     private lateinit var progressBar: ProgressBar
-
+    private lateinit var bagObject : ShoppingBag
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,17 +61,20 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         observeViewModel()
         swipeToDelete()
         checkRTL()
-
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         checkoutButton.setOnClickListener {
-            //write here the code will convert you to the order activity to make the order
+            var intent = Intent(requireContext(), AddressOrder::class.java)
+            intent.putExtra("TEST", bagObject)
+            startActivity(intent)
+//            .apply {
+//                putStringArrayListExtra("bagList" , bagList as java.util.ArrayList<String>)
+//            }
         }
         return view
     }
-
 
     private fun initUI(view: View) {
         progressBar = view.findViewById(R.id.progress_bar)
@@ -113,6 +121,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             imagesList = it.draft_order.note_attributes
             bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
             priceTextView.text = it.draft_order.subtotal_price
+            bagObject = it
+
         }
     }
 
@@ -208,7 +218,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 )
             )
         )
-
     }
 
     private fun deleteItem(position: Int) {
@@ -221,4 +230,9 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         super.onResume()
         shimmerFrameLayout.startShimmerAnimation()
     }
+
+    /*  override fun setListOfBag(bagList: List<BagItem>, imagesList: List<NoteAttribute>) {
+          val order = AddressOrder()
+          order.setListOfBag(bagList, imagesList)
+      }*/
 }

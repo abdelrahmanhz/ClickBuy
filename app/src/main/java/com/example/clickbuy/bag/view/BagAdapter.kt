@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clickbuy.R
+import com.example.clickbuy.home.view.CategoryBrandInterface
 import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.util.ConstantsValue
@@ -20,6 +21,7 @@ private const val TAG = "BagAdapter"
 
 class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
     RecyclerView.Adapter<BagAdapter.ViewHolder>() {
+  //  private var bagBrandInterface: ListOfBagInterface = bag
 
     private var bagList: List<BagItem> = ArrayList()
     private var imagesList: List<NoteAttribute> = ArrayList()
@@ -34,15 +36,15 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
         val product = bagList[position]
-        holder.productImageView.load(imagesList[position].value)
+        holder.productImageView.load(imagesList[0].value)
         holder.productNameTextView.text = product.name
         holder.productPriceTextView.text = product.price.plus(ConstantsValue.to)
         holder.productNumberTextView.text = product.quantity.toString()
+        //bagBrandInterface.setListOfBag( bagList , imagesList )
 
         holder.minusTextView.setOnClickListener {
             updatingItemsAtBag.onQuantityDecreased(position)
         }
-
         holder.plusTextView.setOnClickListener {
             updatingItemsAtBag.onQuantityIncreased(position)
         }
