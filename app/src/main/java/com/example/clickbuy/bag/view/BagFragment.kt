@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -104,15 +103,25 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
 
     private fun observeViewModel() {
         viewModel.shoppingBag.observe(viewLifecycleOwner) {
+            Log.i(TAG, "observeViewModel: lineItems--------------> " + it.draft_order.line_items.size)
+            Log.i(TAG, "observeViewModel: note_attributes--------> " + it.draft_order.note_attributes.size)
+            if (it.draft_order.note_attributes.isNotEmpty() && it.draft_order.line_items.isNotEmpty()) {
+                bagRecyclerView.visibility = View.VISIBLE
+                relativeLayout.visibility = View.VISIBLE
+                bagList = it.draft_order.line_items
+                imagesList = it.draft_order.note_attributes
+                bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
+                priceTextView.text = it.draft_order.subtotal_price
+            } else {
+                Log.i(TAG, "observeViewModel: lineItems--------------> " + it.draft_order.line_items.size)
+                Log.i(TAG, "observeViewModel: note_attributes--------> " + it.draft_order.note_attributes.size)
+                bagAdapter.setList(emptyList()  , emptyList())
+                priceTextView.text = "0.0"
+                relativeLayout.visibility = View.GONE
+            }
             progressBar.visibility = View.GONE
             shimmerFrameLayout.stopShimmerAnimation()
             shimmerFrameLayout.visibility = View.GONE
-            bagRecyclerView.visibility = View.VISIBLE
-            relativeLayout.visibility = View.VISIBLE
-            bagList = it.draft_order.line_items
-            imagesList = it.draft_order.note_attributes
-            bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
-            priceTextView.text = it.draft_order.subtotal_price
         }
     }
 

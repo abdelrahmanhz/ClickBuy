@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClickBuy">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".splashscreen.view.SplashScreenActivity"
             android:exported="true"
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">

@@ -1,22 +1,37 @@
-package com.example.clickbuy
+package com.example.clickbuy.splashscreen.view
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import android.view.View
+import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.clickbuy.R
 import com.example.clickbuy.mainscreen.view.MainActivity
+import com.example.clickbuy.models.Favorite
+import com.example.clickbuy.models.Repository
+import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
+import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
+import com.example.clickbuy.splashscreen.viewmodel.SplashViewModel
+import com.example.clickbuy.splashscreen.viewmodel.SplashViewModelFactory
+import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.isNetworkAvailable
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import android.provider.Settings
-import android.view.Window
-import com.example.clickbuy.util.isNetworkAvailable
+
+
+private const val TAG = "SplashScreenActivity"
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var logo: ImageView
@@ -24,13 +39,28 @@ class SplashScreenActivity : AppCompatActivity() {
     private lateinit var description: TextView
     private lateinit var topAnim: Animation
     private lateinit var bottomAnim: Animation
-
+    private lateinit var modelFactory: SplashViewModelFactory
+    private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_splash_screen)
 
+        initUI()
+        initViewModel()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            if (isNetworkAvailable(this@SplashScreenActivity))
+                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+            else
+                showSnackbar()
+        }
+
+    }
+
+    private fun initUI() {
         title = findViewById(R.id.title_textView)
         logo = findViewById(R.id.logo_imageView)
         description = findViewById(R.id.description_textView)
@@ -41,15 +71,19 @@ class SplashScreenActivity : AppCompatActivity() {
         title.animation = topAnim
         logo.animation = bottomAnim
         description.animation = bottomAnim
+    }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            if (isNetworkAvailable(this@SplashScreenActivity))
-                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
-            else
-                showSnackbar()
-        }
+    private fun initViewModel() {
+        modelFactory = SplashViewModelFactory(
+            Repository.getInstance(
+                RetrofitClient.getInstance(),
+                this
+            )
+        )
+        viewModel = ViewModelProvider(this, modelFactory)
+            .get(SplashViewModel::class.java)
 
+        viewModel.setupConstantsValue()
 
     }
 

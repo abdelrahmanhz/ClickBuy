@@ -136,7 +136,7 @@ interface RetrofitService {
     //Bag
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("draft_orders/{id}.json")
-    suspend fun getAllItemInBag(@Path("id") id: String): Response<ShoppingBag>
+    suspend fun getAllItemsInBag(@Path("id") id: String): Response<ShoppingBag>
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @PUT("draft_orders/{id}.json")
@@ -144,6 +144,8 @@ interface RetrofitService {
         @Path("id") id: String,
         @Body shoppingBag: ShoppingBag
     ): Response<ShoppingBag>
+
+
 
     @Headers(
         "X-Shopify-Access-Token: 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",

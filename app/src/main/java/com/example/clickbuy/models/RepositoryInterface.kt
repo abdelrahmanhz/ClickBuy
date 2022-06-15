@@ -58,6 +58,10 @@ interface RepositoryInterface {
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
 
-    suspend fun getAllItemInBag(): Response<ShoppingBag>
+    suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+    suspend fun addItemsInBag(product: Product): Response<ShoppingBag>
+
+    suspend fun setupConstantsValue()
+    suspend fun deleteSavedSettings()
 }

@@ -18,7 +18,9 @@ class RetrofitClient : RemoteSource {
     companion object {
         private var instance: RetrofitClient? = null
         fun getInstance(): RetrofitClient {
-            return instance ?: RetrofitClient()
+            if (instance == null)
+                instance = RetrofitClient()
+            return instance!!
         }
     }
 
@@ -145,9 +147,9 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    override suspend fun getAllItemInBag(): Response<ShoppingBag> {
+    override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
         Log.i(TAG, "getAllItemInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
-        val response = retrofitHelper.getAllItemInBag(ConstantsValue.draftOrderID)
+        val response = retrofitHelper.getAllItemsInBag(ConstantsValue.draftOrderID)
         Log.i(TAG, "getAllItemInBag: $response")
         return response
     }
@@ -158,6 +160,11 @@ class RetrofitClient : RemoteSource {
         Log.i(TAG, "updateItemsInBag: $response")
         return response
     }
+
+    /* override suspend fun addItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
+
+     }*/
+
 
     override suspend fun signIn(email: String): Response<Customers> {
         return retrofitHelper.signIn(email)

@@ -5,11 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clickbuy.models.Favorite
-import com.example.clickbuy.models.Product
-import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.models.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope.coroutineContext
+
 
 const val TAG = "ProductDetailsViewModel"
 
@@ -19,6 +17,9 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
     private var _isFav = MutableLiveData<Boolean>()
     var product: LiveData<Product> = _product
     var isFav: LiveData<Boolean> = _isFav
+
+    private var _isAddedToCart = MutableLiveData<Boolean>()
+    var isAddedToCart: LiveData<Boolean> = _isAddedToCart
 
     fun getProductById(productId: String) {
         viewModelScope.launch {
@@ -31,6 +32,24 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
                 }
             } else
                 Log.i(TAG, "getProductById response failed!")
+        }
+    }
+
+    fun addItemsInBag(product: Product) {
+        viewModelScope.launch {
+            val response = repo.addItemsInBag(product)
+            if (response.isSuccessful) {
+                withContext(Dispatchers.Main) {
+                    Log.i(TAG, "addItemsInBag response.code()---------> " + response.code())
+                    Log.i(TAG, "addItemsInBag response.body()---------> " + response.body())
+                    _isAddedToCart.postValue(true)
+                }
+            } else {
+                Log.i(TAG, "addItemsInBag response.body()---------> " + response.body())
+                Log.i(TAG, "addItemsInBag response.code()---------> " + response.code())
+                _isAddedToCart.postValue(false)
+            }
+
         }
     }
 

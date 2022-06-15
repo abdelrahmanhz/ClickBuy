@@ -1,4 +1,4 @@
-package com.example.clickbuy.me.view
+package com.example.clickbuy.me.view.loged
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.address.view.AddressFragment
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.currency.view.CurrencyFragment
+import com.example.clickbuy.me.view.guest.GuestFragment
 import com.example.clickbuy.me.viewmodel.CustomerViewModel
 import com.example.clickbuy.me.viewmodel.CustomerViewModelFactory
 import com.example.clickbuy.models.Customer
@@ -108,8 +109,9 @@ class MeFragment : Fragment() {
 
         logOutRelativeLayout.setOnClickListener {
             Log.i("TAG", "logOutRelativeLayout")
-            //Code to logout from backend
-            //go to login Activity
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, GuestFragment()).commit()
+            viewModel.deleteSavedSettings()
         }
 
         Log.i(TAG, "onCreateView: ")

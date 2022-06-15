@@ -11,7 +11,8 @@ import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-import com.example.clickbuy.me.view.MeFragment
+import com.example.clickbuy.me.view.loged.MeFragment
+import com.example.clickbuy.me.view.guest.GuestFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
@@ -30,12 +31,12 @@ class MainActivity : AppCompatActivity() {
     private val ID_HOME = 1
     private val ID_CATEGORY = 2
     private val ID_PROFILE = 3
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(HomeFragment())
-
 
         initViewModel()
 
@@ -54,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         meo.add(MeowBottomNavigation.Model(ID_CATEGORY, R.drawable.categories))
         meo.add(MeowBottomNavigation.Model(ID_PROFILE, R.drawable.profile))
 
-
         meo.setOnClickMenuListener {
             when (it.id) {
                 ID_HOME -> {
@@ -67,8 +67,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 ID_PROFILE -> {
                     fragmentShow = ID_PROFILE
-                    replaceFragment(MeFragment())
-
+                    if (ConstantsValue.email.isNotEmpty())
+                        replaceFragment(MeFragment())
+                    else
+                        replaceFragment(GuestFragment())
                 }
             }
         }
@@ -76,10 +78,7 @@ class MainActivity : AppCompatActivity() {
         meo.setOnShowListener { item ->
             fragmentShow = item.id
         }
-
         meo.show(ID_HOME, true)
-
-
     }
 
     private fun initViewModel() {
@@ -89,12 +88,12 @@ class MainActivity : AppCompatActivity() {
                 this
             )
         )
-
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
+
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction().replace(R.id.frame, fragment).commit()

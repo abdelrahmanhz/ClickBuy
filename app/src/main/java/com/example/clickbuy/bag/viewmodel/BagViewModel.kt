@@ -20,19 +20,13 @@ class BagViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getAllItemsInBag() {
         viewModelScope.launch {
-            val response = _iRepo.getAllItemInBag()
+            val response = _iRepo.getAllItemsInBag()
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && response.body()?.draft_order != null) {
-                    Log.i(
-                        com.example.clickbuy.me.viewmodel.TAG,
-                        "getAllItemsInBag: " + response.body()
-                    )
+                    Log.i(TAG, "getAllItemsInBag: " + response.body())
                     _shoppingBag.postValue(response.body())
                 } else {
-                    Log.i(
-                        com.example.clickbuy.me.viewmodel.TAG,
-                        "getAllItemsInBag: response.body()-----> " + response.body()
-                    )
+                    Log.i(TAG, "getAllItemsInBag: response.body()-----> " + response.body())
                 }
             }
         }
@@ -44,16 +38,10 @@ class BagViewModel(iRepo: RepositoryInterface) : ViewModel() {
             val response = _iRepo.updateItemsInBag(shoppingBag)
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && response.body()?.draft_order != null) {
-                    Log.i(
-                        com.example.clickbuy.me.viewmodel.TAG,
-                        "updateItemsInBag: " + response.body()
-                    )
+                    Log.i(TAG, "updateItemsInBag: " + response.body())
                     _shoppingBag.postValue(response.body())
                 } else {
-                    Log.i(
-                        com.example.clickbuy.me.viewmodel.TAG,
-                        "updateItemsInBag: response.body()-----> " + response.body()
-                    )
+                    Log.i(TAG, "updateItemsInBag: response.body()-----> " + response.body())
                 }
             }
         }

@@ -59,7 +59,7 @@ class SignupFragment : Fragment() {
             last_name = binding.lastNameSignupEditText.text.toString(),
             email = binding.emailSignupEditText.text.toString(),
             tags = binding.passwordSignupEditText.text.toString(),
-            phone = "+2"+binding.phoneSignupSignupEditText.text.toString(),
+            phone = binding.phoneSignupSignupEditText.text.toString(),
         )
 
         val viewModel = (requireActivity() as AuthenticationActivity).viewModel

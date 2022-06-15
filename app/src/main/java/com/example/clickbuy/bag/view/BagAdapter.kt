@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.clickbuy.R
 import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.NoteAttribute
@@ -34,6 +32,10 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
         val product = bagList[position]
+
+        holder.minusTextView.isEnabled = true
+        holder.plusTextView.isEnabled = true
+
         holder.productImageView.load(imagesList[position].value)
         holder.productNameTextView.text = product.name
         holder.productPriceTextView.text = product.price.plus(ConstantsValue.to)
@@ -41,10 +43,12 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
 
         holder.minusTextView.setOnClickListener {
             updatingItemsAtBag.onQuantityDecreased(position)
+            holder.minusTextView.isEnabled = false
         }
 
         holder.plusTextView.setOnClickListener {
             updatingItemsAtBag.onQuantityIncreased(position)
+            holder.plusTextView.isEnabled = false
         }
     }
 

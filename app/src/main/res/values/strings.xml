@@ -50,5 +50,9 @@
     <string name="add_address">Add Address</string>
     <string name="go_back">Go back</string>
     <string name="orders">Orders</string>
+    <string name="guest">"Login to see shopping cart "</string>
+    <string name="login">Login / Register</string>
+    <string name="add_to_bag_fail">add to bag fail</string>
+    <string name="add_to_bag_success">add to bag success</string>
 
 </resources>

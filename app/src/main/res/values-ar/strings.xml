@@ -50,4 +50,8 @@
     <string name="add_address">أضف عنوان</string>
     <string name="go_back">الرجوع</string>
     <string name="orders">الطلبات</string>
+    <string name="guest">"سجل الدخول لكي تتمكن من استخدم حقيبة التسوق"</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="add_to_bag_fail">فشل الإضافة</string>
+    <string name="add_to_bag_success">تمت الإضافة بنجاح</string>
 </resources>

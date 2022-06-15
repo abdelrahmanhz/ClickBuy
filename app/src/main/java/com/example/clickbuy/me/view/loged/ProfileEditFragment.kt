@@ -1,4 +1,4 @@
-package com.example.clickbuy.me.view
+package com.example.clickbuy.me.view.loged
 
 import android.os.Bundle
 import android.util.Log

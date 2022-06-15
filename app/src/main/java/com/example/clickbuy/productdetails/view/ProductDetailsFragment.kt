@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.clickbuy.R as r
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -20,8 +21,8 @@ import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
+import com.example.clickbuy.util.ConstantsValue
 import com.google.android.material.snackbar.Snackbar
-import kotlin.math.log
 
 const val TAG = "ProductDetailsFragment"
 
@@ -34,9 +35,11 @@ class ProductDetailsFragment : Fragment() {
     private var sizes = mutableListOf<String>()
     private var colors = mutableListOf<String>()
     private var imagesList = mutableListOf<String>()
-    private lateinit var  id :String
+    private lateinit var id: String
     private var isFavourite = false
     private var favorite = Favorite(0, "", "", "")
+
+    private lateinit var product: Product
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +57,7 @@ class ProductDetailsFragment : Fragment() {
         setUpImagesPager()
         setUpReviews()
         setUpViewModel()
+        observeAddedToBag()
 
     }
 
@@ -88,13 +92,14 @@ class ProductDetailsFragment : Fragment() {
             if (it != null) {
                 Log.i("TAG", "product: $it")
                 favorite = Favorite(it.id!!, it.title!!, it.variants!![0].price, it.image!!.src)
-                viewModel.isFav.observe(requireActivity()) { it ->
+                viewModel.isFav.observe(requireActivity()) {
                     isFavourite = it
                     Log.i(TAG, "setUpViewModel: it-------------> " + it)
                     Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
                 }
                 displayProduct(it)
                 showUIComponent()
+                product = it
             } else {
                 binding.progressBar.visibility = View.GONE
                 binding.itemImagesViewPager.visibility = View.GONE
@@ -106,16 +111,31 @@ class ProductDetailsFragment : Fragment() {
         }
     }
 
+    private fun observeAddedToBag() {
+        viewModel.isAddedToCart.observe(viewLifecycleOwner) {
+            if (it == true) {
+                Toast.makeText(requireContext(), r.string.add_to_bag_success, Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), r.string.add_to_bag_fail, Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            binding.addToCartButton.isEnabled = true
+        }
+    }
+
     private fun setUpReviews() {
         binding.productInfo.reviewsRecyclerView.layoutManager = LinearLayoutManager(context)
         val reviewAdapter = ProductReviewsAdapter()
         binding.productInfo.reviewsRecyclerView.adapter = reviewAdapter
     }
 
-     fun setIdProduct(id:String){
+    fun setIdProduct(id: String) {
         this.id = id
         Log.i(TAG, "setIdProduct: " + id)
     }
+
     private fun setUpSpinners() {
         val sizeSpinner = binding.productInfo.sizeSpinner
         val colorSpinner = binding.productInfo.colorSpinner
@@ -201,12 +221,20 @@ class ProductDetailsFragment : Fragment() {
 
         // back
         binding.productDetailsHeader.backBtn.setOnClickListener {
-          //  TODO()
+            //  TODO()
         }
 
-        // add to cart
         binding.addToCartButton.setOnClickListener {
-            //TODO()
+            Log.i(TAG, "addToCartButton: ")
+            if (ConstantsValue.isLogged) {
+                viewModel.addItemsInBag(product)
+                binding.addToCartButton.isEnabled = false
+            } else
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(r.string.guest),
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 

@@ -6,7 +6,7 @@ import com.example.clickbuy.models.RepositoryInterface
 
 class AuthenticationViewModelFactory(private val repo: RepositoryInterface):
 ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(AuthenticationViewModel::class.java)){
             AuthenticationViewModel(repo) as T
         }

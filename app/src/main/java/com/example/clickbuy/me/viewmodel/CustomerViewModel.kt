@@ -20,7 +20,7 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getCustomerDetails(email: String) {
         viewModelScope.launch {
-            var response = _iRepo.getCustomerDetails(email)
+            val response = _iRepo.getCustomerDetails(email)
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && !response.body()?.customers.isNullOrEmpty()) {
                     _customerDetails.postValue(response.body()!!.customers)
@@ -39,6 +39,11 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     }
 
+    fun deleteSavedSettings() {
+        viewModelScope.launch {
+            _iRepo.deleteSavedSettings()
+        }
+    }
 
     init {
         Log.i(TAG, "init: ")
@@ -49,5 +54,6 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
         super.onCleared()
         Log.i(TAG, "onCleared: ")
     }
+
 
 }

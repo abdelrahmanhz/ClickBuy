@@ -35,6 +35,7 @@ class PaymentFragment : Fragment() {
     private var requiredAmount: Double = 100.0
     private var discountAmount: Double = 10.0
     private var formattedNumber = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
