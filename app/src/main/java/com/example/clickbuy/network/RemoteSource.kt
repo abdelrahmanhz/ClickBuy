@@ -37,7 +37,7 @@ interface RemoteSource {
 
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun updateCustomerDetails(customer: CustomerParent): Response<CustomerParent>
-    suspend fun getAllAddresses(): Response<Addresses>
+    suspend fun getAllAddresses(): Response<CustomerAddresses>
 
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>

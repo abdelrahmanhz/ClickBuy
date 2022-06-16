@@ -55,37 +55,11 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         clipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-        homeFactory = HomeViewModelFactory(
-            Repository.getInstance(
-                RetrofitClient.getInstance(),
-                requireContext()
-            )
-        )
         initUI(view)
+        initViewModel()
+        observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
-        viewModel = ViewModelProvider(this, homeFactory).get(HomeViewModel::class.java)
-        viewModel.getAllBrands()
-        viewModel.brand.observe(requireActivity()) {
-            if (it != null) {
-                Log.i(TAG, "brand: $it")
-                brandAdapter.setListOfBrands(it.smart_collections)
-            }
-        }
-        viewModel.getAllSalesById()
-        viewModel.saleId.observe(requireActivity()) {
-            if (it != null) {
-                Log.i(TAG, "sale: $it")
-                saleAdapter.setListOfSales(it.products)
-            }
-        }
-
-        viewModel.getAvailableCoupons()
-        viewModel.coupons.observe(viewLifecycleOwner, Observer {
-            if (!it.isNullOrEmpty()) {
-                couponsAdapter.setList(it)
-            }
-        })
     }
 
     private fun initUI(view: View) {
@@ -111,6 +85,43 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         couponsSlider.scrollTimeInSec = 3
         couponsSlider.isAutoCycle = true
         couponsSlider.startAutoCycle()
+    }
+
+    private fun initViewModel() {
+        homeFactory = HomeViewModelFactory(
+            Repository.getInstance(
+                RetrofitClient.getInstance(),
+                requireContext()
+            )
+        )
+        viewModel = ViewModelProvider(this, homeFactory).get(HomeViewModel::class.java)
+
+        viewModel.getAllBrands()
+        viewModel.getAllSalesById()
+        viewModel.getAvailableCoupons()
+    }
+
+    private fun observeViewModel() {
+        viewModel.brand.observe(requireActivity()) {
+            if (it != null) {
+                Log.i(TAG, "brand: $it")
+                brandAdapter.setListOfBrands(it.smart_collections)
+            }
+        }
+
+        viewModel.saleId.observe(requireActivity()) {
+            if (it != null) {
+                Log.i(TAG, "sale: $it")
+                saleAdapter.setListOfSales(it.products)
+            }
+        }
+
+
+        viewModel.coupons.observe(viewLifecycleOwner, Observer {
+            if (!it.isNullOrEmpty()) {
+                couponsAdapter.setList(it)
+            }
+        })
     }
 
     private fun setUpBrandRecyclerView() {
@@ -139,24 +150,28 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         categoryDetails.setVendorName(nameOfBrand)
 
     }
+
     override fun productDetailsShow(id: String) {
-        Log.i(TAG, "productDetailsShow: " + id)
+        Log.i(TAG, "productDetailsShow: $id")
         val salesDetails = ProductDetailsFragment()
 
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, salesDetails )
+            .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
         salesDetails.setProductId(id)
 
     }
 
     override fun brandDetailsShow(nameOfBrand: String) {
-        val data = ClipData.newPlainText("text", nameOfBrand)
+        val data = ClipData.newPlainText("coupon", nameOfBrand)
         clipboardManager.setPrimaryClip(data)
-        Log.i(TAG, "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString())
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, PaymentFragment())
-            .addToBackStack(null).commit()
+        Log.i(
+            TAG,
+            "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
+        )
+        /* requireActivity().supportFragmentManager.beginTransaction()
+             .replace(R.id.frame, PaymentFragment())
+             .addToBackStack(null).commit()*/
     }
 
 }

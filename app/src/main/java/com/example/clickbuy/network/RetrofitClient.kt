@@ -111,7 +111,7 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    override suspend fun getAllAddresses(): Response<Addresses> {
+    override suspend fun getAllAddresses(): Response<CustomerAddresses> {
         val response = retrofitHelper.getAllAddresses(ConstantsValue.email)
         Log.i(TAG, "getAllAddresses: " + response.code())
         return response
@@ -197,13 +197,18 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
-        Log.i(TAG, "postOrders: ")
-        return retrofitHelper.postOrders(order)
+        Log.i(TAG, "postOrders:before send request ")
+        val response = retrofitHelper.postOrders(order)
+        Log.i(TAG, "postOrders:after send request ")
+        Log.i(TAG, "postOrders:-------------> " + response.code())
+        Log.i(TAG, "postOrders:-------------> " + response.body())
+        return response
     }
 
     override suspend fun getDraftOrders(): Response<Favourites> {
         val response = retrofitHelper.getFavourites()
-        Log.i(TAG, "getDraftOrders: ${response.code()} $response")
+        Log.i(TAG, "getDraftOrders:------------> ${response.code()}")
+        Log.i(TAG, "getDraftOrders:------------> ${response.code()}")
         return response
     }
 

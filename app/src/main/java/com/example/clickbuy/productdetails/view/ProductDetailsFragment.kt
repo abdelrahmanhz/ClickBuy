@@ -20,6 +20,8 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
+import com.google.android.material.snackbar.Snackbar
+import kotlin.math.log
 
 const val TAG = "ProductDetailsFragment"
 
@@ -38,7 +40,6 @@ class ProductDetailsFragment : Fragment() {
 
     private var isFavourite = false
     private var favId = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,23 +93,18 @@ class ProductDetailsFragment : Fragment() {
         viewModel.product.observe(requireActivity()) {
             if (it != null) {
                 Log.i("TAG", "product: $it")
-                favorite = Favorite(it.id!!, it.title!!, it.variants!![0].price, it.image!!.src)
-                viewModel.isFav.observe(requireActivity()) {
-                    isFavourite = it
-                    product = it
-                    viewModel.isFavAndId.observe(requireActivity()) { isFavAndId ->
-                        favId = isFavAndId.first
-                        isFavourite = isFavAndId.second
-                        Log.i(TAG, "setUpViewModel: it-------------> $it")
-                        Log.i(TAG, "setUpViewModel: isFavorite-----> $isFavourite")
-                        binding.productDetailsHeader.rightDrawable.let {
-                            it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
-                        }
+                product = it
+                viewModel.isFavAndId.observe(requireActivity()) { isFavAndId ->
+                    favId = isFavAndId.first
+                    isFavourite = isFavAndId.second
+                    Log.i(TAG, "setUpViewModel: it-------------> " + it)
+                    Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
+                    binding.productDetailsHeader.rightDrawable.let {
+                        it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
                     }
-                    displayProduct(it)
-                    showUIComponent()
-                    product = it
                 }
+                displayProduct(it)
+                showUIComponent()
             } else {
                 binding.progressBar.visibility = View.GONE
                 binding.itemImagesViewPager.visibility = View.GONE
@@ -138,15 +134,11 @@ class ProductDetailsFragment : Fragment() {
         }
     }
 
+
     private fun setUpReviews() {
         binding.productInfo.reviewsRecyclerView.layoutManager = LinearLayoutManager(context)
         val reviewAdapter = ProductReviewsAdapter()
         binding.productInfo.reviewsRecyclerView.adapter = reviewAdapter
-    }
-
-    fun setIdProduct(id: String) {
-        this.id = id
-        Log.i(TAG, "setIdProduct: " + id)
     }
 
     private fun setUpSpinners() {
@@ -208,9 +200,8 @@ class ProductDetailsFragment : Fragment() {
                         note = "fav",
                         line_items = listOf(
                             FavouriteLineItem(
-                                variant_id = product.variants?.get(
-                                    0
-                                )?.id, quantity = 1
+                                variant_id = product.variants?.get(0)?.id,
+                                quantity = 1
                             )
                         ),
                         note_attributes = listOf(
@@ -253,6 +244,7 @@ class ProductDetailsFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
+        // add to cart
         binding.addToCartButton.setOnClickListener {
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
@@ -272,4 +264,3 @@ class ProductDetailsFragment : Fragment() {
         Log.i(TAG, "setVendorName: -------> $productId")
     }
 }
-

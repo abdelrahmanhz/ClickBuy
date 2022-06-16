@@ -55,12 +55,17 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
         }
     }
 
-    fun addFavourite(favorite: FavouriteParent){
+    fun addFavourite(favorite: FavouriteParent) {
         viewModelScope.launch {
             val response = repo.addFavourite(favorite)
             withContext(Dispatchers.Main) {
                 Log.i(TAG, response.body().toString())
-                _isFavAndId.postValue(Pair(response.body()?.draft_order?.id.toString(), response.isSuccessful))
+                _isFavAndId.postValue(
+                    Pair(
+                        response.body()?.draft_order?.id.toString(),
+                        response.isSuccessful
+                    )
+                )
             }
         }
     }
@@ -71,12 +76,14 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
         }
     }
 
-    fun isFavourite(productId: String){
+    fun isFavourite(productId: String) {
         viewModelScope.launch {
             val response = repo.getFavourites()
             var isFavAndId = Pair("", false)
             withContext(Dispatchers.Main) {
-                Log.i(TAG, response.body()?.toString()!!)
+                Log.i(TAG, "isFavourite: ------->" + response)
+                Log.i(TAG, "isFavourite: ------------->" + response.code())
+                Log.i(TAG, "isFavourite: -------------> " + response.body())
                 if (!response.body()?.draft_orders.isNullOrEmpty()) {
                     response.body()?.draft_orders?.forEach {
                         if (it.line_items[0].product_id == productId.toLong())

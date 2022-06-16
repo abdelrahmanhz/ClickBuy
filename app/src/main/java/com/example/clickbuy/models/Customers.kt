@@ -37,7 +37,7 @@ data class Customer(
     val verified_email: Boolean = true,
 )
 
-data class Addresses(
+data class CustomerAddresses(
     val addresses: List<CustomerAddress>
 )
 

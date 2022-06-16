@@ -193,7 +193,7 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getAllAddresses(): Response<Addresses> {
+    override suspend fun getAllAddresses(): Response<CustomerAddresses> {
         val response = remoteSource.getAllAddresses()
         Log.i(TAG, "getAllAddresses: " + response.code())
         return response
@@ -386,9 +386,10 @@ class Repository private constructor(
 
     override suspend fun getFavourites(): Response<Favourites> {
         val response = remoteSource.getDraftOrders()
+        Log.i(TAG, "getFavourites: --------------> " + response.code())
+        Log.i(TAG, "getFavourites: --------------> " + response.body())
         if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()) {
             Log.i(TAG, "getFavourites")
-            // filter with user id too
             val email = sharedPrefs?.getString("USER_EMAIL", "")
             if (!email.isNullOrEmpty())
                 response.body()?.draft_orders =

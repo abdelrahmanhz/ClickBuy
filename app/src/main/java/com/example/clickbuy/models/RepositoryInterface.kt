@@ -44,7 +44,7 @@ interface RepositoryInterface {
 
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
     suspend fun getCustomerDetails(email: String): Response<Customers>
-    suspend fun getAllAddresses(): Response<Addresses>
+    suspend fun getAllAddresses(): Response<CustomerAddresses>
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
     suspend fun getAvailableCoupons(): Response<Coupons>

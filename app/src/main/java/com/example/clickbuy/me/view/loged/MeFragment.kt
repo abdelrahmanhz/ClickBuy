@@ -25,7 +25,6 @@ import com.example.clickbuy.ordershisotry.view.OrdersFragment
 import com.example.clickbuy.util.isRTL
 import com.example.clickbuy.util.ConstantsValue
 
-
 private const val TAG = "HomeView"
 
 class MeFragment : Fragment() {
@@ -113,11 +112,11 @@ class MeFragment : Fragment() {
 
         logOutRelativeLayout.setOnClickListener {
             Log.i("TAG", "logOutRelativeLayout")
-            replaceFragment(GuestFragment())
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame, GuestFragment()).commit()
             viewModel.deleteSavedSettings()
         }
 
-        Log.i(TAG, "onCreateView: ")
         return view
     }
 

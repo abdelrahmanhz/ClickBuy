@@ -22,6 +22,7 @@ import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.splashscreen.viewmodel.SplashViewModel
 import com.example.clickbuy.splashscreen.viewmodel.SplashViewModelFactory
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.isNetworkAvailable
 import com.google.android.material.snackbar.Snackbar
@@ -50,12 +51,31 @@ class SplashScreenActivity : AppCompatActivity() {
         initUI()
         initViewModel()
 
+        /*connectionLiveData = ConnectionLiveData(this)
+
+        connectionLiveData.observe(this) {
+            Log.i(TAG, "onCreate: it----------------> $it")
+            Log.i(TAG, "onCreate: -----------------> " + connectionLiveData.value)
+        }
+
+        Log.i(TAG, "onCreate: -----------------> " + connectionLiveData.value)*/
+        ConnectionLiveData.getInstance(this).observe(this) {
+
+        }
+
+        Log.i(TAG, "onCreate: -----------------> " + ConnectionLiveData.getInstance(this).value)
+
+        Log.i(TAG, "onCreate: -----------------> " + ConnectionLiveData(this).value)
+
+
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000)
-            if (isNetworkAvailable(this@SplashScreenActivity))
+            if (ConnectionLiveData.getInstance(this@SplashScreenActivity).value == true) {
                 startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
-            else
+                viewModel.setupConstantsValue()
+            } else {
                 showSnackbar()
+            }
         }
 
     }
@@ -83,7 +103,7 @@ class SplashScreenActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, modelFactory)
             .get(SplashViewModel::class.java)
 
-        viewModel.setupConstantsValue()
+        //   viewModel.setupConstantsValue()
 
     }
 
