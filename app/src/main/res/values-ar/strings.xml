@@ -62,4 +62,5 @@
     <string name="invalid_phone">يجب ان تكون ارقام</string>
     <string name="invalid_phone_length">يجب ان يكون ١١ رقم</string>
     <string name="empty_bag">حقيبة التسوق الخاصة بك فارغة</string>
+    <string name="empty_address">أضف عنوان</string>
 </resources>

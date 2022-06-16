@@ -4,7 +4,7 @@ data class Customers(
     val customers: List<Customer>
 )
 
-data class CustomerParent (
+data class CustomerParent(
     val customer: Customer
 )
 
@@ -35,6 +35,10 @@ data class Customer(
     val total_spent: String? = null,
     val updated_at: String? = null,
     val verified_email: Boolean = true,
+)
+
+data class Addresses(
+    val addresses: List<CustomerAddress>
 )
 
 data class CustomerAddress(

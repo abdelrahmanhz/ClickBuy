@@ -22,6 +22,7 @@ import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.isRTL
 import com.example.clickbuy.orders.OrdersFragment
+import com.example.clickbuy.util.ConstantsValue
 
 
 private const val TAG = "HomeView"
@@ -109,19 +110,12 @@ class MeFragment : Fragment() {
 
         logOutRelativeLayout.setOnClickListener {
             Log.i("TAG", "logOutRelativeLayout")
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, GuestFragment()).commit()
+            replaceFragment(GuestFragment())
             viewModel.deleteSavedSettings()
         }
 
         Log.i(TAG, "onCreateView: ")
         return view
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, fragment)
-            .addToBackStack(null).commit()
     }
 
     private fun initView(view: View) {
@@ -155,7 +149,7 @@ class MeFragment : Fragment() {
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CustomerViewModel::class.java)
 
-        viewModel.getCustomerDetails("3bdorafaat@gmail.com")
+        viewModel.getCustomerDetails(ConstantsValue.email)
     }
 
     private fun checkRTL() {
@@ -168,6 +162,12 @@ class MeFragment : Fragment() {
             orderHistoryImageView.setImageResource(R.drawable.ic_arrow_left)
             logOutImageView.setImageResource(R.drawable.ic_arrow_left)
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, fragment)
+            .addToBackStack(null).commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

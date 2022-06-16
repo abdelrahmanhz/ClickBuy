@@ -62,5 +62,6 @@
     <string name="invalid_phone">Must be all Digits</string>
     <string name="invalid_phone_length">Must be 11 Digits</string>
     <string name="empty_bag">Your bag is empty</string>
+    <string name="empty_address">Add address</string>
 
 </resources>

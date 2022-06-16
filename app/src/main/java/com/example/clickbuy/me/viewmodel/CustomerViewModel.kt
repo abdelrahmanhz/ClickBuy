@@ -26,10 +26,7 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
                     _customerDetails.postValue(response.body()!!.customers)
                     Log.i(TAG, "getCustomerDetails: " + response.body())
                 } else {
-                    Log.i(
-                        TAG,
-                        "getCustomerDetails: size----------------> " + response.body()?.customers?.size
-                    )
+                    Log.i(TAG, "getCustomerDetails: size-----> " + response.body()?.customers?.size)
                     Log.i(TAG, "getCustomerDetails: response.body()-----> " + response.body())
                     _customerDetails.postValue(emptyList())
                 }
@@ -38,6 +35,7 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
 
     }
+
 
     fun deleteSavedSettings() {
         viewModelScope.launch {

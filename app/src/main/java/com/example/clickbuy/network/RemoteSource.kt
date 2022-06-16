@@ -1,5 +1,6 @@
 package com.example.clickbuy.network
 
+import android.util.Log
 import com.example.clickbuy.models.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -38,6 +39,7 @@ interface RemoteSource {
 
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun updateCustomerDetails(customer: CustomerParent): Response<CustomerParent>
+    suspend fun getAllAddresses(): Response<Addresses>
 
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>

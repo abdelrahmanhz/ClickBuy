@@ -111,6 +111,12 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun getAllAddresses(): Response<Addresses> {
+        val response = retrofitHelper.getAllAddresses(ConstantsValue.email)
+        Log.i(TAG, "getAllAddresses: " + response.code())
+        return response
+    }
+
     override suspend fun getCurrencies(): Response<Currencies> {
         val response = retrofitHelper.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())

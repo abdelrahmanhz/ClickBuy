@@ -213,6 +213,12 @@ class Repository private constructor(
         return response
     }
 
+    override suspend fun getAllAddresses(): Response<Addresses>{
+        val response = remoteSource.getAllAddresses()
+        Log.i(TAG, "getAllAddresses: " + response.code())
+        return response
+    }
+
     override suspend fun getCurrencies(): Response<Currencies> {
         val response = remoteSource.getCurrencies()
         Log.i(TAG, "getCurrencies: " + response.code())
