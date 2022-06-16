@@ -12,6 +12,7 @@ import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.Extensions.load
+import com.example.clickbuy.util.calculatePrice
 import java.util.*
 
 private const val TAG = "BagAdapter"
@@ -39,7 +40,7 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
         holder.productImageView.load(imagesList[position].value)
 
         holder.productNameTextView.text = product.name
-        holder.productPriceTextView.text = product.price.plus(ConstantsValue.to)
+        holder.productPriceTextView.text = calculatePrice(product.price)
         holder.productNumberTextView.text = product.quantity.toString()
 
         holder.minusTextView.setOnClickListener {

@@ -12,21 +12,23 @@ import com.example.clickbuy.models.ShoppingBag
 
 private const val TAG = "AddressOrder"
 
-class AddressOrder : AppCompatActivity() {
+class AddressOrderActivity : AppCompatActivity() {
     var bagList: List<BagItem> = emptyList()
     var imagesList: List<NoteAttribute> = emptyList()
+    lateinit var totalAmountPrice: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_address_order)
-        var list = intent.getSerializableExtra("TEST") as ShoppingBag
-        //  intent.getParcelableArrayListExtra<Parcelable>("LIST")
-        Log.i(
-            TAG,
-            "onCreate: list------------------------> ${list.draft_order.note_attributes.size}"
-        )
-        Log.i(TAG, "onCreate: list------------------------> ${list.draft_order.line_items.size}")
+
+        val list = intent.getSerializableExtra("TEST") as ShoppingBag
+
+        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.note_attributes.size}")
+        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.line_items.size}")
+
         bagList = list.draft_order.line_items
         imagesList = list.draft_order.note_attributes
+        totalAmountPrice = list.draft_order.subtotal_price
         replaceFragment(OrderAddresFragment())
     }
 

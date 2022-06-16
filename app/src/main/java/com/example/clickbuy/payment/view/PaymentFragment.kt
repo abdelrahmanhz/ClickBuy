@@ -12,12 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.clickbuy.R
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.orders.view.AddressOrder
+import com.example.clickbuy.orders.view.AddressOrderActivity
 import com.example.clickbuy.payment.viewmodel.OrderViewModel
 import com.example.clickbuy.payment.viewmodel.OrderViewModelFactory
 import com.example.clickbuy.payment.viewmodel.PaymentViewModel
 import com.example.clickbuy.payment.viewmodel.PaymentViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.calculatePrice
+import com.example.clickbuy.util.getEquivalentCurrencyValue
+import com.example.clickbuy.util.isRTL
 import java.text.DecimalFormat
 
 private const val TAG = "PaymentFragment"
@@ -33,26 +36,21 @@ class PaymentFragment : Fragment() {
     private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderFactory: OrderViewModelFactory
 
-
     private lateinit var placeOrderButton: Button
     private lateinit var radioGroup: RadioGroup
     private lateinit var paypalRadioButton: RadioButton
     private lateinit var cashRadioButton: RadioButton
 
-
     private lateinit var viewModel: PaymentViewModel
-    private var requiredAmount: Double = 100.0
-    private var discountAmount: Double = 10.0
-    private var formattedNumber = 0.0
+
+    //  private var requiredAmount: Double = 0.0
+    private var discountAmount: String = ConstantsValue.discountAmount
+    // private var formattedNumber = 0.0
 
     private var address: Address = Address()
 
     var bagList: List<BagItem> = emptyList()
     var imagesList: List<NoteAttribute> = emptyList()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,11 +58,13 @@ class PaymentFragment : Fragment() {
     ): View {
         val view: View = inflater.inflate(R.layout.fragment_payment, container, false)
 
-        initViewModel()
         initUI(view)
-        bagList = (requireActivity() as AddressOrder).bagList
-        imagesList = (requireActivity() as AddressOrder).imagesList
-        Log.i(TAG, "baglist:-------------------------------------$bagList")
+        initViewModel()
+        observeViewModel()
+        bagList = (requireActivity() as AddressOrderActivity).bagList
+        imagesList = (requireActivity() as AddressOrderActivity).imagesList
+
+        Log.i(TAG, "bagList:-------------------------------------$bagList")
         Log.i(TAG, "imagesList: ---------------------------------$imagesList")
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -88,6 +88,7 @@ class PaymentFragment : Fragment() {
                 }
             }
         }
+
         validateCodeButton.setOnClickListener {
             if (discountCodeEditText.text.trim().isEmpty()) {
                 discountCodeEditText.error = resources.getString(R.string.coupon_empty)
@@ -95,25 +96,39 @@ class PaymentFragment : Fragment() {
                 viewModel.validateCoupons(discountCodeEditText.text.toString())
             }
         }
-        viewModel.validationCoupon.observe(viewLifecycleOwner) {
-            if (it != null) {
-                discountAmountTextView.text =
-                    DecimalFormat("#.0").format(discountAmount).plus(" %")
 
-                val amount: Double =
-                    (requiredAmount * ConstantsValue.currencyValue) * discountAmount / 100
+        payButton.setOnClickListener {
+            orderViewModel.postOrder(
+                OrderPojo(
+                    Order(
+                        email = "3bdorafaat@gmail.com",
+                        line_items = bagList,
+                        note_attributes = imagesList,
+                        billing_address = address
+                    )
+                )
+            )
 
-                totalAmountTextView.text = DecimalFormat("#.00")
-                    .format((formattedNumber - amount)).plus(ConstantsValue.to)
-                Log.i(TAG, "onCreateView: formattedNumber--------> $formattedNumber")
-                Log.i(TAG, "onCreateView: amount--------> $amount")
-            } else {
-                discountCodeEditText.error = resources.getString(R.string.coupon_invalid)
-            }
         }
 
-
         return view
+    }
+
+    private fun initUI(view: View) {
+        radioGroup = view.findViewById(R.id.radioGroup)
+        paypalRadioButton = view.findViewById(R.id.payPalRadioButton)
+        cashRadioButton = view.findViewById(R.id.cashRadioButton)
+
+        requiredAmountTextView = view.findViewById(R.id.required_amount_textView)
+        discountAmountTextView = view.findViewById(R.id.discount_amount_textView)
+        totalAmountTextView = view.findViewById(R.id.total_amount_textView)
+        discountCodeEditText = view.findViewById(R.id.discount_code_editText)
+        validateCodeButton = view.findViewById(R.id.validate_code_button)
+        payButton = view.findViewById(R.id.pay_button)
+
+        //    formattedNumber = (requiredAmount * ConstantsValue.currencyValue)
+        requiredAmountTextView.text =
+            calculatePrice((requireActivity() as AddressOrderActivity).totalAmountPrice)
     }
 
     private fun initViewModel() {
@@ -134,39 +149,21 @@ class PaymentFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(PaymentViewModel::class.java)
     }
 
-    private fun initUI(view: View) {
-        radioGroup = view.findViewById(R.id.radioGroup)
-        paypalRadioButton = view.findViewById(R.id.payPalRadioButton)
-        cashRadioButton = view.findViewById(R.id.cashRadioButton)
+    private fun observeViewModel() {
+        viewModel.validationCoupon.observe(viewLifecycleOwner) {
+            if (it != null) {
+                Log.i(TAG, "observeViewModel: discountAmount-----------------> $discountAmount")
+                discountAmountTextView.text = getEquivalentCurrencyValue(discountAmount)
 
-        requiredAmountTextView = view.findViewById(R.id.required_amount_textView)
-        discountAmountTextView = view.findViewById(R.id.discount_amount_textView)
-        totalAmountTextView = view.findViewById(R.id.total_amount_textView)
-        discountCodeEditText = view.findViewById(R.id.discount_code_editText)
-        validateCodeButton = view.findViewById(R.id.validate_code_button)
-        payButton = view.findViewById(R.id.pay_button)
+                val amount: Double =
+                    ((requireActivity() as AddressOrderActivity).totalAmountPrice.toDouble()) + (discountAmount.toDouble() * ConstantsValue.currencyValue)
 
-        formattedNumber = (requiredAmount * ConstantsValue.currencyValue)
-        requiredAmountTextView.text =
-            DecimalFormat("#.00").format(formattedNumber).plus(" " + ConstantsValue.to)
+                totalAmountTextView.text = calculatePrice(amount.toString())
 
-
-        payButton.setOnClickListener {
-
-            /*    order.line_items = bagList
-                order.billing_address = address
-                order.note_attributes = imagesList*/
-            orderViewModel.postOrder(
-                OrderPojo(
-                    Order(
-                        email = "3bdorafaat@gmail.com",
-                        line_items = bagList,
-                        note_attributes = imagesList,
-                        billing_address = address
-                    )
-                )
-            )
-
+                Log.i(TAG, "onCreateView: amount--------> $amount")
+            } else {
+                discountCodeEditText.error = resources.getString(R.string.coupon_invalid)
+            }
         }
 
         orderViewModel.order.observe(viewLifecycleOwner) {

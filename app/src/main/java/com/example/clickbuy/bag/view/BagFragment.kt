@@ -24,7 +24,7 @@ import com.example.clickbuy.bag.viewmodel.BagViewModel
 import com.example.clickbuy.bag.viewmodel.BagViewModelFactory
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.orders.view.AddressOrder
+import com.example.clickbuy.orders.view.AddressOrderActivity
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -64,7 +64,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         }
 
         checkoutButton.setOnClickListener {
-            val intent = Intent(requireContext(), AddressOrder::class.java)
+            val intent = Intent(requireContext(), AddressOrderActivity::class.java)
             intent.putExtra("TEST", bagObject)
             startActivity(intent)
         }

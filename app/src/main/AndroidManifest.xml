@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClickBuy">
-        <activity android:name=".orders.view.AddressOrder" />
+        <activity android:name=".orders.view.AddressOrderActivity" />
         <activity
             android:name=".splashscreen.view.SplashScreenActivity"
             android:exported="true"
