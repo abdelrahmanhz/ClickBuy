@@ -1,8 +1,8 @@
 package com.example.clickbuy.models
 
-import androidx.lifecycle.LiveData
+
 import retrofit2.Response
-import retrofit2.http.Body
+
 
 interface RepositoryInterface {
 
@@ -12,8 +12,7 @@ interface RepositoryInterface {
         collectionId: String,
         vendor: String,
         productType: String
-    )
-            : Response<Products>
+    ): Response<Products>
 
     suspend fun getSubCategories(): Response<Products>
     suspend fun getProductById(productId: String): Response<ProductParent>
@@ -38,13 +37,6 @@ interface RepositoryInterface {
 
     suspend fun signIn(email: String, password: String): String
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
-
-    // room
-    suspend fun addFavorite(favorite: Favorite)
-    suspend fun getFavorites(): List<Favorite>
-    suspend fun deleteFavorite(productId: Long)
-    suspend fun isFavorite(productId: Long): Boolean
-
     suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
         idCollectionDetails: String,
         categoryTitleFromFilter: String
@@ -55,15 +47,24 @@ interface RepositoryInterface {
     suspend fun getAllAddresses(): Response<Addresses>
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
-
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+
     suspend fun addItemsInBag(product: Product): Response<ShoppingBag>
     suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     suspend fun setupConstantsValue()
     suspend fun deleteSavedSettings()
+
+    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
+    suspend fun postOrders(order: OrderPojo): Response<OrderPojo>
+
+    // Favourites
+    suspend fun getFavourites(): Response<Favourites>
+    suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent>
+    suspend fun deleteFavourite(favId: String)
+
 }

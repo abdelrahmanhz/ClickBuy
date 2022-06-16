@@ -37,6 +37,7 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
         holder.plusTextView.isEnabled = true
 
         holder.productImageView.load(imagesList[position].value)
+
         holder.productNameTextView.text = product.name
         holder.productPriceTextView.text = product.price.plus(ConstantsValue.to)
         holder.productNumberTextView.text = product.quantity.toString()
@@ -45,7 +46,6 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
             updatingItemsAtBag.onQuantityDecreased(position)
             holder.minusTextView.isEnabled = false
         }
-
         holder.plusTextView.setOnClickListener {
             updatingItemsAtBag.onQuantityIncreased(position)
             holder.plusTextView.isEnabled = false

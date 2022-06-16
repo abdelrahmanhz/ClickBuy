@@ -80,6 +80,7 @@ interface RetrofitService {
         @Path("id") id: String
     ): Response<Orders>
 
+
     //Customer Details
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("customers.json?")
@@ -141,4 +142,29 @@ interface RetrofitService {
     @POST("customers.json")
     suspend fun registerCustomer(@Body customerParent: CustomerParent): Response<CustomerParent>
 
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @GET("customers/{id}/addresses.json")
+    suspend fun getAllAddressesForSpecificCustomer(
+        @Path("id") id: String
+    ): Response<Addresses>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @POST("orders.json")
+    suspend fun postOrders(@Body order: OrderPojo): Response<OrderPojo>
+
+    @GET("draft_orders.json?limit=250")
+    suspend fun getFavourites(): Response<Favourites>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @POST("draft_orders.json")
+    suspend fun addFavourite(@Body favorite: FavouriteParent): Response<FavouriteParent>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+
+    @DELETE("draft_orders/{id}.json")
+    suspend fun removeFavourite(@Path("id") id: String): Response<Any>
 }

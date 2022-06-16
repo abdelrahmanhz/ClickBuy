@@ -72,12 +72,14 @@ class SignupFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
                 findNavController().popBackStack()
-            } else
+            } else {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.register_fail),
                     Toast.LENGTH_LONG
                 ).show()
+            }
+
         }
     }
 
@@ -86,6 +88,7 @@ class SignupFragment : Fragment() {
         binding.lastNameSignupEditText.text?.clear()
         binding.emailSignupEditText.text?.clear()
         binding.passwordSignupEditText.text?.clear()
+        binding.passwordConfirmSignupSignupEditText.text?.clear()
         binding.phoneSignupSignupEditText.text?.clear()
     }
 

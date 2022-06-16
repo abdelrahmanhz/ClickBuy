@@ -1,8 +1,8 @@
 package com.example.clickbuy.mainscreen.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +13,10 @@ import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.me.view.loged.MeFragment
 import com.example.clickbuy.me.view.guest.GuestFragment
-import com.example.clickbuy.models.Repository
-import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModelFactory
+import com.example.clickbuy.models.Repository
+import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "MainActivity"
@@ -102,5 +102,9 @@ class MainActivity : AppCompatActivity() {
     fun updateCurrency() {
         Log.i(TAG, "updateCurrency: ")
         viewModel.getQualifiedValueCurrency(ConstantsValue.to)
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) supportFragmentManager.popBackStack() else finish() // Finish the activity
     }
 }

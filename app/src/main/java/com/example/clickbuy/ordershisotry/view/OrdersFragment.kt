@@ -1,4 +1,4 @@
-package com.example.clickbuy.orders
+package com.example.clickbuy.ordershisotry.view
 
 import android.os.Bundle
 import android.util.Log
@@ -11,24 +11,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.home.OrdersAdapter
-import com.example.clickbuy.models.Image
-import com.example.clickbuy.models.ItemImage
+import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.LineItem
+import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import java.util.*
+import com.example.clickbuy.ordershisotry.OrderDetailsInterface
+import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModel
+import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModelFactory
 
 private const val TAG = "OrdersFragment"
 
-class OrdersFragment : Fragment() , OrderDetailsInterface{
+class OrdersFragment : Fragment(), OrderDetailsInterface {
     private lateinit var orderAdapter: OrdersAdapter
 
     private lateinit var orderFactory: OrdersViewModelFactory
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var viewModel: OrdersViewModel
-    private lateinit var backButton : ImageView
+    private lateinit var backButton: ImageView
 
 
     override fun onCreateView(
@@ -48,35 +48,38 @@ class OrdersFragment : Fragment() , OrderDetailsInterface{
         )
         initUI(view)
         setUpOrderRecyclerView()
-         viewModel = ViewModelProvider(this, orderFactory).get(OrdersViewModel::class.java)
+        viewModel = ViewModelProvider(this, orderFactory).get(OrdersViewModel::class.java)
         viewModel.getAllOrdersForSpecificCustomer("5745222516875")
         viewModel.order.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "brand: $it")
-                   orderAdapter.setListOfBrands(it.orders)
+                orderAdapter.setListOfBrands(it.orders)
             }
         }
 
     }
+
     fun initUI(view: View) {
-          orderRecyclerView = view.findViewById(R.id.allOrdersRecyclerView)
+        orderRecyclerView = view.findViewById(R.id.allOrdersRecyclerView)
         backButton = view.findViewById(R.id.BackButtonOrder)
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
-        private fun setUpOrderRecyclerView() {
+
+    private fun setUpOrderRecyclerView() {
         val layoutManager = LinearLayoutManager(OrdersFragment().context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
-        orderAdapter = OrdersAdapter(requireContext(),this)
-            orderRecyclerView.layoutManager = layoutManager
-            orderRecyclerView.adapter = orderAdapter
+        orderAdapter = OrdersAdapter(requireContext(), this)
+        orderRecyclerView.layoutManager = layoutManager
+        orderRecyclerView.adapter = orderAdapter
     }
-    override fun showOrderDetails(lineItemList: List<LineItem>, itemImageList: List<ItemImage>) {
+
+    override fun showOrderDetails(lineItemList: List<BagItem>?, itemImageList: List<NoteAttribute>?) {
         Log.i(TAG, "setOrderDetails: ---------> $lineItemList")
         val orderDetails = OrderDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, orderDetails).commit()
-        orderDetails.setListOrderDetails(lineItemList,itemImageList)
+            .replace(R.id.frame, orderDetails).addToBackStack(null).commit()
+        orderDetails.setListOrderDetails(lineItemList, itemImageList)
     }
 }

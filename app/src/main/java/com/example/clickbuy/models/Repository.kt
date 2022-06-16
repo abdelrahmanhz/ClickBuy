@@ -52,7 +52,7 @@ class Repository private constructor(
         Log.i(TAG, "setupConstantsValue:email---------------> ${ConstantsValue.email}")
         Log.i(TAG, "setupConstantsValue:draftOrderID--------> ${ConstantsValue.draftOrderID}")
         if (ConstantsValue.isLogged && !ConstantsValue.draftOrderID.isNullOrEmpty()) {
-            Log.i(TAG, "setupConstantsValue: in if to getALLITEMS From splash")
+            Log.i(TAG, "setupConstantsValue: in if to getAllItems From splash")
             getAllItemsInBag()
         }
 
@@ -133,7 +133,7 @@ class Repository private constructor(
     }
 
     override suspend fun signIn(email: String, password: String): String {
-        var responseMessage = ""
+        val responseMessage: String
         val response = remoteSource.signIn(email)
         if (response.code() == 200) {
             if (response.body()?.customers.isNullOrEmpty()) {
@@ -179,26 +179,6 @@ class Repository private constructor(
         return response
     }
 
-
-    // local (room)
-    override suspend fun addFavorite(favorite: Favorite) {
-        //localSource.insertFavorite(favorite)
-    }
-
-    override suspend fun getFavorites(): List<Favorite> {
-        //return localSource.getFavorites()
-        return emptyList()
-    }
-
-    override suspend fun deleteFavorite(productId: Long) {
-        //localSource.deleteFavorite(productId)
-    }
-
-    override suspend fun isFavorite(productId: Long): Boolean {
-        //return localSource.isFavorite(productId)
-        return false
-    }
-
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         val response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
@@ -213,7 +193,7 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getAllAddresses(): Response<Addresses>{
+    override suspend fun getAllAddresses(): Response<Addresses> {
         val response = remoteSource.getAllAddresses()
         Log.i(TAG, "getAllAddresses: " + response.code())
         return response
@@ -270,15 +250,21 @@ class Repository private constructor(
         val response = remoteSource.updateItemsInBag(shoppingBag)
         Log.i(TAG, "updateItemsInBag: $response")
         if (!response.body()?.draft_order?.note_attributes.isNullOrEmpty()) {
-            Log.i(TAG, "updateItemsInBag after update: noteAttributes----> " + response.body()?.draft_order?.line_items?.size)
-            Log.i(TAG, "updateItemsInBag after update: lineItems---------> " + response.body()?.draft_order?.note_attributes?.size)
+            Log.i(
+                TAG,
+                "updateItemsInBag after update: noteAttributes----> " + response.body()?.draft_order?.line_items?.size
+            )
+            Log.i(
+                TAG,
+                "updateItemsInBag after update: lineItems---------> " + response.body()?.draft_order?.note_attributes?.size
+            )
             lineItems = response.body()?.draft_order?.line_items!!.toMutableList()
             noteAttributes = response.body()?.draft_order?.note_attributes!!.toMutableList()
             Log.i(TAG, "updateItemsInBag after update: noteAttributes----> " + noteAttributes.size)
             Log.i(TAG, "updateItemsInBag after update: lineItems---------> " + lineItems.size)
-        }else{
+        } else {
             lineItems = mutableListOf()
-            noteAttributes =  mutableListOf()
+            noteAttributes = mutableListOf()
             Log.i(TAG, "updateItemsInBag clear: noteAttributes----> " + noteAttributes.size)
             Log.i(TAG, "updateItemsInBag clear: lineItems---------> " + lineItems.size)
         }
@@ -385,7 +371,39 @@ class Repository private constructor(
         }
         return response
     }
+
+    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
+        val response = remoteSource.getAllAddresesForSpecificCustomer(id)
+        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
+        return response
+    }
+
+    override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
+        Log.i(TAG, "postOrders:")
+        return remoteSource.postOrders(order)
+    }
+
+
+    override suspend fun getFavourites(): Response<Favourites> {
+        val response = remoteSource.getDraftOrders()
+        if (response.code() == 200 && !response.body()?.draft_orders.isNullOrEmpty()) {
+            Log.i(TAG, "getFavourites")
+            // filter with user id too
+            val email = sharedPrefs?.getString("USER_EMAIL", "")
+            if (!email.isNullOrEmpty())
+                response.body()?.draft_orders =
+                    response.body()?.draft_orders?.filter { it.note == "fav" && it.email == email }
+        }
+        return response
+    }
+
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
+        val email = sharedPrefs?.getString("USER_EMAIL", "")
+        favorite.draft_order?.email = email
+        return remoteSource.addFavourite(favorite)
+    }
+
+    override suspend fun deleteFavourite(favId: String) {
+        remoteSource.removeFavourite(favId)
+    }
 }
-
-
-

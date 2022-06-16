@@ -38,11 +38,9 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface) 
         val imageComping = brand[position].image.src
 
         Glide.with(holder.itemView.context).load(imageComping).into(holder.brandImage)
-
         holder.itemView.setOnClickListener {
             categoryBrandInterface.setBrandName(brand[position].title)
         }
-
     }
 
     override fun getItemCount(): Int {

@@ -10,28 +10,59 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="20sp">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/payment"
-            android:textColor="@color/black"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+          app:layout_constraintTop_toBottomOf="@+id/arrow_back_imageView">
+
+            <TextView
+                android:id="@+id/titleRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CHOOSE YOUR WAY OF PAYMENT "
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/payPalRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/paypal" />
+
+            <RadioButton
+                android:id="@+id/cashRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cash" />
+        </RadioGroup>
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/payment"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="25sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/radioGroup"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--        />-->
 
         <ImageView
             android:id="@+id/arrow_back_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
-            app:layout_constraintBottom_toBottomOf="@id/textView"
+            app:layout_constraintBottom_toBottomOf="@id/radioGroup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView" />
+            app:layout_constraintTop_toTopOf="@id/radioGroup" />
 
         <TextView
             android:id="@+id/requiredTV"
@@ -43,7 +74,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView" />
+            app:layout_constraintTop_toBottomOf="@id/radioGroup" />
 
         <TextView
             android:id="@+id/required_amount_textView"
@@ -136,11 +167,13 @@
             android:id="@+id/pay_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30sp"
+            android:layout_margin="10sp"
+            android:layout_marginTop="28dp"
             android:background="@color/red"
             android:text="@string/pay"
             android:textColor="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/totalTV" />
+            app:layout_constraintTop_toBottomOf="@id/totalTV"
+            tools:layout_editor_absoluteX="10dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

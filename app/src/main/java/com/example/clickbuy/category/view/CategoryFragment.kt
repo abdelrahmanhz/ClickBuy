@@ -32,13 +32,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
+import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 
 private const val TAG = "CategoryFragment"
 
-class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductDetailsIDShow {
+class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
     private lateinit var brandFilterAdapter: BrandsFilterAdapter
@@ -51,15 +52,12 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
     private val ID_MEN = "273053679755"
     private val ID_KIDS = "273053745291"
 
-    //private var default_id = ID_WOMEN
     private var defaultId = ""
 
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
-    private val categories = mutableListOf("All", "Woman", "Men", "Kids")
     private var productType: String = ""
     private var vendor: String = ""
-    // var comingProductType: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,15 +75,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i(TAG, "onViewCreated: ")
 
+
         initViewModel()
         initUI(view)
         initTabLayout()
         getAllProducts()
 
         myToolbar.setNavigationOnClickListener {
-//            requireActivity().supportFragmentManager.beginTransaction()
-//                .replace(R.id.frame, MainActivity())
-//                .commit()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
@@ -105,20 +101,16 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
                     0 -> {
                         Log.i(TAG, "onTabSelected: women")
                         defaultId = ""
-                        //   getAllProducts()
                     }
                     1 -> {
                         Log.i(TAG, "onTabSelected: women")
                         defaultId = ID_WOMEN
-                        //  getAllProducts()
                     }
                     2 -> {
                         defaultId = ID_MEN
-                        // getAllProducts()
                     }
                     3 -> {
                         defaultId = ID_KIDS
-                        // getAllProducts()
                     }
                 }
                 getAllProducts()
@@ -135,11 +127,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, FavouritesFragment())
+                        .addToBackStack(null).commit()
                 }
                 R.id.filter_menubar -> {
                     val dialog = BottomSheetDialog(requireContext())
                     val viewLay = layoutInflater.inflate(R.layout.filter_popup, null)
-//                    viewLay.setBackgroundResource(R.drawable.background_filter)
                     val recycler: RecyclerView =
                         viewLay.findViewById(R.id.subCategoryFilterRecyclerViewPopUp)
                     val btnDone: Button = viewLay.findViewById(R.id.doneButton)
@@ -164,6 +158,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
                             progress: Int, fromUser: Boolean
                         ) {
                         }
+
                         override fun onStartTrackingTouch(seek: SeekBar) {
                         }
 
@@ -174,7 +169,11 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
                                     priceFiltered.add(subCategoryData[i])
                                 categoryAdapter.setListOfCategory(priceFiltered)
                             }
-                            Toast.makeText(requireContext(), "Progress is: " + seek.progress, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Progress is: " + seek.progress,
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     })
                     btnDone.setOnClickListener {
@@ -204,13 +203,14 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
         tabLayout = view.findViewById(R.id.tabLayout)
 
         myToolbar = view.findViewById(R.id.toolBar)
-       // myToolbar.inflateMenu(R.menu.appbar)
+        // myToolbar.inflateMenu(R.menu.appbar)
 
-        categoryAdapter = CategoryAdapter(requireContext(),this)
+        categoryAdapter = CategoryAdapter(requireContext(), this)
         categoryRecyclerView.adapter = categoryAdapter
     }
 
     private fun initTabLayout() {
+        val categories = mutableListOf(getString(R.string.all),getString(R.string.women),getString(R.string.men), getString(R.string.kids))
         for (category in categories) {
             tabLayout.addTab(tabLayout.newTab().setText(category))
         }
@@ -267,9 +267,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface , ProductD
         Log.i(TAG, "productDetailsShow: " + id)
         val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frame, salesDetails )
+            .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
-        salesDetails.setProductIdFromCategory(id)
+        salesDetails.setProductId(id)
 
     }
 }

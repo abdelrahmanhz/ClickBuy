@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="20sp"
     android:padding="10sp"
-    tools:context=".orders.view.OrderHistoryFragment">
+    tools:context=".ordershisotry.view.OrderHistoryFragment">
 
 
     <TextView

@@ -1,4 +1,4 @@
-package com.example.clickbuy.orders
+package com.example.clickbuy.ordershisotry.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -24,13 +24,15 @@ class AuthenticationViewModel(private val repo: RepositoryInterface) : ViewModel
         viewModelScope.launch {
             val response = repo.registerCustomer(customerParent)
 
-            if (response.isSuccessful) {
-                withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
                     Log.i(TAG, response.body().toString())
-                    _isRegistered.postValue(response.body()?.toString()?.contains("email"))
+                    _isRegistered.postValue(true)
+                } else {
+                    Log.i(TAG, "registerCustomer response failed!")
+                    _isRegistered.postValue(false)
                 }
-            } else
-                Log.i(TAG, "registerCustomer response failed!")
+            }
         }
     }
 

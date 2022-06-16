@@ -1,10 +1,8 @@
 package com.example.clickbuy.network
 
-import android.util.Log
 import com.example.clickbuy.models.*
 import retrofit2.Response
-import retrofit2.http.*
-import retrofit2.http.Query
+
 
 interface RemoteSource {
     suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products>
@@ -50,5 +48,12 @@ interface RemoteSource {
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
     suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+    // Favourites
+    suspend fun getDraftOrders(): Response<Favourites>
+    suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent>
+    suspend fun removeFavourite(id: String): Response<Any>
+
+    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
+    suspend fun postOrders( order: OrderPojo): Response<OrderPojo>
 
 }

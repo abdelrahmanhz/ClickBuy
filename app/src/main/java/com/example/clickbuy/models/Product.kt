@@ -7,7 +7,6 @@ data class Products (
 data class ProductParent (
     val product : Product
 )
-
 data class Product (
     val id: Long? = null,
     val title: String? = null,
@@ -26,7 +25,7 @@ data class Product (
     val variants: List<Variant>? = null,
     val options: List<Option>? = null,
     val images: List<ProductImage>? = null,
-    val image: ProductImage? = null
+    val image: ProductImage
 )
 data class ProductImage (
     val id: Long,
@@ -41,7 +40,6 @@ data class ProductImage (
     val variant_ids: List<Any?>,
     val admin_graphql_api_id: String
 )
-
 data class Option (
     val id: Long,
     val product_id: Long,
@@ -49,7 +47,6 @@ data class Option (
     val position: Long,
     val values: List<String>
 )
-
 
 
 data class Variant (

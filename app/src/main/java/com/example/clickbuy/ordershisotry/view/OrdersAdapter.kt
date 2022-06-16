@@ -1,4 +1,4 @@
-package com.example.clickbuy.home
+package com.example.clickbuy.ordershisotry.view
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -7,15 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Brand
-import com.bumptech.glide.Glide
-import com.example.clickbuy.home.view.CategoryBrandInterface
 import com.example.clickbuy.models.Order
-import com.example.clickbuy.orders.OrderDetailsInterface
-import org.w3c.dom.Text
+import com.example.clickbuy.ordershisotry.OrderDetailsInterface
 
 
 private const val TAG = "OrdersAdapter"
@@ -43,7 +38,7 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
         }
               holder.orderDateTextView.text = order[position].created_at
               holder.orderPriceTextView.text = order[position].current_total_price
-              holder.orderNumberTextView.text = order[position].line_items[position].quantity.toString() +"Items"
+              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"Items"
     }
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + order.size)

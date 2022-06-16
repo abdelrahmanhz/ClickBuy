@@ -9,8 +9,6 @@ data class Currency(
     val enabled: Boolean,
     val rate_updated_at: String
 )
-
-
 data class CurrencyConverter(
     val date: String,
     val info: Info,
@@ -18,7 +16,6 @@ data class CurrencyConverter(
     val result: Double,
     val success: Boolean
 )
-
 data class Info(
     val rate: Double,
     val timestamp: Int

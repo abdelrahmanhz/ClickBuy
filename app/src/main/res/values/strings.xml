@@ -63,5 +63,13 @@
     <string name="invalid_phone_length">Must be 11 Digits</string>
     <string name="empty_bag">Your bag is empty</string>
     <string name="empty_address">Add address</string>
+    <string name="next">Next</string>
+    <string name="paypal">Paypal</string>
+    <string name="cash">Cash</string>
+    <string name="placeOrder">Place Order</string>
+    <string name="all">All</string>
+    <string name="women">Women</string>
+    <string name="men">Men</string>
+    <string name="kids">Kids</string>
 
 </resources>
