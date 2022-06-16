@@ -63,4 +63,12 @@
     <string name="invalid_phone_length">يجب ان يكون ١١ رقم</string>
     <string name="empty_bag">حقيبة التسوق الخاصة بك فارغة</string>
     <string name="empty_address">أضف عنوان</string>
+    <string name="next">التالي</string>
+    <string name="paypal">Paypal</string>
+    <string name="cash">الدفع عند الاستلام</string>
+    <string name="placeOrder">احجز الطلب</string>
+    <string name="all">كل المنتجات</string>
+    <string name="women">النساء</string>
+    <string name="men">الرجال</string>
+    <string name="kids">الأطفال</string>
 </resources>
