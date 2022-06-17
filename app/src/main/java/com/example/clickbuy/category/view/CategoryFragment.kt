@@ -1,5 +1,6 @@
 package com.example.clickbuy.category.view
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -47,6 +48,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var filterBrandsRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
+    private lateinit var categorySearchView: SearchView
     private lateinit var viewModel: CategoryViewModel
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
@@ -96,7 +98,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundColor(Color.BLACK)
                 when (tab.position) {
                     0 -> {
                         Log.i(TAG, "onTabSelected: women")
@@ -117,7 +118,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundColor(Color.WHITE)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -127,9 +127,20 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, FavouritesFragment())
-                        .addToBackStack(null).commit()
+                    val isLogging = context?.
+                        getSharedPreferences("DeviceToken", Context.MODE_PRIVATE)?.
+                        getBoolean("IS_LOGGING", false)
+                    if (isLogging!!){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, FavouritesFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_wishlist),
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
                 R.id.filter_menubar -> {
                     val dialog = BottomSheetDialog(requireContext())
@@ -144,12 +155,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     recycler.layoutManager = GridLayoutManager(requireContext(), 2)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
-                    viewModel.category.observe(viewLifecycleOwner, {
+                    viewModel.category.observe(viewLifecycleOwner) {
                         subcategoryAdapter.setListOfBrands(it)
-                    })
-
-
-
+                    }
 
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
@@ -163,7 +171,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         }
 
                         override fun onStopTrackingTouch(seek: SeekBar) {
-                            var priceFiltered: ArrayList<Product> = ArrayList()
+                            val priceFiltered: ArrayList<Product> = ArrayList()
                             for (i in 0 until subCategoryData.size) {
                                 if (subCategoryData[i].variants?.get(0)!!.price.toDouble() <= seek.progress)
                                     priceFiltered.add(subCategoryData[i])
@@ -186,6 +194,34 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
             true
         }
+
+        categorySearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            var tempSubCategoryData = ArrayList<Product>()
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if(!p0.isNullOrEmpty()){
+                    tempSubCategoryData.clear()
+                    subCategoryData.forEach {
+                        if (it.title?.contains(p0, true)!!)
+                            tempSubCategoryData.add(it)
+                    }
+                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
+                    categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
+
+                    categoryRecyclerView.adapter?.notifyDataSetChanged()
+                }
+                else{
+                    tempSubCategoryData.clear()
+                    categoryAdapter.setListOfCategory(subCategoryData)
+                }
+
+                return false
+            }
+
+        })
     }
 
     private fun initViewModel() {
@@ -201,10 +237,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private fun initUI(view: View) {
         categoryRecyclerView = view.findViewById(R.id.brandCategoryRecyclerView)
         tabLayout = view.findViewById(R.id.tabLayout)
-
+        categorySearchView = view.findViewById(R.id.categorySearchView)
         myToolbar = view.findViewById(R.id.toolBar)
         // myToolbar.inflateMenu(R.menu.appbar)
-
+        categoryRecyclerView.layoutManager = GridLayoutManager(context, 2)
         categoryAdapter = CategoryAdapter(requireContext(), this)
         categoryRecyclerView.adapter = categoryAdapter
     }

@@ -71,5 +71,7 @@
     <string name="women">Women</string>
     <string name="men">Men</string>
     <string name="kids">Kids</string>
+    <string name="unauthorized_wishlist">please login first to check your wishlist</string>
+    <string name="search_for">What are you searching for?</string>
 
 </resources>

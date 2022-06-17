@@ -71,4 +71,6 @@
     <string name="women">النساء</string>
     <string name="men">الرجال</string>
     <string name="kids">الأطفال</string>
+    <string name="unauthorized_wishlist">يرجي تسجيل الدخول لكي تتمكن من استخدام المفضلة </string>
+    <string name="search_for">ما الذي تبحث عنه؟</string>
 </resources>
