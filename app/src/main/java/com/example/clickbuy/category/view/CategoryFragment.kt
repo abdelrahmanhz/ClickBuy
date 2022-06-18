@@ -198,7 +198,23 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         categorySearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             var tempSubCategoryData = ArrayList<Product>()
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                TODO("Not yet implemented")
+                if(!p0.isNullOrEmpty()){
+                    tempSubCategoryData.clear()
+                    subCategoryData.forEach {
+                        if (it.title?.contains(p0, true)!!)
+                            tempSubCategoryData.add(it)
+                    }
+                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
+                    categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
+
+                    categoryRecyclerView.adapter?.notifyDataSetChanged()
+                }
+                else{
+                    tempSubCategoryData.clear()
+                    categoryAdapter.setListOfCategory(subCategoryData)
+                }
+
+                return false
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {

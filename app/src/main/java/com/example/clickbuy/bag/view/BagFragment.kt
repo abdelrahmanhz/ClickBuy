@@ -118,6 +118,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 imagesList = it.draft_order.note_attributes
                 bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
                 priceTextView.text = it.draft_order.subtotal_price
+                bagObject = it
             } else {
                 bagAdapter.setList(emptyList(), emptyList())
                 priceTextView.text = "0.0"
@@ -127,7 +128,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             progressBar.visibility = View.GONE
             shimmerFrameLayout.stopShimmerAnimation()
             shimmerFrameLayout.visibility = View.GONE
-            bagObject = it
+
 
         }
     }

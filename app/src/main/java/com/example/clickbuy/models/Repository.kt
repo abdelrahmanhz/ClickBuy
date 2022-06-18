@@ -278,7 +278,7 @@ class Repository private constructor(
         Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
 
 
-        if (ConstantsValue.draftOrderID.trim().isNullOrEmpty()) {
+        if (ConstantsValue.draftOrderID.isNullOrEmpty()) {
 
             Log.i(TAG, "addItemsInBag: create")
             lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
