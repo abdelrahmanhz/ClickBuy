@@ -65,6 +65,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+
     }
 
     private fun setUpOrderRecyclerView() {

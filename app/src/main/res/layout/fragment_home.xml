@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10sp"
     tools:context=".home.view.HomeFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -16,23 +15,14 @@
         app:menu="@menu/appbar_home"
         app:title="@string/app_name" />
 
-    <SearchView
-        android:id="@+id/categorySearchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search For Your Item"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolBarHome" />
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categorySearchView">
+        app:layout_constraintTop_toBottomOf="@id/toolBarHome">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint"

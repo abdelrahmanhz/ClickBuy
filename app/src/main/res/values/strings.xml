@@ -71,5 +71,6 @@
     <string name="women">Women</string>
     <string name="men">Men</string>
     <string name="kids">Kids</string>
+    <string name="orderDetils">Order Details</string>
 
 </resources>

@@ -75,7 +75,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Log.i(TAG, "onViewCreated: ")
 
-
         initViewModel()
         initUI(view)
         initTabLayout()
@@ -96,7 +95,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundColor(Color.BLACK)
                 when (tab.position) {
                     0 -> {
                         Log.i(TAG, "onTabSelected: women")
@@ -117,7 +115,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-                tab.view.setBackgroundColor(Color.WHITE)
+              //  tab.view.setBackgroundColor(Color.WHITE)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -201,10 +199,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private fun initUI(view: View) {
         categoryRecyclerView = view.findViewById(R.id.brandCategoryRecyclerView)
         tabLayout = view.findViewById(R.id.tabLayout)
-
         myToolbar = view.findViewById(R.id.toolBar)
-        // myToolbar.inflateMenu(R.menu.appbar)
-
         categoryAdapter = CategoryAdapter(requireContext(), this)
         categoryRecyclerView.adapter = categoryAdapter
     }

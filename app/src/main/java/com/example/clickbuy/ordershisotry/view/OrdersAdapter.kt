@@ -38,7 +38,7 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
         }
               holder.orderDateTextView.text = order[position].created_at
               holder.orderPriceTextView.text = order[position].current_total_price
-              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"Items"
+              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"  " +"Items"
     }
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + order.size)
@@ -57,6 +57,7 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
              orderDateTextView    = itemView.findViewById(R.id.dateOfOrdersTextView)
              orderNumberTextView  = itemView.findViewById(R.id.numberOfOrdersTextView)
              orderPriceTextView   = itemView.findViewById(R.id.priceOfOrderTextView)
+
 
         }
     }

@@ -24,7 +24,6 @@ class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInt
     lateinit var lineItemList: List<BagItem>
     lateinit var  itemImageList: List<NoteAttribute>
 
-    //var order: List<Order> = emptyList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

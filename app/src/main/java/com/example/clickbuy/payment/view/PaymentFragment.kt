@@ -43,9 +43,7 @@ class PaymentFragment : Fragment() {
 
     private lateinit var viewModel: PaymentViewModel
 
-    //  private var requiredAmount: Double = 0.0
     private var discountAmount: String = ConstantsValue.discountAmount
-    // private var formattedNumber = 0.0
 
     private var address: Address = Address()
 

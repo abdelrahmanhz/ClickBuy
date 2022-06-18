@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ordershisotry.OrderDetailsFragment">
+    tools:context=".ordershisotry.view.OrderDetailsFragment">
     <ImageView
         android:id="@+id/BackButtonOrderDetails"
         android:layout_width="wrap_content"
@@ -13,7 +13,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-
+    <TextView
+        android:id="@+id/titleOrderDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/orderDetils"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BackButtonOrderDetails" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderDetailsRecyclerView"
         android:layout_width="match_parent"
@@ -22,7 +29,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BackButtonOrderDetails" />
-    <!--        tools:listitem="@layout/custom_row_sales" />-->
-
+        app:layout_constraintTop_toBottomOf="@+id/titleOrderDetails" />
 </androidx.constraintlayout.widget.ConstraintLayout>

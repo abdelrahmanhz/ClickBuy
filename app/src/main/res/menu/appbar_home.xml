@@ -2,15 +2,19 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-        android:id="@+id/filter_menubar"
-        android:icon="@drawable/filter_icon"
+        android:id="@+id/search_menubar_home"
+        android:icon="@drawable/ic_search"
+        android:title="favortie"
+        app:showAsAction="ifRoom|withText"/>
+    <item
+        android:id="@+id/cart_menubar_home"
+        android:icon="@drawable/ic_shopping_cart"
         android:title="search"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/favorite_menu"
-        android:icon="@drawable/ic_fav"
+        android:id="@+id/favorite_menubar_home"
+        android:icon="@drawable/ic_favorite_border"
         android:title="favortie"
         app:showAsAction="ifRoom|withText"/>
 
