@@ -12,5 +12,6 @@
     <color name="backgroundIconInProfile">#00C569</color>
     <color name="background_coupons">#00C569</color>
     <color name="shimmer_color">#747877</color>
+    <color name="light_green">#00C569</color>
 
 </resources>

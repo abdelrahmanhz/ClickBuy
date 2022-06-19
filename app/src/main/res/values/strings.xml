@@ -73,5 +73,7 @@
     <string name="kids">Kids</string>
     <string name="unauthorized_wishlist">please login first to check your wishlist</string>
     <string name="search_for">What are you searching for?</string>
+    <string name="alert_title">Alert</string>
+    <string name="remove">Remove</string>
 
 </resources>

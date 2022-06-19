@@ -2,6 +2,7 @@ package com.example.clickbuy.productdetails.view
 
 import android.R
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -20,8 +21,6 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
-import com.google.android.material.snackbar.Snackbar
-import kotlin.math.log
 
 const val TAG = "ProductDetailsFragment"
 
@@ -44,7 +43,7 @@ class ProductDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -74,7 +73,12 @@ class ProductDetailsFragment : Fragment() {
         binding.itemImagesViewPager.visibility = View.VISIBLE
         binding.productInfo.productBottomSheet.visibility = View.VISIBLE
         binding.cardView.visibility = View.VISIBLE
-        binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
+        val isLogging = context?.
+        getSharedPreferences("DeviceToken", Context.MODE_PRIVATE)?.
+        getBoolean("IS_LOGGING", false)
+        if (isLogging!!){
+            binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
+        }
     }
 
     private fun setUpViewModel() {
@@ -97,11 +101,10 @@ class ProductDetailsFragment : Fragment() {
                 viewModel.isFavAndId.observe(requireActivity()) { isFavAndId ->
                     favId = isFavAndId.first
                     isFavourite = isFavAndId.second
-                    Log.i(TAG, "setUpViewModel: it-------------> " + it)
-                    Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
-                    binding.productDetailsHeader.rightDrawable.let {
-                        it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
-                    }
+                    Log.i(TAG, "setUpViewModel: it-------------> $it")
+                    Log.i(TAG, "setUpViewModel: isFavorite-----> $isFavourite")
+                    binding.productDetailsHeader.rightDrawable
+                        .setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
                 }
                 displayProduct(it)
                 showUIComponent()
@@ -192,7 +195,7 @@ class ProductDetailsFragment : Fragment() {
 
         // favorite
         binding.productDetailsHeader.rightDrawable.setOnClickListener {
-            Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
+            Log.i(TAG, "displayProduct: isFavorite----->  $isFavourite")
             if (!isFavourite) {
                 Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
                 val fav = FavouriteParent(
@@ -220,10 +223,10 @@ class ProductDetailsFragment : Fragment() {
                 val dialogBuilder = AlertDialog.Builder(requireContext())
                 dialogBuilder.apply {
 
-                    setTitle("Removing Alert")
+                    setTitle(resources.getString(r.string.alert_title))
                     setMessage("Do you want to remove \"${product.title}\" from your favourites?")
 
-                    setPositiveButton("Remove") { _, _ ->
+                    setPositiveButton(resources.getString(r.string.remove)) { _, _ ->
                         Toast.makeText(
                             context,
                             "Successfully removed!",
@@ -246,16 +249,25 @@ class ProductDetailsFragment : Fragment() {
 
         // add to cart
         binding.addToCartButton.setOnClickListener {
+            var variantId = product.variants?.get(0)?.id
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
                 viewModel.addItemsInBag(product)
                 binding.addToCartButton.isEnabled = false
-            } else
+            } else{
+                product.variants?.forEach {
+                    if (it.option1 == binding.productInfo.sizeSpinner.selectedItem.toString()){
+                        variantId = it.id
+                        return@forEach
+                    }
+                }
+                Log.i(TAG, "addToCartButton: $variantId")
                 Toast.makeText(
                     requireContext(),
                     resources.getString(r.string.guest),
                     Toast.LENGTH_SHORT
                 ).show()
+            }
         }
     }
 

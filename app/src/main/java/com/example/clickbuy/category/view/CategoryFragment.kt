@@ -2,7 +2,6 @@ package com.example.clickbuy.category.view
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -14,16 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.category.CategoryAdapter
 import com.example.clickbuy.category.viewmodel.CategoryViewModel
 import com.example.clickbuy.category.viewmodel.CategoryViewModelFactory
-import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import android.graphics.drawable.BitmapDrawable
-
 import android.view.WindowManager
-
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.category.BrandsFilterAdapter
@@ -37,6 +33,7 @@ import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.example.clickbuy.search.view.SearchFragment
 
 private const val TAG = "CategoryFragment"
 
@@ -118,6 +115,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
+                clearSearchViewText()
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -132,7 +130,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         getBoolean("IS_LOGGING", false)
                     if (isLogging!!){
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.frame, FavouritesFragment())
+                            .replace(R.id.frame, SearchFragment())
                             .addToBackStack(null).commit()
                     }
                     else{
@@ -213,7 +211,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
-
                 return false
             }
 
@@ -233,11 +230,15 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
-
                 return false
             }
-
         })
+    }
+
+    private fun clearSearchViewText() {
+        categorySearchView.setQuery("", false)
+        categorySearchView.clearFocus()
+        categorySearchView.isIconified = false
     }
 
     private fun initViewModel() {
