@@ -33,5 +33,4 @@ class ImagesViewPagerAdapter(private var images: List<String>) : RecyclerView.Ad
         this.images = images
         notifyDataSetChanged()
     }
-
 }

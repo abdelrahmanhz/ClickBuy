@@ -11,28 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp">
+
         <ImageView
-            android:id="@+id/arrow_back_imageView"
+            android:id="@+id/arrow_back_imageView_payment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_left"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-        />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/paymentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment"
-            android:textSize="16sp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/arrow_back_imageView" />
+            app:layout_constraintStart_toStartOf="@+id/arrow_back_imageView_payment"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/paymentTitle">
@@ -42,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="CHOOSE YOUR WAY OF PAYMENT "
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <RadioButton
@@ -57,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cash" />
         </RadioGroup>
-
 
         <TextView
             android:id="@+id/requiredTV"
@@ -166,7 +170,7 @@
             android:layout_margin="10sp"
             android:layout_marginTop="28dp"
             android:background="@color/red"
-            android:text="@string/pay"
+            android:text="@string/placeOrder"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/totalTV"
             tools:layout_editor_absoluteX="10dp" />

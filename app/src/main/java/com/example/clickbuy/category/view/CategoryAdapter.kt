@@ -1,4 +1,4 @@
-package com.example.clickbuy.category
+package com.example.clickbuy.category.view
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +17,7 @@ import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.home.view.CategoryBrandInterface
 import com.example.clickbuy.home.view.ProductDetailsInterface
 import com.example.clickbuy.models.Product
+import com.example.clickbuy.util.calculatePrice
 
 
 private const val TAG = "categoryAdapter"
@@ -44,7 +45,9 @@ class CategoryAdapter(val context: Context , categoryFragment: ProductDetailsIDS
         var imageComping = category[position].image?.src
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
         holder.titleTextView.text = category[position].title
-         holder.priceTextView.text = category[position].variants!![0].price
+        var priceConverted = calculatePrice(category[position].variants!![0].price)
+        holder.priceTextView.text = priceConverted
+//        holder.priceTextView.text = category[position].variants!![0].price
 //        Log.i(TAG, "onBindViewHolder: " + category[position].variants!![position].price)
         //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
         holder.itemView.setOnClickListener {

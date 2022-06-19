@@ -1,4 +1,4 @@
-package com.example.clickbuy.home
+package com.example.clickbuy.home.view
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,6 @@ import android.widget.ImageView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Brand
 import com.bumptech.glide.Glide
-import com.example.clickbuy.home.view.CategoryBrandInterface
 
 
 private const val TAG = "BrandsAdapter"

@@ -40,6 +40,7 @@ class PaymentFragment : Fragment() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var paypalRadioButton: RadioButton
     private lateinit var cashRadioButton: RadioButton
+    private lateinit var backButton: ImageView
 
     private lateinit var viewModel: PaymentViewModel
 
@@ -66,7 +67,6 @@ class PaymentFragment : Fragment() {
         Log.i(TAG, "imagesList: ---------------------------------$imagesList")
 
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val radio: RadioButton = view.findViewById(checkedId)
             when (radioGroup.checkedRadioButtonId) {
                 R.id.payPalRadioButton -> {
                     paypalRadioButton.isChecked = true
@@ -78,7 +78,6 @@ class PaymentFragment : Fragment() {
                     cashRadioButton.isChecked = true
                     placeOrderButton.visibility = View.VISIBLE
                     placeOrderButton.setOnClickListener {
-
                     }
                     Log.i("TAG", "onViewCreated: cashhhhhh ")
                     Toast.makeText(requireContext(), "On click : cashhhh", Toast.LENGTH_SHORT)
@@ -86,7 +85,6 @@ class PaymentFragment : Fragment() {
                 }
             }
         }
-
         validateCodeButton.setOnClickListener {
             if (discountCodeEditText.text.trim().isEmpty()) {
                 discountCodeEditText.error = resources.getString(R.string.coupon_empty)
@@ -94,19 +92,17 @@ class PaymentFragment : Fragment() {
                 viewModel.validateCoupons(discountCodeEditText.text.toString())
             }
         }
-
         payButton.setOnClickListener {
             orderViewModel.postOrder(
                 OrderPojo(
                     Order(
-                        email = "3bdorafaat@gmail.com",
+                        email = ConstantsValue.email,
                         line_items = bagList,
                         note_attributes = imagesList,
                         billing_address = address
                     )
                 )
             )
-
         }
 
         return view
@@ -117,6 +113,10 @@ class PaymentFragment : Fragment() {
         paypalRadioButton = view.findViewById(R.id.payPalRadioButton)
         cashRadioButton = view.findViewById(R.id.cashRadioButton)
 
+        backButton = view.findViewById(R.id.arrow_back_imageView_payment)
+        backButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
         requiredAmountTextView = view.findViewById(R.id.required_amount_textView)
         discountAmountTextView = view.findViewById(R.id.discount_amount_textView)
         totalAmountTextView = view.findViewById(R.id.total_amount_textView)
@@ -124,7 +124,6 @@ class PaymentFragment : Fragment() {
         validateCodeButton = view.findViewById(R.id.validate_code_button)
         payButton = view.findViewById(R.id.pay_button)
 
-        //    formattedNumber = (requiredAmount * ConstantsValue.currencyValue)
         requiredAmountTextView.text =
             calculatePrice((requireActivity() as AddressOrderActivity).totalAmountPrice)
     }
@@ -170,7 +169,6 @@ class PaymentFragment : Fragment() {
             }
         }
     }
-
     fun setAddress(address: Address) {
         this.address = address
         Log.i(TAG, "address chossen: -------> $address")

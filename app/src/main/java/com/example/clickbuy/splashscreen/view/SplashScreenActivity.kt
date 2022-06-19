@@ -102,9 +102,7 @@ class SplashScreenActivity : AppCompatActivity() {
         )
         viewModel = ViewModelProvider(this, modelFactory)
             .get(SplashViewModel::class.java)
-
-        //   viewModel.setupConstantsValue()
-
+        
     }
 
     private fun showSnackbar() {

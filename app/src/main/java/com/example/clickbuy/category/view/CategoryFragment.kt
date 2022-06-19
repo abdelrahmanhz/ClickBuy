@@ -1,7 +1,5 @@
 package com.example.clickbuy.category.view
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,10 +8,8 @@ import android.widget.*
 import com.example.clickbuy.R
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clickbuy.category.CategoryAdapter
 import com.example.clickbuy.category.viewmodel.CategoryViewModel
 import com.example.clickbuy.category.viewmodel.CategoryViewModelFactory
-import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.appbar.MaterialToolbar
@@ -25,17 +21,14 @@ import android.view.WindowManager
 
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.clickbuy.category.BrandsFilterAdapter
-import com.example.clickbuy.category.SubCategoriesFromFilterInterface
-import com.example.clickbuy.category.SubCateogriesAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.favourites.view.FavouritesFragment
-import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.facebook.shimmer.ShimmerFrameLayout
 
 private const val TAG = "CategoryFragment"
 
@@ -51,13 +44,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
     private val ID_KIDS = "273053745291"
-
     private var defaultId = ""
-
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
     private var productType: String = ""
     private var vendor: String = ""
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +73,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         initTabLayout()
         getAllProducts()
 
+        if (vendor.isNotEmpty())
+            myToolbar.setNavigationIcon(R.drawable.ic_back_icon)
         myToolbar.setNavigationOnClickListener {
-            val intent = Intent(requireContext(), MainActivity::class.java)
-            startActivity(intent)
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         viewModel.subCategory.observe(requireActivity()) {
@@ -91,6 +85,8 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                 categoryAdapter.setListOfCategory(it.products)
                 subCategoryData = it.products as ArrayList<Product>
             }
+            shimmerFrameLayout.stopShimmerAnimation()
+            shimmerFrameLayout.visibility = View.GONE
         }
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
@@ -115,7 +111,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-              //  tab.view.setBackgroundColor(Color.WHITE)
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -136,18 +131,16 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         viewLay.findViewById(R.id.subCategoryFilterRecyclerViewPopUp)
                     val btnDone: Button = viewLay.findViewById(R.id.doneButton)
                     val priceSeeker: SeekBar = viewLay.findViewById(R.id.priceSlider)
+                    val filteredPrice: TextView = viewLay.findViewById(R.id.filteredPrice)
                     val layoutManager = LinearLayoutManager(CategoryFragment().context)
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
                     subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
-                    recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+                    recycler.layoutManager = GridLayoutManager(requireContext(), 3)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
                     viewModel.category.observe(viewLifecycleOwner, {
-                        subcategoryAdapter.setListOfBrands(it)
+                        subcategoryAdapter.setListOfSubCategories(it)
                     })
-
-
-
 
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
@@ -161,17 +154,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         }
 
                         override fun onStopTrackingTouch(seek: SeekBar) {
-                            var priceFiltered: ArrayList<Product> = ArrayList()
+                            val priceFiltered: ArrayList<Product> = ArrayList()
                             for (i in 0 until subCategoryData.size) {
                                 if (subCategoryData[i].variants?.get(0)!!.price.toDouble() <= seek.progress)
                                     priceFiltered.add(subCategoryData[i])
                                 categoryAdapter.setListOfCategory(priceFiltered)
                             }
-                            Toast.makeText(
-                                requireContext(),
-                                "Progress is: " + seek.progress,
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            filteredPrice.text = seek.progress.toString()
                         }
                     })
                     btnDone.setOnClickListener {
@@ -201,11 +190,18 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         tabLayout = view.findViewById(R.id.tabLayout)
         myToolbar = view.findViewById(R.id.toolBar)
         categoryAdapter = CategoryAdapter(requireContext(), this)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout_category)
+
         categoryRecyclerView.adapter = categoryAdapter
     }
 
     private fun initTabLayout() {
-        val categories = mutableListOf(getString(R.string.all),getString(R.string.women),getString(R.string.men), getString(R.string.kids))
+        val categories = mutableListOf(
+            getString(R.string.all),
+            getString(R.string.women),
+            getString(R.string.men),
+            getString(R.string.kids)
+        )
         for (category in categories) {
             tabLayout.addTab(tabLayout.newTab().setText(category))
         }
@@ -233,8 +229,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private fun displayPopupWindow(anchorView: View) {
         val popup = PopupWindow(requireContext())
         val layout: View = layoutInflater.inflate(R.layout.filter_popup, null)
-        filterBrandsRecyclerView = anchorView.findViewById(R.id.brandsFilterRecyclerView)
-
+        // filterBrandsRecyclerView = anchorView.findViewById(R.id.brandsFilterRecyclerView)
         popup.contentView = layout
         popup.height = WindowManager.LayoutParams.MATCH_PARENT
         popup.width = WindowManager.LayoutParams.MATCH_PARENT
@@ -266,5 +261,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             .addToBackStack(null).commit()
         salesDetails.setProductId(id)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shimmerFrameLayout.startShimmerAnimation()
     }
 }

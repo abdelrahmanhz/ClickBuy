@@ -5,17 +5,17 @@
     <item
         android:id="@+id/search_menubar_home"
         android:icon="@drawable/ic_search"
-        android:title="favortie"
+        android:title=""
         app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/cart_menubar_home"
         android:icon="@drawable/ic_shopping_cart"
-        android:title="search"
+        android:title=""
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/favorite_menubar_home"
         android:icon="@drawable/ic_favorite_border"
-        android:title="favortie"
+        android:title=""
         app:showAsAction="ifRoom|withText"/>
 
 </menu>

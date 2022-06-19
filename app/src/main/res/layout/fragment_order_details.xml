@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/orderDetils"
+        android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/BackButtonOrderDetails" />
     <androidx.recyclerview.widget.RecyclerView

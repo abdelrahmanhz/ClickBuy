@@ -1,4 +1,4 @@
-package com.example.clickbuy.category
+package com.example.clickbuy.category.view
 
 
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +34,7 @@ class BrandsFilterAdapter(val context: Context) :
 //        var imageComping = brand[position].image.src
 //        Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.brandImage);
     holder.brandTitle.text = brand[position].title
+
         holder.itemView.setOnClickListener {
           //  categoryBrandInterface.categoryBrandShow(brand[position].title)
         }
