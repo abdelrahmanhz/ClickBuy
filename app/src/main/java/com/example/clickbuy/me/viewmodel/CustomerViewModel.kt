@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickbuy.models.Customer
+import com.example.clickbuy.models.CustomerTest
+import com.example.clickbuy.models.CustomersTest
 import com.example.clickbuy.models.RepositoryInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +20,9 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private var _customerDetails = MutableLiveData<List<Customer>>()
     val customerDetails: LiveData<List<Customer>> = _customerDetails
 
+    private var _updatedCustomerDetails = MutableLiveData<CustomerTest>()
+    val updatedCustomerDetails: LiveData<CustomerTest> = _updatedCustomerDetails
+
     fun getCustomerDetails(email: String) {
         viewModelScope.launch {
             val response = _iRepo.getCustomerDetails(email)
@@ -29,6 +34,22 @@ class CustomerViewModel(iRepo: RepositoryInterface) : ViewModel() {
                     Log.i(TAG, "getCustomerDetails: size-----> " + response.body()?.customers?.size)
                     Log.i(TAG, "getCustomerDetails: response.body()-----> " + response.body())
                     _customerDetails.postValue(emptyList())
+                }
+
+            }
+        }
+
+    }
+
+
+    fun updateCustomerDetailsTest(customer: CustomersTest) {
+        viewModelScope.launch {
+            val response = _iRepo.updateCustomerDetailsTest(customer)
+            withContext(Dispatchers.Main) {
+                Log.i(TAG, "updateCustomerDetailsTest: response.code()------------> " + response.code())
+                if (response.isSuccessful) {
+                    _updatedCustomerDetails.postValue(response.body()!!.customer)
+                    Log.i(TAG, "updateCustomerDetailsTest: " + response.body())
                 }
 
             }

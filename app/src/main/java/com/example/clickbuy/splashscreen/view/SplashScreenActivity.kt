@@ -2,10 +2,10 @@ package com.example.clickbuy.splashscreen.view
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.View
 import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
@@ -15,16 +15,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.clickbuy.R
 import com.example.clickbuy.mainscreen.view.MainActivity
-import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
-import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.splashscreen.viewmodel.SplashViewModel
 import com.example.clickbuy.splashscreen.viewmodel.SplashViewModelFactory
 import com.example.clickbuy.util.ConnectionLiveData
-import com.example.clickbuy.util.ConstantsValue
-import com.example.clickbuy.util.isNetworkAvailable
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,35 +42,26 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_splash_screen)
-
         initUI()
         initViewModel()
 
-        /*connectionLiveData = ConnectionLiveData(this)
-
-        connectionLiveData.observe(this) {
-            Log.i(TAG, "onCreate: it----------------> $it")
-            Log.i(TAG, "onCreate: -----------------> " + connectionLiveData.value)
-        }
-
-        Log.i(TAG, "onCreate: -----------------> " + connectionLiveData.value)*/
-        ConnectionLiveData.getInstance(this).observe(this) {
-
-        }
-
-        Log.i(TAG, "onCreate: -----------------> " + ConnectionLiveData.getInstance(this).value)
-
-        Log.i(TAG, "onCreate: -----------------> " + ConnectionLiveData(this).value)
-
+        /*  Log.i(TAG, "onCreate: --------------------")
+          ConnectionLiveData.getInstance(this).observe(this) {
+              Log.i(TAG, "observe connection:---------------------> $it")
+              if (it) {
+                  CoroutineScope(Dispatchers.Main).launch {
+                      delay(2000)
+                      startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
+                      //   viewModel.setupConstantsValue()
+                  }
+              } else {
+                  showSnackbar()
+              }
+          }*/
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(2000)
-            if (ConnectionLiveData.getInstance(this@SplashScreenActivity).value == true) {
-                startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
-                viewModel.setupConstantsValue()
-            } else {
-                showSnackbar()
-            }
+            startActivity(Intent(this@SplashScreenActivity, MainActivity::class.java))
         }
 
     }
@@ -102,9 +88,6 @@ class SplashScreenActivity : AppCompatActivity() {
         )
         viewModel = ViewModelProvider(this, modelFactory)
             .get(SplashViewModel::class.java)
-
-        //   viewModel.setupConstantsValue()
-
     }
 
     private fun showSnackbar() {
@@ -115,7 +98,11 @@ class SplashScreenActivity : AppCompatActivity() {
         ).setActionTextColor(Color.WHITE)
 
         snackBar.setAction(getString(R.string.enable_connection)) {
-            startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
         }
         snackBar.view.setBackgroundColor(Color.RED)
         snackBar.show()

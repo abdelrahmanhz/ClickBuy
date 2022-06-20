@@ -17,6 +17,7 @@ import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "MainActivity"
@@ -36,9 +37,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(HomeFragment())
 
+        replaceFragment(HomeFragment())
         initViewModel()
+
+        ConnectionLiveData.getInstance(this).observe(this) {
+            Log.i(TAG, "observe on connection: ----------------> $it")
+            if (it) {
+                viewModel.getQualifiedValueCurrency(ConstantsValue.to)
+                viewModel.setupConstantsValue()
+            } else {
+                Log.i(TAG, "onCreate: no internet")
+            }
+        }
 
         viewModel.currencyConverter.observe(this) {
             ConstantsValue.currencyValue = it.result
@@ -71,7 +82,9 @@ class MainActivity : AppCompatActivity() {
                         replaceFragment(MeFragment())
                     else
                         replaceFragment(GuestFragment())
-                } } }
+                }
+            }
+        }
         meo.setOnShowListener { item ->
             fragmentShow = item.id
         }
@@ -88,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
 
-        viewModel.getQualifiedValueCurrency(ConstantsValue.to)
+        // viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
 
     private fun replaceFragment(fragment: Fragment) {

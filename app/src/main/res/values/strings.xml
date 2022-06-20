@@ -71,6 +71,12 @@
     <string name="women">Women</string>
     <string name="men">Men</string>
     <string name="kids">Kids</string>
-    <string name="orderDetils">Order Details</string>
+    <string name="order_details">Order Details</string>
+    <string name="password">Password</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First Name</string>
+    <string name="enter_place_name">Enter the name of place</string>
+    <string name="get_address">get Address</string>
+    <string name="address_error">You must enter a place</string>
 
 </resources>

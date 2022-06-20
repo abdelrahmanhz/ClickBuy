@@ -1,4 +1,4 @@
-package com.example.clickbuy.address.viewmodel
+package com.example.clickbuy.address.showaddresses.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

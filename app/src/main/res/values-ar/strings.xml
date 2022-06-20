@@ -71,4 +71,8 @@
     <string name="women">النساء</string>
     <string name="men">الرجال</string>
     <string name="kids">الأطفال</string>
+    <string name="order_details">تفاصيل الطلب</string>
+    <string name="password">كلمة السر</string>
+    <string name="last_name">الاسم الاخير</string>
+    <string name="first_name">الاسم الاول</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.example.clickbuy.me.view.loged
 
+import android.content.Intent
+import android.os.Build
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +13,9 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
-import com.example.clickbuy.address.view.AddressFragment
+import com.example.clickbuy.address.showaddresses.view.AddressFragment
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.currency.view.CurrencyFragment
 import com.example.clickbuy.me.view.guest.GuestFragment
@@ -22,12 +26,18 @@ import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.ordershisotry.view.OrdersFragment
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.isRTL
 import com.example.clickbuy.util.ConstantsValue
+import de.hdodenhof.circleimageview.CircleImageView
 
 private const val TAG = "HomeView"
 
 class MeFragment : Fragment() {
+
+    private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var enableConnection: TextView
+
     private lateinit var welcomeTextView: TextView
     private lateinit var editProfileRelativeLayout: RelativeLayout
     private lateinit var addressRelativeLayout: RelativeLayout
@@ -36,7 +46,7 @@ class MeFragment : Fragment() {
     private lateinit var currencyRelativeLayout: RelativeLayout
     private lateinit var orderHistoryRelativeLayout: RelativeLayout
     private lateinit var logOutRelativeLayout: RelativeLayout
-
+    private lateinit var profileImage: CircleImageView
     private lateinit var editProfileImageView: ImageView
     private lateinit var addressImageView: ImageView
     private lateinit var wishListImageView: ImageView
@@ -77,6 +87,27 @@ class MeFragment : Fragment() {
 
         }
 
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
+            if (it) {
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+                setVisibilityView(View.VISIBLE)
+                viewModel.getCustomerDetails(ConstantsValue.email)
+            } else {
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+                setVisibilityView(View.GONE)
+            }
+        }
+
+        enableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+        }
 
         editProfileRelativeLayout.setOnClickListener {
             Log.i("TAG", "onCreateView: editProfileRelativeLayout")
@@ -120,6 +151,19 @@ class MeFragment : Fragment() {
         return view
     }
 
+    private fun setVisibilityView(visibility: Int) {
+        welcomeTextView.visibility = visibility
+        editProfileRelativeLayout.visibility = visibility
+        addressRelativeLayout.visibility = visibility
+        wishListRelativeLayout.visibility = visibility
+        bagRelativeLayout.visibility = visibility
+        currencyRelativeLayout.visibility = visibility
+        orderHistoryRelativeLayout.visibility = visibility
+        logOutRelativeLayout.visibility = visibility
+        profileImage.visibility = visibility
+
+    }
+
     private fun initView(view: View) {
         welcomeTextView = view.findViewById(R.id.welcome_textView)
         editProfileRelativeLayout = view.findViewById(R.id.edit_profile_relativeLayout)
@@ -129,7 +173,7 @@ class MeFragment : Fragment() {
         currencyRelativeLayout = view.findViewById(R.id.currency_relativeLayout)
         orderHistoryRelativeLayout = view.findViewById(R.id.order_history_relativeLayout)
         logOutRelativeLayout = view.findViewById(R.id.logout_relativeLayout)
-
+        profileImage = view.findViewById(R.id.profile_circleImageView)
         editProfileImageView = view.findViewById(R.id.edit_profile_image)
         addressImageView = view.findViewById(R.id.address_image)
         wishListImageView = view.findViewById(R.id.wishList_image)
@@ -138,6 +182,8 @@ class MeFragment : Fragment() {
         orderHistoryImageView = view.findViewById(R.id.order_history_image)
         logOutImageView = view.findViewById(R.id.logout_image)
 
+        enableConnection = view.findViewById(R.id.enable_connection)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation)
     }
 
     private fun initViewModel() {
@@ -150,8 +196,6 @@ class MeFragment : Fragment() {
 
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CustomerViewModel::class.java)
-
-        viewModel.getCustomerDetails(ConstantsValue.email)
     }
 
     private fun checkRTL() {

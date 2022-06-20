@@ -119,4 +119,10 @@ dependencies {
     ///view steps
     implementation 'com.shuhart.stepview:stepview:1.5.1'
 
+    //Animated GIF
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
+    //lottie
+    def lottieVersion = "5.0.2"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
 }

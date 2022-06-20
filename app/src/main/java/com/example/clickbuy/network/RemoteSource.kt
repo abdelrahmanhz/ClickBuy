@@ -35,9 +35,13 @@ interface RemoteSource {
     suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
 
+    //Customer
     suspend fun getCustomerDetails(email: String): Response<Customers>
     suspend fun updateCustomerDetails(customer: CustomerParent): Response<CustomerParent>
+    suspend fun updateCustomerDetailsTest(customer: CustomersTest): Response<CustomersTest>
     suspend fun getAllAddresses(): Response<CustomerAddresses>
+    suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse>
+    suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI>
 
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>

@@ -3,18 +3,24 @@ package com.example.clickbuy.home.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import android.widget.ScrollView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.home.BrandsAdapter
@@ -23,35 +29,43 @@ import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.payment.view.PaymentFragment
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.example.clickbuy.util.ConnectionLiveData
+import com.google.android.material.appbar.MaterialToolbar
 import com.smarteist.autoimageslider.SliderView
 
-private const val TAG = "HomeView"
+private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
     BrandDetailsInterface {
-    private lateinit var brandAdapter: BrandsAdapter
-    private lateinit var saleAdapter: SalesAdapter
-    private lateinit var homeFactory: HomeViewModelFactory
+
+    private lateinit var toolBarHome: MaterialToolbar
+    private lateinit var enableConnection: TextView
+
+    private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var scrollView: ScrollView
     private lateinit var brandsRecyclerView: RecyclerView
     private lateinit var salesRecyclerView: RecyclerView
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var brandAdapter: BrandsAdapter
+    private lateinit var saleAdapter: SalesAdapter
     private lateinit var adsSlider: SliderView
     private lateinit var couponsSlider: SliderView
+    private lateinit var homeFactory: HomeViewModelFactory
+    private lateinit var viewModel: HomeViewModel
     private lateinit var couponsAdapter: CouponsSliderAdapter
     private lateinit var clipboardManager: ClipboardManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         clipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
@@ -60,16 +74,48 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
+        Log.i(TAG, "onViewCreated: before snackbar")
+
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
+            if (it) {
+                Log.i(TAG, "onViewCreated: in if")
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+                scrollView.visibility = View.VISIBLE
+                toolBarHome.visibility = View.VISIBLE
+                viewModel.getAllBrands()
+                viewModel.getAllSalesById()
+                viewModel.getAvailableCoupons()
+            } else {
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+                scrollView.visibility = View.GONE
+                toolBarHome.visibility = View.GONE
+            }
+        }
+
+        enableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+        }
     }
 
     private fun initUI(view: View) {
         brandsRecyclerView = view.findViewById(R.id.brandsRecyclerView)
+        scrollView = view.findViewById(R.id.scroll_view)
 
         val resId: Int = R.anim.lat
         val animation: LayoutAnimationController =
             AnimationUtils.loadLayoutAnimation(context, resId)
         brandsRecyclerView.layoutAnimation = animation
         salesRecyclerView = view.findViewById(R.id.salesRecyclerView)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation)
+        enableConnection = view.findViewById(R.id.enable_connection)
+        toolBarHome = view.findViewById(R.id.toolBarHome)
 
         adsSlider = view.findViewById(R.id.ads_sliderView)
         adsSlider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR
@@ -95,10 +141,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
             )
         )
         viewModel = ViewModelProvider(this, homeFactory).get(HomeViewModel::class.java)
-
-        viewModel.getAllBrands()
-        viewModel.getAllSalesById()
-        viewModel.getAvailableCoupons()
     }
 
     private fun observeViewModel() {
@@ -117,11 +159,11 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         }
 
 
-        viewModel.coupons.observe(viewLifecycleOwner, Observer {
+        viewModel.coupons.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
                 couponsAdapter.setList(it)
             }
-        })
+        }
     }
 
     private fun setUpBrandRecyclerView() {

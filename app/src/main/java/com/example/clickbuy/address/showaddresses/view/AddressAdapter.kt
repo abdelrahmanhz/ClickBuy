@@ -1,4 +1,4 @@
-package com.example.clickbuy.address.view
+package com.example.clickbuy.address.showaddresses.view
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +15,6 @@ private const val TAG = "AddressAdapter"
 
 class AddressAdapter : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
     private var addressList: List<CustomerAddress> = ArrayList()
-    private var checkedPosition = 0
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.i(TAG, "onCreateViewHolder: ")
@@ -28,7 +26,9 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: AddressAdapter.ViewHolder, position: Int) {
         Log.i(TAG, "onBindViewHolder: ")
         val address = addressList[position]
-        holder.bind(address)
+        holder.typeOfAddressTextView.text = address.address1
+        holder.addressTextView.text =
+            address.city.plus(" , ").plus(address.province).plus(" , " + address.country)
     }
 
     override fun getItemCount(): Int {
@@ -41,33 +41,9 @@ class AddressAdapter : RecyclerView.Adapter<AddressAdapter.ViewHolder>() {
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private var typeOfAddressTextView: TextView =
+        var typeOfAddressTextView: TextView =
             itemView.findViewById(R.id.type_of_address_textView)
-        private var addressTextView: TextView = itemView.findViewById(R.id.address_textView)
-        private var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
-
-
-        fun bind(address: CustomerAddress) {
-            if (checkedPosition == -1) {
-                checkedImageView.visibility = View.GONE
-            } else {
-                if (checkedPosition == adapterPosition) {
-                    checkedImageView.visibility = View.VISIBLE
-                } else {
-                    checkedImageView.visibility = View.GONE
-                }
-            }
-            typeOfAddressTextView.text = address.address1
-            addressTextView.text =
-                address.city.plus(" , ").plus(address.province).plus(" , " + address.country)
-            itemView.setOnClickListener {
-                checkedImageView.visibility = View.VISIBLE
-                if (checkedPosition != adapterPosition) {
-                    notifyItemChanged(checkedPosition)
-                    checkedPosition = adapterPosition
-                }
-            }
-        }
+        var addressTextView: TextView = itemView.findViewById(R.id.address_textView)
     }
 
 }

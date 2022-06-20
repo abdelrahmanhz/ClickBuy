@@ -94,26 +94,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
         android:id="@+id/empty_bag_constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView">
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/empty_bag_imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="250sp"
-            android:src="@drawable/ic_empty_bag"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/empty_shopping_cart"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
+            android:id="@+id/textView_bag_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/empty_bag"
