@@ -26,6 +26,7 @@ import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.view.AddressOrderActivity
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.calculatePrice
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -117,8 +118,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 bagList = it.draft_order.line_items
                 imagesList = it.draft_order.note_attributes
                 bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
-                priceTextView.text = it.draft_order.subtotal_price
-            } else {
+                priceTextView.text = calculatePrice(it.draft_order.subtotal_price)
+            }else {
                 bagAdapter.setList(emptyList(), emptyList())
                 priceTextView.text = "0.0"
                 relativeLayout.visibility = View.GONE

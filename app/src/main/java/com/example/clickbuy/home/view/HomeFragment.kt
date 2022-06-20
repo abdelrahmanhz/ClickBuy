@@ -10,19 +10,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
+import com.example.clickbuy.category.view.SubCateogriesAdapter
+import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
+import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.smarteist.autoimageslider.SliderView
 
 private const val TAG = "HomeView"
@@ -40,6 +49,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var couponsAdapter: CouponsSliderAdapter
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var brandProgressBar: ProgressBar
+    private lateinit var myToolbar: MaterialToolbar
+    var x : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +72,27 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
 
+        myToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite_menubar_home -> {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, FavouritesFragment())
+                        .addToBackStack(null).commit()
+                }
+                R.id.cart_menubar_home -> {
+
+                }
+                R.id.search_menubar_home -> {
+                    //search
+                }
+            }
+            true
+        }
     }
 
     private fun initUI(view: View) {
         brandsRecyclerView = view.findViewById(R.id.brandsRecyclerView)
-
+        myToolbar =  view.findViewById(R.id.toolBarHome)
         val resId: Int = R.anim.lat
         val animation: LayoutAnimationController =
             AnimationUtils.loadLayoutAnimation(context, resId)
@@ -121,7 +148,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
             }
         }
 
-
         viewModel.coupons.observe(viewLifecycleOwner, Observer {
             if (!it.isNullOrEmpty()) {
                 couponsAdapter.setList(it)
@@ -146,6 +172,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun setBrandName(nameOfBrand: String) {
+
         val categoryDetails = CategoryFragment()
         requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
             .replace(R.id.frame, categoryDetails).commit()
