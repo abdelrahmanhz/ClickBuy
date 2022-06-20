@@ -21,6 +21,7 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.calculatePrice
 
 const val TAG = "ProductDetailsFragment"
 
@@ -174,7 +175,7 @@ class ProductDetailsFragment : Fragment() {
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
         binding.productInfo.productAvailability.text = product.status
-        binding.priceNumTextView.text = product.variants?.get(0)?.price ?: "No price available"
+        binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)  
         binding.addToCartButton.text =
             if (product.status.equals("active")) "Add to cart" else "not available"
 

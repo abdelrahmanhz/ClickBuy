@@ -150,7 +150,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     val layoutManager = LinearLayoutManager(CategoryFragment().context)
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
                     subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
-                    recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+                    recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
                     viewModel.category.observe(viewLifecycleOwner) {

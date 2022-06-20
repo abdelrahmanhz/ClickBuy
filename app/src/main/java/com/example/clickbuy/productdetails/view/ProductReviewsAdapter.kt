@@ -40,10 +40,10 @@ class ProductReviewsAdapter () : RecyclerView.Adapter<ProductReviewsAdapter.Prod
     }
 
     override fun onBindViewHolder(holder: ProductReviewViewHolder, position: Int) {
-        holder.reviewerImage.setImageResource(R.drawable.avatar)
-        holder.review.text = reviews[(0..reviews.size-1).shuffled().take(1)[0]].review
-        holder.reviewer.text = reviews[(0..reviews.size-1).shuffled().take(1)[0]].reviewer
-        holder.rate.rating = reviews[(0..reviews.size-1).shuffled().take(1)[0]].rating
+        holder.reviewerImage.setImageResource(R.drawable.default_image)
+        holder.review.text = reviews[(reviews.indices).shuffled().take(1)[0]].review
+        holder.reviewer.text = reviews[(reviews.indices).shuffled().take(1)[0]].reviewer
+        holder.rate.rating = reviews[(reviews.indices).shuffled().take(1)[0]].rating
     }
 
     override fun getItemCount(): Int {
