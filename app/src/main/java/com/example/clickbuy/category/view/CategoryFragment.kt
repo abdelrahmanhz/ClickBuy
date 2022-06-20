@@ -128,7 +128,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         getBoolean("IS_LOGGING", false)
                     if (isLogging!!){
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.frame, SearchFragment())
+                            .replace(R.id.frame, FavouritesFragment())
                             .addToBackStack(null).commit()
                     }
                     else{

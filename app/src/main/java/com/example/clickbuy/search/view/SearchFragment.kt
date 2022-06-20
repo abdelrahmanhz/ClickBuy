@@ -10,7 +10,7 @@ import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.clickbuy.R
-import com.example.clickbuy.category.CategoryAdapter
+import com.example.clickbuy.category.view.CategoryAdapter
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.databinding.FragmentSearchBinding
 import com.example.clickbuy.models.Product
