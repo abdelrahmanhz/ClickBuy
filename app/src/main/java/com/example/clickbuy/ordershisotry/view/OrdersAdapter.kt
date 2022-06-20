@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Order
 import com.example.clickbuy.ordershisotry.OrderDetailsInterface
+import com.example.clickbuy.util.calculatePrice
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -41,16 +42,13 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
         holder.itemView.setOnClickListener {
             orderDetailsInterface.showOrderDetails(order[position].line_items,order[position].note_attributes)
         }
-              holder.orderDateTextView.text = order[position].created_at
-        val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        val date = LocalDate.parse( order[position].created_at , firstApiFormat)
-        Log.d("parseTestingdateee", date.toString()) // prints Wednesday
-
-        Log.d("parseTesting", date.dayOfWeek.toString()) // prints Wednesday
-        Log.d("parseTesting", date.month.toString()) // prints August
-
-        holder.orderPriceTextView.text = order[position].current_total_price
-              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"  " +"Items"
+        var date = order[position].created_at?.split(Regex("T"), order[position].created_at?.length!!)
+        Log.i(TAG,date.toString())
+        var time = date?.get(1)?.split(Regex("\\+"),date.size)
+        holder.orderDateTextView.text = date?.get(0) + "  At  "+ (time?.get(0) ?: 11)
+        var convertedPrice = calculatePrice(order[position].current_total_price.toString())
+        holder.orderPriceTextView.text = convertedPrice
+        holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"  " +"Items"
     }
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + order.size)
