@@ -1,7 +1,5 @@
 package com.example.clickbuy.category.view
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -24,12 +22,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.example.clickbuy.search.view.SearchFragment
+import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "CategoryFragment"
 
@@ -123,10 +122,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
-                    val isLogging = context?.
-                        getSharedPreferences("DeviceToken", Context.MODE_PRIVATE)?.
-                        getBoolean("IS_LOGGING", false)
-                    if (isLogging!!){
+                    if (ConstantsValue.isLogged){
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, FavouritesFragment())
                             .addToBackStack(null).commit()
@@ -135,6 +131,19 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         Toast.makeText(
                             context,
                             getString(R.string.unauthorized_wishlist),
+                            Toast.LENGTH_LONG).show()
+                    }
+                }
+                R.id.cart_menubar -> {
+                    if (ConstantsValue.isLogged){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, BagFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_bag),
                             Toast.LENGTH_LONG).show()
                     }
                 }

@@ -10,10 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
+import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.category.view.SubCateogriesAdapter
 import com.example.clickbuy.favourites.view.FavouritesFragment
@@ -30,6 +28,8 @@ import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.example.clickbuy.search.view.SearchFragment
+import com.example.clickbuy.util.ConstantsValue
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.smarteist.autoimageslider.SliderView
@@ -75,15 +75,35 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menubar_home -> {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, FavouritesFragment())
-                        .addToBackStack(null).commit()
+                    if (ConstantsValue.isLogged){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, FavouritesFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_wishlist),
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
                 R.id.cart_menubar_home -> {
-
+                    if (ConstantsValue.isLogged){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, BagFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_bag),
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
                 R.id.search_menubar_home -> {
-                    //search
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, SearchFragment())
+                        .addToBackStack(null).commit()
                 }
             }
             true

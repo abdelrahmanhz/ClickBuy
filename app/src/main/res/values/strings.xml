@@ -77,5 +77,6 @@
     <string name="search_for">What are you searching for?</string>
     <string name="alert_title">Alert</string>
     <string name="remove">Remove</string>
+    <string name="unauthorized_bag">please login first to check your bag</string>
 
 </resources>

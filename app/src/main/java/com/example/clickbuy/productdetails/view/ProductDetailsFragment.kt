@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.example.clickbuy.R as r
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -25,7 +26,7 @@ import com.example.clickbuy.util.calculatePrice
 
 const val TAG = "ProductDetailsFragment"
 
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var viewModel: ProductDetailsViewModel
     private lateinit var modelFactory: ProductDetailsViewModelFactory
@@ -36,6 +37,7 @@ class ProductDetailsFragment : Fragment() {
     private var imagesList = mutableListOf<String>()
 
     private lateinit var id: String
+    private var variantId: Long? = null
     private lateinit var product: Product
 
     private var isFavourite = false
@@ -74,10 +76,7 @@ class ProductDetailsFragment : Fragment() {
         binding.itemImagesViewPager.visibility = View.VISIBLE
         binding.productInfo.productBottomSheet.visibility = View.VISIBLE
         binding.cardView.visibility = View.VISIBLE
-        val isLogging = context?.
-        getSharedPreferences("DeviceToken", Context.MODE_PRIVATE)?.
-        getBoolean("IS_LOGGING", false)
-        if (isLogging!!){
+        if (ConstantsValue.isLogged){
             binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
         }
     }
@@ -162,6 +161,10 @@ class ProductDetailsFragment : Fragment() {
         }
         sizeSpinner.adapter = sizesAdapter
         colorSpinner.adapter = colorsAdapter
+
+        sizesAdapter?.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        colorsAdapter?.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        sizeSpinner.onItemSelectedListener = this
     }
 
     private fun setUpImagesPager() {
@@ -178,6 +181,9 @@ class ProductDetailsFragment : Fragment() {
         binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)  
         binding.addToCartButton.text =
             if (product.status.equals("active")) "Add to cart" else "not available"
+
+        // variant id
+        product.variants[0].id.also { variantId = it }
 
         // images
         product.images?.forEach { image -> imagesList.add(image.src) }
@@ -250,19 +256,13 @@ class ProductDetailsFragment : Fragment() {
 
         // add to cart
         binding.addToCartButton.setOnClickListener {
-            var variantId = product.variants?.get(0)?.id
+            //variantId = product.variants[0].id
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
                 viewModel.addItemsInBag(product)
                 binding.addToCartButton.isEnabled = false
             } else{
-                product.variants?.forEach {
-                    if (it.option1 == binding.productInfo.sizeSpinner.selectedItem.toString()){
-                        variantId = it.id
-                        return@forEach
-                    }
-                }
-                Log.i(TAG, "addToCartButton: $variantId")
+                //Log.i(TAG, "addToCartButton: $variantId")
                 Toast.makeText(
                     requireContext(),
                     resources.getString(r.string.guest),
@@ -275,5 +275,17 @@ class ProductDetailsFragment : Fragment() {
     fun setProductId(productId: String) {
         this.id = productId
         Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        variantId = product.variants?.get(p2)!!.id
+        Toast.makeText(
+            requireContext(),
+            "onItemSelected: $variantId",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 }
