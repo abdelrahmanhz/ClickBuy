@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.BagItem
-import com.example.clickbuy.models.LineItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.ordershisotry.OrderDetailsAdapter
 import com.example.clickbuy.ordershisotry.OrderDetailsInterface
@@ -56,7 +55,7 @@ class OrderDetailsFragment : Fragment(), OrderDetailsInterface {
     private fun setUpOrderDetailsRecyclerView() {
         val layoutManager = LinearLayoutManager(OrderDetailsFragment().context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
-        orderDetailsAdapter = OrderDetailsAdapter(requireContext(), this)
+        orderDetailsAdapter = OrderDetailsAdapter(requireContext())
         orderDetailsRecyclerView.layoutManager = layoutManager
         orderDetailsRecyclerView.adapter = orderDetailsAdapter
     }

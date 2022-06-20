@@ -80,7 +80,6 @@ interface RetrofitService {
         @Path("id") id: String
     ): Response<Orders>
 
-
     //Customer Details
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("customers.json?")

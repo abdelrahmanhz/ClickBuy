@@ -25,6 +25,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
 import com.example.clickbuy.payment.view.AddressInterface
 import com.example.clickbuy.payment.view.PaymentFragment
+import com.example.clickbuy.util.ConstantsValue
 
 import com.shuhart.stepview.StepView
 
@@ -39,8 +40,6 @@ class OrderAddresFragment : Fragment() , AddressInterface {
     private lateinit var orderFactory: OrdersAddressViewModelFactory
     private lateinit var addressOrderRecyclerView: RecyclerView
     private lateinit var viewModel: OrdersAddressViewModel
-   // private lateinit var stepView: StepView
-    private lateinit var nextButtonFirst : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,11 +58,10 @@ class OrderAddresFragment : Fragment() , AddressInterface {
             )
         )
         initUI(view)
-       // setUpViewStep()
         setUpAddressOrderRecyclerView()
 
         viewModel = ViewModelProvider(this, orderFactory).get(OrdersAddressViewModel::class.java)
-        viewModel.getAddressOrder("5745222516875")
+        viewModel.getAddressOrder(ConstantsValue.userID)
         viewModel.address.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "brand: $it")
@@ -72,37 +70,9 @@ class OrderAddresFragment : Fragment() , AddressInterface {
         }
 
     }
-    private fun replaceFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frameOrderAddress, fragment).commit()
-    }
-//    private fun setUpViewStep() {
-//        stepView.getState()
-//            .selectedTextColor(ContextCompat.getColor(requireContext(), com.example.clickbuy.R.color.black))
-//            .animationType(StepView.ANIMATION_CIRCLE)
-//            .selectedCircleColor(ContextCompat.getColor(requireContext(), com.example.clickbuy.R.color.black))
-//            .selectedCircleRadius(resources.getDimensionPixelSize(com.example.clickbuy.R.dimen.cardview_default_radius))
-//            .selectedStepNumberColor(
-//                ContextCompat.getColor(requireContext(), com.example.clickbuy.R.color.black))
-//            .steps(object : ArrayList<String?>() {
-//                init {
-//                    add("First step")
-//                    add("Second step")
-//                    add("Third step")
-//                }
-//            })
-//            .stepsNumber(4)
-//            .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
-//            .stepLineWidth(resources.getDimensionPixelSize(com.example.clickbuy.R.dimen.cardview_default_radius))
-//            .textSize(resources.getDimensionPixelSize(com.example.clickbuy.R.dimen.cardview_default_radius))
-//            .stepNumberTextSize(resources.getDimensionPixelSize(com.example.clickbuy.R.dimen.cardview_default_radius))
-//            .typeface(
-//                ResourcesCompat.getFont(context!!, R.font.font_bold)).commit()
-//    }
 
     private fun initUI(view: View) {
         addressOrderRecyclerView = view.findViewById(R.id.addressOrderRecycleView)
-     //   stepView = view.findViewById(R.id.stepView)
 
     }
 

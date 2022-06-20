@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.home.BrandsAdapter
-import com.example.clickbuy.home.SalesAdapter
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.payment.view.PaymentFragment
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.smarteist.autoimageslider.SliderView
 
@@ -41,6 +39,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var couponsSlider: SliderView
     private lateinit var couponsAdapter: CouponsSliderAdapter
     private lateinit var clipboardManager: ClipboardManager
+    private lateinit var brandProgressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,9 +56,11 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         initUI(view)
         initViewModel()
+
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
+
     }
 
     private fun initUI(view: View) {
@@ -85,6 +86,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         couponsSlider.scrollTimeInSec = 3
         couponsSlider.isAutoCycle = true
         couponsSlider.startAutoCycle()
+        brandProgressBar = view.findViewById(R.id.progress_bar_brand)
+
     }
 
     private fun initViewModel() {
@@ -107,6 +110,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 Log.i(TAG, "brand: $it")
                 brandAdapter.setListOfBrands(it.smart_collections)
             }
+            brandProgressBar.visibility = View.GONE
+
         }
 
         viewModel.saleId.observe(requireActivity()) {
@@ -141,12 +146,9 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun setBrandName(nameOfBrand: String) {
-        Log.i(TAG, "setBrandName: ---------> $nameOfBrand")
         val categoryDetails = CategoryFragment()
-        requireActivity().supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
             .replace(R.id.frame, categoryDetails).commit()
-        //convert focus to category tab on bottom navigation
-//        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
         categoryDetails.setVendorName(nameOfBrand)
 
     }
@@ -154,7 +156,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun productDetailsShow(id: String) {
         Log.i(TAG, "productDetailsShow: $id")
         val salesDetails = ProductDetailsFragment()
-
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
@@ -165,13 +166,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun brandDetailsShow(nameOfBrand: String) {
         val data = ClipData.newPlainText("coupon", nameOfBrand)
         clipboardManager.setPrimaryClip(data)
-        Log.i(
-            TAG,
-            "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
-        )
-        /* requireActivity().supportFragmentManager.beginTransaction()
-             .replace(R.id.frame, PaymentFragment())
-             .addToBackStack(null).commit()*/
     }
 
 }

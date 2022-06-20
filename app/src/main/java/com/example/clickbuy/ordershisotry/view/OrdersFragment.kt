@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.BagItem
-import com.example.clickbuy.models.LineItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.ordershisotry.OrderDetailsInterface
 import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModel
 import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModelFactory
+import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "OrdersFragment"
 
 class OrdersFragment : Fragment(), OrderDetailsInterface {
     private lateinit var orderAdapter: OrdersAdapter
-
     private lateinit var orderFactory: OrdersViewModelFactory
     private lateinit var orderRecyclerView: RecyclerView
     private lateinit var viewModel: OrdersViewModel
@@ -49,7 +48,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
         initUI(view)
         setUpOrderRecyclerView()
         viewModel = ViewModelProvider(this, orderFactory).get(OrdersViewModel::class.java)
-        viewModel.getAllOrdersForSpecificCustomer("5745222516875")
+        viewModel.getAllOrdersForSpecificCustomer(ConstantsValue.userID)
         viewModel.order.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "brand: $it")
@@ -65,6 +64,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+
     }
 
     private fun setUpOrderRecyclerView() {

@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/price_menu"
-        android:title="PRICE" />
+        android:title="" />
     <item
         android:id="@+id/accessories_menu"
-        android:title="ACCESSORIES" />
+        android:title="" />
     <item
         android:id="@+id/bags_menu"
-        android:title="BAGS" />
+        android:title="" />
 
 </menu>

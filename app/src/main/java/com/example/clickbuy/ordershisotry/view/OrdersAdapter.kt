@@ -3,14 +3,18 @@ package com.example.clickbuy.ordershisotry.view
 
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Order
 import com.example.clickbuy.ordershisotry.OrderDetailsInterface
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 private const val TAG = "OrdersAdapter"
@@ -29,6 +33,7 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
 
         return holder
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(
         holder:OrdersAdapter.ViewHolder,
         position: Int
@@ -37,8 +42,15 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
             orderDetailsInterface.showOrderDetails(order[position].line_items,order[position].note_attributes)
         }
               holder.orderDateTextView.text = order[position].created_at
-              holder.orderPriceTextView.text = order[position].current_total_price
-              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"Items"
+        val firstApiFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val date = LocalDate.parse( order[position].created_at , firstApiFormat)
+        Log.d("parseTestingdateee", date.toString()) // prints Wednesday
+
+        Log.d("parseTesting", date.dayOfWeek.toString()) // prints Wednesday
+        Log.d("parseTesting", date.month.toString()) // prints August
+
+        holder.orderPriceTextView.text = order[position].current_total_price
+              holder.orderNumberTextView.text = order[position].line_items?.size.toString() +"  " +"Items"
     }
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + order.size)
@@ -57,7 +69,6 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
              orderDateTextView    = itemView.findViewById(R.id.dateOfOrdersTextView)
              orderNumberTextView  = itemView.findViewById(R.id.numberOfOrdersTextView)
              orderPriceTextView   = itemView.findViewById(R.id.priceOfOrderTextView)
-
         }
     }
 }

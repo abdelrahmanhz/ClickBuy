@@ -38,7 +38,6 @@ class PaymentWayFragment : Fragment() {
         cashRadioButton = view.findViewById(R.id.cashRadioButton)
         radioGroup.setOnCheckedChangeListener(
             RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                val radio: RadioButton = view.findViewById(checkedId)
                 when (radioGroup.checkedRadioButtonId) {
                     R.id.payPalRadioButton -> {
                         paypalRadioButton.isChecked = true
@@ -57,10 +56,7 @@ class PaymentWayFragment : Fragment() {
                         Toast.makeText(requireContext(), "On click : cashhhh", Toast.LENGTH_SHORT).show()
 
                     }
-
                 }
-
-
             })
 
 

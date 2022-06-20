@@ -71,10 +71,7 @@ class MainActivity : AppCompatActivity() {
                         replaceFragment(MeFragment())
                     else
                         replaceFragment(GuestFragment())
-                }
-            }
-        }
-
+                } } }
         meo.setOnShowListener { item ->
             fragmentShow = item.id
         }

@@ -11,20 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.clickbuy.R
 import com.example.clickbuy.models.BagItem
-import com.example.clickbuy.models.ItemImage
-import com.example.clickbuy.models.LineItem
 import com.example.clickbuy.models.NoteAttribute
 
 
 private const val TAG = "OrdersDetailsAdapter"
 
-class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInterface) :
+class OrderDetailsAdapter(val context: Context) :
     RecyclerView.Adapter<OrderDetailsAdapter.ViewHolder>()  {
-    var orderDetailsInterface : OrderDetailsInterface = orderFragment
     lateinit var lineItemList: List<BagItem>
     lateinit var  itemImageList: List<NoteAttribute>
 
-    //var order: List<Order> = emptyList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -40,7 +36,6 @@ class OrderDetailsAdapter(val context: Context , orderFragment : OrderDetailsInt
     ){
         holder.orderDetailsTitle.text = lineItemList[position].title
         holder.orderDetailsPrice.text =  lineItemList[position].price
-        //((lineItemList[position].fulfillable_quantity) *
         var imageComping = itemImageList[position].value
         Glide.with(holder.itemView.getContext()).load(imageComping).into(holder.orderDetailsImage);
     }
