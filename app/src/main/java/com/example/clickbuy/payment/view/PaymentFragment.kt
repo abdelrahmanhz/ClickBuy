@@ -9,6 +9,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
+import com.android.volley.AuthFailureError
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.clickbuy.R
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
@@ -17,11 +22,20 @@ import com.example.clickbuy.payment.viewmodel.OrderViewModel
 import com.example.clickbuy.payment.viewmodel.OrderViewModelFactory
 import com.example.clickbuy.payment.viewmodel.PaymentViewModel
 import com.example.clickbuy.payment.viewmodel.PaymentViewModelFactory
+import com.example.clickbuy.util.Constants.PUBLISH_KEY
+import com.example.clickbuy.util.Constants.SECRET_KEY
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.calculatePrice
 import com.example.clickbuy.util.getEquivalentCurrencyValue
 import com.example.clickbuy.util.isRTL
+import com.stripe.android.PaymentConfiguration
+import com.stripe.android.paymentsheet.PaymentSheet
+import com.stripe.android.paymentsheet.PaymentSheetResult
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 
 private const val TAG = "PaymentFragment"
 
@@ -33,6 +47,7 @@ class PaymentFragment : Fragment() {
     private lateinit var validateCodeButton: AppCompatButton
     private lateinit var payButton: AppCompatButton
     private lateinit var viewModelFactory: PaymentViewModelFactory
+    private lateinit var viewModel: PaymentViewModel
     private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderFactory: OrderViewModelFactory
 
@@ -41,14 +56,19 @@ class PaymentFragment : Fragment() {
     private lateinit var paypalRadioButton: RadioButton
     private lateinit var cashRadioButton: RadioButton
 
-    private lateinit var viewModel: PaymentViewModel
-
     private var discountAmount: String = ConstantsValue.discountAmount
 
     private var address: Address = Address()
-
     var bagList: List<BagItem> = emptyList()
     var imagesList: List<NoteAttribute> = emptyList()
+
+    //Payment
+    private lateinit var paymentSheet: PaymentSheet
+    private lateinit var customerId: String
+    private lateinit var ephericalKey: String
+    private lateinit var clientSecret: String
+    private var kaser = "00"
+    private lateinit var amountRequired: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,6 +116,7 @@ class PaymentFragment : Fragment() {
         }
 
         payButton.setOnClickListener {
+            paymentFlow()
             orderViewModel.postOrder(
                 OrderPojo(
                     Order(
@@ -109,7 +130,56 @@ class PaymentFragment : Fragment() {
 
         }
 
+        initPayment()
+
         return view
+    }
+
+    private fun initPayment() {
+        PaymentConfiguration.init(requireContext(), PUBLISH_KEY)
+        paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
+
+        val request: StringRequest =
+            object : StringRequest(
+                Request.Method.POST, "https://api.stripe.com/v1/customers",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        customerId = jsonObject.getString("id")
+                        Toast.makeText(
+                            requireContext(),
+                            "Customer Id: $customerId",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        getEphericalKey(customerId)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener {
+                    //
+                }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val header: HashMap<String, String> = HashMap<String, String>()
+                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    return header
+                }
+            }
+
+        Log.i(TAG, "initPayment: amountRequired----------> $amountRequired")
+        amountRequired =
+            NumberFormat.getNumberInstance(Locale.US).format(amountRequired.toDouble())
+        val amounts = amountRequired.split(".")
+        amountRequired = amounts[0]
+        if (amounts.size > 1)
+            kaser = amounts[1]
+
+        Log.i(TAG, "getParams: amountRequired-----------> $amountRequired")
+        Log.i(TAG, "getParams: kaser--------------------> $kaser")
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(request)
     }
 
     private fun initUI(view: View) {
@@ -124,9 +194,11 @@ class PaymentFragment : Fragment() {
         validateCodeButton = view.findViewById(R.id.validate_code_button)
         payButton = view.findViewById(R.id.pay_button)
 
-        //    formattedNumber = (requiredAmount * ConstantsValue.currencyValue)
+        amountRequired = (requireActivity() as AddressOrderActivity).totalAmountPrice
         requiredAmountTextView.text =
-            calculatePrice((requireActivity() as AddressOrderActivity).totalAmountPrice)
+            calculatePrice(amountRequired)
+
+        Log.i(TAG, "initUI: amountRequired----------> $amountRequired")
     }
 
     private fun initViewModel() {
@@ -174,5 +246,104 @@ class PaymentFragment : Fragment() {
     fun setAddress(address: Address) {
         this.address = address
         Log.i(TAG, "address chossen: -------> $address")
+    }
+
+    fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+        if (paymentSheetResult is PaymentSheetResult.Completed) {
+            Toast.makeText(requireContext(), "Payment Success!!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun getEphericalKey(id: String) {
+        val request: StringRequest =
+            object : StringRequest(
+                Request.Method.POST, "https://api.stripe.com/v1/ephemeral_keys",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        ephericalKey = jsonObject.getString("id")
+                        Toast.makeText(
+                            requireContext(),
+                            "Epherical Key: $ephericalKey",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        getClientSecret(customerId, ephericalKey)
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener {
+                    //
+                }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val header: HashMap<String, String> = HashMap<String, String>()
+                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    header.put("Stripe-Version", "2020-08-27")
+                    return header
+                }
+
+                override fun getParams(): Map<String, String> {
+                    val param: HashMap<String, String> = HashMap<String, String>()
+                    param.put("customer", customerId)
+                    return param
+                }
+            }
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(request)
+    }
+
+    private fun getClientSecret(customerId: String, ephericalKey: String) {
+        val request: StringRequest =
+            object : StringRequest(
+                Request.Method.POST, "https://api.stripe.com/v1/payment_intents",
+                Response.Listener { response ->
+                    try {
+                        val jsonObject = JSONObject(response)
+                        clientSecret = jsonObject.getString("client_secret")
+                        Toast.makeText(
+                            requireContext(),
+                            "Client Secret: " + clientSecret,
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        /// Lauch payment Flow
+                        // paymentFlow()
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                },
+                Response.ErrorListener {
+                    //
+                }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val header: HashMap<String, String> = HashMap<String, String>()
+                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    return header
+                }
+
+                override fun getParams(): Map<String, String> {
+                    val param: HashMap<String, String> = HashMap<String, String>()
+                    param.put("customer", customerId)
+                    param.put("amount", amountRequired + kaser)
+                    param.put("currency", ConstantsValue.to)
+                    param.put("automatic_payment_methods[enabled]", "true")
+                    return param
+                }
+            }
+
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        requestQueue.add(request)
+    }
+
+    private fun paymentFlow() {
+        paymentSheet.presentWithPaymentIntent(
+            clientSecret, PaymentSheet.Configuration(
+                "ITI",
+                PaymentSheet.CustomerConfiguration(customerId, ephericalKey)
+            )
+        )
     }
 }
