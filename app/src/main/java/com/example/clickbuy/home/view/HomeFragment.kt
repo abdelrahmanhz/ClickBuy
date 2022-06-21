@@ -15,23 +15,33 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
+import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.home.BrandsAdapter
-import com.example.clickbuy.home.SalesAdapter
+import com.example.clickbuy.category.view.SubCateogriesAdapter
+import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
+import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+
 import com.example.clickbuy.util.ConnectionLiveData
 import com.google.android.material.appbar.MaterialToolbar
+
+import com.example.clickbuy.search.view.SearchFragment
+import com.example.clickbuy.util.ConstantsValue
+import com.google.android.material.bottomsheet.BottomSheetDialog
+
 import com.smarteist.autoimageslider.SliderView
 
 private const val TAG = "HomeFragment"
@@ -54,6 +64,9 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var viewModel: HomeViewModel
     private lateinit var couponsAdapter: CouponsSliderAdapter
     private lateinit var clipboardManager: ClipboardManager
+    private lateinit var brandProgressBar: ProgressBar
+    private lateinit var myToolbar: MaterialToolbar
+    var x: String? = null
 
 
     override fun onCreateView(
@@ -71,9 +84,11 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         initUI(view)
         initViewModel()
+
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
+
         Log.i(TAG, "onViewCreated: before snackbar")
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
@@ -102,11 +117,54 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
             }
         }
+
+
+        myToolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.favorite_menubar_home -> {
+                    if (ConstantsValue.isLogged) {
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, FavouritesFragment())
+                            .addToBackStack(null).commit()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_wishlist),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                R.id.cart_menubar_home -> {
+                    if (ConstantsValue.isLogged) {
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, BagFragment())
+                            .addToBackStack(null).commit()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_bag),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+                R.id.search_menubar_home -> {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.frame, SearchFragment())
+                        .addToBackStack(null).commit()
+                }
+            }
+            true
+
+        }
     }
 
     private fun initUI(view: View) {
         brandsRecyclerView = view.findViewById(R.id.brandsRecyclerView)
+
         scrollView = view.findViewById(R.id.scroll_view)
+
+
+        myToolbar = view.findViewById(R.id.toolBarHome)
 
         val resId: Int = R.anim.lat
         val animation: LayoutAnimationController =
@@ -131,6 +189,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         couponsSlider.scrollTimeInSec = 3
         couponsSlider.isAutoCycle = true
         couponsSlider.startAutoCycle()
+        brandProgressBar = view.findViewById(R.id.progress_bar_brand)
+
     }
 
     private fun initViewModel() {
@@ -149,6 +209,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 Log.i(TAG, "brand: $it")
                 brandAdapter.setListOfBrands(it.smart_collections)
             }
+            brandProgressBar.visibility = View.GONE
+
         }
 
         viewModel.saleId.observe(requireActivity()) {
@@ -158,8 +220,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
             }
         }
 
-
         viewModel.coupons.observe(viewLifecycleOwner) {
+
             if (!it.isNullOrEmpty()) {
                 couponsAdapter.setList(it)
             }
@@ -183,12 +245,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun setBrandName(nameOfBrand: String) {
-        Log.i(TAG, "setBrandName: ---------> $nameOfBrand")
+
         val categoryDetails = CategoryFragment()
-        requireActivity().supportFragmentManager.beginTransaction()
+        requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
             .replace(R.id.frame, categoryDetails).commit()
-        //convert focus to category tab on bottom navigation
-//        fragmentManager?.beginTransaction()?.addToBackStack(null)?.replace(R.id.frame, brandDetails)?.commit()
         categoryDetails.setVendorName(nameOfBrand)
 
     }
@@ -196,7 +256,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun productDetailsShow(id: String) {
         Log.i(TAG, "productDetailsShow: $id")
         val salesDetails = ProductDetailsFragment()
-
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
@@ -207,13 +266,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     override fun brandDetailsShow(nameOfBrand: String) {
         val data = ClipData.newPlainText("coupon", nameOfBrand)
         clipboardManager.setPrimaryClip(data)
-        Log.i(
-            TAG,
-            "brandDetailsShow: ----------> " + clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
-        )
-        /* requireActivity().supportFragmentManager.beginTransaction()
-             .replace(R.id.frame, PaymentFragment())
-             .addToBackStack(null).commit()*/
     }
 
 }

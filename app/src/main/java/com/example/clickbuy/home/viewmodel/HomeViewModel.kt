@@ -57,12 +57,10 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-
-
     fun getAllSalesById() {
         viewModelScope.launch {
             var brands: Products? = null
-            val brandResponse = _iRepo.getAllProductsInCollectionByID("273053778059")
+            val brandResponse = _iRepo.getAllProducts("273053778059","","")
             if (brandResponse.code() == 200) {
                 brands = brandResponse.body()!!
             }

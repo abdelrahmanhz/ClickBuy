@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/appbar"
-        app:navigationIcon="@drawable/ic_back_icon"
         app:title="@string/app_name" />
 
     <SearchView
@@ -23,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
-        android:queryHint="Search For Your Item"
-        android:queryBackground="@color/transparent"
+        android:queryHint="@string/search_for"
+        android:queryBackground="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolBar" />
@@ -40,6 +39,11 @@
         app:tabIndicatorAnimationMode="elastic"
         app:tabPaddingEnd="10dp"
         tools:ignore="SpeakableTextPresentCheck" />
+    <include
+        layout="@layout/shimmer_animation_layout_category"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/brandCategoryRecyclerView"

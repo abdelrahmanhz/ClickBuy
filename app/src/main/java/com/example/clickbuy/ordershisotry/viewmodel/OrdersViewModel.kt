@@ -29,10 +29,6 @@ class OrdersViewModel(irepo: RepositoryInterface) : ViewModel() {
 
             withContext(Dispatchers.Main) {
                 _order.postValue(orders!!)
-                Log.i(
-                    TAG,
-                    "getAllBrands View Model--------------------->: $orders"
-                )
             }
         }
     }

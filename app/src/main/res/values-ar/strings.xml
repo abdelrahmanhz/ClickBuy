@@ -75,4 +75,14 @@
     <string name="password">كلمة السر</string>
     <string name="last_name">الاسم الاخير</string>
     <string name="first_name">الاسم الاول</string>
+    <string name="order_detils">تفاصيل الطلب</string>
+    <string name="price">السعر :</string>
+    <string name="unauthorized_wishlist">يرجي تسجيل الدخول لكي تتمكن من استخدام المفضلة </string>
+    <string name="search_for">ما الذي تبحث عنه؟</string>
+    <string name="alert_title">تحذير</string>
+    <string name="remove">حذف</string>
+    <string name="unauthorized_bag">يرجي تسجيل الدخول لكي تتمكن من فحص حقيبتك</string>
+    <string name="enter_place_name">Enter the name of place</string>
+    <string name="get_address">get Address</string>
+    <string name="address_error">You must enter a place</string>
 </resources>

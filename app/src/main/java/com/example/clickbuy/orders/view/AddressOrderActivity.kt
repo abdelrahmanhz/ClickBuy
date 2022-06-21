@@ -33,12 +33,6 @@ class AddressOrderActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).addToBackStack(null).commit()
     }
-    /* fun setListOfBag(  bagList: List<BagItem>, imagesList: List<NoteAttribute>) {
-         this.bagList = bagList
-         this.imagesList = imagesList
-         Log.i(TAG, "setListOfBag: -------> $bagList")
-         Log.i(TAG, "setListOfBag: " + this.bagList )
-     }*/
 }
