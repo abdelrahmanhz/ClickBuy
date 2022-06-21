@@ -20,7 +20,7 @@
         android:text="@string/price"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subCategoryFilterRecyclerViewPopUp" />
 
@@ -39,8 +39,8 @@
 
     <SeekBar
         android:id="@+id/priceSlider"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="345dp"
+        android:layout_height="20dp"
         android:layout_margin="50dp"
         android:max="1000"
         android:min="0"
@@ -49,11 +49,12 @@
 
     <Button
         android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_width="349dp"
+        android:layout_height="57dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/ic_label"
         android:text="Done"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceSlider" />
 
@@ -62,9 +63,9 @@
         android:layout_width="35sp"
         android:layout_height="35sp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/ic_delete"
         app:layout_constraintStart_toEndOf="@+id/doneButton"
-        app:layout_constraintTop_toBottomOf="@+id/priceSlider" />
+        app:layout_constraintTop_toBottomOf="@+id/priceSlider"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

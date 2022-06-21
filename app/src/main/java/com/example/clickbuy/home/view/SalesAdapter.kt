@@ -33,7 +33,7 @@ class SalesAdapter(val context: Context, homeFragment: ProductDetailsInterface) 
         position: Int
     ) {
         Log.i(TAG, "sale position: " + sale[position])
-        val imageComping = sale[position].image.src
+        val imageComping = sale[position].image?.src
         holder.salesTitle.text = sale[position].title
         val priceConverted = calculatePrice(sale[0].variants!![0].price)
         holder.salesPrice.text =priceConverted

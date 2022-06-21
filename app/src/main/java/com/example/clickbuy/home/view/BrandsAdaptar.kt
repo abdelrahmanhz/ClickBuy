@@ -34,11 +34,11 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface) 
         position: Int
     ) {
         Log.i(TAG, "brand position: " + brand[position].id)
-        val imageComping = brand[position].image.src
+        val imageComping = brand[position].image?.src
 
         Glide.with(holder.itemView.context).load(imageComping).into(holder.brandImage)
         holder.itemView.setOnClickListener {
-            categoryBrandInterface.setBrandName(brand[position].title)
+            categoryBrandInterface.setBrandName(brand[position].title.toString())
         }
     }
 

@@ -217,7 +217,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
                         note_attributes = listOf(
                             FavouriteNoteAttribute(
                                 name = "image",
-                                value = product.image.src
+                                value = product.image?.src
                             )
                         )
                     )

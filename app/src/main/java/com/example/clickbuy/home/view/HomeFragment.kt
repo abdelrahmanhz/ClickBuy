@@ -84,7 +84,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         initUI(view)
         initViewModel()
-
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
@@ -245,7 +244,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun setBrandName(nameOfBrand: String) {
-
         val categoryDetails = CategoryFragment()
         requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
             .replace(R.id.frame, categoryDetails).commit()

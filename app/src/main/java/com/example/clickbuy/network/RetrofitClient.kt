@@ -35,6 +35,8 @@ class RetrofitClient : RemoteSource {
             retrofitHelper.getAllProducts(collectionId, vendor, productType)
         Log.i(TAG, "getAllProducts code \n ${response.code()}")
         Log.i(TAG, "getAllProducts body \n ${response.body()}")
+        response.body()
+
         return response
     }
 

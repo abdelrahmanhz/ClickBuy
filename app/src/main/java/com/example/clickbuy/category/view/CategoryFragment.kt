@@ -153,6 +153,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     val recycler: RecyclerView =
                         viewLay.findViewById(R.id.subCategoryFilterRecyclerViewPopUp)
                     val btnDone: Button = viewLay.findViewById(R.id.doneButton)
+                    val btnReset: ImageView = viewLay.findViewById(R.id.btnResetFilter)
                     val priceSeeker: SeekBar = viewLay.findViewById(R.id.priceSlider)
                     val filteredPrice: TextView = viewLay.findViewById(R.id.filteredPrice)
                     val layoutManager = LinearLayoutManager(CategoryFragment().context)
@@ -188,6 +189,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                             filteredPrice.text = seek.progress.toString()
                         }
                     })
+                    btnReset.setOnClickListener {
+                        productType = ""
+                        getAllProducts()
+                        priceSeeker.progress = 0
+                        filteredPrice.text = ""
+
+                    }
                     btnDone.setOnClickListener {
                         dialog.dismiss()
                     }
@@ -297,33 +305,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         this.productType = productType
         viewModel.getAllProducts(defaultId, vendor, productType)
 
-    }
-
-    private fun displayPopupWindow(anchorView: View) {
-        val popup = PopupWindow(requireContext())
-        val layout: View = layoutInflater.inflate(R.layout.filter_popup, null)
-        // filterBrandsRecyclerView = anchorView.findViewById(R.id.brandsFilterRecyclerView)
-        popup.contentView = layout
-        popup.height = WindowManager.LayoutParams.MATCH_PARENT
-        popup.width = WindowManager.LayoutParams.MATCH_PARENT
-        popup.isOutsideTouchable = true
-        popup.isFocusable = true
-        popup.setBackgroundDrawable(BitmapDrawable())
-        popup.showAsDropDown(anchorView)
-        viewModel.brand.observe(requireActivity()) {
-            if (it != null) {
-                Log.i(TAG, "categoryProducts: $it")
-                brandFilterAdapter.setListOfBrands(it.smart_collections)
-            }
-        }
-    }
-
-    private fun setUpBrandFilterRecyclerView() {
-        val layoutManager = LinearLayoutManager(CategoryFragment().context)
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        brandFilterAdapter = BrandsFilterAdapter(requireContext())
-        //brandsDetailsRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-        filterBrandsRecyclerView.adapter = brandFilterAdapter
     }
 
     override fun SetProductDetailsID(id: String) {
