@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:layout_below="@+id/item_image"
+    android:layout_marginTop="10dp"
+    android:paddingHorizontal="15dp"
+    android:layout_above="@+id/bottom_dummy"
+    android:id="@+id/product_bottom_sheet"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/product_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:fontFamily="@font/font_bold"
+        android:padding="10dp"
+        android:text="T-shirt Abdo"
+        android:textColor="@color/black"
+
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/product_rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:rating="3.7"
+        android:stepSize="0.5"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_title" />
+
+    <TextView
+        android:id="@+id/product_availability"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/product_rating_bar"
+        android:textSize="12sp"
+        android:fontFamily="@font/font_regular"
+        android:textColor="#00C569"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/product_title"
+        />
+
+    <LinearLayout
+        android:id="@+id/spinner_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="16dp"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="2"
+        app:layout_constraintTop_toBottomOf="@+id/product_rating_bar"
+        tools:layout_editor_absoluteX="15dp">
+
+        <Spinner
+            android:id="@+id/sizeSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_shape"
+            android:textAlignment="center"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+        <Spinner
+            android:id="@+id/colorSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginHorizontal="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_shape"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/details_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_linear"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/font_bold"
+        android:padding="10dp"
+        android:text="Details"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_linear"
+        />
+
+    <TextView
+        android:id="@+id/details_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/font_regular"
+        android:padding="10dp"
+        android:text="@string/show_more"
+        android:textColor="#00C569"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/details_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/details_header" />
+
+
+    <TextView
+        android:id="@+id/product_desc_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details_header"
+        android:fontFamily="@font/font_regular"
+        android:paddingHorizontal="10dp"
+        android:text= "@string/dummy_text"
+        android:textColor="@color/black"
+        android:maxLines="3"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/details_header" />
+
+
+    <TextView
+        android:id="@+id/reviews_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:fontFamily="@font/font_bold"
+        android:padding="10dp"
+        android:text="Reviews"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_desc_text_view" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/reviews_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:fontFamily="@font/font_regular"-->
+<!--        android:padding="10dp"-->
+<!--        android:text="@string/show_more"-->
+<!--        android:textColor="#00C569"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/reviews_header"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/reviews_header" />-->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reviews_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reviews_header" />
+<!--    <include-->
+<!--        android:id="@+id/first_review"-->
+<!--        layout="@layout/review_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/reviews_header"-->
+<!--        tools:layout_editor_absoluteX="15dp" />-->
+
+<!--    <include-->
+<!--        android:id="@+id/second_review"-->
+<!--        layout="@layout/review_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/first_review"-->
+<!--        tools:layout_editor_absoluteX="15dp" />-->
+
+<!--    <include-->
+<!--        android:id="@+id/third_review"-->
+<!--        layout="@layout/review_item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/second_review"-->
+<!--        tools:layout_editor_absoluteX="15dp" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

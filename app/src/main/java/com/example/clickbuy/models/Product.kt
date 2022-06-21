@@ -3,6 +3,10 @@ package com.example.clickbuy.models
 data class Products (
     val products: List<Product>
 )
+
+data class ProductParent (
+    val product : Product
+)
 data class Product (
     val id: Long? = null,
     val title: String? = null,
@@ -21,7 +25,7 @@ data class Product (
     val variants: List<Variant>? = null,
     val options: List<Option>? = null,
     val images: List<ProductImage>? = null,
-    val image: ProductImage? = null
+    val image: ProductImage
 )
 data class ProductImage (
     val id: Long,
@@ -36,19 +40,13 @@ data class ProductImage (
     val variant_ids: List<Any?>,
     val admin_graphql_api_id: String
 )
-
 data class Option (
     val id: Long,
     val product_id: Long,
-    val name: Name,
+    val name: String,
     val position: Long,
     val values: List<String>
 )
-
-enum class Name {
-    Color,
-    Size
-}
 
 
 data class Variant (
@@ -58,7 +56,7 @@ data class Variant (
     val price: String,
     val sku: String,
     val position: Long,
-    val inventoryPolicy: String,
+    val inventory_policy: String,
     val compare_at_price: String? = null,
     val fulfillment_service: String,
     val inventory_management: String,

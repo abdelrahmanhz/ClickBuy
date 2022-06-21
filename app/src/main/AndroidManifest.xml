@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.clickbuy">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -10,16 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClickBuy">
-
+        <activity android:name=".orders.view.AddressOrderActivity" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".splashscreen.view.SplashScreenActivity"
+            android:exported="true"
+            android:noHistory="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".mainscreen.view.MainActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".authentication.view.AuthenticationActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
