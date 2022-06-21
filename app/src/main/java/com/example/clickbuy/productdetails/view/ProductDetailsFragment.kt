@@ -207,7 +207,7 @@ class ProductDetailsFragment : Fragment() {
                         note_attributes = listOf(
                             FavouriteNoteAttribute(
                                 name = "image",
-                                value = product.image.src
+                                value = product.image?.src
                             )
                         )
                     )

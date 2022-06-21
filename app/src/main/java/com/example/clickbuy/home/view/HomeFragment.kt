@@ -50,7 +50,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var brandProgressBar: ProgressBar
     private lateinit var myToolbar: MaterialToolbar
-    var x : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +66,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         initUI(view)
         initViewModel()
-
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
@@ -172,7 +170,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun setBrandName(nameOfBrand: String) {
-
         val categoryDetails = CategoryFragment()
         requireActivity().supportFragmentManager.beginTransaction().addToBackStack(null)
             .replace(R.id.frame, categoryDetails).commit()
