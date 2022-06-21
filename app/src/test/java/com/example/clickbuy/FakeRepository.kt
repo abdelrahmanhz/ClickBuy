@@ -39,13 +39,18 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
-       return repoTest.setAllBrands()
+       return setAllBrands()
     }
 
 //    fun setListOfBrands(brands: List<Brands>) {
 //        this.brand = brands
 //    }
 
+    fun setAllBrands(): Response<Brands> {
+        var brandItems: MutableList<Brand> = mutableListOf()
+        brandItems.add(Brand(title = "ADIDAS"))
+        return Response.success(200, Brands(brandItems))
+    }
 
     override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
         idCollectionDetails: String,
@@ -89,7 +94,19 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun updateCustomerDetailsTest(customer: CustomersTest): Response<CustomersTest> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllAddresses(): Response<CustomerAddresses> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI> {
         TODO("Not yet implemented")
     }
 
@@ -125,7 +142,7 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
+    override suspend fun addFavourite(favorite: FavouriteParent) {
         TODO("Not yet implemented")
     }
 

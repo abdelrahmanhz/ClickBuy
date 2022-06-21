@@ -23,7 +23,8 @@ class RepoTest : TestCase() {
     lateinit var brand: Response<Brands>
 
     @Before
-    public override fun setUp() {
+    public override fun
+            setUp() {
         val appContext =
             androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
 
@@ -38,7 +39,7 @@ class RepoTest : TestCase() {
          //   val result = dataRepository.getAllBrands()
            brand = fakeRepository.getAllBrands()
             brandExcpected.add(Brand(title = "ADIDAS"))
-            assertEquals(brandExcpected[0].title,brand)
+            assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
         }
     }
 
@@ -63,9 +64,4 @@ class RepoTest : TestCase() {
 //        return Response.success(200, products)
 //    }
 
-    fun setAllBrands(): Response<Brands> {
-        var brandItems: MutableList<Brand> = mutableListOf()
-        brandItems.add(Brand(title = "ADIDAS"))
-        return Response.success(200, Brands(brandItems))
-    }
 }
