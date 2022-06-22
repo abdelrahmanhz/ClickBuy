@@ -28,18 +28,16 @@ class RepoTest : TestCase() {
             setUp() {
         val appContext =
             androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
-
-        dataRepository = Repository.getInstance(
-            RetrofitClient.getInstance(), appContext
-        )
         fakeRepository = FakeRepository()
+        dataRepository = Repository.getInstance(
+            fakeRepository, appContext
+        )
     }
     @Test
     fun data_storeUser_returnUserDetailsStored() {
         runBlocking {
-         //   val result = dataRepository.getAllBrands()
-           brand = fakeRepository.getAllBrands()
-            brandExcpected.add(Brand(title = "ADIDA"))
+           brand = dataRepository.getAllBrands()
+            brandExcpected.add(Brand(title = "ADIDAS"))
             assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
         }
     }

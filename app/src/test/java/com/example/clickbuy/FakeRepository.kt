@@ -7,15 +7,6 @@ import retrofit2.Response
 
 
 class FakeRepository : RemoteSource {
-    lateinit var brand: List<Brands>
-
-//    suspend fun test(): List<Brands> {
-//        return test2()
-//    }
-//
-//    fun test2(): List<Brands> {
-//        return brand
-//    }
 
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
         TODO("Not yet implemented")
@@ -38,14 +29,6 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
-       return setAllBrands()
-    }
-
-//    fun setListOfBrands(brands: List<Brands>) {
-//        this.brand = brands
-//    }
-
-    fun setAllBrands(): Response<Brands> {
         var brandItems: MutableList<Brand> = mutableListOf()
         brandItems.add(Brand(title = "ADIDAS"))
         return Response.success(200, Brands(brandItems))

@@ -27,7 +27,7 @@ class Repository private constructor(
     companion object {
         private var instance: Repository? = null
         fun getInstance(
-            remoteSource: RetrofitClient, context: Context
+            remoteSource: RemoteSource, context: Context
         ): Repository {
             if (instance == null) {
                 instance = Repository(remoteSource, context)
