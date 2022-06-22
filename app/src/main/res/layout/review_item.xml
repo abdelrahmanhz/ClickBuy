@@ -11,7 +11,7 @@
         android:id="@+id/review_item_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/avatar"
+        android:src="@drawable/default_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".me.view.loged.MeFragment">
@@ -9,6 +10,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/no_internet_animation"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/no_internet"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/enable_connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_connection"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_internet_animation" />
 
         <TextView
             android:id="@+id/welcome_textView"
@@ -18,6 +47,7 @@
             android:text="@string/welcome"
             android:textColor="@color/black"
             android:textSize="30sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,9 +58,11 @@
             android:layout_height="160sp"
             android:layout_marginTop="15sp"
             android:src="@drawable/profile_image"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome_textView" />
+
         <!--  edit Profile   -->
         <RelativeLayout
             android:id="@+id/edit_profile_relativeLayout"
@@ -38,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/profile_circleImageView">
 
             <ImageView
@@ -63,6 +96,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--   Address   -->
         <RelativeLayout
             android:id="@+id/address_relativeLayout"
@@ -70,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/edit_profile_relativeLayout">
 
             <ImageView
@@ -95,6 +130,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--   WishList   -->
         <RelativeLayout
             android:id="@+id/wishList_relativeLayout"
@@ -102,6 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/address_relativeLayout">
 
             <ImageView
@@ -127,6 +164,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--  Currency  -->
         <RelativeLayout
             android:id="@+id/currency_relativeLayout"
@@ -134,6 +172,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/wishList_relativeLayout">
 
             <ImageView
@@ -159,6 +198,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--  Bag  -->
         <RelativeLayout
             android:id="@+id/bag_relativeLayout"
@@ -166,6 +206,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/currency_relativeLayout">
 
             <ImageView
@@ -191,6 +232,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--  Order History  -->
         <RelativeLayout
             android:id="@+id/order_history_relativeLayout"
@@ -198,6 +240,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/bag_relativeLayout">
 
             <ImageView
@@ -223,6 +266,7 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
         <!--  Logout  -->
         <RelativeLayout
             android:id="@+id/logout_relativeLayout"
@@ -230,6 +274,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="45sp"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/order_history_relativeLayout">
 
             <ImageView
@@ -255,5 +300,6 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

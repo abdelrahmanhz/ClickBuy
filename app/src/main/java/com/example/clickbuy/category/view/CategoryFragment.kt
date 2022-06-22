@@ -16,19 +16,19 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import android.graphics.drawable.BitmapDrawable
-
 import android.view.WindowManager
-
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "CategoryFragment"
 
@@ -40,6 +40,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var filterBrandsRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
+    private lateinit var categorySearchView: SearchView
     private lateinit var viewModel: CategoryViewModel
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
@@ -111,6 +112,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
+                clearSearchViewText()
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -120,9 +122,30 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame, FavouritesFragment())
-                        .addToBackStack(null).commit()
+                    if (ConstantsValue.isLogged){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, FavouritesFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_wishlist),
+                            Toast.LENGTH_LONG).show()
+                    }
+                }
+                R.id.cart_menubar -> {
+                    if (ConstantsValue.isLogged){
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.frame, BagFragment())
+                            .addToBackStack(null).commit()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            getString(R.string.unauthorized_bag),
+                            Toast.LENGTH_LONG).show()
+                    }
                 }
                 R.id.filter_menubar -> {
                     val dialog = BottomSheetDialog(requireContext())
@@ -137,11 +160,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
                     subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
                     recycler.layoutManager = GridLayoutManager(requireContext(), 3)
+                    recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
                     viewModel.category.observe(viewLifecycleOwner, {
                         subcategoryAdapter.setListOfSubCategories(it)
                     })
+
 
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
@@ -181,6 +206,53 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
             true
         }
+
+        categorySearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            var tempSubCategoryData = ArrayList<Product>()
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                if(!p0.isNullOrEmpty()){
+                    tempSubCategoryData.clear()
+                    subCategoryData.forEach {
+                        if (it.title?.contains(p0, true)!!)
+                            tempSubCategoryData.add(it)
+                    }
+                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
+                    categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
+
+                    categoryRecyclerView.adapter?.notifyDataSetChanged()
+                }
+                else{
+                    tempSubCategoryData.clear()
+                    categoryAdapter.setListOfCategory(subCategoryData)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if(!p0.isNullOrEmpty()){
+                    tempSubCategoryData.clear()
+                    subCategoryData.forEach {
+                        if (it.title?.contains(p0, true)!!)
+                            tempSubCategoryData.add(it)
+                    }
+                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
+                    categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
+
+                    categoryRecyclerView.adapter?.notifyDataSetChanged()
+                }
+                else{
+                    tempSubCategoryData.clear()
+                    categoryAdapter.setListOfCategory(subCategoryData)
+                }
+                return false
+            }
+        })
+    }
+
+    private fun clearSearchViewText() {
+        categorySearchView.setQuery("", false)
+        categorySearchView.clearFocus()
+        categorySearchView.isIconified = false
     }
 
     private fun initViewModel() {
@@ -196,6 +268,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private fun initUI(view: View) {
         categoryRecyclerView = view.findViewById(R.id.brandCategoryRecyclerView)
         tabLayout = view.findViewById(R.id.tabLayout)
+        categorySearchView = view.findViewById(R.id.categorySearchView)
         myToolbar = view.findViewById(R.id.toolBar)
         categoryAdapter = CategoryAdapter(requireContext(), this)
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout_category)

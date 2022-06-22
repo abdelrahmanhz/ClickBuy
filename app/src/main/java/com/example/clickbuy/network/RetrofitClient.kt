@@ -14,6 +14,8 @@ class RetrofitClient : RemoteSource {
         RetrofitHelper.getClientShopify().create(RetrofitService::class.java)
     private val retrofitCurrencyHelper =
         RetrofitHelper.getClientCurrency().create(RetrofitService::class.java)
+    private val retrofitAddressHelper =
+        RetrofitHelper.getClientAddress().create(RetrofitService::class.java)
 
     companion object {
         private var instance: RetrofitClient? = null
@@ -113,9 +115,27 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun updateCustomerDetailsTest(customer: CustomersTest): Response<CustomersTest> {
+        val response = retrofitHelper.updateCustomerDetailsTest(ConstantsValue.userID, customer)
+        Log.i(TAG, "updateCustomerDetailsTest: " + response.code())
+        return response
+    }
+
     override suspend fun getAllAddresses(): Response<CustomerAddresses> {
-        val response = retrofitHelper.getAllAddresses(ConstantsValue.email)
+        val response = retrofitHelper.getAllAddresses(ConstantsValue.userID)
         Log.i(TAG, "getAllAddresses: " + response.code())
+        return response
+    }
+
+    override suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse> {
+        val response = retrofitHelper.addAddress(ConstantsValue.userID, address)
+        Log.i(TAG, "addAddress: " + response.code())
+        return response
+    }
+
+    override suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI> {
+        val response = retrofitAddressHelper.getAddressFromApi(placeName)
+        Log.i(TAG, "getAddressFromApi: " + response.code())
         return response
     }
 

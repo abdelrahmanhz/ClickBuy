@@ -71,7 +71,18 @@
     <string name="women">Women</string>
     <string name="men">Men</string>
     <string name="kids">Kids</string>
-    <string name="orderDetils">Order Details</string>
+    <string name="order_details">Order Details</string>
+    <string name="password">Password</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First Name</string>
+    <string name="enter_place_name">Enter the name of place</string>
+    <string name="get_address">get Address</string>
+    <string name="address_error">You must enter a place</string>
     <string name="price">Price :</string>
+    <string name="unauthorized_wishlist">please login first to check your wishlist</string>
+    <string name="search_for">What are you searching for?</string>
+    <string name="alert_title">Alert</string>
+    <string name="remove">Remove</string>
+    <string name="unauthorized_bag">please login first to check your bag</string>
 
 </resources>

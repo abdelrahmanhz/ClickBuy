@@ -1,4 +1,4 @@
-package com.example.clickbuy.address.view
+package com.example.clickbuy.address.showaddresses.view
 
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.address.viewmodel.AddressViewModel
-import com.example.clickbuy.address.viewmodel.AddressViewModelFactory
+import com.example.clickbuy.address.showaddresses.viewmodel.AddressViewModel
+import com.example.clickbuy.address.showaddresses.viewmodel.AddressViewModelFactory
+import com.example.clickbuy.address.addaddresses.view.AddAddressFragment
 import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
@@ -32,6 +34,7 @@ class AddressFragment : Fragment() {
     private lateinit var addAddressButton: FloatingActionButton
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private lateinit var constraintLayout: ConstraintLayout
+    private lateinit var addAddress: AppCompatButton
     private lateinit var addressAdapter: AddressAdapter
     private lateinit var viewModelFactory: AddressViewModelFactory
     private lateinit var viewModel: AddressViewModel
@@ -53,7 +56,12 @@ class AddressFragment : Fragment() {
         }
 
         addAddressButton.setOnClickListener {
+            replaceFragment(AddAddressFragment())
             Toast.makeText(requireContext(), "Go to map or GPS", Toast.LENGTH_SHORT).show()
+        }
+
+        addAddress.setOnClickListener {
+            replaceFragment(AddAddressFragment())
         }
 
         return view
@@ -65,7 +73,7 @@ class AddressFragment : Fragment() {
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout)
         arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
         constraintLayout = view.findViewById(R.id.empty_address_constraintLayout)
-
+        addAddress = view.findViewById(R.id.add_address_button)
         addressAdapter = AddressAdapter()
         addressRecyclerView.layoutManager = LinearLayoutManager(view.context)
         addressRecyclerView.adapter = addressAdapter
@@ -112,5 +120,11 @@ class AddressFragment : Fragment() {
             shimmerFrameLayout.visibility = View.GONE
 
         }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame, fragment)
+            .addToBackStack(null).commit()
     }
 }

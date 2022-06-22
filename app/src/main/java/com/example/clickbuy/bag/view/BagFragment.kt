@@ -31,10 +31,10 @@ import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-
 private const val TAG = "BagFragment"
 
 class BagFragment : Fragment(), UpdatingItemsAtBag {
+
     private lateinit var priceTextView: TextView
     private lateinit var checkoutButton: AppCompatButton
     private lateinit var arrowBackImageView: ImageView
@@ -49,6 +49,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
     private var imagesList: List<NoteAttribute> = emptyList()
     private lateinit var progressBar: ProgressBar
     private lateinit var bagObject: ShoppingBag
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -119,7 +120,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 imagesList = it.draft_order.note_attributes
                 bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
                 priceTextView.text = calculatePrice(it.draft_order.subtotal_price)
-            }else {
+                bagObject = it
+            } else {
                 bagAdapter.setList(emptyList(), emptyList())
                 priceTextView.text = "0.0"
                 relativeLayout.visibility = View.GONE
@@ -128,7 +130,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             progressBar.visibility = View.GONE
             shimmerFrameLayout.stopShimmerAnimation()
             shimmerFrameLayout.visibility = View.GONE
-            bagObject = it
+
 
         }
     }

@@ -1,11 +1,10 @@
-package com.example.clickbuy.address.viewmodel
+package com.example.clickbuy.address.showaddresses.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clickbuy.models.Addresses
 import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.models.RepositoryInterface
 import com.example.clickbuy.models.ShoppingBag
@@ -35,25 +34,6 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
 
     }
-
-    fun addAddress(shoppingBag: ShoppingBag) {
-        viewModelScope.launch {
-            val response = _iRepo.updateItemsInBag(shoppingBag)
-            withContext(Dispatchers.Main) {
-
-            }
-        }
-    }
-
-    fun deleteAddress(shoppingBag: ShoppingBag) {
-        viewModelScope.launch {
-            val response = _iRepo.updateItemsInBag(shoppingBag)
-            withContext(Dispatchers.Main) {
-
-            }
-        }
-    }
-
 
     init {
         Log.i(TAG, "init: ")

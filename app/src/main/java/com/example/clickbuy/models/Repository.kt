@@ -42,16 +42,56 @@ class Repository private constructor(
     }
 
     override suspend fun setupConstantsValue() {
+
+        Log.i(
+            TAG,
+            "setupConstantsValue before :draftOrderID--------> ${ConstantsValue.draftOrderID}"
+        )
+
+        Log.i(
+            TAG,
+            "setupConstantsValue: sharedPrefs value----------> " + sharedPrefs?.getString(
+                "CART_ID",
+                ""
+            )!!
+        )
+
         ConstantsValue.isLogged = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
         ConstantsValue.userID = sharedPrefs?.getString("USER_ID", "")!!
         ConstantsValue.email = sharedPrefs?.getString("USER_EMAIL", "")!!
-        ConstantsValue.draftOrderID = sharedPrefs?.getString("CART_ID", "")!!
+        ConstantsValue.draftOrderID = sharedPrefs?.getString("CART_ID", "empty")!!
 
         Log.i(TAG, "setupConstantsValue:isLogged------------> ${ConstantsValue.isLogged}")
         Log.i(TAG, "setupConstantsValue:userID--------------> ${ConstantsValue.userID}")
         Log.i(TAG, "setupConstantsValue:email---------------> ${ConstantsValue.email}")
-        Log.i(TAG, "setupConstantsValue:draftOrderID--------> ${ConstantsValue.draftOrderID}")
-        if (ConstantsValue.isLogged && !ConstantsValue.draftOrderID.isNullOrEmpty()) {
+        Log.i(
+            TAG,
+            "setupConstantsValue after :draftOrderID--------> ${ConstantsValue.draftOrderID}"
+        )
+
+        Log.i(
+            TAG,
+            "setupConstantsValue:isNullOrEmpty-----------> " + ConstantsValue.draftOrderID.isNullOrEmpty()
+        )
+        Log.i(
+            TAG,
+            "setupConstantsValue:isEmpty-----------> " + ConstantsValue.draftOrderID.isEmpty()
+        )
+        Log.i(
+            TAG,
+            "setupConstantsValue:isNotEmpty-----------> " + ConstantsValue.draftOrderID.isNotEmpty()
+        )
+        Log.i(
+            TAG,
+            "setupConstantsValue:isBlank-----------> " + ConstantsValue.draftOrderID.isBlank()
+        )
+        Log.i(
+            TAG,
+            "setupConstantsValue:isNullOrBlank-----------> " + ConstantsValue.draftOrderID.isNullOrBlank()
+        )
+        Log.i(TAG, "setupConstantsValue:value-----------> " + ConstantsValue.draftOrderID)
+
+        if (ConstantsValue.isLogged && ConstantsValue.draftOrderID != "null") {
             Log.i(TAG, "setupConstantsValue: in if to getAllItems From splash")
             getAllItemsInBag()
         }
@@ -193,9 +233,27 @@ class Repository private constructor(
         return response
     }
 
+    override suspend fun updateCustomerDetailsTest(customer: CustomersTest): Response<CustomersTest> {
+        val response = remoteSource.updateCustomerDetailsTest(customer)
+        Log.i(TAG, "getCustomerDetails: " + response.code())
+        return response
+    }
+
     override suspend fun getAllAddresses(): Response<CustomerAddresses> {
         val response = remoteSource.getAllAddresses()
         Log.i(TAG, "getAllAddresses: " + response.code())
+        return response
+    }
+
+    override suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse> {
+        val response = remoteSource.addAddress(address)
+        Log.i(TAG, "addAddress: " + response.code())
+        return response
+    }
+
+    override suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI> {
+        val response = remoteSource.getAddressFromApi(placeName)
+        Log.i(TAG, "getAddressFromApi: " + response.code())
         return response
     }
 
@@ -278,7 +336,8 @@ class Repository private constructor(
         Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
 
 
-        if (ConstantsValue.draftOrderID.trim().isNullOrEmpty()) {
+        if (ConstantsValue.draftOrderID.trim() == "null") {
+
 
             Log.i(TAG, "addItemsInBag: create")
             lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))

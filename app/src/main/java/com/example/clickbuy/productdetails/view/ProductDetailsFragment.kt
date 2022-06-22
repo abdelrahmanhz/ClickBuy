@@ -2,12 +2,14 @@ package com.example.clickbuy.productdetails.view
 
 import android.R
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.example.clickbuy.R as r
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -20,12 +22,11 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
-import com.google.android.material.snackbar.Snackbar
-import kotlin.math.log
+import com.example.clickbuy.util.calculatePrice
 
 const val TAG = "ProductDetailsFragment"
 
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var viewModel: ProductDetailsViewModel
     private lateinit var modelFactory: ProductDetailsViewModelFactory
@@ -36,6 +37,7 @@ class ProductDetailsFragment : Fragment() {
     private var imagesList = mutableListOf<String>()
 
     private lateinit var id: String
+    private var variantId: Long? = null
     private lateinit var product: Product
 
     private var isFavourite = false
@@ -44,7 +46,7 @@ class ProductDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -74,7 +76,9 @@ class ProductDetailsFragment : Fragment() {
         binding.itemImagesViewPager.visibility = View.VISIBLE
         binding.productInfo.productBottomSheet.visibility = View.VISIBLE
         binding.cardView.visibility = View.VISIBLE
-        binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
+        if (ConstantsValue.isLogged){
+            binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
+        }
     }
 
     private fun setUpViewModel() {
@@ -97,11 +101,10 @@ class ProductDetailsFragment : Fragment() {
                 viewModel.isFavAndId.observe(requireActivity()) { isFavAndId ->
                     favId = isFavAndId.first
                     isFavourite = isFavAndId.second
-                    Log.i(TAG, "setUpViewModel: it-------------> " + it)
-                    Log.i(TAG, "setUpViewModel: isFavorite-----> " + isFavourite)
-                    binding.productDetailsHeader.rightDrawable.let {
-                        it.setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
-                    }
+                    Log.i(TAG, "setUpViewModel: it-------------> $it")
+                    Log.i(TAG, "setUpViewModel: isFavorite-----> $isFavourite")
+                    binding.productDetailsHeader.rightDrawable
+                        .setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
                 }
                 displayProduct(it)
                 showUIComponent()
@@ -158,6 +161,10 @@ class ProductDetailsFragment : Fragment() {
         }
         sizeSpinner.adapter = sizesAdapter
         colorSpinner.adapter = colorsAdapter
+
+        sizesAdapter?.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        colorsAdapter?.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        sizeSpinner.onItemSelectedListener = this
     }
 
     private fun setUpImagesPager() {
@@ -171,9 +178,12 @@ class ProductDetailsFragment : Fragment() {
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
         binding.productInfo.productAvailability.text = product.status
-        binding.priceNumTextView.text = product.variants?.get(0)?.price ?: "No price available"
+        binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)  
         binding.addToCartButton.text =
             if (product.status.equals("active")) "Add to cart" else "not available"
+
+        // variant id
+        product.variants[0].id.also { variantId = it }
 
         // images
         product.images?.forEach { image -> imagesList.add(image.src) }
@@ -192,7 +202,7 @@ class ProductDetailsFragment : Fragment() {
 
         // favorite
         binding.productDetailsHeader.rightDrawable.setOnClickListener {
-            Log.i(TAG, "displayProduct: isFavorite----->  " + isFavourite)
+            Log.i(TAG, "displayProduct: isFavorite----->  $isFavourite")
             if (!isFavourite) {
                 Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
                 val fav = FavouriteParent(
@@ -220,10 +230,10 @@ class ProductDetailsFragment : Fragment() {
                 val dialogBuilder = AlertDialog.Builder(requireContext())
                 dialogBuilder.apply {
 
-                    setTitle("Removing Alert")
+                    setTitle(resources.getString(r.string.alert_title))
                     setMessage("Do you want to remove \"${product.title}\" from your favourites?")
 
-                    setPositiveButton("Remove") { _, _ ->
+                    setPositiveButton(resources.getString(r.string.remove)) { _, _ ->
                         Toast.makeText(
                             context,
                             "Successfully removed!",
@@ -246,21 +256,36 @@ class ProductDetailsFragment : Fragment() {
 
         // add to cart
         binding.addToCartButton.setOnClickListener {
+            //variantId = product.variants[0].id
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
                 viewModel.addItemsInBag(product)
                 binding.addToCartButton.isEnabled = false
-            } else
+            } else{
+                //Log.i(TAG, "addToCartButton: $variantId")
                 Toast.makeText(
                     requireContext(),
                     resources.getString(r.string.guest),
                     Toast.LENGTH_SHORT
                 ).show()
+            }
         }
     }
 
     fun setProductId(productId: String) {
         this.id = productId
         Log.i(TAG, "setVendorName: -------> $productId")
+    }
+
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        variantId = product.variants?.get(p2)!!.id
+        Toast.makeText(
+            requireContext(),
+            "onItemSelected: $variantId",
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
     }
 }

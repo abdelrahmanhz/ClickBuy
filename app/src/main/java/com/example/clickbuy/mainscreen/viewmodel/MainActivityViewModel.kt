@@ -39,6 +39,13 @@ class MainActivityViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     }
 
+    fun setupConstantsValue() {
+        viewModelScope.launch {
+            Log.i(TAG, "setupConstantsValue: ")
+            _iRepo.setupConstantsValue()
+        }
+    }
+
 
     init {
         Log.i(TAG, "init: ")

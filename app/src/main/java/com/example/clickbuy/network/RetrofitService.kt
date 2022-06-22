@@ -93,12 +93,33 @@ interface RetrofitService {
         @Path("id") id: String, @Body customer: CustomerParent
     ): Response<CustomerParent>
 
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @PUT("customers/{id}.json")
+    suspend fun updateCustomerDetailsTest(
+        @Path("id") id: String, @Body customer: CustomersTest
+    ): Response<CustomersTest>
+
     //Address
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("customers.json?")
+    @GET("customers/{id}/addresses.json")
     suspend fun getAllAddresses(
-        @Query("email") email: String
+        @Path("id") id: String
     ): Response<CustomerAddresses>
+
+    @GET("geocode/v1/json?")
+    suspend fun getAddressFromApi(
+        @Query("q") q: String,
+        @Query("key") key: String = "bb4b6a8e117f4dd8ac7beb0d4105e4a0"
+    ): Response<AddressResponseAPI>
+
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @POST("customers/{id}/addresses.json")
+    suspend fun addAddress(
+        @Path("id") id: String,
+        @Body address: CustomerAddressUpdate
+    ): Response<CustomerAddressResponse>
+
 
     //Currency
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)

@@ -12,19 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.R
 import com.example.clickbuy.databinding.FragmentFavouritesBinding
-import com.example.clickbuy.db.ConcreteLocalSource
 import com.example.clickbuy.favourites.adapters.FavouritesAdapter
 import com.example.clickbuy.favourites.viewmodel.FavouritesViewModel
 import com.example.clickbuy.favourites.viewmodel.FavouritesViewModelFactory
-import com.example.clickbuy.models.DraftOrder
-import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
-import com.google.android.material.snackbar.Snackbar
-import java.text.FieldPosition
-import kotlin.math.log
 
 
 private const val TAG = "FavouritesFragment"
