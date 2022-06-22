@@ -9,14 +9,13 @@ import retrofit2.Response
 class FakeRepository : RemoteSource {
     lateinit var brand: List<Brands>
 
-    var repoTest = RepoTest()
-    suspend fun test(): List<Brands> {
-        return test2()
-    }
-
-    fun test2(): List<Brands> {
-        return brand
-    }
+//    suspend fun test(): List<Brands> {
+//        return test2()
+//    }
+//
+//    fun test2(): List<Brands> {
+//        return brand
+//    }
 
     override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
         TODO("Not yet implemented")
@@ -142,7 +141,7 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun addFavourite(favorite: FavouriteParent) {
+    override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
         TODO("Not yet implemented")
     }
 

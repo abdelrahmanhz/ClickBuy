@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import retrofit2.Response
 
+
 @Config(sdk = [30])
 @RunWith(AndroidJUnit4::class)
 class RepoTest : TestCase() {
@@ -38,30 +39,10 @@ class RepoTest : TestCase() {
         runBlocking {
          //   val result = dataRepository.getAllBrands()
            brand = fakeRepository.getAllBrands()
-            brandExcpected.add(Brand(title = "ADIDAS"))
+            brandExcpected.add(Brand(title = "ADIDA"))
             assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
         }
     }
 
-//    fun getAllProducts(): Response<Products> {
-//        var lineItems: MutableList<Product> = mutableListOf()
-//        lineItems.add(Product(22,body_html = "dddd", product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        lineItems.add(Product(22, product_type = "", image = null))
-//        val products = Products(lineItems)
-//        return Response.success(200, products)
-//    }
 
 }
