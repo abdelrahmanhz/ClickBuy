@@ -4,18 +4,18 @@ data class Brands (
     val smart_collections: List<Brand>
 )
 data class Brand (
-    val id: String,
-    val handle: String,
-    val title: String,
-    val updated_at: String,
-    val body_html: String,
-    val published_at: String,
-    val sort_order: String,
+    val id: String?=null,
+    val handle: String?=null,
+    val title: String?=null,
+    val updated_at: String?=null,
+    val body_html: String?=null,
+    val published_at: String?=null,
+    val sort_order: String?=null,
     val template_suffix: Any? = null,
-    val disjunctive: Boolean,
-    val published_scope: String,
-    val admin_graphql_api_id: String,
-    val image: Image
+    val disjunctive: Boolean?=null,
+    val published_scope: String?=null,
+    val admin_graphql_api_id: String?=null,
+    val image: Image?=null
 )
 data class Image (
     val createdAt: String,
