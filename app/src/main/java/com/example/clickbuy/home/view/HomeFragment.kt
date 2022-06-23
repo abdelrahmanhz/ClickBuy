@@ -159,10 +159,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         brandsRecyclerView = view.findViewById(R.id.brandsRecyclerView)
 
         scrollView = view.findViewById(R.id.scroll_view)
-
-
         myToolbar = view.findViewById(R.id.toolBarHome)
-
         val resId: Int = R.anim.lat
         val animation: LayoutAnimationController =
             AnimationUtils.loadLayoutAnimation(context, resId)
@@ -224,7 +221,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
             }
         }
     }
-
     private fun setUpBrandRecyclerView() {
         val layoutManager = LinearLayoutManager(HomeFragment().context)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL

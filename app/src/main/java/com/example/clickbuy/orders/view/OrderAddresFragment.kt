@@ -87,7 +87,7 @@ class OrderAddresFragment : Fragment() , AddressInterface {
     override fun showAddress(address: Address) {
         val paymentFragment = PaymentFragment()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frameOrderAddress, paymentFragment).commit()
+            .replace(R.id.frameOrderAddress, paymentFragment).addToBackStack(null).commit()
         paymentFragment.setAddress(address)
     }
 

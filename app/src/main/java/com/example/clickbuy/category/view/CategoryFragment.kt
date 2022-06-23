@@ -1,5 +1,6 @@
 package com.example.clickbuy.category.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,23 +17,29 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
+import android.provider.Settings
 import android.view.WindowManager
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.example.clickbuy.util.ConnectionLiveData
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.clickbuy.util.ConstantsValue
 
 private const val TAG = "CategoryFragment"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
+    private lateinit var enableConnection: TextView
+
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
     private lateinit var brandFilterAdapter: BrandsFilterAdapter
@@ -45,12 +52,14 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
     private val ID_KIDS = "273053745291"
+    private lateinit var scrollView: ScrollView
     private var defaultId = ""
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
     private var productType: String = ""
     private var vendor: String = ""
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private lateinit var noInternetAnimation: LottieAnimationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +81,39 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         initViewModel()
         initUI(view)
         initTabLayout()
-        getAllProducts()
 
+
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
+            if (it) {
+                Log.i(TAG, "onViewCreated: in if")
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+                tabLayout.visibility = View.VISIBLE
+                categorySearchView.visibility = View.VISIBLE
+                getAllProducts()
+
+            } else {
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+                //   myToolbar.visibility = View.GONE
+                tabLayout.visibility = View.GONE
+                categorySearchView.visibility = View.GONE
+
+            }
+
+            shimmerFrameLayout.visibility = View.GONE
+            shimmerFrameLayout.stopShimmerAnimation()
+
+        }
+
+        enableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+        }
         if (vendor.isNotEmpty())
             myToolbar.setNavigationIcon(R.drawable.ic_back_icon)
         myToolbar.setNavigationOnClickListener {
@@ -272,7 +312,8 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar = view.findViewById(R.id.toolBar)
         categoryAdapter = CategoryAdapter(requireContext(), this)
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout_category)
-
+        enableConnection = view.findViewById(R.id.enable_connection_category)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation_category)
         categoryRecyclerView.adapter = categoryAdapter
     }
 
