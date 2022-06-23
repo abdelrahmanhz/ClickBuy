@@ -16,7 +16,7 @@
     <string name="address">العنوان</string>
     <string name="wishList">قائمة الرغبات</string>
     <string name="currency">العملة</string>
-    <string name="bag">حقيبة التسوق</string>
+    <string name="shopping_cart">حقيبة التسوق</string>
     <string name="order_history">الطلبات</string>
     <string name="log_out">تسجيل الخروج</string>
     <string name="profile">الملف الشخصي</string>
@@ -32,7 +32,7 @@
     <string name="discount_code"> استخدم هذا الكود </string>
     <string name="no_internet">لا يوجد اتصال بالانترنت</string>
     <string name="text_copied">تم نسخ النص</string>
-    <string name="enable_connection">الاتصال بالنت</string>
+    <string name="enable_connection">اضغط للاتصال يالنت</string>
     <string name="payment">الدفع</string>
     <string name="required_amount">المبلغ المطلوب</string>
     <string name="enter_coupon">ادخل كود الخصم هنا</string>
@@ -52,8 +52,8 @@
     <string name="orders">الطلبات</string>
     <string name="guest">"سجل الدخول لكي تتمكن من استخدم حقيبة التسوق"</string>
     <string name="login">تسجيل الدخول</string>
-    <string name="add_to_bag_fail">فشل الإضافة</string>
-    <string name="add_to_bag_success">تمت الإضافة بنجاح</string>
+    <string name="add_to_shopping_cart_fail">فشل الإضافةإلي حقيبة التسوق</string>
+    <string name="add_to_shopping_cart_success">تمت الإضافة بنجاح إلي حقيبة التسوق</string>
     <string name="successful_register">سجلت الدخول بنجاح</string>
     <string name="register_fail">البريد الالكتروني او رقم الهاتف غير متاحين</string>
     <string name="required">مطلوب</string>
@@ -61,10 +61,10 @@
     <string name="password_not_match">كلمة السر لا تتطابق</string>
     <string name="invalid_phone">يجب ان تكون ارقام</string>
     <string name="invalid_phone_length">يجب ان يكون ١١ رقم</string>
-    <string name="empty_bag">حقيبة التسوق الخاصة بك فارغة</string>
+    <string name="empty_shopping_cart">حقيبة التسوق الخاصة بك فارغة</string>
     <string name="empty_address">أضف عنوان</string>
     <string name="next">التالي</string>
-    <string name="paypal">Paypal</string>
+    <string name="stripe">Stripe</string>
     <string name="cash">الدفع عند الاستلام</string>
     <string name="placeOrder">احجز الطلب</string>
     <string name="all">كل المنتجات</string>
@@ -75,14 +75,18 @@
     <string name="password">كلمة السر</string>
     <string name="last_name">الاسم الاخير</string>
     <string name="first_name">الاسم الاول</string>
-    <string name="order_detils">تفاصيل الطلب</string>
     <string name="price">السعر :</string>
     <string name="unauthorized_wishlist">يرجي تسجيل الدخول لكي تتمكن من استخدام المفضلة </string>
     <string name="search_for">ما الذي تبحث عنه؟</string>
     <string name="alert_title">تحذير</string>
     <string name="remove">حذف</string>
-    <string name="unauthorized_bag">يرجي تسجيل الدخول لكي تتمكن من فحص حقيبتك</string>
-    <string name="enter_place_name">Enter the name of place</string>
-    <string name="get_address">get Address</string>
-    <string name="address_error">You must enter a place</string>
+    <string name="unauthorized_shopping_cart">يرجي تسجيل الدخول لكي تتمكن من فحص حقيبتك</string>
+    <string name="enter_place_name">ادخل اسم المكان الذي تبحث عنه</string>
+    <string name="get_address">بحث</string>
+    <string name="address_error">يجب ان تدخل اسم مكان</string>
+    <string name="payment_method">طريقة الدفع</string>
+    <string name="choose_payment_method">اختر طريقة الدفع</string>
+    <string name="get_address_error">ادخلت اسم مكان غير صحيح</string>
+    <string name="add_address_error">فشل إضافة العنوان, الرجاء المحاولة لاحقا</string>
+    <string name="all_available_address">كل الاماكن المتاحة</string>
 </resources>

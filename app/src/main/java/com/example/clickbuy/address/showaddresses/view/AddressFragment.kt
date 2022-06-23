@@ -1,6 +1,9 @@
 package com.example.clickbuy.address.showaddresses.view
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.address.showaddresses.viewmodel.AddressViewModel
 import com.example.clickbuy.address.showaddresses.viewmodel.AddressViewModelFactory
@@ -20,6 +24,7 @@ import com.example.clickbuy.address.addaddresses.view.AddAddressFragment
 import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +33,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 private const val TAG = "AddressFragment"
 
 class AddressFragment : Fragment() {
+
+    private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var enableConnection: AppCompatButton
 
     private lateinit var arrowBackImageView: ImageView
     private lateinit var addressRecyclerView: RecyclerView
@@ -51,17 +59,42 @@ class AddressFragment : Fragment() {
         initViewModel()
         observeViewModel()
 
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) {
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmerAnimation()
+                viewModel.getAllAddresses()
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+                addAddressButton.visibility = View.VISIBLE
+            } else {
+                addressRecyclerView.visibility = View.GONE
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmerAnimation()
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+                addAddressButton.visibility = View.GONE
+            }
+        }
+
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         addAddressButton.setOnClickListener {
             replaceFragment(AddAddressFragment())
-            Toast.makeText(requireContext(), "Go to map or GPS", Toast.LENGTH_SHORT).show()
         }
 
         addAddress.setOnClickListener {
             replaceFragment(AddAddressFragment())
+        }
+
+        enableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
         }
 
         return view
@@ -79,6 +112,8 @@ class AddressFragment : Fragment() {
         addressRecyclerView.adapter = addressAdapter
         addressAdapter.setList(addressList)
 
+        enableConnection = view.findViewById(R.id.enable_connection)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation)
 
     }
 
@@ -97,8 +132,6 @@ class AddressFragment : Fragment() {
 
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(AddressViewModel::class.java)
-
-        viewModel.getAllAddresses()
     }
 
     private fun observeViewModel() {

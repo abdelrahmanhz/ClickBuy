@@ -8,11 +8,22 @@
     android:padding="7sp"
     tools:context=".bag.view.BagFragment">
 
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/bag"
+        android:layout_marginTop="15sp"
+        android:text="@string/shopping_cart"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -24,13 +35,13 @@
         android:id="@+id/arrow_back_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/go_back"
         android:src="@drawable/ic_arrow_left"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView" />
 
     <include
-        android:visibility="gone"
         layout="@layout/shimmer_animation_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -42,18 +53,18 @@
         android:layout_height="0dp"
         android:layout_marginTop="10sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/relative_layout"
+        app:layout_constraintBottom_toTopOf="@+id/checkout_relative_layout"
         app:layout_constraintTop_toBottomOf="@id/textView"
         tools:listitem="@layout/custom_row_bag" />
 
     <RelativeLayout
-        android:id="@+id/relative_layout"
+        android:id="@+id/checkout_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15sp"
         android:layout_marginEnd="15sp"
         android:elevation="15sp"
-
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -65,7 +76,6 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/checkout_button"
-            android:text="4500"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -122,7 +132,7 @@
             android:id="@+id/textView_bag_empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty_bag"
+            android:text="@string/empty_shopping_cart"
             android:textColor="@color/black"
             android:textSize="25sp"
             app:layout_constraintEnd_toEndOf="parent"

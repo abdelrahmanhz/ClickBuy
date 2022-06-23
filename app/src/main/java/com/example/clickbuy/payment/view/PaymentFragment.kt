@@ -40,6 +40,7 @@ import java.util.*
 private const val TAG = "PaymentFragment"
 
 class PaymentFragment : Fragment() {
+    private var isCash: Boolean = false
     private lateinit var requiredAmountTextView: TextView
     private lateinit var discountAmountTextView: TextView
     private lateinit var totalAmountTextView: TextView
@@ -52,9 +53,7 @@ class PaymentFragment : Fragment() {
     private lateinit var orderFactory: OrderViewModelFactory
 
     private lateinit var placeOrderButton: Button
-    private lateinit var radioGroup: RadioGroup
-    private lateinit var paypalRadioButton: RadioButton
-    private lateinit var cashRadioButton: RadioButton
+
     private lateinit var backButton: ImageView
 
     private var discountAmount: String = ConstantsValue.discountAmount
@@ -80,31 +79,19 @@ class PaymentFragment : Fragment() {
         initUI(view)
         initViewModel()
         observeViewModel()
+
+        backButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
         bagList = (requireActivity() as AddressOrderActivity).bagList
         imagesList = (requireActivity() as AddressOrderActivity).imagesList
 
         Log.i(TAG, "bagList:-------------------------------------$bagList")
         Log.i(TAG, "imagesList: ---------------------------------$imagesList")
 
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            when (radioGroup.checkedRadioButtonId) {
-                R.id.payPalRadioButton -> {
-                    paypalRadioButton.isChecked = true
-                    Log.i("TAG", "onViewCreated: paypaaaaall ")
-                    Toast.makeText(requireContext(), "On click : paypal", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                R.id.payPalRadioButton -> {
-                    cashRadioButton.isChecked = true
-                    placeOrderButton.visibility = View.VISIBLE
-                    placeOrderButton.setOnClickListener {
-                    }
-                    Log.i("TAG", "onViewCreated: cashhhhhh ")
-                    Toast.makeText(requireContext(), "On click : cashhhh", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
+        if (isRTL())
+            backButton.setImageResource(R.drawable.ic_arrow_right)
+
         validateCodeButton.setOnClickListener {
             if (discountCodeEditText.text.trim().isEmpty()) {
                 discountCodeEditText.error = resources.getString(R.string.coupon_empty)
@@ -113,22 +100,30 @@ class PaymentFragment : Fragment() {
             }
         }
         payButton.setOnClickListener {
-            paymentFlow()
-            orderViewModel.postOrder(
-                OrderPojo(
-                    Order(
-                        email = ConstantsValue.email,
-                        line_items = bagList,
-                        note_attributes = imagesList,
-                        billing_address = address
-                    )
-                )
-            )
+            if (isCash)
+                placeOrder()
+            else
+                paymentFlow()
+
+
         }
 
         initPayment()
 
         return view
+    }
+
+    private fun placeOrder() {
+        orderViewModel.postOrder(
+            OrderPojo(
+                Order(
+                    email = ConstantsValue.email,
+                    line_items = bagList,
+                    note_attributes = imagesList,
+                    billing_address = address
+                )
+            )
+        )
     }
 
     private fun initPayment() {
@@ -179,20 +174,18 @@ class PaymentFragment : Fragment() {
     }
 
     private fun initUI(view: View) {
-        radioGroup = view.findViewById(R.id.radioGroup)
-        paypalRadioButton = view.findViewById(R.id.payPalRadioButton)
-        cashRadioButton = view.findViewById(R.id.cashRadioButton)
-
         backButton = view.findViewById(R.id.arrow_back_imageView_payment)
-        backButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+
         requiredAmountTextView = view.findViewById(R.id.required_amount_textView)
         discountAmountTextView = view.findViewById(R.id.discount_amount_textView)
         totalAmountTextView = view.findViewById(R.id.total_amount_textView)
         discountCodeEditText = view.findViewById(R.id.discount_code_editText)
         validateCodeButton = view.findViewById(R.id.validate_code_button)
         payButton = view.findViewById(R.id.pay_button)
+
+        if (isCash)
+            payButton.text = getString(R.string.placeOrder)
+
 
         amountRequired = (requireActivity() as AddressOrderActivity).totalAmountPrice
 
@@ -243,14 +236,17 @@ class PaymentFragment : Fragment() {
             }
         }
     }
-    fun setAddress(address: Address) {
+
+    fun setData(address: Address, isCash: Boolean) {
         this.address = address
-        Log.i(TAG, "address chossen: -------> $address")
+        this.isCash = isCash
+        Log.i(TAG, "address chosen: -------> $address")
     }
 
-    fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
+    private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         if (paymentSheetResult is PaymentSheetResult.Completed) {
             Toast.makeText(requireContext(), "Payment Success!!", Toast.LENGTH_SHORT).show()
+            placeOrder()
         }
     }
 

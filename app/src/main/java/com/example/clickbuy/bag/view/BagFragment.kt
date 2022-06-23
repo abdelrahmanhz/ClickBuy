@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,12 +21,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.viewmodel.BagViewModel
 import com.example.clickbuy.bag.viewmodel.BagViewModelFactory
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.view.AddressOrderActivity
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.calculatePrice
 import com.example.clickbuy.util.isRTL
@@ -35,13 +39,16 @@ private const val TAG = "BagFragment"
 
 class BagFragment : Fragment(), UpdatingItemsAtBag {
 
+    private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var enableConnection: AppCompatButton
+
     private lateinit var priceTextView: TextView
     private lateinit var checkoutButton: AppCompatButton
     private lateinit var arrowBackImageView: ImageView
     private lateinit var bagRecyclerView: RecyclerView
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
-    private lateinit var relativeLayout: RelativeLayout
-    private lateinit var constraintLayout: ConstraintLayout
+    private lateinit var checkoutRelativeLayout: RelativeLayout
+    private lateinit var emptyBagConstraintLayout: ConstraintLayout
     private lateinit var bagAdapter: BagAdapter
     private lateinit var viewModelFactory: BagViewModelFactory
     private lateinit var viewModel: BagViewModel
@@ -61,6 +68,27 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         observeViewModel()
         swipeToDelete()
         checkRTL()
+
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) {
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmerAnimation()
+                viewModel.getAllItemsInBag()
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+            } else {
+                checkoutRelativeLayout.visibility = View.GONE
+                emptyBagConstraintLayout.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                bagRecyclerView.visibility = View.GONE
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmerAnimation()
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+            }
+
+        }
+
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -69,6 +97,14 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             val intent = Intent(requireContext(), AddressOrderActivity::class.java)
             intent.putExtra("TEST", bagObject)
             startActivity(intent)
+        }
+
+        enableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
         }
         return view
     }
@@ -80,8 +116,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
         bagRecyclerView = view.findViewById(R.id.recyclerView_bag)
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout)
-        relativeLayout = view.findViewById(R.id.relative_layout)
-        constraintLayout = view.findViewById(R.id.empty_bag_constraintLayout)
+        checkoutRelativeLayout = view.findViewById(R.id.checkout_relative_layout)
+        emptyBagConstraintLayout = view.findViewById(R.id.empty_bag_constraintLayout)
         bagAdapter = BagAdapter(this)
         bagRecyclerView.layoutManager = LinearLayoutManager(view.context)
         bagRecyclerView.addItemDecoration(
@@ -91,10 +127,12 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             )
         )
         bagRecyclerView.adapter = bagAdapter
+
+        enableConnection = view.findViewById(R.id.enable_connection)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation)
     }
 
     private fun initViewModel() {
-
         viewModelFactory = BagViewModelFactory(
             Repository.getInstance(
                 RetrofitClient.getInstance(),
@@ -104,8 +142,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
 
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(BagViewModel::class.java)
-
-        viewModel.getAllItemsInBag()
     }
 
     private fun observeViewModel() {
@@ -114,8 +150,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
 
             if (it != null && it.draft_order.note_attributes.isNotEmpty() && it.draft_order.line_items.isNotEmpty()) {
                 bagRecyclerView.visibility = View.VISIBLE
-                relativeLayout.visibility = View.VISIBLE
-                constraintLayout.visibility = View.GONE
+                checkoutRelativeLayout.visibility = View.VISIBLE
+                emptyBagConstraintLayout.visibility = View.GONE
                 bagList = it.draft_order.line_items
                 imagesList = it.draft_order.note_attributes
                 bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
@@ -124,8 +160,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
             } else {
                 bagAdapter.setList(emptyList(), emptyList())
                 priceTextView.text = "0.0"
-                relativeLayout.visibility = View.GONE
-                constraintLayout.visibility = View.VISIBLE
+                checkoutRelativeLayout.visibility = View.GONE
+                emptyBagConstraintLayout.visibility = View.VISIBLE
             }
             progressBar.visibility = View.GONE
             shimmerFrameLayout.stopShimmerAnimation()
@@ -239,9 +275,4 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         super.onResume()
         shimmerFrameLayout.startShimmerAnimation()
     }
-
-    /*  override fun setListOfBag(bagList: List<BagItem>, imagesList: List<NoteAttribute>) {
-          val order = AddressOrder()
-          order.setListOfBag(bagList, imagesList)
-      }*/
 }

@@ -17,8 +17,7 @@ private const val TAG = "CurrencyAdapter"
 class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
 
     private var currencyList: List<Currency> = ArrayList()
-    private var checkedPosition = 0
-
+    private var checkedPosition = ConstantsValue.to
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         Log.i(TAG, "onCreateViewHolder: ")
@@ -48,22 +47,47 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
         private var checkedImageView: ImageView = itemView.findViewById(R.id.checked_imageView)
 
         fun bind(currency: Currency) {
-            if (checkedPosition == -1) {
+            /*  if (checkedPosition == -1) {
+                  checkedImageView.visibility = View.GONE
+              } else {
+                  if (checkedPosition == adapterPosition) {
+                      checkedImageView.visibility = View.VISIBLE
+                  } else {
+                      checkedImageView.visibility = View.GONE
+                  }
+              }
+              currencyTextView.text = currency.currency
+              itemView.setOnClickListener {
+                  checkedImageView.visibility = View.VISIBLE
+                  if (checkedPosition != adapterPosition) {
+                      notifyItemChanged(checkedPosition)
+                      checkedPosition = adapterPosition
+                      ConstantsValue.to = currencyTextView.text.toString()
+                      Log.i(TAG, "bind: " + ConstantsValue.to)
+                  }
+              }*/
+            currencyTextView.text = currency.currency
+            if (checkedPosition.isEmpty()) {
+                Log.i(TAG, "bind: isEmpty")
                 checkedImageView.visibility = View.GONE
             } else {
-                if (checkedPosition == adapterPosition) {
+                Log.i(TAG, "bind: else")
+                if (checkedPosition == currencyTextView.text.toString()) {
                     checkedImageView.visibility = View.VISIBLE
+                    Log.i(TAG, "bind: equel")
                 } else {
                     checkedImageView.visibility = View.GONE
+                    Log.i(TAG, "bind: not equal")
                 }
             }
-            currencyTextView.text = currency.currency
             itemView.setOnClickListener {
+                Log.i(TAG, "bind: onClick")
                 checkedImageView.visibility = View.VISIBLE
-                if (checkedPosition != adapterPosition) {
-                    notifyItemChanged(checkedPosition)
-                    checkedPosition = adapterPosition
+                if (checkedPosition != currencyTextView.text.toString()) {
+                    notifyItemChanged(adapterPosition)
+                    notifyDataSetChanged()
                     ConstantsValue.to = currencyTextView.text.toString()
+                    checkedPosition = currencyTextView.text.toString()
                     Log.i(TAG, "bind: " + ConstantsValue.to)
                 }
             }

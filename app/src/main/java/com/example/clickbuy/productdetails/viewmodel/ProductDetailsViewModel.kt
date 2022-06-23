@@ -37,9 +37,9 @@ class ProductDetailsViewModel(private val repo: RepositoryInterface) : ViewModel
     }
 
 
-    fun addItemsInBag(product: Product) {
+    fun addItemsInBag(product: Product, variantPosition: Int) {
         viewModelScope.launch {
-            val response = repo.addItemsInBag(product)
+            val response = repo.addItemsInBag(product, variantPosition)
             if (response.isSuccessful) {
                 withContext(Dispatchers.Main) {
                     Log.i(TAG, "addItemsInBag response.code()---------> " + response.code())

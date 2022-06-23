@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +28,8 @@ private const val TAG = "AddAddressFragment"
 
 class AddAddressFragment : Fragment(), OnAddressSelected {
 
+    private lateinit var noPlaceFoundImageView: ImageView
+    private lateinit var noPlaceFoundTextView: TextView
     private lateinit var arrowBackImageView: ImageView
     private lateinit var placeNameEditText: TextInputEditText
     private lateinit var getAddress: AppCompatButton
@@ -50,7 +53,7 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
             arrowBackImageView.setImageResource(R.drawable.ic_arrow_right)
 
         getAddress.setOnClickListener {
-            val placeName = placeNameEditText.text.toString()
+            val placeName = placeNameEditText.text.toString().trim()
             if (placeName.isNotEmpty()) {
                 viewModel.getAddress(placeName)
                 placeNameEditText.error = null
@@ -63,6 +66,8 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
     }
 
     private fun initView(view: View) {
+        noPlaceFoundImageView = view.findViewById(R.id.no_address_exist_imageView)
+        noPlaceFoundTextView = view.findViewById(R.id.no_address_exist_textView)
         placeNameEditText = view.findViewById(R.id.place_name_editText)
         arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
         getAddress = view.findViewById(R.id.get_address_button)
@@ -88,15 +93,16 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
         viewModel.addresses.observe(viewLifecycleOwner) {
             if (it.status.code == 200) {
                 Log.i(TAG, "addresses.observe: ---------> success")
-                Toast.makeText(requireContext(), "Added Success", Toast.LENGTH_SHORT).show()
+                addressesRecyclerView.visibility = View.VISIBLE
+                noPlaceFoundTextView.visibility = View.GONE
+                noPlaceFoundImageView.visibility = View.GONE
                 addressAdapter.setListOfAddresses(it.results)
             } else {
                 Log.i(TAG, "addresses.observe:-----------> filed")
-                Toast.makeText(
-                    requireContext(),
-                    "Error in add address, tray later",
-                    Toast.LENGTH_SHORT
-                ).show()
+                addressesRecyclerView.visibility = View.GONE
+                noPlaceFoundTextView.visibility = View.VISIBLE
+                noPlaceFoundImageView.visibility = View.VISIBLE
+                addressAdapter.setListOfAddresses(emptyList())
             }
         }
     }
@@ -108,7 +114,7 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
             else
                 Toast.makeText(
                     requireContext(),
-                    "Error in add address, tray later",
+                    getString(R.string.add_address_error),
                     Toast.LENGTH_SHORT
                 ).show()
         }

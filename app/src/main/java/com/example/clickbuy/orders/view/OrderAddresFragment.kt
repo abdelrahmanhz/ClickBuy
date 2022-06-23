@@ -23,6 +23,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.ContextCompat
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
+import com.example.clickbuy.payment.paymentmethod.PaymentMethodFragment
 import com.example.clickbuy.payment.view.AddressInterface
 import com.example.clickbuy.payment.view.PaymentFragment
 import com.example.clickbuy.util.ConstantsValue
@@ -85,9 +86,9 @@ class OrderAddresFragment : Fragment() , AddressInterface {
     }
 
     override fun showAddress(address: Address) {
-        val paymentFragment = PaymentFragment()
+        val paymentFragment = PaymentMethodFragment()
         requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.frameOrderAddress, paymentFragment).commit()
+            .replace(R.id.frameOrderAddress, paymentFragment).addToBackStack(null).commit()
         paymentFragment.setAddress(address)
     }
 

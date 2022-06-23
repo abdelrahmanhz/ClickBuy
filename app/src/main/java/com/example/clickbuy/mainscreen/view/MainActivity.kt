@@ -11,7 +11,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-import com.example.clickbuy.me.view.loged.MeFragment
+import com.example.clickbuy.me.view.logged.MeFragment
 import com.example.clickbuy.me.view.guest.GuestFragment
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModelFactory

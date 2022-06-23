@@ -1,4 +1,4 @@
-package com.example.clickbuy.me.view.loged
+package com.example.clickbuy.me.view.logged
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -2,7 +2,6 @@ package com.example.clickbuy.productdetails.view
 
 import android.R
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,7 +25,7 @@ import com.example.clickbuy.util.calculatePrice
 
 const val TAG = "ProductDetailsFragment"
 
-class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
+class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentProductDetailsBinding
     private lateinit var viewModel: ProductDetailsViewModel
     private lateinit var modelFactory: ProductDetailsViewModelFactory
@@ -38,6 +37,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
     private lateinit var id: String
     private var variantId: Long? = null
+    private var variantPosition: Int = 0
     private lateinit var product: Product
 
     private var isFavourite = false
@@ -76,7 +76,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         binding.itemImagesViewPager.visibility = View.VISIBLE
         binding.productInfo.productBottomSheet.visibility = View.VISIBLE
         binding.cardView.visibility = View.VISIBLE
-        if (ConstantsValue.isLogged){
+        if (ConstantsValue.isLogged) {
             binding.productDetailsHeader.rightDrawable.visibility = View.VISIBLE
         }
     }
@@ -124,12 +124,12 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             if (it == true) {
                 Toast.makeText(
                     requireContext(),
-                    r.string.add_to_bag_success,
+                    r.string.add_to_shopping_cart_success,
                     Toast.LENGTH_SHORT
                 )
                     .show()
             } else {
-                Toast.makeText(requireContext(), r.string.add_to_bag_fail, Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), r.string.add_to_shopping_cart_fail, Toast.LENGTH_SHORT)
                     .show()
             }
 
@@ -178,7 +178,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
         binding.productInfo.productAvailability.text = product.status
-        binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)  
+        binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)
         binding.addToCartButton.text =
             if (product.status.equals("active")) "Add to cart" else "not available"
 
@@ -259,9 +259,9 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
             //variantId = product.variants[0].id
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
-                viewModel.addItemsInBag(product)
+                viewModel.addItemsInBag(product, variantPosition)
                 binding.addToCartButton.isEnabled = false
-            } else{
+            } else {
                 //Log.i(TAG, "addToCartButton: $variantId")
                 Toast.makeText(
                     requireContext(),
@@ -279,6 +279,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener  {
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         variantId = product.variants?.get(p2)!!.id
+        variantPosition = p2
         Toast.makeText(
             requireContext(),
             "onItemSelected: $variantId",

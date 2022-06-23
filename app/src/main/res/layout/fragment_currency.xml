@@ -10,6 +10,15 @@
     android:paddingEnd="15sp"
     tools:context=".currency.view.CurrencyFragment">
 
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -26,6 +35,7 @@
         android:id="@+id/arrow_back_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/go_back"
         android:src="@drawable/ic_arrow_left"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"

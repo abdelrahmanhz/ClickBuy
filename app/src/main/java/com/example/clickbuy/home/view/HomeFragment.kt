@@ -14,34 +14,26 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.ScrollView
-import android.widget.TextView
 import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.category.view.SubCateogriesAdapter
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
-import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
-
 import com.example.clickbuy.util.ConnectionLiveData
 import com.google.android.material.appbar.MaterialToolbar
-
 import com.example.clickbuy.search.view.SearchFragment
 import com.example.clickbuy.util.ConstantsValue
-import com.google.android.material.bottomsheet.BottomSheetDialog
-
 import com.smarteist.autoimageslider.SliderView
 
 private const val TAG = "HomeFragment"
@@ -49,9 +41,9 @@ private const val TAG = "HomeFragment"
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
     BrandDetailsInterface {
 
-    private lateinit var toolBarHome: MaterialToolbar
-    private lateinit var enableConnection: TextView
+    private lateinit var myToolbar: MaterialToolbar
 
+    private lateinit var enableConnection: AppCompatButton
     private lateinit var noInternetAnimation: LottieAnimationView
     private lateinit var scrollView: ScrollView
     private lateinit var brandsRecyclerView: RecyclerView
@@ -65,9 +57,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var couponsAdapter: CouponsSliderAdapter
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var brandProgressBar: ProgressBar
-    private lateinit var myToolbar: MaterialToolbar
-    var x: String? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,7 +87,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 scrollView.visibility = View.VISIBLE
-                toolBarHome.visibility = View.VISIBLE
+                myToolbar.visibility = View.VISIBLE
                 viewModel.getAllBrands()
                 viewModel.getAllSalesById()
                 viewModel.getAvailableCoupons()
@@ -106,7 +95,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 scrollView.visibility = View.GONE
-                toolBarHome.visibility = View.GONE
+                myToolbar.visibility = View.GONE
             }
         }
 
@@ -142,7 +131,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                     } else {
                         Toast.makeText(
                             context,
-                            getString(R.string.unauthorized_bag),
+                            getString(R.string.unauthorized_shopping_cart),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -160,10 +149,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     private fun initUI(view: View) {
         brandsRecyclerView = view.findViewById(R.id.brandsRecyclerView)
-
         scrollView = view.findViewById(R.id.scroll_view)
-
-
         myToolbar = view.findViewById(R.id.toolBarHome)
 
         val resId: Int = R.anim.lat
@@ -173,7 +159,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         salesRecyclerView = view.findViewById(R.id.salesRecyclerView)
         noInternetAnimation = view.findViewById(R.id.no_internet_animation)
         enableConnection = view.findViewById(R.id.enable_connection)
-        toolBarHome = view.findViewById(R.id.toolBarHome)
+
 
         adsSlider = view.findViewById(R.id.ads_sliderView)
         adsSlider.autoCycleDirection = SliderView.LAYOUT_DIRECTION_LTR

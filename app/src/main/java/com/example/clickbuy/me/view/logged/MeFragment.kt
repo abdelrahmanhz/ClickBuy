@@ -1,4 +1,4 @@
-package com.example.clickbuy.me.view.loged
+package com.example.clickbuy.me.view.logged
 
 import android.content.Intent
 import android.os.Build
@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
@@ -36,7 +37,7 @@ private const val TAG = "HomeView"
 class MeFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: TextView
+    private lateinit var enableConnection: AppCompatButton
 
     private lateinit var welcomeTextView: TextView
     private lateinit var editProfileRelativeLayout: RelativeLayout

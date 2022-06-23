@@ -33,36 +33,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/paymentTitle">
-
-            <TextView
-                android:id="@+id/titleRadioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="CHOOSE YOUR WAY OF PAYMENT "
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <RadioButton
-                android:id="@+id/payPalRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/paypal" />
-
-            <RadioButton
-                android:id="@+id/cashRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cash" />
-        </RadioGroup>
-
         <TextView
             android:id="@+id/requiredTV"
             android:layout_width="wrap_content"
@@ -73,7 +43,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@id/paymentTitle" />
 
 
         <TextView
@@ -170,7 +140,7 @@
             android:layout_margin="10sp"
             android:layout_marginTop="28dp"
             android:background="@color/red"
-            android:text="@string/placeOrder"
+            android:text="@string/pay"
             android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/totalTV"
             tools:layout_editor_absoluteX="10dp" />

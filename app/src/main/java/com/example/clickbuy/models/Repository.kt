@@ -329,22 +329,21 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun addItemsInBag(product: Product): Response<ShoppingBag> {
+    override suspend fun addItemsInBag(product: Product, variantPosition: Int): Response<ShoppingBag> {
         Log.i(TAG, "addItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
 
         Log.i(TAG, "addItemsInBag before add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
 
 
-        if (ConstantsValue.draftOrderID.trim() == "null") {
-
+        if (ConstantsValue.draftOrderID.trim() == "null" || ConstantsValue.draftOrderID.trim().isNullOrEmpty()) {
 
             Log.i(TAG, "addItemsInBag: create")
             lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
             noteAttributes.add(
                 NoteAttribute(
-                    name = product.variants[0].id.toString(),
-                    value = product.images?.get(0)!!.src
+                    name = product.variants[variantPosition].id.toString(),
+                    value = product.images?.get(variantPosition)!!.src
                 )
             )
             val shoppingBag = ShoppingBag(
@@ -369,7 +368,7 @@ class Repository private constructor(
                 Log.i(TAG, "addItemsInBag: in if")
             } else {
                 for (i in lineItems) {
-                    if (i.variant_id == product.variants?.get(0)!!.id) {
+                    if (i.variant_id == product.variants?.get(variantPosition)!!.id) {
                         i.quantity++
                         isExist = true
                         break
@@ -378,11 +377,11 @@ class Repository private constructor(
             }
 
             if (!isExist) {
-                lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
+                lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(variantPosition)!!.id))
                 noteAttributes.add(
                     NoteAttribute(
-                        name = product.variants[0].id.toString(),
-                        value = product.images?.get(0)!!.src
+                        name = product.variants[variantPosition].id.toString(),
+                        value = product.images?.get(variantPosition)!!.src
                     )
                 )
             }
@@ -433,7 +432,7 @@ class Repository private constructor(
 
     override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
         val response = remoteSource.getAllAddresesForSpecificCustomer(id)
-        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
+        Log.i(TAG, "getAllAddressesForSpecificCustomer: $response")
         return response
     }
 
