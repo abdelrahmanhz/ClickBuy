@@ -84,5 +84,26 @@
     <string name="alert_title">Alert</string>
     <string name="remove">Remove</string>
     <string name="unauthorized_bag">please login first to check your bag</string>
-
+    <string name="add_to_cart">Add to cart</string>
+    <string name="not_available">Not available</string>
+    <string name="want_to_remove">Do you want to remove </string>
+    <string name="from_favourites">" from your favourites?</string>
+    <string name="successfully_removed">Successfully removed!</string>
+    <string name="cancel">Cancel</string>
+    <string name="product_price">PRICE</string>
+    <string name="details">Details</string>
+    <string name="reviews">Reviews</string>
+    <string name="favourites">Favourites</string>
+    <string name="let_s_click_to_buy">LET\'S CLICK TO BUY</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_up_right_now">SIGN UP RIGHT NOW</string>
+    <string name="password_confirmation">Password Confirmation</string>
+    <string name="you_already_have_an_account">You already have an account?</string>
+    <string name="no_such_user">No such user</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="entered_wrong_password">Entered a wrong password</string>
+    <string name="logged_in_successfully">Logged in successfully</string>
+    <string name="available">Available</string>
 </resources>
