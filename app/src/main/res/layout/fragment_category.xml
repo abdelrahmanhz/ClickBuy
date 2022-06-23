@@ -22,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
+        android:visibility="gone"
         android:queryHint="@string/search_for"
         android:queryBackground="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +31,7 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +41,24 @@
         app:tabIndicatorAnimationMode="elastic"
         app:tabPaddingEnd="10dp"
         tools:ignore="SpeakableTextPresentCheck" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/no_internet_animation_category"
+        android:layout_width="match_parent"
+        android:layout_height="450sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet"
+        tools:ignore="ImageContrastCheck" />
     <include
+        android:id="@+id/shimmer_category"
         layout="@layout/shimmer_animation_layout_category"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -55,5 +71,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:spanCount="2"
-        tools:listitem="@layout/category_custom_row" />
+       />
+    <TextView
+        android:id="@+id/enable_connection_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_connection"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/no_internet_animation_category" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

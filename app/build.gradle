@@ -144,6 +144,7 @@ dependencies {
     // stripe payment method
     implementation 'com.stripe:stripe-android:17.2.0'
     implementation 'com.android.volley:volley:1.1.0'
+
     // AndroidX Test - JVM testing
     testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
     testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
@@ -162,4 +163,14 @@ dependencies {
 ////
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    //Animated GIF
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
+    //lottie
+//    def lottieVersion = "5.0.2"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    // stripe payment method
+    implementation 'com.stripe:stripe-android:17.2.0'
+    implementation 'com.android.volley:volley:1.1.0'
 }
