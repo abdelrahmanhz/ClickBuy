@@ -30,6 +30,7 @@ import com.example.clickbuy.ordershisotry.view.OrdersFragment
 import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.isRTL
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.connectInternet
 import de.hdodenhof.circleimageview.CircleImageView
 
 private const val TAG = "HomeView"
@@ -103,11 +104,12 @@ class MeFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
             } else {
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            }*/
+            connectInternet(requireContext())
         }
 
         editProfileRelativeLayout.setOnClickListener {

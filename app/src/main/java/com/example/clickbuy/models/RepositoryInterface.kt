@@ -16,16 +16,6 @@ interface RepositoryInterface {
 
     suspend fun getSubCategories(): Response<Products>
     suspend fun getProductById(productId: String): Response<ProductParent>
-    //suspend fun getAllBrandsDetais(id : String): Response<Products>
-    //suspend fun getSalesId(): Response<CustomCollections>
-
-    //suspend fun getAllBrandsDetais(id: String): Response<Products>
-
-
-    //suspend fun getAllBrandsDetais(id : String): Response<Products>
-    //suspend fun getSalesId(): Response<CustomCollections>
-
-    //suspend fun getAllBrandsDetais(id: String): Response<Products>
     suspend fun getAllProductsInCollectionByID(id: String): Response<Products>
     suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
     suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
@@ -56,17 +46,18 @@ interface RepositoryInterface {
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
+    suspend fun getAllPriceRules(): Response<PriceRules>
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
-    suspend fun addItemsInBag(product: Product, variantPosition : Int): Response<ShoppingBag>
+    suspend fun addItemsInBag(product: Product, variantPosition: Int): Response<ShoppingBag>
     suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     suspend fun setupConstantsValue()
     suspend fun deleteSavedSettings()
 
-    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
+    suspend fun getAllAddressesForSpecificCustomer(id: String): Response<Addresses>
     suspend fun postOrders(order: OrderPojo): Response<OrderPojo>
 
     // Favourites

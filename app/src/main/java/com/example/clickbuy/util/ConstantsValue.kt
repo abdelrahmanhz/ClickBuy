@@ -5,10 +5,11 @@ class ConstantsValue {
         var isLogged = false
         var from = "EGP"
         var to = "EGP"
-        var discountAmount = "-10.0"
+        var discountAmount = "0.0"
         var currencyValue: Double = 1.0
         var draftOrderID = ""
         var email = ""
         var userID = ""
+
     }
 }

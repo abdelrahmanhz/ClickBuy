@@ -38,6 +38,10 @@ interface RetrofitService {
 
     //Get all Coupons
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("price_rules.json")
+    suspend fun getAllPriceRules(): Response<PriceRules>
+
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("price_rules/1089622311051/discount_codes.json")
     suspend fun getAvailableCoupons(): Response<Coupons>
 

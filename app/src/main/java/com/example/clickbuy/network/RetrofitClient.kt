@@ -203,7 +203,7 @@ class RetrofitClient : RemoteSource {
 
     override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
         val response = retrofitHelper.getAllAddressesForSpecificCustomer(id)
-        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
+        Log.i(TAG, "getAllAddressesForSpecificCustomer: $response")
         return response
     }
 
@@ -234,13 +234,20 @@ class RetrofitClient : RemoteSource {
 
     override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
         val response = retrofitHelper.addFavourite(favorite)
-        Log.v(TAG, "error body: ${response.errorBody().toString()}");
+        Log.v(TAG, "error body: ${response.errorBody().toString()}")
         Log.i(TAG, "addFavourite: ${response.code()} $response")
         return response
     }
 
     override suspend fun removeFavourite(id: String): Response<Any> {
         return retrofitHelper.removeFavourite(id)
+    }
+
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
+        val response = retrofitHelper.getAllPriceRules()
+        Log.i(TAG, "getAllPriceRules: code----------------> " + response.code())
+        Log.i(TAG, "getAllPriceRules: size----------------> " + response.body()?.price_rules?.size)
+        return response
     }
 
 }

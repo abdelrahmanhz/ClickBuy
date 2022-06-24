@@ -48,6 +48,7 @@ interface RemoteSource {
 
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
+    suspend fun getAllPriceRules(): Response<PriceRules>
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
@@ -59,5 +60,7 @@ interface RemoteSource {
 
     suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
     suspend fun postOrders( order: OrderPojo): Response<OrderPojo>
+
+
 
 }

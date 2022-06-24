@@ -25,6 +25,7 @@ import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.ConnectionLiveData
+import com.example.clickbuy.util.connectInternet
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -90,11 +91,12 @@ class AddressFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-            } else {
-                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+             } else {
+                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+             }*/
+            connectInternet(requireContext())
         }
 
         return view

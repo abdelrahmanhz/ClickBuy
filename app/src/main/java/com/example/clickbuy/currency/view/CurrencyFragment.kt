@@ -22,7 +22,9 @@ import com.example.clickbuy.currency.viewmodel.CurrencyViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.mainscreen.view.MainActivity
+import com.example.clickbuy.models.Currency
 import com.example.clickbuy.util.ConnectionLiveData
+import com.example.clickbuy.util.connectInternet
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
@@ -82,11 +84,12 @@ class CurrencyFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-            } else {
-                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+             } else {
+                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+             }*/
+            connectInternet(requireContext())
         }
 
         return view
@@ -125,6 +128,7 @@ class CurrencyFragment : Fragment() {
             if (it.isNullOrEmpty()) {
                 showSnackBar()
             } else {
+                (it as MutableList).add(0, Currency("EGP", true, ""))
                 currencyAdapter.setList(it)
                 shimmerFrameLayout.stopShimmerAnimation()
                 shimmerFrameLayout.visibility = View.GONE
@@ -149,25 +153,10 @@ class CurrencyFragment : Fragment() {
         snackBar.show()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.i(TAG, "onViewCreated: ")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         Log.i(TAG, "onDestroy: ")
         (requireActivity() as MainActivity).updateCurrency()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i(TAG, "onDestroyView: ")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.i(TAG, "onDetach: ")
     }
 
 

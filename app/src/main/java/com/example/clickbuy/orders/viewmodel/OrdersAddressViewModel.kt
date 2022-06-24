@@ -1,6 +1,5 @@
 package com.example.clickbuy.orders.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +21,7 @@ class OrdersAddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
         ConstantsValue.userID
         viewModelScope.launch {
             var addressess: Addresses? = null
-            val brandResponse = _iRepo.getAllAddresesForSpecificCustomer(id)
+            val brandResponse = _iRepo.getAllAddressesForSpecificCustomer(id)
             if (brandResponse.code() == 200) {
                 addressess = brandResponse.body()!!
             }

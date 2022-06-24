@@ -21,12 +21,12 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     private var _saleId = MutableLiveData<Products>()
     var saleId: LiveData<Products> = _saleId
-    private var _order = MutableLiveData<Orders>()
-    var order: LiveData<Orders> = _order
 
     private var _coupons = MutableLiveData<List<DiscountCode>>()
     var coupons: LiveData<List<DiscountCode>> = _coupons
 
+    private var _priceRules = MutableLiveData<List<PriceRule>>()
+    var priceRules: LiveData<List<PriceRule>> = _priceRules
 
     fun getAllBrands() {
         viewModelScope.launch {
@@ -44,6 +44,21 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
     }
 
+    fun getAllSalesById() {
+        viewModelScope.launch {
+            var brands: Products? = null
+            val brandResponse = _iRepo.getAllProducts("273053778059", "", "")
+            if (brandResponse.code() == 200) {
+                brands = brandResponse.body()!!
+            }
+            withContext(Dispatchers.Main) {
+                _saleId.postValue(brands!!)
+                Log.i(TAG, "getAllSalesById View Model--------------------->: $brands")
+                brands.products
+            }
+        }
+    }
+
     fun getAvailableCoupons() {
         viewModelScope.launch {
             val response = _iRepo.getAvailableCoupons()
@@ -57,17 +72,15 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-    fun getAllSalesById() {
+    fun getAllPriceRules() {
         viewModelScope.launch {
-            var brands: Products? = null
-            val brandResponse = _iRepo.getAllProducts("273053778059","","")
-            if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
-            }
+            Log.i(com.example.clickbuy.mainscreen.viewmodel.TAG, "getAllPriceRules: ")
+            val response = _iRepo.getAllPriceRules()
             withContext(Dispatchers.Main) {
-                _saleId.postValue(brands!!)
-                Log.i(TAG, "getAllSalesById View Model--------------------->: $brands")
-                brands.products
+                Log.i(TAG, "getAvailableCoupons: ${response.code()}")
+                Log.i(TAG, "getAvailableCoupons: ${response.body()}")
+                if (response.code() == 200 && !response.body()?.price_rules.isNullOrEmpty())
+                    _priceRules.postValue(response.body()?.price_rules)
             }
         }
     }

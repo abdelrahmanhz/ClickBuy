@@ -28,8 +28,8 @@
     <string name="no_currency_found">No currency Founded</string>
     <string name="splash_desc">Buy what you want, Just Click</string>
     <string name="no_data_error">There is no products in this category</string>
-    <string name="off"> OFF </string>
-    <string name="discount_code"> Use this code </string>
+    <string name="off"> <!--OFF--> Get a discount</string>
+    <string name="use_this_code"> Use this code </string>
     <string name="no_internet">No internet connection</string>
     <string name="text_copied">text copy success</string>
     <string name="enable_connection">Enable Connection</string>
@@ -64,8 +64,8 @@
     <string name="empty_shopping_cart">Your shopping cart is empty</string>
     <string name="empty_address">Add address</string>
     <string name="next">Next</string>
-    <string name="stripe">Stripe</string>
-    <string name="cash">Cash</string>
+    <string name="pay_online">pay Online</string>
+    <string name="pay_cash">pay Cash</string>
     <string name="placeOrder">Place Order</string>
     <string name="all">All</string>
     <string name="women">Women</string>
@@ -90,5 +90,7 @@
     <string name="add_address_error">Error in add address, tray later</string>
     <string name="all_available_address">All available places</string>
     <string name="no_address_exist">no addresses exist</string>
+    <string name="copy_success">Copy code successfully</string>
+    <string name="item_image">Item Image</string>
 
 </resources>

@@ -6,38 +6,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.home.view.HomeFragment
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.viewmodel.OrdersAddressViewModel
 import com.example.clickbuy.orders.viewmodel.OrdersAddressViewModelFactory
-import com.example.clickbuy.productdetails.view.ProductDetailsFragment
-
-import androidx.core.content.res.ResourcesCompat
-
-import androidx.core.content.ContextCompat
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
 import com.example.clickbuy.payment.paymentmethod.PaymentMethodFragment
 import com.example.clickbuy.payment.view.AddressInterface
-import com.example.clickbuy.payment.view.PaymentFragment
 import com.example.clickbuy.util.ConstantsValue
 
-import com.shuhart.stepview.StepView
 
+private const val TAG = "OrderAddressFragment"
 
+class OrderAddressFragment : Fragment(), AddressInterface {
 
-
-private const val TAG = "OrderAddresFragment"
-
-class OrderAddresFragment : Fragment() , AddressInterface {
-
-    private lateinit var addressOrderAdapter : AddressOrderAdapter
+    private lateinit var addressOrderAdapter: AddressOrderAdapter
     private lateinit var orderFactory: OrdersAddressViewModelFactory
     private lateinit var addressOrderRecyclerView: RecyclerView
     private lateinit var viewModel: OrdersAddressViewModel
@@ -80,7 +68,7 @@ class OrderAddresFragment : Fragment() , AddressInterface {
     private fun setUpAddressOrderRecyclerView() {
         val layoutManager = LinearLayoutManager(HomeFragment().context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
-        addressOrderAdapter = AddressOrderAdapter(requireContext(),this)
+        addressOrderAdapter = AddressOrderAdapter(requireContext(), this)
         addressOrderRecyclerView.layoutManager = layoutManager
         addressOrderRecyclerView.adapter = addressOrderAdapter
     }

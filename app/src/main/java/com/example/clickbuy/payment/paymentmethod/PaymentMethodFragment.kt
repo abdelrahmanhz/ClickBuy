@@ -42,29 +42,12 @@ class PaymentMethodFragment : Fragment() {
             backButton.setImageResource(R.drawable.ic_arrow_right)
 
         stripeRadioButton.setOnClickListener {
-            Log.i(TAG, "onCreateView: go to next page ")
-            Log.i(TAG, "onCreateView: stripeRadioButton")
             replaceFragment(false)
         }
 
         cashRadioButton.setOnClickListener {
-            Log.i(TAG, "onCreateView: go to next page ")
-            Log.i(TAG, "onCreateView: cashRadioButton")
             replaceFragment(true)
         }
-/*        R.id.stripe_radio_button -> {
-                    stripeRadioButton.isChecked = true
-                    Log.i(TAG, "onCreateView: go to next page ")
-                    Log.i(TAG, "onCreateView: stripeRadioButton")
-                }
-                R.id.cash_radio_button -> {
-                    cashRadioButton.isChecked = true
-                    Log.i(TAG, "onCreateView: go to next page ")
-                    Log.i(TAG, "onCreateView: cashRadioButton")
-                }
-            */
-
-
         return view
     }
 
@@ -77,7 +60,7 @@ class PaymentMethodFragment : Fragment() {
 
     fun setAddress(address: Address) {
         this.address = address
-        Log.i(TAG, "address chossen: -------> $address")
+        Log.i(TAG, "address chosen: -------> $address")
     }
 
 }

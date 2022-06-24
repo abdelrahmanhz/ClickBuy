@@ -9,7 +9,6 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
-
 private const val TAG = "Repository"
 
 class Repository private constructor(
@@ -22,7 +21,7 @@ class Repository private constructor(
 
 
     private var sharedPrefs: SharedPreferences? = null
-    var editor: SharedPreferences.Editor? = null
+    private var editor: SharedPreferences.Editor? = null
 
     companion object {
         private var instance: Repository? = null
@@ -43,59 +42,18 @@ class Repository private constructor(
 
     override suspend fun setupConstantsValue() {
 
-        Log.i(
-            TAG,
-            "setupConstantsValue before :draftOrderID--------> ${ConstantsValue.draftOrderID}"
-        )
-
-        Log.i(
-            TAG,
-            "setupConstantsValue: sharedPrefs value----------> " + sharedPrefs?.getString(
-                "CART_ID",
-                ""
-            )!!
-        )
-
         ConstantsValue.isLogged = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
         ConstantsValue.userID = sharedPrefs?.getString("USER_ID", "")!!
         ConstantsValue.email = sharedPrefs?.getString("USER_EMAIL", "")!!
         ConstantsValue.draftOrderID = sharedPrefs?.getString("CART_ID", "empty")!!
+        ConstantsValue.to = sharedPrefs?.getString("CURRENCY", "EGP")!!
 
-        Log.i(TAG, "setupConstantsValue:isLogged------------> ${ConstantsValue.isLogged}")
-        Log.i(TAG, "setupConstantsValue:userID--------------> ${ConstantsValue.userID}")
-        Log.i(TAG, "setupConstantsValue:email---------------> ${ConstantsValue.email}")
-        Log.i(
-            TAG,
-            "setupConstantsValue after :draftOrderID--------> ${ConstantsValue.draftOrderID}"
-        )
-
-        Log.i(
-            TAG,
-            "setupConstantsValue:isNullOrEmpty-----------> " + ConstantsValue.draftOrderID.isNullOrEmpty()
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:isEmpty-----------> " + ConstantsValue.draftOrderID.isEmpty()
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:isNotEmpty-----------> " + ConstantsValue.draftOrderID.isNotEmpty()
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:isBlank-----------> " + ConstantsValue.draftOrderID.isBlank()
-        )
-        Log.i(
-            TAG,
-            "setupConstantsValue:isNullOrBlank-----------> " + ConstantsValue.draftOrderID.isNullOrBlank()
-        )
-        Log.i(TAG, "setupConstantsValue:value-----------> " + ConstantsValue.draftOrderID)
+        Log.i(TAG, "setupConstantsValue: to-------------------> " + ConstantsValue.to)
 
         if (ConstantsValue.isLogged && ConstantsValue.draftOrderID != "null") {
             Log.i(TAG, "setupConstantsValue: in if to getAllItems From splash")
             getAllItemsInBag()
         }
-
     }
 
     override suspend fun deleteSavedSettings() {
@@ -107,27 +65,10 @@ class Repository private constructor(
         editor?.remove("USER_ID")
         editor?.remove("USER_EMAIL")
         editor?.remove("CART_ID")
+        editor?.remove("CURRENCY")
         editor?.apply()
-
-        Log.i(TAG, "deleteSavedSettings:isLogged------------> ${ConstantsValue.isLogged}")
-        Log.i(TAG, "deleteSavedSettings:userID--------------> ${ConstantsValue.userID}")
-        Log.i(TAG, "deleteSavedSettings:email---------------> ${ConstantsValue.email}")
-        Log.i(TAG, "deleteSavedSettings:draftOrderID--------> ${ConstantsValue.draftOrderID}")
-
-        val x = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
-        val y = sharedPrefs?.getString("USER_ID", "")!!
-        val z = sharedPrefs?.getString("USER_EMAIL", "")!!
-        val t = sharedPrefs?.getString("CART_ID", "")!!
-
-        Log.i(TAG, "deleteSavedSettings: x---------------> $x")
-        Log.i(TAG, "deleteSavedSettings: y---------------> $y")
-        Log.i(TAG, "deleteSavedSettings: z---------------> $z")
-        Log.i(TAG, "deleteSavedSettings: t---------------> $t")
         lineItems = mutableListOf()
         noteAttributes = mutableListOf()
-
-        Log.i(TAG, "deleteSavedSettings: lineItems.size()-------------->  " + lineItems.size)
-        Log.i(TAG, "deleteSavedSettings: noteAttributes.size()--------->  " + noteAttributes.size)
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
@@ -266,6 +207,8 @@ class Repository private constructor(
     override suspend fun getQualifiedValueCurrency(
         to: String
     ): Response<CurrencyConverter> {
+        editor?.putString("CURRENCY", ConstantsValue.to)
+        editor?.apply()
         val response = remoteSource.getQualifiedValueCurrency(to)
         Log.i(TAG, "getQualifiedValueCurrency: " + response.code())
         return response
@@ -329,14 +272,19 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun addItemsInBag(product: Product, variantPosition: Int): Response<ShoppingBag> {
+    override suspend fun addItemsInBag(
+        product: Product,
+        variantPosition: Int
+    ): Response<ShoppingBag> {
         Log.i(TAG, "addItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
 
         Log.i(TAG, "addItemsInBag before add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
 
 
-        if (ConstantsValue.draftOrderID.trim() == "null" || ConstantsValue.draftOrderID.trim().isNullOrEmpty()) {
+        if (ConstantsValue.draftOrderID.trim() == "null" ||
+            ConstantsValue.draftOrderID.trim().isEmpty()
+        ) {
 
             Log.i(TAG, "addItemsInBag: create")
             lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
@@ -377,7 +325,12 @@ class Repository private constructor(
             }
 
             if (!isExist) {
-                lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(variantPosition)!!.id))
+                lineItems.add(
+                    BagItem(
+                        quantity = 1,
+                        variant_id = product.variants?.get(variantPosition)!!.id
+                    )
+                )
                 noteAttributes.add(
                     NoteAttribute(
                         name = product.variants[variantPosition].id.toString(),
@@ -430,7 +383,7 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
+    override suspend fun getAllAddressesForSpecificCustomer(id: String): Response<Addresses> {
         val response = remoteSource.getAllAddresesForSpecificCustomer(id)
         Log.i(TAG, "getAllAddressesForSpecificCustomer: $response")
         return response
@@ -464,5 +417,12 @@ class Repository private constructor(
 
     override suspend fun deleteFavourite(favId: String) {
         remoteSource.removeFavourite(favId)
+    }
+
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
+        val response = remoteSource.getAllPriceRules()
+        Log.i(TAG, "getAllPriceRules: code-----------------> " + response.code())
+        Log.i(TAG, "getAllPriceRules: size-----------------> " + response.body()?.price_rules?.size)
+        return response
     }
 }

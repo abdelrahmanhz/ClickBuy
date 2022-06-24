@@ -11,11 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ClickBuy">
-        <activity android:name=".orders.view.AddressOrderActivity" />
+
+        <activity
+            android:name=".orders.view.AddressOrderActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".splashscreen.view.SplashScreenActivity"
             android:exported="true"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

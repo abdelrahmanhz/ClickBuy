@@ -29,7 +29,7 @@
     <string name="splash_desc">اشتر ما تريد, فقط اضغط</string>
     <string name="no_data_error">لا يوجد منتجات في هذا القسم</string>
     <string name="off"> خصم </string>
-    <string name="discount_code"> استخدم هذا الكود </string>
+    <string name="use_this_code"> استخدم هذا الكود </string>
     <string name="no_internet">لا يوجد اتصال بالانترنت</string>
     <string name="text_copied">تم نسخ النص</string>
     <string name="enable_connection">اضغط للاتصال يالنت</string>
@@ -64,8 +64,8 @@
     <string name="empty_shopping_cart">حقيبة التسوق الخاصة بك فارغة</string>
     <string name="empty_address">أضف عنوان</string>
     <string name="next">التالي</string>
-    <string name="stripe">Stripe</string>
-    <string name="cash">الدفع عند الاستلام</string>
+    <string name="pay_online">الدفع عبر الإنترنت </string>
+    <string name="pay_cash">الدفع عند الاستلام</string>
     <string name="placeOrder">احجز الطلب</string>
     <string name="all">كل المنتجات</string>
     <string name="women">النساء</string>
@@ -89,4 +89,7 @@
     <string name="get_address_error">ادخلت اسم مكان غير صحيح</string>
     <string name="add_address_error">فشل إضافة العنوان, الرجاء المحاولة لاحقا</string>
     <string name="all_available_address">كل الاماكن المتاحة</string>
+    <string name="no_address_exist">لا يوجد عناوين متاحة</string>
+    <string name="copy_success">تم نسخ الكود بنجاح</string>
+    <string name="item_image">صورة المنتج</string>
 </resources>

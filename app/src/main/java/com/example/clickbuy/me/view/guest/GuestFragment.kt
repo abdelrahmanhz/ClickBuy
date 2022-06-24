@@ -14,6 +14,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.authentication.view.AuthenticationActivity
 import com.example.clickbuy.util.ConnectionLiveData
+import com.example.clickbuy.util.connectInternet
 
 
 class GuestFragment : Fragment() {
@@ -49,11 +50,12 @@ class GuestFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
             } else {
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            }*/
+            connectInternet(requireContext())
         }
 
         loginButton.setOnClickListener {

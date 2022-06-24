@@ -12,18 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp">
 
-        <ImageView
-            android:id="@+id/arrow_back_imageView_payment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/paymentTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
             android:text="@string/payment"
             android:textColor="@color/black"
             android:textSize="25sp"
@@ -32,6 +25,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/arrow_back_imageView_payment"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/paymentTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/paymentTitle" />
 
         <TextView
             android:id="@+id/requiredTV"
@@ -42,6 +44,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/paymentTitle" />
 
@@ -51,10 +54,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:text="100"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/requiredTV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/requiredTV"
@@ -65,9 +68,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30sp"
+            android:autofillHints="text"
             android:background="@drawable/background_view_border"
             android:hint="@string/enter_coupon"
+            android:inputType="text"
             android:padding="15sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/requiredTV" />
 
@@ -78,6 +84,7 @@
             android:background="@color/red"
             android:text="@string/validate"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/discount_code_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/discount_code_editText"
@@ -92,6 +99,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discount_code_editText" />
 
@@ -103,6 +111,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/discountTV"
             app:layout_constraintEnd_toEndOf="@+id/required_amount_textView"
             app:layout_constraintStart_toStartOf="@+id/required_amount_textView"
@@ -117,6 +126,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discountTV" />
 
@@ -128,6 +138,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/totalTV"
             app:layout_constraintEnd_toEndOf="@+id/required_amount_textView"
             app:layout_constraintStart_toStartOf="@+id/required_amount_textView"
@@ -142,9 +153,19 @@
             android:background="@color/red"
             android:text="@string/pay"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/totalTV"
             tools:layout_editor_absoluteX="10dp" />
 
+        <include
+            layout="@layout/no_connection_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/paymentTitle" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

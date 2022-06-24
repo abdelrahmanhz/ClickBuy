@@ -3,11 +3,7 @@ package com.example.clickbuy.bag.view
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -28,12 +25,11 @@ import com.example.clickbuy.bag.viewmodel.BagViewModelFactory
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.view.AddressOrderActivity
-import com.example.clickbuy.util.ConnectionLiveData
-import com.example.clickbuy.util.ConstantsValue
-import com.example.clickbuy.util.calculatePrice
-import com.example.clickbuy.util.isRTL
+import com.example.clickbuy.util.*
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+
 
 private const val TAG = "BagFragment"
 
@@ -57,10 +53,16 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
     private lateinit var progressBar: ProgressBar
     private lateinit var bagObject: ShoppingBag
 
+    override fun onStart() {
+        super.onStart()
+        Log.i(TAG, "onStart: -----------------------------> ")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.i(TAG, "onCreateView: -----------------------------> ")
         val view = inflater.inflate(R.layout.fragment_bag, container, false)
 
         initUI(view)
@@ -100,11 +102,12 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
             } else {
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            }*/
+            connectInternet(requireContext())
         }
         return view
     }
@@ -191,18 +194,30 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
             ) {
+
+                RecyclerViewSwipeDecorator.Builder(
+                    c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
+                ).addBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.red
+                    )
+                ).addActionIcon(R.drawable.ic_delete).create().decorate()
                 super.onChildDraw(
                     c, recyclerView, viewHolder, dX,
                     dY, actionState, isCurrentlyActive
                 )
-                val background = ColorDrawable(Color.RED)
-                background.setBounds(
-                    viewHolder.itemView.right,
-                    viewHolder.itemView.top,
-                    0,
-                    viewHolder.itemView.bottom
-                )
-                background.draw(c)
+
+                /* val background = ColorDrawable(Color.RED)
+                 background.setBounds(
+                     viewHolder.itemView.right,
+                     viewHolder.itemView.top,
+                     0,
+                     viewHolder.itemView.bottom
+                 )
+                 background.draw(c)*/
+                //        background.draw()
+
 
                 Log.i(TAG, "onChildDraw: ")
             }
@@ -271,8 +286,13 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         updateItemsInBag()
     }
 
-    override fun onResume() {
-        super.onResume()
-        shimmerFrameLayout.startShimmerAnimation()
+    /*  override fun onResume() {
+          super.onResume()
+          shimmerFrameLayout.startShimmerAnimation()
+      }*/
+    override fun onStop() {
+        super.onStop()
+        Log.i(TAG, "onStop: -----------------------------> ")
+        shimmerFrameLayout.stopShimmerAnimation()
     }
 }
