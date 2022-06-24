@@ -2,7 +2,10 @@ package com.example.clickbuy.productdetails.view
 
 import android.R
 import android.app.AlertDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,8 +23,10 @@ import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
 import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
+import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.calculatePrice
+import com.example.clickbuy.util.isRTL
 
 const val TAG = "ProductDetailsFragment"
 
@@ -47,32 +52,62 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setProgressBarVisibility(true)
+        setupBackButton()
         hideUIComponents()
         setUpImagesPager()
         setUpReviews()
         setUpViewModel()
+        checkInternetConnection()
         observeAddedToBag()
+    }
 
+    private fun setupBackButton() {
+        binding.productDetailsHeader.backBtn.setImageResource(if (isRTL()) r.drawable.ic_back_icon_rtl else r.drawable.ic_back_icon)
+    }
+
+    private fun checkInternetConnection() {
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) {
+                binding.productDetailsNoInternetAnimation.visibility = View.GONE
+                binding.productDetailsEnableConnection.visibility = View.GONE
+                showUIComponent()
+                viewModel.getProductById(id)
+                viewModel.isFavourite(id)
+            } else {
+                binding.productDetailsNoInternetAnimation.visibility = View.VISIBLE
+                binding.productDetailsEnableConnection.visibility = View.VISIBLE
+                hideUIComponents()
+            }
+        }
+
+        binding.productDetailsEnableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+        }
     }
 
     private fun hideUIComponents() {
-        binding.progressBar.visibility = View.VISIBLE
         binding.itemImagesViewPager.visibility = View.GONE
         binding.productInfo.productBottomSheet.visibility = View.GONE
         binding.cardView.visibility = View.GONE
         binding.productDetailsHeader.rightDrawable.visibility = View.GONE
     }
 
+    private fun setProgressBarVisibility(isVisible: Boolean) {
+        binding.progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
     private fun showUIComponent() {
-        binding.progressBar.visibility = View.GONE
         binding.itemImagesViewPager.visibility = View.VISIBLE
         binding.productInfo.productBottomSheet.visibility = View.VISIBLE
         binding.cardView.visibility = View.VISIBLE
@@ -91,9 +126,6 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel = ViewModelProvider(this, modelFactory)
             .get(ProductDetailsViewModel::class.java)
 
-        viewModel.getProductById(id)
-        viewModel.isFavourite(id)
-
         viewModel.product.observe(requireActivity()) {
             if (it != null) {
                 Log.i("TAG", "product: $it")
@@ -107,6 +139,7 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                         .setImageResource(if (isFavourite) (r.drawable.ic_favorite) else (r.drawable.ic_favorite_border))
                 }
                 displayProduct(it)
+                setProgressBarVisibility(false)
                 showUIComponent()
             } else {
                 binding.progressBar.visibility = View.GONE
@@ -129,7 +162,11 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 )
                     .show()
             } else {
-                Toast.makeText(requireContext(), r.string.add_to_shopping_cart_fail, Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext(),
+                    r.string.add_to_shopping_cart_fail,
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
 
@@ -177,10 +214,14 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         binding.productInfo.productTitle.text = product.title
         binding.productInfo.productDescTextView.text = product.body_html
-        binding.productInfo.productAvailability.text = product.status
+        //  binding.productInfo.productAvailability.text = product.status
         binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)
+        binding.productInfo.productAvailability.text =
+            if (product.status.equals("active")) getString(r.string.available) else getString(r.string.not_available)
+        //  binding.priceNumTextView.text = calculatePrice(product.variants?.get(0)?.price!!)
+
         binding.addToCartButton.text =
-            if (product.status.equals("active")) "Add to cart" else "not available"
+            if (product.status.equals("active")) getString(r.string.add_to_cart) else getString(r.string.not_available)
 
         // variant id
         product.variants[0].id.also { variantId = it }
@@ -197,20 +238,20 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         // details
         binding.productInfo.detailsButton.setOnClickListener {
             binding.productInfo.productDescTextView.maxLines =
-                if (binding.productInfo.productDescTextView.maxLines == 3) 8 else 3
+                if (binding.productInfo.productDescTextView.maxLines == 3) 10 else 3
         }
 
         // favorite
         binding.productDetailsHeader.rightDrawable.setOnClickListener {
             Log.i(TAG, "displayProduct: isFavorite----->  $isFavourite")
             if (!isFavourite) {
-                Log.i(TAG, "displayProduct: + variant_id = ${product.variants?.get(0)?.id}")
+                Log.i(TAG, "displayProduct: + variant_id = ${product.variants[0].id}")
                 val fav = FavouriteParent(
                     Favourite(
                         note = "fav",
                         line_items = listOf(
                             FavouriteLineItem(
-                                variant_id = product.variants?.get(0)?.id,
+                                variant_id = product.variants[0].id,
                                 quantity = 1
                             )
                         ),
@@ -231,19 +272,19 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 dialogBuilder.apply {
 
                     setTitle(resources.getString(r.string.alert_title))
-                    setMessage("Do you want to remove \"${product.title}\" from your favourites?")
+                    setMessage(getString(r.string.want_to_remove) + product.title + getString(r.string.from_favourites))
 
                     setPositiveButton(resources.getString(r.string.remove)) { _, _ ->
                         Toast.makeText(
                             context,
-                            "Successfully removed!",
+                            getString(r.string.successfully_removed),
                             Toast.LENGTH_LONG
                         ).show()
                         viewModel.deleteFavourite(favId)
                         isFavourite = false
                         binding.productDetailsHeader.rightDrawable.setImageResource(r.drawable.ic_favorite_border)
                     }
-                    setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                    setNegativeButton(getString(r.string.cancel)) { dialog, _ -> dialog.dismiss() }
                     show()
                 }
             }
@@ -256,13 +297,12 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         // add to cart
         binding.addToCartButton.setOnClickListener {
-            //variantId = product.variants[0].id
             Log.i(TAG, "addToCartButton: ")
             if (ConstantsValue.isLogged) {
                 viewModel.addItemsInBag(product, variantPosition)
                 binding.addToCartButton.isEnabled = false
             } else {
-                //Log.i(TAG, "addToCartButton: $variantId")
+
                 Toast.makeText(
                     requireContext(),
                     resources.getString(r.string.guest),
@@ -280,11 +320,12 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         variantId = product.variants?.get(p2)!!.id
         variantPosition = p2
-        Toast.makeText(
-            requireContext(),
-            "onItemSelected: $variantId",
-            Toast.LENGTH_SHORT
-        ).show()
+        /*   Toast.makeText(
+               requireContext(),
+               "onItemSelected: $variantId",
+               Toast.LENGTH_SHORT
+           ).show()*/
+        Log.i(TAG, "onItemSelected: -------> $variantId")
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {

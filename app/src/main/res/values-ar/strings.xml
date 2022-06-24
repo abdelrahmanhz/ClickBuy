@@ -92,4 +92,27 @@
     <string name="no_address_exist">لا يوجد عناوين متاحة</string>
     <string name="copy_success">تم نسخ الكود بنجاح</string>
     <string name="item_image">صورة المنتج</string>
+    <string name="unauthorized_bag">يرجي تسجيل الدخول لكي تتمكن من فحص حقيبتك</string>
+    <string name="add_to_cart">أضف إلى العربة</string>
+    <string name="not_available">غير متوفر</string>
+    <string name="want_to_remove"> هل تريد إزالة  </string>
+    <string name="from_favourites">   من مفضلاتك</string>
+    <string name="successfully_removed">تمت الإزالة بنجاح!</string>
+    <string name="cancel">إلغاء</string>
+    <string name="product_price">السعر</string>
+    <string name="details">التفاصيل</string>
+    <string name="reviews">المراجعات</string>
+    <string name="favourites">المفضلة</string>
+    <string name="let_s_click_to_buy">دعنا نضغط للشراء</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="no_account">ليس لديك حساب؟</string>
+    <string name="sign_up">سجل</string>
+    <string name="sign_up_right_now">سجل الآن</string>
+    <string name="password_confirmation">تأكيد كلمة المرور</string>
+    <string name="you_already_have_an_account">لديك حساب بالفعل؟</string>
+    <string name="no_such_user">لا يوجد مثل هذا المستخدم</string>
+    <string name="something_went_wrong">هناك خطأ ما</string>
+    <string name="entered_wrong_password">أدخلت كلمة مرور خاطئة</string>
+    <string name="logged_in_successfully">تم تسجيل الدخول بنجاح</string>
+    <string name="available">متاح</string>
 </resources>
