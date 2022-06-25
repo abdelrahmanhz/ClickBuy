@@ -85,14 +85,15 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                 enableConnection.visibility = View.GONE
                 tabLayout.visibility = View.VISIBLE
                 categorySearchView.visibility = View.VISIBLE
+                myToolbar.visibility = View.VISIBLE
                 getAllProducts()
 
             } else {
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 tabLayout.visibility = View.GONE
+                myToolbar.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
-
             }
 
             shimmerFrameLayout.visibility = View.GONE

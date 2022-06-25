@@ -96,13 +96,13 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="not_available">Not available</string>
     <string name="want_to_remove">Do you want to remove </string>
-    <string name="from_favourites">" from your favourites?</string>
+    <string name="from_favourites">" from your wishlist?</string>
     <string name="successfully_removed">Successfully removed!</string>
     <string name="cancel">Cancel</string>
     <string name="product_price">PRICE</string>
-    <string name="details">Details</string>
+    <string name="details">Description</string>
     <string name="reviews">Reviews</string>
-    <string name="favourites">Favourites</string>
+    <string name="favourites">Wishlist</string>
     <string name="let_s_click_to_buy">LET\'S CLICK TO BUY</string>
     <string name="sign_in">SIGN IN</string>
     <string name="no_account">Don\'t have an account?</string>
@@ -115,5 +115,6 @@
     <string name="entered_wrong_password">Entered a wrong password</string>
     <string name="logged_in_successfully">Logged in successfully</string>
     <string name="available">Available</string>
+    <string name="product_details">Product Details</string>
 
 </resources>

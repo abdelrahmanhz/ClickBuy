@@ -23,6 +23,7 @@ import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.example.clickbuy.util.ConnectionLiveData
+import com.example.clickbuy.util.isRTL
 
 
 private const val TAG = "FavouritesFragment"
@@ -82,6 +83,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     }
 
     private fun setupUI() {
+        binding.favHeader.backBtn.setImageResource(if (isRTL()) R.drawable.ic_arrow_right else R.drawable.ic_back_icon)
         binding.favHeader.rightDrawable.visibility = View.GONE
         binding.favHeader.titleTv.text = getString(R.string.favourites)
         binding.favRecyclerView.visibility = View.GONE

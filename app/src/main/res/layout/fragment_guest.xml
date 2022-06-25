@@ -10,6 +10,7 @@
         layout="@layout/no_connection_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,12 +19,15 @@
 
     <TextView
         android:id="@+id/welcome_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25sp"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="textStart"
+        android:layout_marginHorizontal="32dp"
         android:text="@string/welcome"
         android:textColor="@color/black"
         android:textSize="30sp"
+        android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/guest_textView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,10 +35,13 @@
 
     <TextView
         android:id="@+id/guest_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/guest"
         android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginHorizontal="32dp"
+        android:textAlignment="textStart"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,14 +49,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginTop="25sp"
         android:text="@string/login"
+        android:padding="8dp"
         android:textSize="20sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guest_textView" />

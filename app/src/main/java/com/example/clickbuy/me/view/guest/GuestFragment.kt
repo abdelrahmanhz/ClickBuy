@@ -15,15 +15,16 @@ import com.example.clickbuy.R
 import com.example.clickbuy.authentication.view.AuthenticationActivity
 import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.connectInternet
+import com.google.android.material.button.MaterialButton
 
 
 class GuestFragment : Fragment() {
 
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
     private lateinit var noInternetAnimation: LottieAnimationView
     private lateinit var welcomeTextView: TextView
     private lateinit var guestTextView: TextView
-    private lateinit var loginButton: AppCompatButton
+    private lateinit var loginButton: MaterialButton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

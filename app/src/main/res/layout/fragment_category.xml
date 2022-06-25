@@ -8,10 +8,12 @@
     android:id="@+id/category_fragment_ConstraintLayout"
     tools:context=".category.view.CategoryFragment">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/appbar"
@@ -41,14 +43,15 @@
         app:tabIndicatorAnimationMode="elastic"
         app:tabPaddingEnd="10dp"
         tools:ignore="SpeakableTextPresentCheck" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/no_internet_animation_category"
         android:layout_width="match_parent"
-        android:layout_height="450sp"
+        android:layout_height="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"
+        app:layout_constraintTop_toTopOf="@+id/toolBar"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/no_internet"
@@ -72,15 +75,16 @@
         app:layout_constraintTop_toBottomOf="@id/tabLayout"
         app:spanCount="2"
        />
+
     <TextView
         android:id="@+id/enable_connection_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/enable_connection"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/light_green"
+        android:padding="16dp"
+        android:background="@drawable/spinner_shape"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/no_internet_animation_category" />

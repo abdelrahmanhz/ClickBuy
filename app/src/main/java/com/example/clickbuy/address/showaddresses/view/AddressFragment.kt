@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +37,7 @@ private const val TAG = "AddressFragment"
 class AddressFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
 
     private lateinit var arrowBackImageView: ImageView
     private lateinit var addressRecyclerView: RecyclerView

@@ -69,7 +69,10 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupBackButton() {
-        binding.productDetailsHeader.backBtn.setImageResource(if (isRTL()) r.drawable.ic_back_icon_rtl else r.drawable.ic_back_icon)
+        binding.productDetailsHeader.titleTv.text = getString(r.string.product_details)
+        binding.productDetailsHeader.titleTv.visibility = View.VISIBLE
+        if (isRTL())
+            binding.productDetailsHeader.backBtn.setImageResource(if (isRTL()) r.drawable.ic_arrow_right else r.drawable.ic_back_icon)
     }
 
     private fun checkInternetConnection() {

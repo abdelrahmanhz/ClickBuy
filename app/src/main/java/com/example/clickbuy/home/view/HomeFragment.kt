@@ -38,6 +38,7 @@ import com.example.clickbuy.search.view.SearchFragment
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.connectInternet
 import com.smarteist.autoimageslider.SliderView
+import org.w3c.dom.Text
 
 private const val TAG = "HomeFragment"
 
@@ -45,7 +46,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     CouponsDetailsInterface {
 
 
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
     private lateinit var noInternetAnimation: LottieAnimationView
     private lateinit var scrollView: ScrollView
     private lateinit var brandsRecyclerView: RecyclerView

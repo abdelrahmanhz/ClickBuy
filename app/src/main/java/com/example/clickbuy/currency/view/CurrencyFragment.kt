@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,7 +36,7 @@ private const val TAG = "CurrencyFragment"
 class CurrencyFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
 
     private lateinit var arrowBackImageView: ImageView
     private lateinit var currencyRecyclerView: RecyclerView

@@ -36,7 +36,7 @@ private const val TAG = "BagFragment"
 class BagFragment : Fragment(), UpdatingItemsAtBag {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
 
     private lateinit var priceTextView: TextView
     private lateinit var checkoutButton: AppCompatButton

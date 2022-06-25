@@ -14,8 +14,8 @@
         <include
             layout="@layout/no_connection_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="200sp"
+            android:layout_height="500dp"
+            android:layout_marginTop="90dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

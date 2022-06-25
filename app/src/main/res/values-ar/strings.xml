@@ -100,7 +100,7 @@
     <string name="successfully_removed">تمت الإزالة بنجاح!</string>
     <string name="cancel">إلغاء</string>
     <string name="product_price">السعر</string>
-    <string name="details">التفاصيل</string>
+    <string name="details">الوصف</string>
     <string name="reviews">المراجعات</string>
     <string name="favourites">المفضلة</string>
     <string name="let_s_click_to_buy">دعنا نضغط للشراء</string>
@@ -115,4 +115,5 @@
     <string name="entered_wrong_password">أدخلت كلمة مرور خاطئة</string>
     <string name="logged_in_successfully">تم تسجيل الدخول بنجاح</string>
     <string name="available">متاح</string>
+    <string name="product_details">تفاصيل المنتج</string>
 </resources>

@@ -38,7 +38,7 @@ private const val TAG = "HomeView"
 class MeFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
 
     private lateinit var welcomeTextView: TextView
     private lateinit var editProfileRelativeLayout: RelativeLayout

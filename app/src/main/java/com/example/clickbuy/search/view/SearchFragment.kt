@@ -175,7 +175,7 @@ class SearchFragment : Fragment(), ProductDetailsIDShow {
     }
 
     private fun setupToolBar() {
-        binding.searchTB.setNavigationIcon(if (isRTL()) R.drawable.ic_back_icon_rtl else R.drawable.ic_back_icon)
+        binding.searchTB.setNavigationIcon(if (isRTL()) R.drawable.ic_arrow_right else R.drawable.ic_back_icon)
         binding.searchTB.setNavigationOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }

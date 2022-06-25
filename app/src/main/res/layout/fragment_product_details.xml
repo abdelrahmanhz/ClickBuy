@@ -134,7 +134,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/product_details_no_internet_animation"
         android:layout_width="match_parent"
-        android:layout_height="350sp"
+        android:layout_height="350dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
