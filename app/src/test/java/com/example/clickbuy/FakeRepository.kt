@@ -1,14 +1,14 @@
 package com.example.clickbuy
 
+import android.content.ClipData
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RemoteSource
+import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
 
 class FakeRepository : RemoteSource {
-    override suspend fun getProductByID(productId: String): Response<ProductParent> {
-        TODO("Not yet implemented")
-    }
+
 
     override suspend fun getAllProducts(
         collectionId: String,
@@ -32,16 +32,36 @@ class FakeRepository : RemoteSource {
         order.add(Order(id))
         return Response.success(200, Orders(order))
     }
+
     override suspend fun getAllAddresses(): Response<CustomerAddresses> {
         var address: MutableList<CustomerAddress> = mutableListOf()
         address.add(CustomerAddress(city = "Alexandria"))
-        return Response.success(200, CustomerAddresses(address))    }
+        return Response.success(200, CustomerAddresses(address))
+    }
+
+
+    override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
+        var lineItems: MutableList<BagItem> = mutableListOf()
+        var noteAttributes: MutableList<NoteAttribute> = mutableListOf()
+        lineItems.add(BagItem(price = "100", quantity = 0, variant_id = 123456785))
+        noteAttributes.add(NoteAttribute("0", "image"))
+        val shoppingBag = ShoppingBag(
+            DraftOrder(
+                email = ConstantsValue.email,
+                line_items = lineItems,
+                note_attributes = noteAttributes,
+            )
+        )
+        return Response.success(200, shoppingBag)
+    }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         TODO("Not yet implemented")
     }
 
-
+    override suspend fun getProductByID(productId: String): Response<ProductParent> {
+        TODO("Not yet implemented")
+    }
     override suspend fun getSubCategories(): Response<Products> {
         TODO("Not yet implemented")
     }
@@ -91,9 +111,10 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag> {
         TODO("Not yet implemented")
@@ -118,4 +139,5 @@ class FakeRepository : RemoteSource {
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
         TODO("Not yet implemented")
     }
+
 }
