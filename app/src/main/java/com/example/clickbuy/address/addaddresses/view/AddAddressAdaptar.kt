@@ -1,7 +1,6 @@
 package com.example.clickbuy.address.addaddresses.view
 
 import androidx.recyclerview.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.TextView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Result
 
-private const val TAG = "AddAddressAdapter"
 
 class AddAddressAdapter(var addAddressFragment: AddAddressFragment) :
     RecyclerView.Adapter<AddAddressAdapter.ViewHolder>() {
@@ -35,17 +33,13 @@ class AddAddressAdapter(var addAddressFragment: AddAddressFragment) :
         }
     }
 
-    override fun getItemCount(): Int {
-        Log.i(TAG, "getItemCount: " + addresses.size)
-        return addresses.size
+    override fun getItemCount(): Int { return addresses.size
     }
 
     fun setListOfAddresses(addresses: List<Result>) {
         this.addresses = addresses.toList()
-        Log.i(TAG, "setListOfAddresses: ")
         notifyDataSetChanged()
     }
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var addressName: TextView
 

@@ -10,7 +10,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.favourites.view.FavouritesFragmentInterface
-import com.example.clickbuy.models.DraftOrder
 import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.util.Extensions.load
 
@@ -51,7 +50,6 @@ class FavouritesAdapter(
     }
 
     fun setFavourites(favourites: ArrayList<Favourite>){
-       // this.favourites.clear()
         this.favourites = favourites
         Log.i("FavouritesAdapter", "setFavourites")
         notifyDataSetChanged()

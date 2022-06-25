@@ -22,9 +22,6 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 
 
-
-private const val TAG = "CurrencyFragment"
-
 class CurrencyFragment : Fragment() {
     private lateinit var arrowBackImageView: ImageView
     private lateinit var currencyRecyclerView: RecyclerView
@@ -36,14 +33,12 @@ class CurrencyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(TAG, "onCreate: ")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(TAG, "onCreateView: ")
         val view = inflater.inflate(R.layout.fragment_currency, container, false)
         currentView = view
 
@@ -120,23 +115,19 @@ class CurrencyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i(TAG, "onViewCreated: ")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(TAG, "onDestroy: ")
         (requireActivity() as MainActivity).updateCurrency()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.i(TAG, "onDestroyView: ")
     }
 
     override fun onDetach() {
         super.onDetach()
-        Log.i(TAG, "onDetach: ")
     }
 
 

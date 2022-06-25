@@ -9,7 +9,6 @@ import com.example.clickbuy.R
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 
-private const val TAG = "SliderAdapter"
 
 class AdsSliderAdapter() :
     SliderViewAdapter<AdsSliderAdapter.SliderAdapterViewHolder>() {
@@ -36,7 +35,6 @@ class AdsSliderAdapter() :
     ) {
         viewHolder?.imageViewBackground?.setImageResource(mSliderItems[position])
         viewHolder?.imageViewBackground?.setOnClickListener {
-            android.util.Log.i(TAG, "onBindViewHolder: ")
         }
     }
 

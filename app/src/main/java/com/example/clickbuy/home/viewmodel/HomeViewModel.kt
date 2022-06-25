@@ -1,17 +1,14 @@
 package com.example.clickbuy.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickbuy.models.*
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "HomeViewModel"
 
 class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private val _iRepo: RepositoryInterface = iRepo
@@ -37,8 +34,6 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
             }
 
             withContext(Dispatchers.Main) {
-                Log.i(TAG, "getAllBrands View Model--------------------->: $brands")
-
                 _brand.postValue(brands!!)
             }
         }
@@ -48,8 +43,6 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
         viewModelScope.launch {
             val response = _iRepo.getAvailableCoupons()
             withContext(Dispatchers.Main) {
-                Log.i(TAG, "getAvailableCoupons: ${response.code()}")
-                Log.i(TAG, "getAvailableCoupons: ${response.body()}")
                 if (response.code() == 200 && !response.body()?.discount_codes.isNullOrEmpty())
                     _coupons.postValue(response.body()?.discount_codes)
 
@@ -66,7 +59,6 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
             }
             withContext(Dispatchers.Main) {
                 _saleId.postValue(brands!!)
-                Log.i(TAG, "getAllSalesById View Model--------------------->: $brands")
                 brands.products
             }
         }

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,34 +16,25 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.category.view.SubCateogriesAdapter
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
-import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
-
 import com.example.clickbuy.util.ConnectionLiveData
 import com.google.android.material.appbar.MaterialToolbar
-
 import com.example.clickbuy.search.view.SearchFragment
 import com.example.clickbuy.util.ConstantsValue
-import com.google.android.material.bottomsheet.BottomSheetDialog
-
 import com.smarteist.autoimageslider.SliderView
 
-private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
     BrandDetailsInterface {
@@ -86,12 +76,9 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
 
-        Log.i(TAG, "onViewCreated: before snackbar")
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
-            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
             if (it) {
-                Log.i(TAG, "onViewCreated: in if")
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 scrollView.visibility = View.VISIBLE
@@ -200,7 +187,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private fun observeViewModel() {
         viewModel.brand.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "brand: $it")
                 brandAdapter.setListOfBrands(it.smart_collections)
             }
             brandProgressBar.visibility = View.GONE
@@ -209,7 +195,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
         viewModel.saleId.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "sale: $it")
                 saleAdapter.setListOfSales(it.products)
             }
         }
@@ -245,9 +230,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     }
 
-    override fun productDetailsShow(id: String) {
-        Log.i(TAG, "productDetailsShow: $id")
-        val salesDetails = ProductDetailsFragment()
+    override fun productDetailsShow(id: String) { val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()

@@ -90,7 +90,7 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
                 Log.i(TAG, "addresses.observe: ---------> success")
                 Toast.makeText(requireContext(), "Added Success", Toast.LENGTH_SHORT).show()
                 addressAdapter.setListOfAddresses(it.results)
-            } else {
+            }else {
                 Log.i(TAG, "addresses.observe:-----------> filed")
                 Toast.makeText(
                     requireContext(),

@@ -193,11 +193,9 @@ class MeFragment : Fragment() {
                 requireContext()
             )
         )
-
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CustomerViewModel::class.java)
     }
-
     private fun checkRTL() {
         if (isRTL()) {
             editProfileImageView.setImageResource(R.drawable.ic_arrow_left)

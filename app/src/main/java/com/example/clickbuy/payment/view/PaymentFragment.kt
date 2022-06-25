@@ -315,7 +315,6 @@ class PaymentFragment : Fragment() {
                     }
                 },
                 Response.ErrorListener {
-                    //
                 }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {

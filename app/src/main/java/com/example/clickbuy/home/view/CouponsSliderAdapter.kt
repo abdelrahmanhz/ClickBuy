@@ -1,8 +1,5 @@
 package com.example.clickbuy.home.view
 
-
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater

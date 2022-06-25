@@ -2,7 +2,6 @@ package com.example.clickbuy.category.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -16,11 +15,8 @@ import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.provider.Settings
-import android.view.WindowManager
-import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
@@ -35,24 +31,20 @@ import com.example.clickbuy.util.ConnectionLiveData
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.clickbuy.util.ConstantsValue
 
-private const val TAG = "CategoryFragment"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
     private lateinit var enableConnection: TextView
 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
-    private lateinit var brandFilterAdapter: BrandsFilterAdapter
     private lateinit var categoryFactory: CategoryViewModelFactory
     private lateinit var categoryRecyclerView: RecyclerView
-    private lateinit var filterBrandsRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
     private lateinit var categorySearchView: SearchView
     private lateinit var viewModel: CategoryViewModel
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
     private val ID_KIDS = "273053745291"
-    private lateinit var scrollView: ScrollView
     private var defaultId = ""
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
@@ -76,7 +68,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.i(TAG, "onViewCreated: ")
 
         initViewModel()
         initUI(view)
@@ -84,9 +75,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
-            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
             if (it) {
-                Log.i(TAG, "onViewCreated: in if")
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 tabLayout.visibility = View.VISIBLE
@@ -96,7 +85,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             } else {
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
-                //   myToolbar.visibility = View.GONE
                 tabLayout.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
 
@@ -116,13 +104,12 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         }
         if (vendor.isNotEmpty())
             myToolbar.setNavigationIcon(R.drawable.ic_back_icon)
-        myToolbar.setNavigationOnClickListener {
+            myToolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         viewModel.subCategory.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "categoryProducts: $it")
                 categoryAdapter.setListOfCategory(it.products)
                 subCategoryData = it.products as ArrayList<Product>
             }
@@ -134,11 +121,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 -> {
-                        Log.i(TAG, "onTabSelected: women")
                         defaultId = ""
                     }
                     1 -> {
-                        Log.i(TAG, "onTabSelected: women")
                         defaultId = ID_WOMEN
                     }
                     2 -> {
@@ -234,7 +219,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         getAllProducts()
                         priceSeeker.progress = 0
                         filteredPrice.text = ""
-
+                       subcategoryAdapter.reset()
                     }
                     btnDone.setOnClickListener {
                         dialog.dismiss()
@@ -256,7 +241,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         if (it.title?.contains(p0, true)!!)
                             tempSubCategoryData.add(it)
                     }
-                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
@@ -275,7 +259,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         if (it.title?.contains(p0, true)!!)
                             tempSubCategoryData.add(it)
                     }
-                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
@@ -330,26 +313,22 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun getAllProducts() {
-        Log.i(TAG, "getAllProducts: ")
         viewModel.getAllProducts(defaultId, vendor, productType)
     }
 
 
     fun setVendorName(brandName: String) {
         vendor = brandName
-        Log.i(TAG, "setVendorName: -------> $brandName")
     }
 
 
     override fun setSubCategoryTitle(productType: String) {
-        Log.i(TAG, "showSubCategory: productType $productType")
         this.productType = productType
         viewModel.getAllProducts(defaultId, vendor, productType)
 
     }
 
     override fun SetProductDetailsID(id: String) {
-        Log.i(TAG, "productDetailsShow: " + id)
         val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)

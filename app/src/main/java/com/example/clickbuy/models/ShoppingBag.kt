@@ -6,36 +6,6 @@ class ShoppingBag(
     val draft_order: DraftOrder
 ) : Serializable
 
-/*data class DraftOrder(
-    val admin_graphql_api_id: String,
-    val applied_discount: Any,
-    val billing_address: Any,
-    val completed_at: Any,
-    val created_at: String,
-    val currency: String,
-    val customer: Customer,
-    val email: String,
-    val id: Long,
-    val invoice_sent_at: Any,
-    val invoice_url: String,
-    val line_items: List<BagItem>,
-    val name: String,
-    val note: String,
-    val note_attributes: List<NoteAttribute>,
-    val order_id: Any,
-    val payment_terms: Any,
-    val shipping_address: Any,
-    val shipping_line: Any,
-    val status: String,
-    val subtotal_price: String,
-    val tags: String,
-    val tax_exempt: Boolean,
-    val tax_lines: List<TaxLineX>,
-    val taxes_included: Boolean,
-    val total_price: String,
-    val total_tax: String,
-    val updated_at: String
-)*/
 data class DraftOrder(
     val email: String,
     val id: Long? = null,

@@ -1,6 +1,5 @@
 package com.example.clickbuy.currency.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.example.clickbuy.models.Currency
 import com.example.clickbuy.util.ConstantsValue
 import java.util.*
 
-private const val TAG = "CurrencyAdapter"
 
 class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
 
@@ -21,14 +19,12 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        Log.i(TAG, "onCreateViewHolder: ")
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
         val view: View = layoutInflater.inflate(R.layout.custom_row_currency, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.i(TAG, "onBindViewHolder: ")
         val currency = currencyList[position]
         if (currency.enabled)
             holder.bind(currency)
@@ -64,10 +60,8 @@ class CurrencyAdapter : RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
                     notifyItemChanged(checkedPosition)
                     checkedPosition = adapterPosition
                     ConstantsValue.to = currencyTextView.text.toString()
-                    Log.i(TAG, "bind: " + ConstantsValue.to)
                 }
             }
         }
     }
-
 }
