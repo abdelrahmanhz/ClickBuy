@@ -1,17 +1,14 @@
 package com.example.clickbuy.home.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickbuy.models.*
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "HomeViewModel"
 
 class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private val _iRepo: RepositoryInterface = iRepo
@@ -30,55 +27,33 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getAllBrands() {
         viewModelScope.launch {
-            var brands: Brands? = null
             val brandResponse = _iRepo.getAllBrands()
             if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
-            }
-
-            withContext(Dispatchers.Main) {
-                Log.i(TAG, "getAllBrands View Model--------------------->: $brands")
-
-                _brand.postValue(brands!!)
+                withContext(Dispatchers.Main) {
+                    _brand.postValue(brandResponse.body()!!)
+                }
+            } else {
+                _brand.postValue(brandResponse.body()!!)
             }
         }
     }
 
     fun getAllSalesById() {
         viewModelScope.launch {
-            var brands: Products? = null
-            val brandResponse = _iRepo.getAllProducts("273053778059", "", "")
-            if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
+            val salesResponse = _iRepo.getAllProducts("273053778059", "", "")
+            if (salesResponse.code() == 200) {
+                withContext(Dispatchers.Main) {
+                    _saleId.postValue( salesResponse.body()!!)
+                }
             }
-            withContext(Dispatchers.Main) {
-                _saleId.postValue(brands!!)
-                Log.i(TAG, "getAllSalesById View Model--------------------->: $brands")
-                brands.products
-            }
-        }
-    }
 
-    fun getAvailableCoupons() {
-        viewModelScope.launch {
-            val response = _iRepo.getAvailableCoupons()
-            withContext(Dispatchers.Main) {
-                Log.i(TAG, "getAvailableCoupons: ${response.code()}")
-                Log.i(TAG, "getAvailableCoupons: ${response.body()}")
-                if (response.code() == 200 && !response.body()?.discount_codes.isNullOrEmpty())
-                    _coupons.postValue(response.body()?.discount_codes)
-
-            }
         }
     }
 
     fun getAllPriceRules() {
         viewModelScope.launch {
-            Log.i(com.example.clickbuy.mainscreen.viewmodel.TAG, "getAllPriceRules: ")
             val response = _iRepo.getAllPriceRules()
             withContext(Dispatchers.Main) {
-                Log.i(TAG, "getAvailableCoupons: ${response.code()}")
-                Log.i(TAG, "getAvailableCoupons: ${response.body()}")
                 if (response.code() == 200 && !response.body()?.price_rules.isNullOrEmpty())
                     _priceRules.postValue(response.body()?.price_rules)
             }

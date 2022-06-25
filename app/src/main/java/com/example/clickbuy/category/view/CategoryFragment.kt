@@ -2,7 +2,6 @@ package com.example.clickbuy.category.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
@@ -32,7 +31,6 @@ import com.example.clickbuy.util.ConnectionLiveData
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.clickbuy.util.ConstantsValue
 
-private const val TAG = "CategoryFragment"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
     private lateinit var enableConnection: TextView
@@ -70,35 +68,30 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.i(TAG, "onViewCreated: ")
 
         initViewModel()
         initUI(view)
         initTabLayout()
-
-
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
-            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
             if (it) {
-                Log.i(TAG, "onViewCreated: in if")
-                noInternetAnimation.visibility = View.GONE
-                enableConnection.visibility = View.GONE
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmerAnimation()
+                getAllProducts()
                 tabLayout.visibility = View.VISIBLE
                 categorySearchView.visibility = View.VISIBLE
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
                 myToolbar.visibility = View.VISIBLE
-                getAllProducts()
-
             } else {
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmerAnimation()
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 tabLayout.visibility = View.GONE
                 myToolbar.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
+                categoryRecyclerView.visibility = View.GONE
             }
-
-            shimmerFrameLayout.visibility = View.GONE
-            shimmerFrameLayout.stopShimmerAnimation()
-
         }
 
         enableConnection.setOnClickListener {
@@ -116,7 +109,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
         viewModel.subCategory.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "categoryProducts: $it")
+                categoryRecyclerView.visibility = View.VISIBLE
                 categoryAdapter.setListOfCategory(it.products)
                 subCategoryData = it.products as ArrayList<Product>
             }
@@ -128,11 +121,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (tab.position) {
                     0 -> {
-                        Log.i(TAG, "onTabSelected: women")
                         defaultId = ""
                     }
                     1 -> {
-                        Log.i(TAG, "onTabSelected: women")
                         defaultId = ID_WOMEN
                     }
                     2 -> {
@@ -156,29 +147,29 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
-                    if (ConstantsValue.isLogged){
+                    if (ConstantsValue.isLogged) {
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, FavouritesFragment())
                             .addToBackStack(null).commit()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(
                             context,
                             getString(R.string.unauthorized_wishlist),
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 R.id.cart_menubar -> {
-                    if (ConstantsValue.isLogged){
+                    if (ConstantsValue.isLogged) {
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, BagFragment())
                             .addToBackStack(null).commit()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(
                             context,
                             getString(R.string.unauthorized_shopping_cart),
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 R.id.filter_menubar -> {
@@ -194,14 +185,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
                     subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
                     recycler.layoutManager = GridLayoutManager(requireContext(), 3)
-                    recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    recycler.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
                     viewModel.category.observe(viewLifecycleOwner, {
                         subcategoryAdapter.setListOfSubCategories(it)
                     })
-
-
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
                         override fun onProgressChanged(
@@ -228,7 +218,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         getAllProducts()
                         priceSeeker.progress = 0
                         filteredPrice.text = ""
-
+                        subcategoryAdapter.reset()
                     }
                     btnDone.setOnClickListener {
                         dialog.dismiss()
@@ -241,21 +231,19 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             true
         }
 
-        categorySearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        categorySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             var tempSubCategoryData = ArrayList<Product>()
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if(!p0.isNullOrEmpty()){
+                if (!p0.isNullOrEmpty()) {
                     tempSubCategoryData.clear()
                     subCategoryData.forEach {
                         if (it.title?.contains(p0, true)!!)
                             tempSubCategoryData.add(it)
                     }
-                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
-                }
-                else{
+                } else {
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
@@ -263,18 +251,16 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                if(!p0.isNullOrEmpty()){
+                if (!p0.isNullOrEmpty()) {
                     tempSubCategoryData.clear()
                     subCategoryData.forEach {
                         if (it.title?.contains(p0, true)!!)
                             tempSubCategoryData.add(it)
                     }
-                    Log.i(TAG, "tempSubCategoryData count ${tempSubCategoryData.count()}")
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
-                }
-                else{
+                } else {
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
@@ -284,7 +270,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun clearSearchViewText() {
-        if(categorySearchView.query.isNotEmpty()) {
+        if (categorySearchView.query.isNotEmpty()) {
             categorySearchView.setQuery("", false)
             categorySearchView.clearFocus()
             categorySearchView.isIconified = false
@@ -327,36 +313,25 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun getAllProducts() {
-        Log.i(TAG, "getAllProducts: ")
         viewModel.getAllProducts(defaultId, vendor, productType)
     }
 
 
     fun setVendorName(brandName: String) {
         vendor = brandName
-        Log.i(TAG, "setVendorName: -------> $brandName")
     }
 
-
     override fun setSubCategoryTitle(productType: String) {
-        Log.i(TAG, "showSubCategory: productType $productType")
         this.productType = productType
         viewModel.getAllProducts(defaultId, vendor, productType)
 
     }
 
     override fun SetProductDetailsID(id: String) {
-        Log.i(TAG, "productDetailsShow: " + id)
         val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
         salesDetails.setProductId(id)
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        shimmerFrameLayout.startShimmerAnimation()
     }
 }

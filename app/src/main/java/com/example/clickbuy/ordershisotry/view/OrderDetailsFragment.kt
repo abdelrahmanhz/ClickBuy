@@ -1,7 +1,6 @@
 package com.example.clickbuy.ordershisotry.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +13,8 @@ import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.ordershisotry.OrderDetailsAdapter
 import com.example.clickbuy.ordershisotry.OrderDetailsInterface
+import com.example.clickbuy.util.isRTL
 
-private const val TAG = "OrderDetailsFragment"
 
 class OrderDetailsFragment : Fragment(), OrderDetailsInterface {
         private lateinit var lineItemList: List<BagItem>
@@ -40,16 +39,16 @@ class OrderDetailsFragment : Fragment(), OrderDetailsInterface {
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
+        if (isRTL())
+            backButton.setImageResource(R.drawable.ic_arrow_right)
         orderDetailsRecyclerView = view.findViewById(R.id.orderDetailsRecyclerView)
         setUpOrderDetailsRecyclerView()
         orderDetailsAdapter.setListOfOrdersDetails(lineItemList, itemImageList)
-
     }
 
     fun setListOrderDetails(lineItemList: List<BagItem>?, itemImageList: List<NoteAttribute>?) {
         this.lineItemList = lineItemList!!
         this.itemImageList = itemImageList!!
-        Log.i(TAG, "setOrderDetails: -------> $lineItemList")
     }
 
     private fun setUpOrderDetailsRecyclerView() {

@@ -19,8 +19,8 @@ import com.example.clickbuy.ordershisotry.OrderDetailsInterface
 import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModel
 import com.example.clickbuy.ordershisotry.viewmodel.OrdersViewModelFactory
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.isRTL
 
-private const val TAG = "OrdersFragment"
 
 class OrdersFragment : Fragment(), OrderDetailsInterface {
     private lateinit var orderAdapter: OrdersAdapter
@@ -51,20 +51,21 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
         viewModel.getAllOrdersForSpecificCustomer(ConstantsValue.userID)
         viewModel.order.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "brand: $it")
-                orderAdapter.setListOfBrands(it.orders)
+                orderAdapter.setListOfOrders(it.orders)
+            }
+            else {
+                orderAdapter.setListOfOrders(emptyList())
             }
         }
-
+        if (isRTL())
+            backButton.setImageResource(R.drawable.ic_arrow_right)
     }
-
     fun initUI(view: View) {
         orderRecyclerView = view.findViewById(R.id.allOrdersRecyclerView)
         backButton = view.findViewById(R.id.BackButtonOrder)
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
-
     }
 
     private fun setUpOrderRecyclerView() {
@@ -76,7 +77,6 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
     }
 
     override fun showOrderDetails(lineItemList: List<BagItem>?, itemImageList: List<NoteAttribute>?) {
-        Log.i(TAG, "setOrderDetails: ---------> $lineItemList")
         val orderDetails = OrderDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, orderDetails).addToBackStack(null).commit()

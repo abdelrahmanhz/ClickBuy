@@ -53,7 +53,6 @@ class FavouritesAdapter(
     }
 
     fun setFavourites(favourites: ArrayList<Favourite>){
-       // this.favourites.clear()
         this.favourites = favourites
         Log.i("FavouritesAdapter", "setFavourites")
         notifyDataSetChanged()

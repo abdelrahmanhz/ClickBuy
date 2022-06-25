@@ -53,7 +53,7 @@ class OrdersAdapter(val context: Context , orderFragment : OrderDetailsInterface
         Log.i(TAG, "getItemCount: " + order.size)
         return order.size
     }
-    fun setListOfBrands(order: List<Order>){
+    fun setListOfOrders(order: List<Order>){
         this.order = order.toList()
         Log.i(TAG, "setListOfBrands: ")
         notifyDataSetChanged()

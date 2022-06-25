@@ -2,7 +2,6 @@ package com.example.clickbuy.home.view
 
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.example.clickbuy.models.Product
 import com.example.clickbuy.util.calculatePrice
 
 
-private const val TAG = "SalesAdapter"
 
 class SalesAdapter(val context: Context, homeFragment: ProductDetailsInterface) :
     RecyclerView.Adapter<SalesAdapter.ViewHolder>() {
@@ -32,7 +30,6 @@ class SalesAdapter(val context: Context, homeFragment: ProductDetailsInterface) 
         holder: SalesAdapter.ViewHolder,
         position: Int
     ) {
-        Log.i(TAG, "sale position: " + sale[position])
         val imageComping = sale[position].image?.src
         holder.salesTitle.text = sale[position].title
         val priceConverted = calculatePrice(sale[0].variants!![0].price)
@@ -43,12 +40,10 @@ class SalesAdapter(val context: Context, homeFragment: ProductDetailsInterface) 
         }
     }
     override fun getItemCount(): Int {
-        Log.i(TAG, "getItemCount: " + sale.size)
         return sale.size
     }
     fun setListOfSales(sales: List<Product>) {
         this.sale = sales.toList()
-        Log.i(TAG, "setListOfSales: ")
         notifyDataSetChanged()
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

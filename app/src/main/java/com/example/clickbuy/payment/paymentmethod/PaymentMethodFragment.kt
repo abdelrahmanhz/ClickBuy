@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
+import android.widget.RadioGroup
+import androidx.appcompat.widget.AppCompatButton
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
 import com.example.clickbuy.models.CustomerAddress
@@ -19,6 +21,7 @@ private const val TAG = "PaymentMethodFragment"
 class PaymentMethodFragment : Fragment() {
 
     private var address: CustomerAddress = CustomerAddress()
+    private lateinit var radioGroup: RadioGroup
     private lateinit var stripeRadioButton: RadioButton
     private lateinit var cashRadioButton: RadioButton
     private lateinit var backButton: ImageView
@@ -33,7 +36,7 @@ class PaymentMethodFragment : Fragment() {
         stripeRadioButton = view.findViewById(R.id.stripe_radio_button)
         cashRadioButton = view.findViewById(R.id.cash_radio_button)
         backButton = view.findViewById(R.id.arrow_back_imageView_payment)
-
+        radioGroup = view.findViewById(R.id.radioGroup)
 
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -42,13 +45,18 @@ class PaymentMethodFragment : Fragment() {
         if (isRTL())
             backButton.setImageResource(R.drawable.ic_arrow_right)
 
-        stripeRadioButton.setOnClickListener {
-            replaceFragment(false)
-        }
+        radioGroup.setOnCheckedChangeListener(
+            RadioGroup.OnCheckedChangeListener { group, checkedId ->
+                when (radioGroup.checkedRadioButtonId) {
+                    R.id.stripe_radio_button -> {
+                        replaceFragment(false)
+                    }
+                    R.id.cash_radio_button -> {
+                        replaceFragment(true)
+                    }
+                }
+            })
 
-        cashRadioButton.setOnClickListener {
-            replaceFragment(true)
-        }
         return view
     }
 
@@ -61,7 +69,6 @@ class PaymentMethodFragment : Fragment() {
 
     fun setAddress(address: CustomerAddress) {
         this.address = address
-        Log.i(TAG, "address chosen: -------> $address")
     }
 
 }

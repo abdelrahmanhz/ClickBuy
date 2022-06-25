@@ -25,7 +25,7 @@
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
     <string name="save">Save</string>
-    <string name="no_currency_found">No currency Founded</string>
+    <string name="no_currency_found">No Currency Founded</string>
     <string name="splash_desc">Buy what you want, Just Click</string>
     <string name="no_data_error">There is no products in this category</string>
     <string name="off"> <!--OFF--> Get a discount</string>
@@ -40,10 +40,10 @@
     <string name="discount">Discount</string>
     <string name="total">Total</string>
     <string name="pay">Pay</string>
-    <string name="coupon_empty">Coupon can not be empty</string>
+    <string name="coupon_empty">Coupon Can not be Empty</string>
     <string name="coupon_invalid">Invalid Coupon</string>
     <string name="delete_item">Delete product</string>
-    <string name="delete_item_message">Are you sure to delete this item from the shopping cart</string>
+    <string name="delete_item_message">Are You Sure You Want to delete this item from Your Cart</string>
     <string name="no_button">No</string>
     <string name="delete_button">Delete</string>
     <string name="checkout">Checkout</string>
@@ -52,8 +52,8 @@
     <string name="orders">Orders</string>
     <string name="guest">"Login to see shopping cart "</string>
     <string name="login">Login / Register</string>
-    <string name="add_to_shopping_cart_fail">add to shopping cart fail</string>
-    <string name="add_to_shopping_cart_success">add to shopping cart success</string>
+    <string name="add_to_shopping_cart_fail">faild to add to shopping cart </string>
+    <string name="add_to_shopping_cart_success">Item Added to Cart </string>
     <string name="successful_register">You have successfully signed up!</string>
     <string name="register_fail">Email or phone is already taken, can\'t sign up!</string>
     <string name="required">Required</string>
@@ -64,8 +64,8 @@
     <string name="empty_shopping_cart">Your shopping cart is empty</string>
     <string name="empty_address">Add address</string>
     <string name="next">Next</string>
-    <string name="pay_online">pay Online</string>
-    <string name="pay_cash">pay Cash</string>
+    <string name="pay_online">Pay Online</string>
+    <string name="pay_cash">Pay Cash</string>
     <string name="placeOrder">Place Order</string>
     <string name="all">All</string>
     <string name="women">Women</string>
@@ -77,20 +77,20 @@
     <string name="first_name">First Name</string>
     <string name="enter_place_name">Enter the name of place</string>
     <string name="get_address">Get Address</string>
-    <string name="address_error">You must enter a place</string>
+    <string name="address_error">You Must Enter a Place</string>
     <string name="price">Price :</string>
-    <string name="unauthorized_wishlist">please login first to check your wishlist</string>
+    <string name="unauthorized_wishlist">Please Login First to Check your Wishlist</string>
     <string name="search_for">What are you searching for?</string>
     <string name="alert_title">Alert</string>
     <string name="remove">Remove</string>
     <string name="unauthorized_shopping_cart">please login first to check your shopping cart</string>
     <string name="payment_method">Payment Method</string>
     <string name="choose_payment_method">CHOOSE YOUR WAY OF PAYMENT</string>
-    <string name="get_address_error">You entered invalid name</string>
+    <string name="get_address_error">You Entered Invalid Name</string>
     <string name="add_address_error">Error in add address, tray later</string>
     <string name="all_available_address">All available places</string>
-    <string name="no_address_exist">no addresses exist</string>
-    <string name="copy_success">Copy code successfully</string>
+    <string name="no_address_exist">No Addresses Exist</string>
+    <string name="copy_success"> Code Copied Successfully</string>
     <string name="item_image">Item Image</string>
     <string name="unauthorized_bag">please login first to check your bag</string>
     <string name="add_to_cart">Add to cart</string>
@@ -116,5 +116,8 @@
     <string name="logged_in_successfully">Logged in successfully</string>
     <string name="available">Available</string>
     <string name="product_details">Product Details</string>
+    <string name="place_order_successfuly">Order Placed Successfuly</string>
+    <string name="place_order_faild">Order Failed to be Placed </string>
+    <string name="billingaddress">Billing Address</string>
 
 </resources>

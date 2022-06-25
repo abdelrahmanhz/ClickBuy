@@ -10,23 +10,11 @@ interface RetrofitService {
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("products.json")
     suspend fun getAllProducts(
-
         @Query("collection_id") id: String,
         @Query("vendor") vendor: String,
         @Query("product_type") title: String
     ): Response<Products>
-
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("collections/{id}/products.json")
-    suspend fun getAllProductsInCollectionByID(@Path("id") id: String): Response<Products>
-
-//    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-//    @GET("custom_collections.json?title={categoryTitle}")
-//    suspend fun getCategoryIdByTitle(
-//        @Path("categoryTitle") categoryTitle: String
-//    ): Response<CustomCollections>
-
-
+    
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("smart_collections.json")
     suspend fun getAllBrands(): Response<Brands>

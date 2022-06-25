@@ -1,6 +1,5 @@
 package com.example.clickbuy.category.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "CategoryViewModel"
 
 class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
     private val _irepo: RepositoryInterface = irepo
@@ -21,6 +19,7 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
     private var _subCategory = MutableLiveData<Products>()
     var subCategory: LiveData<Products> = _subCategory
 
+
     fun getAllCategoryProducts(idCollectionDetails: String) {
         viewModelScope.launch {
             var categories: HashSet<SubCategory>? = null
@@ -30,10 +29,6 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
                 categories = brandResponse.body()?.products
                 withContext(Dispatchers.Main) {
                     _category.postValue(categories!!)
-                    Log.i(
-                        TAG,
-                        "getAllCategory View Model--------------------->: ${categories.size}"
-                    )
                 }
             }
         }
@@ -50,9 +45,14 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
                 _irepo.getAllProducts(collectionId, vendor, productType)
             if (brandResponse.code() == 200) {
                 categories = brandResponse.body()!!
-            }
-            withContext(Dispatchers.Main) {
-                _subCategory.postValue(categories!!)
+                withContext(Dispatchers.Main) {
+                    _subCategory.postValue(categories!!)
+                }
+            } else {
+                _subCategory.postValue((categories!!))
+                withContext(Dispatchers.Main) {
+                    _subCategory.postValue(categories!!)
+                }
             }
         }
     }

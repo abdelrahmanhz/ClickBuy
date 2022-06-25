@@ -97,7 +97,7 @@ class AddAddressFragment : Fragment(), OnAddressSelected {
                 noPlaceFoundTextView.visibility = View.GONE
                 noPlaceFoundImageView.visibility = View.GONE
                 addressAdapter.setListOfAddresses(it.results)
-            } else {
+            }else {
                 Log.i(TAG, "addresses.observe:-----------> filed")
                 addressesRecyclerView.visibility = View.GONE
                 noPlaceFoundTextView.visibility = View.VISIBLE

@@ -116,4 +116,7 @@
     <string name="logged_in_successfully">تم تسجيل الدخول بنجاح</string>
     <string name="available">متاح</string>
     <string name="product_details">تفاصيل المنتج</string>
+    <string name="place_order_successfuly" >تم الطلب بنجاح </string>
+    <string name="place_order_faild" >فشل الطلب</string>
+    <string name="billingaddress">عنوان الفواتير</string>
 </resources>

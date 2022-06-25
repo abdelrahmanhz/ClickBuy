@@ -16,7 +16,6 @@ import retrofit2.Response
 class RepoTest : TestCase() {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
-
     private lateinit var dataRepository: Repository
     private lateinit var fakeRepository: FakeRepository
     var brandExcpected: MutableList<Brand> = mutableListOf()
@@ -106,6 +105,7 @@ class RepoTest : TestCase() {
         runBlocking {
             category = dataRepository.getAllProducts("","","")
             categoryExcpected.add(Product(title = "product"))
+            assertEquals(categoryExcpected[0].title , category.body()?.products?.get(0)?.title)
             assertEquals(categoryExcpected[0].title, category.body()?.products?.get(0)?.title)
         }
     }

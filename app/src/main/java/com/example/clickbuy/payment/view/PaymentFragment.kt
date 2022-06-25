@@ -1,9 +1,7 @@
 package com.example.clickbuy.payment.view
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.clickbuy.R
+import com.example.clickbuy.mainscreen.view.MainActivity
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.view.AddressOrderActivity
@@ -36,7 +35,6 @@ import org.json.JSONObject
 import java.text.NumberFormat
 import java.util.*
 
-private const val TAG = "PaymentFragment"
 
 class PaymentFragment : Fragment() {
 
@@ -125,6 +123,7 @@ class PaymentFragment : Fragment() {
         enableConnection.setOnClickListener {
             connectInternet(requireContext())
         }
+
         return view
     }
 
@@ -174,7 +173,6 @@ class PaymentFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.validationCoupon.observe(viewLifecycleOwner) {
             if (it != null) {
-                Log.i(TAG, "observeViewModel: discountAmount-----------------> $discountAmount")
                 discountAmountTextView.text = getEquivalentCurrencyValue(discountAmount)
 
                 val amount: Double =
@@ -188,7 +186,6 @@ class PaymentFragment : Fragment() {
                         "fixed_amount"
                     )
                 )
-                Log.i(TAG, "onCreateView: amount--------> $amount")
             } else {
                 discountCodeEditText.error = resources.getString(R.string.coupon_invalid)
             }
@@ -196,13 +193,28 @@ class PaymentFragment : Fragment() {
 
         orderViewModel.order.observe(viewLifecycleOwner) {
             if (it != null) {
-                Log.i(TAG, "order: $it")
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.place_order_successfuly),
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                intent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.place_order_faild),
+                    Toast.LENGTH_LONG
+                ).show()
+
             }
         }
     }
+
     fun setAddress(address: CustomerAddress) {
         this.address = address
-        Log.i(TAG, "address chossen: -------> $address")
     }
 
 
@@ -242,7 +254,6 @@ class PaymentFragment : Fragment() {
                              "Customer Id: $customerId",
                              Toast.LENGTH_SHORT
                          ).show()*/
-                        Log.i(TAG, "initPayment: Customer Id-------------------->  $customerId")
                         getEphemeralKey()
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -259,7 +270,6 @@ class PaymentFragment : Fragment() {
                 }
             }
 
-        Log.i(TAG, "initPayment: amountRequired----------> $amountRequired")
         amountRequired =
             NumberFormat.getNumberInstance(Locale.US).format(amountRequired.toDouble())
         val amounts = amountRequired.split(".")
@@ -267,8 +277,6 @@ class PaymentFragment : Fragment() {
         if (amounts.size > 1)
             kaser = amounts[1]
 
-        Log.i(TAG, "getParams: amountRequired-----------> $amountRequired")
-        Log.i(TAG, "getParams: kaser--------------------> $kaser")
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(request)
     }
@@ -288,12 +296,6 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         ephemeralKey = jsonObject.getString("id")
-                        /* Toast.makeText(
-                             requireContext(),
-                             "Epherical Key: $ephemeralKey",
-                             Toast.LENGTH_SHORT
-                         ).show()*/
-                        Log.i(TAG, "getEphemeralKey: Ephemeral Key-----------------> $ephemeralKey")
                         getClientSecret(customerId)
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -329,18 +331,11 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         clientSecret = jsonObject.getString("client_secret")
-                        /*   Toast.makeText(
-                               requireContext(),
-                               "Client Secret: " + clientSecret,
-                               Toast.LENGTH_SHORT
-                           ).show()*/
-                        Log.i(TAG, "getClientSecret: Client Secret-----------------> $clientSecret")
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
                 },
                 Response.ErrorListener {
-                    //
                 }) {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
@@ -380,7 +375,6 @@ class PaymentFragment : Fragment() {
     fun setData(address: CustomerAddress, isCash: Boolean) {
         this.address = address
         this.isCash = isCash
-        Log.i(TAG, "address chosen: -------> $address")
     }
 
     private fun paymentFlow() {

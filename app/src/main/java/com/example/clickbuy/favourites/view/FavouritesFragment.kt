@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +25,6 @@ import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.isRTL
 
 
-private const val TAG = "FavouritesFragment"
 
 class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
 
@@ -113,17 +111,11 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     }
 
     private fun getFavourites() {
-        Log.i(TAG, "getFavourites: ")
-        //viewModel.getFavourites()
         viewModel.favourites.observe(requireActivity()) {
-            Log.i(TAG, "getFavourites: observe $it")
             if (!it.draft_orders.isNullOrEmpty()) {
-                Log.i(TAG, "getFavourites: if")
-                Log.i(TAG, "product: $it")
                 favorites = it.draft_orders as ArrayList<Favourite>
                 displayFavourites(favorites)
             } else {
-                Log.i(TAG, "getFavourites: else")
                 binding.favRecyclerView.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
                 binding.favEmptyAnimation.visibility = View.VISIBLE
@@ -133,11 +125,9 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     }
 
     private fun displayFavourites(it: ArrayList<Favourite>) {
-        Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
         favouritesAdapter.setFavourites(it)
         binding.favRecyclerView.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE
-        Log.i(TAG, "displayFavourites ${binding.favRecyclerView.visibility}")
     }
 
     override fun deleteFavouriteItem(favorite: Favourite, position: Int) {

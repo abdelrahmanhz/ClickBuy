@@ -3,11 +3,7 @@ package com.example.clickbuy.home.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +24,7 @@ import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
 
+
 import com.example.clickbuy.models.PriceRule
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
@@ -40,7 +37,6 @@ import com.example.clickbuy.util.connectInternet
 import com.smarteist.autoimageslider.SliderView
 import org.w3c.dom.Text
 
-private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
     CouponsDetailsInterface {
@@ -81,13 +77,10 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         observeViewModel()
         setUpBrandRecyclerView()
         setUpSaleRecyclerView()
-        initViewModel()
-        observeViewModel()
+
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
-            Log.i(TAG, "onViewCreated: isInternetAvailable--------------> $it")
             if (it) {
-                Log.i(TAG, "onViewCreated: in if")
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 scrollView.visibility = View.VISIBLE
@@ -105,11 +98,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         }
 
         enableConnection.setOnClickListener {
-            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-             } else {
-                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-             }*/
             connectInternet(requireContext())
         }
 
@@ -218,26 +206,20 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private fun observeViewModel() {
         viewModel.brand.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "brand: $it")
                 brandAdapter.setListOfBrands(it.smart_collections)
+            } else {
+                brandAdapter.setListOfBrands(emptyList())
             }
             brandProgressBar.visibility = View.GONE
-
         }
 
         viewModel.saleId.observe(requireActivity()) {
             if (it != null) {
-                Log.i(TAG, "sale: $it")
                 saleAdapter.setListOfSales(it.products)
+            } else {
+                saleAdapter.setListOfSales(emptyList())
             }
         }
-
-        /*  viewModel.coupons.observe(viewLifecycleOwner) {
-
-              if (!it.isNullOrEmpty()) {
-                  couponsAdapter.setList(it)
-              }
-          }*/
 
         viewModel.priceRules.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
@@ -256,7 +238,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     override fun productDetailsShow(id: String) {
-        Log.i(TAG, "productDetailsShow: $id")
         val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
@@ -264,11 +245,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         salesDetails.setProductId(id)
 
     }
-
-/*    override fun copyCouponsDetails(couponCode: String) {
-        val data = ClipData.newPlainText("coupon", couponCode)
-        clipboardManager.setPrimaryClip(data)
-    }*/
 
     override fun copyCouponsDetails(priceRule: PriceRule) {
         val data = ClipData.newPlainText("coupon", priceRule.title)

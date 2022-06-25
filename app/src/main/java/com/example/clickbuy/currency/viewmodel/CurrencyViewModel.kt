@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-const val TAG = "CurrencyViewModel"
 
 class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private val _iRepo: RepositoryInterface = iRepo
@@ -24,13 +23,7 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
             withContext(Dispatchers.Main) {
                 if (response.code() == 200 && !response.body()?.currencies.isNullOrEmpty()) {
                     _currencies.postValue(response.body()!!.currencies)
-                    Log.i(TAG, "getCurrencies: " + response.body())
                 } else {
-                    Log.i(
-                        TAG,
-                        "getCurrencies: size----------------> " + response.body()?.currencies?.size
-                    )
-                    Log.i(TAG, "getCurrencies: response.body()-----> " + response.body())
                     _currencies.postValue(emptyList())
                 }
 
@@ -39,13 +32,11 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     }
     init {
-        Log.i(TAG, "init: ")
     }
 
 
     override fun onCleared() {
         super.onCleared()
-        Log.i(TAG, "onCleared: ")
     }
 
 

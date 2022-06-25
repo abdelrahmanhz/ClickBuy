@@ -1,11 +1,7 @@
 package com.example.clickbuy.currency.view
 
-import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +27,6 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 
 
-private const val TAG = "CurrencyFragment"
-
 class CurrencyFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
@@ -48,14 +42,12 @@ class CurrencyFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(TAG, "onCreate: ")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(TAG, "onCreateView: ")
         val view = inflater.inflate(R.layout.fragment_currency, container, false)
         currentView = view
 
@@ -85,11 +77,6 @@ class CurrencyFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-             } else {
-                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-             }*/
             connectInternet(requireContext())
         }
 
@@ -154,11 +141,12 @@ class CurrencyFragment : Fragment() {
         snackBar.show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(TAG, "onDestroy: ")
-        (requireActivity() as MainActivity).updateCurrency()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        (requireActivity() as MainActivity).updateCurrency()
+    }
 }

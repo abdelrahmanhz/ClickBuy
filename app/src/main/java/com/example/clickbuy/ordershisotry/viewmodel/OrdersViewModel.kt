@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "OrdersViewModel"
 
 class OrdersViewModel(irepo: RepositoryInterface) : ViewModel() {
     private val _irepo: RepositoryInterface = irepo
@@ -18,17 +17,14 @@ class OrdersViewModel(irepo: RepositoryInterface) : ViewModel() {
     var order: LiveData<Orders> = _order
 
 
-    fun getAllOrdersForSpecificCustomer(customerId : String) {
+    fun getAllOrdersForSpecificCustomer(customerId: String) {
         viewModelScope.launch {
-            var orders: Orders? = null
             val orderResponse = _irepo.getAllOrdersForSpecificCustomerById(customerId)
             if (orderResponse.code() == 200) {
-                orders = orderResponse.body()!!
-            }
-
-            withContext(Dispatchers.Main) {
-                _order.postValue(orders!!)
+                withContext(Dispatchers.Main) {
+                    _order.postValue(orderResponse.body()!!)
+                }
             }
         }
     }
-    }
+}

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.payment.paymentmethod.PaymentMethodFragment
 import com.example.clickbuy.payment.view.AddressInterface
+import com.example.clickbuy.util.isRTL
 
 
 private const val TAG = "OrderAddresFragment"
@@ -29,6 +31,7 @@ class OrderAddressFragment : Fragment(), AddressInterface {
     private lateinit var orderFactory: OrdersAddressViewModelFactory
     private lateinit var addressOrderRecyclerView: RecyclerView
     private lateinit var viewModel: OrdersAddressViewModel
+    private lateinit var backButton: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,21 +51,28 @@ class OrderAddressFragment : Fragment(), AddressInterface {
         )
         initUI(view)
         setUpAddressOrderRecyclerView()
-
+        if (isRTL())
+            backButton.setImageResource(R.drawable.ic_arrow_right)
         viewModel = ViewModelProvider(this, orderFactory).get(OrdersAddressViewModel::class.java)
         viewModel.getAddressOrder()
         viewModel.address.observe(requireActivity()) {
             if (it != null) {
                 Log.i(TAG, "brand: $it")
-                addressOrderAdapter.setListOfAddreses(it.addresses)
+                addressOrderAdapter.setListOfAddreses(it)
+            } else {
+                addressOrderAdapter.setListOfAddreses(emptyList())
             }
         }
+
 
     }
 
     private fun initUI(view: View) {
         addressOrderRecyclerView = view.findViewById(R.id.addressOrderRecycleView)
-
+        backButton = view.findViewById(R.id.backButtonAddressOrder)
+        backButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
     }
 
     private fun setUpAddressOrderRecyclerView() {
@@ -80,7 +90,6 @@ class OrderAddressFragment : Fragment(), AddressInterface {
             .replace(R.id.frameOrderAddress, paymentFragment).addToBackStack(null).commit()
         paymentFragment.setAddress(address)
     }
-
 
 
 }

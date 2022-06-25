@@ -28,7 +28,6 @@ import com.example.clickbuy.util.isRTL
 private const val TAG = "SearchFragment"
 
 class SearchFragment : Fragment(), ProductDetailsIDShow {
-
     private lateinit var binding: FragmentSearchBinding
     private lateinit var searchResultAdapter: CategoryAdapter
     private lateinit var searchFactory: SearchViewModelFactory
@@ -173,14 +172,12 @@ class SearchFragment : Fragment(), ProductDetailsIDShow {
             }
         })
     }
-
     private fun setupToolBar() {
         binding.searchTB.setNavigationIcon(if (isRTL()) R.drawable.ic_arrow_right else R.drawable.ic_back_icon)
         binding.searchTB.setNavigationOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
     }
-
     override fun SetProductDetailsID(id: String) {
         val productDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
