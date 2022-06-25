@@ -2,12 +2,14 @@ package com.example.clickbuy
 
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RemoteSource
+import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
-
 class FakeRepository : RemoteSource {
+
     override suspend fun getProductByID(productId: String): Response<ProductParent> {
-        TODO("Not yet implemented")
+        val product = Product(id = 6870134227083, title = "ADIDAS | SUPERSTAR 80S")
+        return Response.success(200, ProductParent(product))
     }
 
     override suspend fun getAllProducts(
@@ -32,26 +34,44 @@ class FakeRepository : RemoteSource {
         order.add(Order(id))
         return Response.success(200, Orders(order))
     }
+
     override suspend fun getAllAddresses(): Response<CustomerAddresses> {
         var address: MutableList<CustomerAddress> = mutableListOf()
         address.add(CustomerAddress(city = "Alexandria"))
-        return Response.success(200, CustomerAddresses(address))    }
+        return Response.success(200, CustomerAddresses(address))
+    }
+
+
+    override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
+        var lineItems: MutableList<BagItem> = mutableListOf()
+        var noteAttributes: MutableList<NoteAttribute> = mutableListOf()
+        lineItems.add(BagItem(price = "100", quantity = 0, variant_id = 123456785))
+        noteAttributes.add(NoteAttribute("0", "image"))
+        val shoppingBag = ShoppingBag(
+            DraftOrder(
+                email = ConstantsValue.email,
+                line_items = lineItems,
+                note_attributes = noteAttributes,
+            )
+        )
+        return Response.success(200, shoppingBag)
+    }
 
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         TODO("Not yet implemented")
     }
-
 
     override suspend fun getSubCategories(): Response<Products> {
         TODO("Not yet implemented")
     }
 
     override suspend fun signIn(email: String): Response<Customers> {
-        TODO("Not yet implemented")
+        val customers = Customers(listOf(Customer(email = "ahmza@gmail.com", tags = "12345678", id = 5764294901899, note = "873313206411")))
+        return Response.success(200, customers)
     }
 
     override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
-        TODO("Not yet implemented")
+        return Response.success(200, customer)
     }
 
     override suspend fun getCustomerDetails(email: String): Response<Customers> {
@@ -91,7 +111,7 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
         TODO("Not yet implemented")
     }
 
@@ -104,15 +124,16 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun getDraftOrders(): Response<Favourites> {
-        TODO("Not yet implemented")
+        val favourites = Favourites(listOf(Favourite(line_items = listOf(FavouriteLineItem(id = 40335555035275, product_id = 40335555035275)), note = "fav")))
+        return Response.success(200, favourites)
     }
 
     override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
-        TODO("Not yet implemented")
+        return Response.success(200, favorite)
     }
 
     override suspend fun removeFavourite(id: String): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success(200)
     }
 
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {

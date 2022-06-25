@@ -22,11 +22,9 @@ class AddressOrderActivity : AppCompatActivity() {
 
         val list = intent.getSerializableExtra("TEST") as ShoppingBag
 
-        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.note_attributes.size}")
-        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.line_items.size}")
 
-        bagList = list.draft_order.line_items
-        imagesList = list.draft_order.note_attributes
+        bagList = list.draft_order.line_items!!
+        imagesList = list.draft_order.note_attributes!!
         totalAmountPrice = list.draft_order.subtotal_price
         replaceFragment(OrderAddressFragment())
     }
