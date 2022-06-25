@@ -23,6 +23,7 @@
         android:id="@+id/arrow_back_imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/go_back"
         android:src="@drawable/ic_arrow_left"
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/place_name_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColorHint="#757575" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -52,14 +54,47 @@
         android:layout_marginStart="50sp"
         android:layout_marginTop="30sp"
         android:layout_marginEnd="50sp"
-        android:hint="@string/get_address"
+        android:background="@color/background_coupons"
+        android:text="@string/get_address"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/place_name_input_layout" />
+
+
+    <ImageView
+        android:id="@+id/no_address_exist_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="40sp"
+        android:layout_marginTop="40sp"
+        android:layout_marginEnd="40sp"
+        android:contentDescription="@string/get_address_error"
+        android:src="@drawable/ic_no_place"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/no_address_exist_textView"
+        app:layout_constraintTop_toBottomOf="@+id/get_address_button" />
+
+    <TextView
+        android:id="@+id/no_address_exist_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="45sp"
+        android:text="@string/get_address_error"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/address_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="40sp"
+        android:contentDescription="@string/all_available_address"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/get_address_button" />
 
 

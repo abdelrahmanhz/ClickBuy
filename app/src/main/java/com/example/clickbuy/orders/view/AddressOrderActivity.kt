@@ -28,10 +28,10 @@ class AddressOrderActivity : AppCompatActivity() {
         bagList = list.draft_order.line_items
         imagesList = list.draft_order.note_attributes
         totalAmountPrice = list.draft_order.subtotal_price
-        replaceFragment(OrderAddresFragment())
+        replaceFragment(OrderAddressFragment())
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).commit()
     }
 }

@@ -38,8 +38,6 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
 
     }
-
-
     init {
         Log.i(TAG, "init: ")
     }
@@ -49,5 +47,6 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
         super.onCleared()
         Log.i(TAG, "onCleared: ")
     }
+
 
 }

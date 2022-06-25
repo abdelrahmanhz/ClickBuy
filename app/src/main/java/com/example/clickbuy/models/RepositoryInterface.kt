@@ -17,7 +17,6 @@ interface RepositoryInterface {
     suspend fun getSubCategories(): Response<Products>
     suspend fun getProductById(productId: String): Response<ProductParent>
     suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
-
     suspend fun signIn(email: String, password: String): String
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
@@ -34,11 +33,12 @@ interface RepositoryInterface {
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
+    suspend fun getAllPriceRules(): Response<PriceRules>
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
-    suspend fun addItemsInBag(product: Product): Response<ShoppingBag>
+    suspend fun addItemsInBag(product: Product, variantPosition: Int): Response<ShoppingBag>
     suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
 
     suspend fun setupConstantsValue()

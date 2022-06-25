@@ -176,7 +176,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     else{
                         Toast.makeText(
                             context,
-                            getString(R.string.unauthorized_bag),
+                            getString(R.string.unauthorized_shopping_cart),
                             Toast.LENGTH_LONG).show()
                     }
                 }

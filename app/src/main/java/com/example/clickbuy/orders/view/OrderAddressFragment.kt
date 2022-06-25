@@ -15,16 +15,15 @@ import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.orders.viewmodel.OrdersAddressViewModel
 import com.example.clickbuy.orders.viewmodel.OrdersAddressViewModelFactory
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Address
 import com.example.clickbuy.models.CustomerAddress
+import com.example.clickbuy.payment.paymentmethod.PaymentMethodFragment
 import com.example.clickbuy.payment.view.AddressInterface
-import com.example.clickbuy.payment.view.PaymentFragment
-import com.example.clickbuy.util.ConstantsValue
 
 
 private const val TAG = "OrderAddresFragment"
 
-class OrderAddresFragment : Fragment(), AddressInterface {
+
+class OrderAddressFragment : Fragment(), AddressInterface {
 
     private lateinit var addressOrderAdapter: AddressOrderAdapter
     private lateinit var orderFactory: OrdersAddressViewModelFactory
@@ -74,11 +73,14 @@ class OrderAddresFragment : Fragment(), AddressInterface {
         addressOrderRecyclerView.adapter = addressOrderAdapter
     }
 
+
     override fun showAddress(address: CustomerAddress) {
-        val paymentFragment = PaymentFragment()
+        val paymentFragment = PaymentMethodFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frameOrderAddress, paymentFragment).addToBackStack(null).commit()
         paymentFragment.setAddress(address)
     }
+
+
 
 }

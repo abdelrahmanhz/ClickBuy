@@ -8,18 +8,17 @@
     android:layout_marginStart="20sp"
     android:layout_marginTop="20sp"
     android:layout_marginEnd="20sp"
-    android:background="@color/white"
-    android:padding="5sp">
-
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/product_imageView"
-        android:layout_width="130sp"
-        android:layout_height="130sp"
-        android:layout_margin="10sp"
+        android:layout_width="100sp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/item_image"
         android:scaleType="fitXY"
         android:src="@drawable/ads_logo"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/liner_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,24 +28,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30sp"
-        android:layout_marginTop="10sp"
         android:maxLines="1"
-        android:text="Pizza"
+        android:text="title"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_imageView"
-        app:layout_constraintTop_toTopOf="@+id/product_imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/product_price_textView"
+        android:id="@+id/product_type_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30sp"
         android:layout_marginTop="10sp"
-        android:text="50$"
+        android:text="size"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp"
@@ -54,10 +51,24 @@
         app:layout_constraintStart_toEndOf="@+id/product_imageView"
         app:layout_constraintTop_toBottomOf="@+id/product_name_textView" />
 
+    <TextView
+        android:id="@+id/product_price_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="price"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/product_type_textView" />
+
+
     <LinearLayout
+        android:id="@+id/liner_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="30sp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_imageView"
@@ -65,8 +76,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/plus_imageView"
-            android:layout_width="35sp"
-            android:layout_height="30dp"
+            android:layout_width="30sp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_back_ground_bag"
             android:src="@drawable/ic_add_address" />
@@ -79,14 +90,14 @@
             android:layout_marginStart="15sp"
             android:layout_marginEnd="15sp"
             android:layout_weight="1"
-            android:text="8"
+            android:text="14"
             android:textColor="@color/black"
             android:textSize="30sp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/minus_textView"
-            android:layout_width="35sp"
-            android:layout_height="30dp"
+            android:layout_width="30sp"
+            android:layout_height="28dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_back_ground_bag"
             android:src="@drawable/ic_minus" />

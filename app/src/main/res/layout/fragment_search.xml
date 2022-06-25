@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,45 +10,75 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/searchTB"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@color/light_green"
-        app:navigationIconTint="@color/white"
-        app:navigationIcon="@drawable/ic_back_icon" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIconTint="@color/white" />
 
     <SearchView
         android:id="@+id/searchSV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
         android:background="@drawable/round_shape"
-        android:textAlignment="center"
+        android:iconifiedByDefault="false"
+        android:queryBackground="@android:color/transparent"
         android:queryHint="@string/search_for"
-        android:queryBackground="@android:color/transparent" />
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/searchTB" />
 
-    <ImageView
-        android:id="@+id/search_empty_image_view"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/search_no_internet_animation"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="40dp"
-        android:layout_marginTop="40dp"
-        android:contentDescription="TODO"
-        android:src="@drawable/empty"
-        android:visibility="gone"
+        android:layout_height="350sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fav_header" />
+        app:layout_constraintTop_toBottomOf="@+id/searchTB"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet"
+        tools:ignore="ImageContrastCheck" />
 
+    <TextView
+        android:id="@+id/search_enable_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enable_connection"
+        android:textColor="@color/light_green"
+        android:padding="16dp"
+        android:background="@drawable/spinner_shape"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_no_internet_animation" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/search_empty_animation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="40dp"
+        android:src="@drawable/empty"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchSV"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/empty_search_result"
+        tools:ignore="ImageContrastCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResultRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        android:paddingTop="16dp"
+        android:layout_height="0dp"
         android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/searchSV"
+        app:spanCount="2"
         tools:listitem="@layout/category_custom_row" />
-
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
