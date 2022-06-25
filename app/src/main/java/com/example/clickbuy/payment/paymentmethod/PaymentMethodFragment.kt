@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
+import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.payment.view.PaymentFragment
 import com.example.clickbuy.util.isRTL
 
@@ -17,7 +18,7 @@ private const val TAG = "PaymentMethodFragment"
 
 class PaymentMethodFragment : Fragment() {
 
-    private var address: Address = Address()
+    private var address: CustomerAddress = CustomerAddress()
     private lateinit var stripeRadioButton: RadioButton
     private lateinit var cashRadioButton: RadioButton
     private lateinit var backButton: ImageView
@@ -58,7 +59,7 @@ class PaymentMethodFragment : Fragment() {
         paymentFragment.setData(address, isCash)
     }
 
-    fun setAddress(address: Address) {
+    fun setAddress(address: CustomerAddress) {
         this.address = address
         Log.i(TAG, "address chosen: -------> $address")
     }
