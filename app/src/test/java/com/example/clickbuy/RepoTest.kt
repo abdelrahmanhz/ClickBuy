@@ -106,14 +106,14 @@ class RepoTest : TestCase() {
         runBlocking {
             category = dataRepository.getAllProducts("","","")
             categoryExcpected.add(Product(title = "product"))
-            assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
+            assertEquals(categoryExcpected[0].title, category.body()?.products?.get(0)?.title)
         }
     }
     @Test
     fun getAllAddresses(){
         runBlocking {
             address = dataRepository.getAllAddresses()
-            addressExcpected.add(CustomerAddress(city = "Alexandri"))
+            addressExcpected.add(CustomerAddress(city = "Alexandria"))
             assertEquals(addressExcpected[0].city, address.body()?.addresses?.get(0)?.city)
         }
     }
@@ -121,7 +121,7 @@ class RepoTest : TestCase() {
     fun getAllItemsInBag(){
         runBlocking {
             bag = dataRepository.getAllItemsInBag()
-            lineItemsExcpected.add(BagItem(price = "10", quantity = 0, variant_id = 123456785))
+            lineItemsExcpected.add(BagItem(price = "100", quantity = 0, variant_id = 123456785))
             noteAttributesExcpected.add(NoteAttribute("0", "image"))
             assertEquals(lineItemsExcpected[0].price, bag.body()?.draft_order?.line_items?.get(0)?.price)
         }

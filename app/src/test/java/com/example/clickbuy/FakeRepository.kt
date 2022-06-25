@@ -61,9 +61,6 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getProductByID(productId: String): Response<ProductParent> {
-        TODO("Not yet implemented")
-    }
     override suspend fun getSubCategories(): Response<Products> {
         TODO("Not yet implemented")
     }
