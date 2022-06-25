@@ -5,30 +5,14 @@ import retrofit2.Response
 
 
 interface RemoteSource {
-    suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products>
     suspend fun getProductByID(productId: String): Response<ProductParent>
     suspend fun getAllProducts(
         collectionId: String,
         vendor: String,
         productType: String
     ): Response<Products>
-
-    suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
     suspend fun getAllBrands(): Response<Brands>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products>
-
-    suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleFromFilter: String
-    ): Response<Products>
-
     suspend fun getSubCategories(): Response<Products>
-
-    // suspend fun getAllSubCategoriesForSpecificCategory(collectionID: String): Response<Products>
-    //  suspend fun getCustomCollectionsByID(collectionID: String): Response<CustomCollectionElement>
     suspend fun signIn(email: String): Response<Customers>
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
 
@@ -52,12 +36,10 @@ interface RemoteSource {
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
     suspend fun createBag(shoppingBag: ShoppingBag): Response<ShoppingBag>
+
     // Favourites
     suspend fun getDraftOrders(): Response<Favourites>
     suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent>
     suspend fun removeFavourite(id: String): Response<Any>
-
-    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
-    suspend fun postOrders( order: OrderPojo): Response<OrderPojo>
-
+    suspend fun postOrders(order: OrderPojo): Response<OrderPojo>
 }

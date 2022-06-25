@@ -1,7 +1,7 @@
 package com.example.clickbuy.payment.view
 
-import com.example.clickbuy.models.Address
+import com.example.clickbuy.models.CustomerAddress
 
 interface AddressInterface {
-    fun showAddress(address : Address)
+    fun showAddress(address : CustomerAddress)
 }

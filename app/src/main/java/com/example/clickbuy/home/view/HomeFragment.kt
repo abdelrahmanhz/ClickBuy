@@ -17,30 +17,23 @@ import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.bag.view.BagFragment
 import com.example.clickbuy.category.view.CategoryFragment
-import com.example.clickbuy.category.view.SubCateogriesAdapter
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
-import com.example.clickbuy.models.Product
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
-
 import com.example.clickbuy.util.ConnectionLiveData
 import com.google.android.material.appbar.MaterialToolbar
-
 import com.example.clickbuy.search.view.SearchFragment
 import com.example.clickbuy.util.ConstantsValue
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 import com.smarteist.autoimageslider.SliderView
 
@@ -66,7 +59,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var brandProgressBar: ProgressBar
     private lateinit var myToolbar: MaterialToolbar
-    var x: String? = null
 
 
     override fun onCreateView(

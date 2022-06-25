@@ -59,7 +59,7 @@ class PaymentFragment : Fragment() {
 
     private var discountAmount: String = ConstantsValue.discountAmount
 
-    private var address: Address = Address()
+    private var address: CustomerAddress = CustomerAddress()
     var bagList: List<BagItem> = emptyList()
     var imagesList: List<NoteAttribute> = emptyList()
 
@@ -243,7 +243,7 @@ class PaymentFragment : Fragment() {
             }
         }
     }
-    fun setAddress(address: Address) {
+    fun setAddress(address: CustomerAddress) {
         this.address = address
         Log.i(TAG, "address chossen: -------> $address")
     }

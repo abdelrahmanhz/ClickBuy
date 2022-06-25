@@ -20,11 +20,11 @@ interface RetrofitService {
     @GET("collections/{id}/products.json")
     suspend fun getAllProductsInCollectionByID(@Path("id") id: String): Response<Products>
 
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("custom_collections.json?title={categoryTitle}")
-    suspend fun getCategoryIdByTitle(
-        @Path("categoryTitle") categoryTitle: String
-    ): Response<CustomCollections>
+//    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+//    @GET("custom_collections.json?title={categoryTitle}")
+//    suspend fun getCategoryIdByTitle(
+//        @Path("categoryTitle") categoryTitle: String
+//    ): Response<CustomCollections>
 
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
@@ -161,13 +161,6 @@ interface RetrofitService {
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @POST("customers.json")
     suspend fun registerCustomer(@Body customerParent: CustomerParent): Response<CustomerParent>
-
-
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("customers/{id}/addresses.json")
-    suspend fun getAllAddressesForSpecificCustomer(
-        @Path("id") id: String
-    ): Response<Addresses>
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @POST("orders.json")

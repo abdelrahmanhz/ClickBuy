@@ -18,17 +18,14 @@ import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import retrofit2.Response
 
-
 @Config(sdk = [30])
 @RunWith(AndroidJUnit4::class)
-class ViewModelTest : TestCase() {
+class HomeViewModelTest : TestCase() {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var dataRepository: Repository
     private lateinit var fakeRepository: FakeRepository
-    var brandExcpected: MutableList<Brand> = mutableListOf()
-    lateinit var brand: Response<Brands>
     val appContext =
         androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
 
@@ -41,19 +38,14 @@ class ViewModelTest : TestCase() {
             fakeRepository, appContext
         )
     }
-
-
     @Test
-
     fun getAllBrands() {
         runBlocking {
             val viewModel = HomeViewModel(dataRepository)
             viewModel.getAllBrands()
             shadowOf(getMainLooper()).idle()
             val tasks = viewModel.brand.getOrAwaitValue()
-            assertEquals(1, tasks.smart_collections?.size)
+            assertEquals(1, tasks.smart_collections.size)
         }
-
-
     }
 }

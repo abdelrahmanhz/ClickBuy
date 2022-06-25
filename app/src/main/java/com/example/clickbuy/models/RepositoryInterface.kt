@@ -16,32 +16,10 @@ interface RepositoryInterface {
 
     suspend fun getSubCategories(): Response<Products>
     suspend fun getProductById(productId: String): Response<ProductParent>
-    //suspend fun getAllBrandsDetais(id : String): Response<Products>
-    //suspend fun getSalesId(): Response<CustomCollections>
-
-    //suspend fun getAllBrandsDetais(id: String): Response<Products>
-
-
-    //suspend fun getAllBrandsDetais(id : String): Response<Products>
-    //suspend fun getSalesId(): Response<CustomCollections>
-
-    //suspend fun getAllBrandsDetais(id: String): Response<Products>
-    suspend fun getAllProductsInCollectionByID(id: String): Response<Products>
-    suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products>
-
     suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
 
     suspend fun signIn(email: String, password: String): String
     suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent>
-    suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleFromFilter: String
-    ): Response<Products>
-
     suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories>
 
     //Customer
@@ -65,8 +43,6 @@ interface RepositoryInterface {
 
     suspend fun setupConstantsValue()
     suspend fun deleteSavedSettings()
-
-    suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses>
     suspend fun postOrders(order: OrderPojo): Response<OrderPojo>
 
     // Favourites

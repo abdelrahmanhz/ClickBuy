@@ -2,7 +2,6 @@ package com.example.clickbuy.category.view
 
 
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +13,6 @@ import com.example.clickbuy.R
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
-import com.example.clickbuy.home.view.CategoryBrandInterface
-import com.example.clickbuy.home.view.ProductDetailsInterface
 import com.example.clickbuy.models.Product
 import com.example.clickbuy.util.calculatePrice
 
@@ -47,9 +44,6 @@ class CategoryAdapter(val context: Context , categoryFragment: ProductDetailsIDS
         holder.titleTextView.text = category[position].title
         var priceConverted = calculatePrice(category[position].variants!![0].price)
         holder.priceTextView.text = priceConverted
-//        holder.priceTextView.text = category[position].variants!![0].price
-//        Log.i(TAG, "onBindViewHolder: " + category[position].variants!![position].price)
-        //   holder.brandImage.setImageResource(R.drawable.adidas_logo)
         holder.itemView.setOnClickListener {
             Toast.makeText(context, "Recycle Click$position", Toast.LENGTH_SHORT).show()
             productDetailsInterface.SetProductDetailsID(category[position].id.toString())

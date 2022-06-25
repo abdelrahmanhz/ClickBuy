@@ -16,11 +16,8 @@ import com.example.clickbuy.network.RetrofitClient
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.provider.Settings
-import android.view.WindowManager
-import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
@@ -42,17 +39,14 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCateogriesAdapter
-    private lateinit var brandFilterAdapter: BrandsFilterAdapter
     private lateinit var categoryFactory: CategoryViewModelFactory
     private lateinit var categoryRecyclerView: RecyclerView
-    private lateinit var filterBrandsRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
     private lateinit var categorySearchView: SearchView
     private lateinit var viewModel: CategoryViewModel
     private val ID_WOMEN = "273053712523"
     private val ID_MEN = "273053679755"
     private val ID_KIDS = "273053745291"
-    private lateinit var scrollView: ScrollView
     private var defaultId = ""
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
@@ -96,7 +90,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             } else {
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
-                //   myToolbar.visibility = View.GONE
                 tabLayout.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
 

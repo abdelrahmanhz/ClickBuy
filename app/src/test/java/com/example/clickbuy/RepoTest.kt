@@ -7,6 +7,7 @@ import com.example.clickbuy.network.RetrofitClient
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.*
+import org.junit.experimental.categories.Categories
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import retrofit2.Response
@@ -21,26 +22,42 @@ class RepoTest : TestCase() {
     private lateinit var dataRepository: Repository
     private lateinit var fakeRepository: FakeRepository
     var brandExcpected: MutableList<Brand> = mutableListOf()
+    var categoryExcpected: MutableList<Product> = mutableListOf()
+    var addressExcpected: MutableList<CustomerAddress> = mutableListOf()
+
     lateinit var brand: Response<Brands>
+    lateinit var category: Response<Products>
+    lateinit var address: Response<CustomerAddresses>
 
     @Before
     public override fun
             setUp() {
-        val appContext =
-            androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
+        val appContext = androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().context
         fakeRepository = FakeRepository()
-        dataRepository = Repository.getInstance(
-            fakeRepository, appContext
-        )
+        dataRepository = Repository.getInstance(fakeRepository, appContext)
     }
     @Test
-    fun data_storeUser_returnUserDetailsStored() {
+    fun getAllBrandsTest() {
         runBlocking {
            brand = dataRepository.getAllBrands()
             brandExcpected.add(Brand(title = "ADIDAS"))
             assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
         }
     }
-
-
+    @Test
+    fun getAllCategoriesTest() {
+        runBlocking {
+            category = dataRepository.getAllProducts("","","")
+            categoryExcpected.add(Product(title = "product"))
+            assertEquals(brandExcpected[0].title, brand.body()?.smart_collections?.get(0)?.title)
+        }
+    }
+    @Test
+    fun getAllAddresses(){
+        runBlocking {
+            address = dataRepository.getAllAddresses()
+            addressExcpected.add(CustomerAddress(city = "Alexandri"))
+            assertEquals(addressExcpected[0].city, address.body()?.addresses?.get(0)?.city)
+        }
+    }
 }

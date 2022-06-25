@@ -35,7 +35,6 @@ class Repository private constructor(
             return instance!!
         }
     }
-
     init {
         this.sharedPrefs = context.getSharedPreferences("DeviceToken", MODE_PRIVATE)
         this.editor = sharedPrefs!!.edit()
@@ -148,25 +147,6 @@ class Repository private constructor(
         return remoteSource.getSubCategories()
     }
 
-    override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
-        Log.i(TAG, "getAllSalesById: ")
-        return remoteSource.getAllProductsInCollectionByID(id)
-    }
-
-    override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
-        return remoteSource.getCategoryIdByTitle(categoryTitle)
-    }
-
-    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products> {
-        return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleComingFromHome
-        )
-    }
-
     override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
         return remoteSource.getAllOrdersForSpecificCustomerById(id)
 
@@ -202,15 +182,6 @@ class Repository private constructor(
         return remoteSource.registerCustomer(customer)
     }
 
-    override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleFromFilter: String
-    ): Response<Products> {
-        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleFromFilter
-        )
-    }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
         Log.i(TAG, "getProductByID: ")
@@ -219,12 +190,13 @@ class Repository private constructor(
         return response
     }
 
+
+
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         val response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: $response")
         return response
-
     }
 
     override suspend fun getCustomerDetails(email: String): Response<Customers> {
@@ -282,8 +254,6 @@ class Repository private constructor(
         Log.i(TAG, "validateCoupons: " + response.code())
         return response
     }
-
-
     override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
         val response = remoteSource.getAllItemsInBag()
 
@@ -294,8 +264,6 @@ class Repository private constructor(
             lineItems = response.body()?.draft_order?.line_items?.toMutableList()!!
             noteAttributes = response.body()?.draft_order?.note_attributes?.toMutableList()!!
         }
-
-
         Log.i(TAG, "getAllItemInBag after add: lineItems-----------> " + lineItems.size)
         Log.i(TAG, "getAllItemInBag after add: noteAttributes------> " + noteAttributes.size)
 
@@ -431,11 +399,6 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
-        val response = remoteSource.getAllAddresesForSpecificCustomer(id)
-        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
-        return response
-    }
 
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
         Log.i(TAG, "postOrders:")
@@ -462,7 +425,6 @@ class Repository private constructor(
         favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)
     }
-
     override suspend fun deleteFavourite(favId: String) {
         remoteSource.removeFavourite(favId)
     }
