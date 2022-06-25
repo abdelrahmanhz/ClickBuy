@@ -9,27 +9,27 @@ import com.example.clickbuy.util.ConstantsValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 const val TAG = "OrdersAddressViewModel"
 
 class OrdersAddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private val _iRepo: RepositoryInterface = iRepo
 
-    private var _address = MutableLiveData<CustomerAddresses>()
-    var address: LiveData<CustomerAddresses> = _address
+    private var _address = MutableLiveData<List<CustomerAddress>>()
+    var address: LiveData<List<CustomerAddress>> = _address
     fun getAddressOrder() {
         ConstantsValue.userID
         viewModelScope.launch {
-            var addressess: CustomerAddresses? = null
-            val brandResponse = _iRepo.getAllAddresses()
+            val addressResponse = _iRepo.getAllAddresses()
+            if (addressResponse.code() == 200) {
+                withContext(Dispatchers.Main) {
+                    _address.postValue(addressResponse.body()?.addresses)
+                }
+            } else {
+                _address.postValue(emptyList())
+            }
 
-            if (brandResponse.code() == 200) {
-                addressess = brandResponse.body()!!
-            }
-            withContext(Dispatchers.Main) {
-                _address.postValue(addressess!!)
-                addressess.addresses
-            }
         }
     }
 }

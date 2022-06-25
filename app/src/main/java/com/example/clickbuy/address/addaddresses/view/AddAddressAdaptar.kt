@@ -11,9 +11,7 @@ import com.example.clickbuy.models.Result
 
 class AddAddressAdapter(var addAddressFragment: AddAddressFragment) :
     RecyclerView.Adapter<AddAddressAdapter.ViewHolder>() {
-
     var addresses: List<Result> = emptyList()
-
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

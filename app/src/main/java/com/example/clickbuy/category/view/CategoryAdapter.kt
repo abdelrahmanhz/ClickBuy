@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.clickbuy.R
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.clickbuy.category.viewmodel.ProductDetailsIDShow
 import com.example.clickbuy.models.Product
@@ -40,7 +39,6 @@ class CategoryAdapter(val context: Context , categoryFragment: ProductDetailsIDS
         val priceConverted = calculatePrice(category[position].variants!![0].price)
         holder.priceTextView.text = priceConverted
         holder.itemView.setOnClickListener {
-            Toast.makeText(context, "Recycle Click$position", Toast.LENGTH_SHORT).show()
             productDetailsInterface.SetProductDetailsID(category[position].id.toString())
         }
     }

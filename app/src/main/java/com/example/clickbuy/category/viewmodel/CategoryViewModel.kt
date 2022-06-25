@@ -50,7 +50,6 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
                 }
             } else {
                 _subCategory.postValue((categories!!))
-
                 withContext(Dispatchers.Main) {
                     _subCategory.postValue(categories!!)
                 }

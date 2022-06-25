@@ -115,4 +115,7 @@
     <string name="entered_wrong_password">أدخلت كلمة مرور خاطئة</string>
     <string name="logged_in_successfully">تم تسجيل الدخول بنجاح</string>
     <string name="available">متاح</string>
+    <string name="place_order_successfuly" >تم الطلب بنجاح </string>
+    <string name="place_order_faild" >فشل الطلب</string>
+    <string name="billingaddress">Billing Address</string>
 </resources>

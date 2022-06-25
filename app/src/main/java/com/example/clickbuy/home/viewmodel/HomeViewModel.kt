@@ -27,40 +27,26 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getAllBrands() {
         viewModelScope.launch {
-            var brands: Brands? = null
             val brandResponse = _iRepo.getAllBrands()
             if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
-            }
-
-            withContext(Dispatchers.Main) {
-                _brand.postValue(brands!!)
+                withContext(Dispatchers.Main) {
+                    _brand.postValue(brandResponse.body()!!)
+                }
+            } else {
+                _brand.postValue(brandResponse.body()!!)
             }
         }
     }
 
     fun getAllSalesById() {
         viewModelScope.launch {
-            var brands: Products? = null
-            val brandResponse = _iRepo.getAllProducts("273053778059", "", "")
-            if (brandResponse.code() == 200) {
-                brands = brandResponse.body()!!
+            val salesResponse = _iRepo.getAllProducts("273053778059", "", "")
+            if (salesResponse.code() == 200) {
+                withContext(Dispatchers.Main) {
+                    _saleId.postValue( salesResponse.body()!!)
+                }
             }
-            withContext(Dispatchers.Main) {
-                _saleId.postValue(brands!!)
-                brands.products
-            }
-        }
-    }
 
-    fun getAvailableCoupons() {
-        viewModelScope.launch {
-            val response = _iRepo.getAvailableCoupons()
-            withContext(Dispatchers.Main) {
-                if (response.code() == 200 && !response.body()?.discount_codes.isNullOrEmpty())
-                    _coupons.postValue(response.body()?.discount_codes)
-
-            }
         }
     }
 

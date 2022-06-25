@@ -40,22 +40,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view" />
 
-    <RadioButton
-        android:id="@+id/stripe_radio_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:text="@string/pay_online"
-        app:layout_constraintStart_toStartOf="@+id/payment_method_textView"
-        app:layout_constraintTop_toBottomOf="@+id/payment_method_textView" />
 
-    <RadioButton
-        android:id="@+id/cash_radio_button"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/pay_cash"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/payment_method_textView"
-        app:layout_constraintTop_toBottomOf="@+id/stripe_radio_button" />
+        app:layout_constraintTop_toBottomOf="@+id/payment_method_textView">
 
+
+        <RadioButton
+            android:id="@+id/stripe_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:text="@string/pay_online"
+            app:layout_constraintStart_toStartOf="@+id/payment_method_textView"
+            app:layout_constraintTop_toBottomOf="@+id/payment_method_textView" />
+
+        <RadioButton
+            android:id="@+id/cash_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pay_cash"
+            app:layout_constraintStart_toStartOf="@+id/payment_method_textView"
+            app:layout_constraintTop_toBottomOf="@+id/stripe_radio_button" />
+
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

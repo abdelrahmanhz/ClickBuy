@@ -97,11 +97,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         }
 
         enableConnection.setOnClickListener {
-            /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-             } else {
-                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-             }*/
             connectInternet(requireContext())
         }
 
@@ -211,23 +206,19 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         viewModel.brand.observe(requireActivity()) {
             if (it != null) {
                 brandAdapter.setListOfBrands(it.smart_collections)
+            } else {
+                brandAdapter.setListOfBrands(emptyList())
             }
             brandProgressBar.visibility = View.GONE
-
         }
 
         viewModel.saleId.observe(requireActivity()) {
             if (it != null) {
                 saleAdapter.setListOfSales(it.products)
+            } else {
+                saleAdapter.setListOfSales(emptyList())
             }
         }
-
-        /*  viewModel.coupons.observe(viewLifecycleOwner) {
-
-              if (!it.isNullOrEmpty()) {
-                  couponsAdapter.setList(it)
-              }
-          }*/
 
         viewModel.priceRules.observe(viewLifecycleOwner) {
             if (!it.isNullOrEmpty()) {
@@ -245,18 +236,14 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     }
 
-    override fun productDetailsShow(id: String) { val salesDetails = ProductDetailsFragment()
+    override fun productDetailsShow(id: String) {
+        val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)
             .addToBackStack(null).commit()
         salesDetails.setProductId(id)
 
     }
-
-/*    override fun copyCouponsDetails(couponCode: String) {
-        val data = ClipData.newPlainText("coupon", couponCode)
-        clipboardManager.setPrimaryClip(data)
-    }*/
 
     override fun copyCouponsDetails(priceRule: PriceRule) {
         val data = ClipData.newPlainText("coupon", priceRule.title)

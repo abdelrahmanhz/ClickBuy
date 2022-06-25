@@ -88,7 +88,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
             }
-
         }
 
         arrowBackImageView.setOnClickListener {
@@ -207,19 +206,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                     c, recyclerView, viewHolder, dX,
                     dY, actionState, isCurrentlyActive
                 )
-
-                /* val background = ColorDrawable(Color.RED)
-                 background.setBounds(
-                     viewHolder.itemView.right,
-                     viewHolder.itemView.top,
-                     0,
-                     viewHolder.itemView.bottom
-                 )
-                 background.draw(c)*/
-                //        background.draw()
-
-
-                Log.i(TAG, "onChildDraw: ")
             }
 
 
@@ -286,10 +272,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         updateItemsInBag()
     }
 
-    /*  override fun onResume() {
-          super.onResume()
-          shimmerFrameLayout.startShimmerAnimation()
-      }*/
     override fun onStop() {
         super.onStop()
         Log.i(TAG, "onStop: -----------------------------> ")

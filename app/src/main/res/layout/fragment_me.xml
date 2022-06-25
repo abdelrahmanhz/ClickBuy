@@ -59,9 +59,8 @@
                 android:id="@+id/ic_edit_profile"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/edit_profile"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/edit_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,9 +97,8 @@
                 android:id="@+id/ic_address"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/address"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/adddress_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,9 +135,8 @@
                 android:id="@+id/ic_wishList"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/wishList"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/wishlist_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -176,9 +173,8 @@
                 android:id="@+id/ic_currency"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/currency"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/currency_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -215,9 +211,8 @@
                 android:id="@+id/ic_bag"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/shopping_cart"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/ic_shopping_cart" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -254,9 +249,8 @@
                 android:id="@+id/ic_order_history"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/order_history"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/history_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -293,9 +287,8 @@
                 android:id="@+id/ic_logout"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
-                android:background="@color/backgroundIconInProfile"
                 android:contentDescription="@string/log_out"
-                android:src="@drawable/ic_edit" />
+                android:src="@drawable/logout_image" />
 
             <TextView
                 android:layout_width="wrap_content"

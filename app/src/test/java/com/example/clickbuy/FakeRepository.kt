@@ -91,6 +91,10 @@ class FakeRepository : RemoteSource {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
         TODO("Not yet implemented")
     }

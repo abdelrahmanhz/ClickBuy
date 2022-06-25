@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,22 +17,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-<!--    <com.shuhart.stepview.StepView-->
-<!--        android:id="@+id/stepView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_marginTop="52dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/backButtonAddressOrder"-->
-<!--        app:sv_animationType="Line"-->
-<!--        app:sv_doneCircleRadius="70dp"-->
-<!--        app:sv_doneStepMarkColor="@color/black"-->
-<!--        app:sv_selectedCircleRadius="70dp"-->
-<!--        app:sv_selectedStepNumberColor="@color/black"-->
-<!--        app:sv_stepLineWidth="1dp"-->
-<!--        app:sv_stepNumberTextSize="12sp"-->
-<!--        app:sv_stepViewStyle="@style/StepView" />-->
+    <TextView
+        android:id="@+id/addressTitle"
+        style="bol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:text="@string/billingaddress"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/addressOrderRecycleView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/addressOrderRecycleView"
@@ -41,7 +37,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButtonAddressOrder"
+        app:layout_constraintTop_toBottomOf="@+id/addressTitle"
+        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/custom_row_order_address" />
 
 

@@ -72,27 +72,24 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         initViewModel()
         initUI(view)
         initTabLayout()
-
-
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
             if (it) {
-                noInternetAnimation.visibility = View.GONE
-                enableConnection.visibility = View.GONE
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmerAnimation()
+                getAllProducts()
                 tabLayout.visibility = View.VISIBLE
                 categorySearchView.visibility = View.VISIBLE
-                getAllProducts()
-
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
             } else {
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmerAnimation()
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 tabLayout.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
-
+                categoryRecyclerView.visibility = View.GONE
             }
-
-            shimmerFrameLayout.visibility = View.GONE
-            shimmerFrameLayout.stopShimmerAnimation()
-
         }
 
         enableConnection.setOnClickListener {
@@ -104,12 +101,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         }
         if (vendor.isNotEmpty())
             myToolbar.setNavigationIcon(R.drawable.ic_back_icon)
-            myToolbar.setNavigationOnClickListener {
+        myToolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
         viewModel.subCategory.observe(requireActivity()) {
             if (it != null) {
+                categoryRecyclerView.visibility = View.VISIBLE
                 categoryAdapter.setListOfCategory(it.products)
                 subCategoryData = it.products as ArrayList<Product>
             }
@@ -147,29 +145,29 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         myToolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.favorite_menu -> {
-                    if (ConstantsValue.isLogged){
+                    if (ConstantsValue.isLogged) {
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, FavouritesFragment())
                             .addToBackStack(null).commit()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(
                             context,
                             getString(R.string.unauthorized_wishlist),
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 R.id.cart_menubar -> {
-                    if (ConstantsValue.isLogged){
+                    if (ConstantsValue.isLogged) {
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, BagFragment())
                             .addToBackStack(null).commit()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(
                             context,
                             getString(R.string.unauthorized_shopping_cart),
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
                 R.id.filter_menubar -> {
@@ -185,14 +183,13 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
                     subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
                     recycler.layoutManager = GridLayoutManager(requireContext(), 3)
-                    recycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                    recycler.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
                     viewModel.category.observe(viewLifecycleOwner, {
                         subcategoryAdapter.setListOfSubCategories(it)
                     })
-
-
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
                         override fun onProgressChanged(
@@ -219,7 +216,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                         getAllProducts()
                         priceSeeker.progress = 0
                         filteredPrice.text = ""
-                       subcategoryAdapter.reset()
+                        subcategoryAdapter.reset()
                     }
                     btnDone.setOnClickListener {
                         dialog.dismiss()
@@ -232,10 +229,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             true
         }
 
-        categorySearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        categorySearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             var tempSubCategoryData = ArrayList<Product>()
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                if(!p0.isNullOrEmpty()){
+                if (!p0.isNullOrEmpty()) {
                     tempSubCategoryData.clear()
                     subCategoryData.forEach {
                         if (it.title?.contains(p0, true)!!)
@@ -244,8 +241,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
-                }
-                else{
+                } else {
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
@@ -253,7 +249,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
-                if(!p0.isNullOrEmpty()){
+                if (!p0.isNullOrEmpty()) {
                     tempSubCategoryData.clear()
                     subCategoryData.forEach {
                         if (it.title?.contains(p0, true)!!)
@@ -262,8 +258,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     categoryAdapter.setListOfCategory(tempSubCategoryData as List<Product>)
 
                     categoryRecyclerView.adapter?.notifyDataSetChanged()
-                }
-                else{
+                } else {
                     tempSubCategoryData.clear()
                     categoryAdapter.setListOfCategory(subCategoryData)
                 }
@@ -273,7 +268,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun clearSearchViewText() {
-        if(categorySearchView.query.isNotEmpty()) {
+        if (categorySearchView.query.isNotEmpty()) {
             categorySearchView.setQuery("", false)
             categorySearchView.clearFocus()
             categorySearchView.isIconified = false
@@ -340,8 +335,4 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        shimmerFrameLayout.startShimmerAnimation()
-    }
 }
