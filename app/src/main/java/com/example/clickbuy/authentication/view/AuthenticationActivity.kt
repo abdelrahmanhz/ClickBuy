@@ -2,20 +2,12 @@ package com.example.clickbuy.authentication.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.example.clickbuy.R
 import com.example.clickbuy.authentication.viewmodel.AuthenticationViewModel
 import com.example.clickbuy.authentication.viewmodel.AuthenticationViewModelFactory
 import com.example.clickbuy.databinding.ActivityAuthenticationBinding
-import com.example.clickbuy.databinding.FragmentSignupBinding
-import com.example.clickbuy.models.Favorite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
-import com.example.clickbuy.productdetails.view.TAG
-import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModel
-import com.example.clickbuy.productdetails.viewmodel.ProductDetailsViewModelFactory
 
 class AuthenticationActivity : AppCompatActivity() {
 
