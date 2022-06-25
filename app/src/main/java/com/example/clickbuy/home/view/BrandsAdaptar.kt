@@ -3,7 +3,6 @@ package com.example.clickbuy.home.view
 
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +32,6 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface) 
         holder: BrandsAdapter.ViewHolder,
         position: Int
     ) {
-        Log.i(TAG, "brand position: " + brand[position].id)
         val imageComping = brand[position].image?.src
 
         Glide.with(holder.itemView.context).load(imageComping).into(holder.brandImage)
@@ -43,13 +41,11 @@ class BrandsAdapter(val context: Context, homeFragment: CategoryBrandInterface) 
     }
 
     override fun getItemCount(): Int {
-        Log.i(TAG, "getItemCount: " + brand.size)
         return brand.size
     }
 
     fun setListOfBrands(brands: List<Brand>) {
         this.brand = brands.toList()
-        Log.i(TAG, "setListOfBrands: ")
         notifyDataSetChanged()
     }
 

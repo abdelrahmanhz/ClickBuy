@@ -7,25 +7,15 @@
     android:padding="10dp">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/review_item_image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/default_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <TextView
         android:id="@+id/review_item_reviewer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_bold"
-        android:text="Hamza"
+        android:text="@string/dummy_text"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@+id/review_item_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
@@ -43,14 +33,14 @@
 
     <TextView
         android:id="@+id/review_item_desc"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dummy_text"
+        android:layout_marginTop="4dp"
         android:maxLines="3"
+        android:text="@string/dummy_text"
         android:textSize="12sp"
-        android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/review_item_image"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_item_reviewer" />
 
 

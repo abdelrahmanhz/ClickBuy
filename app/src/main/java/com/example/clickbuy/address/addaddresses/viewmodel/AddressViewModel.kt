@@ -26,7 +26,7 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
             withContext(Dispatchers.Main) {
                 Log.i(TAG, "addAddress: code---------> " + response.code())
                 Log.i(TAG, "addAddress: body---------> " + response.body())
-                Log.i(TAG, "addAddress: response-----> " + response)
+                Log.i(TAG, "addAddress: response-----> $response")
                 if (response.code() == 201 && response.body() != null)
                     _isAdded.postValue(true)
                 else
@@ -43,6 +43,7 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
                     _addresses.postValue(response.body())
                 } else {
                     Log.i(TAG, "getAddress: error-------------> " + response.body())
+                    _addresses.postValue(AddressResponseAPI(emptyList(), Status(400, "fail"), 0))
                 }
             }
         }

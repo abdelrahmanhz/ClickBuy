@@ -12,7 +12,7 @@ data class Addresses (
 data class Order (
     val admin_graphql_api_id: String? = null,
     val app_id: Int? = null,
-    var billing_address: Address? = null,
+    var billing_address: CustomerAddress? = null,
     val browser_ip: Any? = null,
     val buyer_accepts_marketing: Boolean? = null,
     val cancel_reason: Any? = null,
@@ -38,7 +38,7 @@ data class Order (
     val customer_locale: Any? = null,
     val device_id: Any? = null,
     val discount_applications: List<Any>? = null,
-    var discount_codes: List<Any>? = null,
+    var discount_codes: List<DiscountCodes>? = null,
     var email: String? = null,
     val estimated_taxes: Boolean? = null,
     val financial_status: String? = null,
@@ -197,3 +197,9 @@ data class LineItem (
 data class ItemImage(var name : String,
                       var value : String){
 }
+
+data class DiscountCodes(
+    var code: String? = "",
+    var amount: String? = "",
+    var type: String? = ""
+)

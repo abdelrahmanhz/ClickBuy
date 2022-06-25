@@ -5,18 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.Address
+import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.payment.view.AddressInterface
 
 private const val TAG = "AddressOrderAdapter"
 
-class AddressOrderAdapter(val context: Context , var addressInterface: AddressInterface) :
+class AddressOrderAdapter(val context: Context, var addressInterface: AddressInterface) :
     RecyclerView.Adapter<AddressOrderAdapter.ViewHolder>() {
-    var addresses: List<Address> = emptyList()
+    var addresses: List<CustomerAddress> = emptyList()
     private var checkedPosition = 0
     private var choosenAdrres: String = ""
     override fun onCreateViewHolder(
@@ -28,6 +28,7 @@ class AddressOrderAdapter(val context: Context , var addressInterface: AddressIn
 
         return ViewHolder(view)
     }
+
     override fun onBindViewHolder(
         holder: AddressOrderAdapter.ViewHolder,
         position: Int
@@ -37,11 +38,13 @@ class AddressOrderAdapter(val context: Context , var addressInterface: AddressIn
             addressInterface.showAddress(addresses[position])
         }
     }
+
     override fun getItemCount(): Int {
         Log.i(TAG, "getItemCount: " + addresses.size)
         return addresses.size
     }
-    fun setListOfAddreses(addresees: List<Address>) {
+
+    fun setListOfAddreses(addresees: List<CustomerAddress>) {
         this.addresses = addresees.toList()
         Log.i(TAG, "setListOfBrands: ")
         notifyDataSetChanged()

@@ -63,15 +63,15 @@ data class CustomerAddressResponse(
 
 
 data class CustomerAddress(
-    val address1: String,
-    val city: String,
-    val country: String,
-    val country_code: String,
-    val country_name: String,
+    val address1: String?= null,
+    val city: String?= null,
+    val country: String?= null,
+    val country_code: String?= null,
+    val country_name: String?= null,
     val customer_id: Long? = null,
-    val default: Boolean,
+    val default: Boolean?= null,
     val id: Long? = null,
-    val province: String
+    val province: String?= null
 )
 
 data class DefaultAddress(

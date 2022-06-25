@@ -31,8 +31,6 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
 
     }
-
-
     init {
     }
 
@@ -40,5 +38,6 @@ class CurrencyViewModel(iRepo: RepositoryInterface) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
     }
+
 
 }

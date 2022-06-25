@@ -1,7 +1,10 @@
 package com.example.clickbuy.favourites.view
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +14,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.clickbuy.R
 import com.example.clickbuy.databinding.FragmentFavouritesBinding
-import com.example.clickbuy.favourites.adapters.FavouritesAdapter
+import com.example.clickbuy.favourites.view.adapters.FavouritesAdapter
 import com.example.clickbuy.favourites.viewmodel.FavouritesViewModel
 import com.example.clickbuy.favourites.viewmodel.FavouritesViewModelFactory
 import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
+import com.example.clickbuy.util.ConnectionLiveData
 
 
 
@@ -34,7 +38,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFavouritesBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -46,12 +50,38 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         setupUI()
         initViewModel()
         initRecyclerView()
+        checkInternetConnection()
         getFavourites()
+    }
+
+    private fun checkInternetConnection() {
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) {
+                binding.favNoInternetAnimation.visibility = View.GONE
+                binding.favEnableConnection.visibility = View.GONE
+//                if(favorites.isEmpty()) binding.favEmptyAnimation.visibility = View.VISIBLE
+                binding.favRecyclerView.visibility = View.VISIBLE
+                viewModel.getFavourites()
+            } else {
+                binding.favNoInternetAnimation.visibility = View.VISIBLE
+                binding.favEnableConnection.visibility = View.VISIBLE
+                binding.favEmptyAnimation.visibility = View.GONE
+                binding.favRecyclerView.visibility = View.GONE
+            }
+        }
+
+        binding.favEnableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            } else {
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+            }
+        }
     }
 
     private fun setupUI() {
         binding.favHeader.rightDrawable.visibility = View.GONE
-        binding.favHeader.titleTv.text = "Favourites"
+        binding.favHeader.titleTv.text = getString(R.string.favourites)
         binding.favRecyclerView.visibility = View.GONE
         binding.progressBar.visibility = View.VISIBLE
         // back
@@ -68,7 +98,6 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             )
         )
         viewModel = ViewModelProvider(this, viewModelFactory).get(FavouritesViewModel::class.java)
-        viewModel.getFavourites()
     }
 
     private fun initRecyclerView() {
@@ -87,7 +116,7 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
             } else {
                 binding.favRecyclerView.visibility = View.GONE
                 binding.progressBar.visibility = View.GONE
-                binding.favEmptyImageView.visibility = View.VISIBLE
+                binding.favEmptyAnimation.visibility = View.VISIBLE
             }
         }
 
@@ -103,23 +132,23 @@ class FavouritesFragment : Fragment(), FavouritesFragmentInterface {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.apply {
 
-            setTitle("Removing Alert")
-            setMessage("Do you want to remove \"${favorite.line_items?.get(0)?.title}\" from your favourites?")
+            setTitle(getString(R.string.alert_title))
+            setMessage(getString(R.string.want_to_remove) + favorite.line_items[0].title + getString(R.string.from_favourites))
 
-            setPositiveButton("Remove") { _, _ ->
+            setPositiveButton(getString(R.string.remove)) { _, _ ->
                 viewModel.deleteFavourite(favorite.id.toString())
                 favorites.removeAt(position)
                 favouritesAdapter.setFavourites(favorites)
                 Toast.makeText(
                     context,
-                    "Successfully removed!",
+                    getString(R.string.successfully_removed),
                     Toast.LENGTH_LONG).show()
                 if (favorites.isEmpty()) {
                     binding.favRecyclerView.visibility = View.GONE
-                    binding.favEmptyImageView.visibility = View.VISIBLE
+                    binding.favEmptyAnimation.visibility = View.VISIBLE
                 }
             }
-            setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
             show()
         }
     }

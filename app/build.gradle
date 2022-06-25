@@ -39,6 +39,7 @@ android {
 
     }
 
+
 }
 
 dependencies {
@@ -50,6 +51,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.4.2'
     testImplementation 'junit:junit:4.+'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
@@ -131,22 +134,6 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
 
-    // AndroidX Test - JVM testing
-    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
-    testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
-    testImplementation "junit:junit:4.13.2"
-
-    // AndroidX Test - Instrumented testing
-    androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.0-M1'
-    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
-
-    testImplementation 'com.google.truth:truth:0.43'
-    testImplementation 'androidx.test.ext:truth:1.3.0'
-
-    testImplementation "org.mockito:mockito-inline:3.11.2"
     //Animated GIF
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
 
@@ -157,4 +144,35 @@ dependencies {
     // stripe payment method
     implementation 'com.stripe:stripe-android:17.2.0'
     implementation 'com.android.volley:volley:1.1.0'
+
+    // AndroidX Test - JVM testing
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+    testImplementation "junit:junit:4.13.2"
+
+    // AndroidX Test - Instrumented testing
+    androidTestImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
+
+    testImplementation 'com.google.truth:truth:1.0'
+    testImplementation 'androidx.test.ext:truth:1.4.0'
+    testImplementation "org.mockito:mockito-inline:3.11.2"
+////
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    //Animated GIF
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+
+    //lottie
+//    def lottieVersion = "5.0.2"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    // stripe payment method
+    implementation 'com.stripe:stripe-android:17.2.0'
+    implementation 'com.android.volley:volley:1.1.0'
+    //Swipe to delete
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
 }

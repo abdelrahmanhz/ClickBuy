@@ -5,10 +5,10 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
 import com.example.clickbuy.network.RemoteSource
-import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
 
+private const val TAG = "Repository"
 
 class Repository private constructor(
     var remoteSource: RemoteSource,
@@ -20,12 +20,12 @@ class Repository private constructor(
 
 
     private var sharedPrefs: SharedPreferences? = null
-    var editor: SharedPreferences.Editor? = null
+    private var editor: SharedPreferences.Editor? = null
 
     companion object {
         private var instance: Repository? = null
         fun getInstance(
-            remoteSource: RetrofitClient, context: Context
+            remoteSource: RemoteSource, context: Context
         ): Repository {
             if (instance == null) {
                 instance = Repository(remoteSource, context)
@@ -33,22 +33,25 @@ class Repository private constructor(
             return instance!!
         }
     }
-
     init {
         this.sharedPrefs = context.getSharedPreferences("DeviceToken", MODE_PRIVATE)
         this.editor = sharedPrefs!!.edit()
     }
 
     override suspend fun setupConstantsValue() {
+
         ConstantsValue.isLogged = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
         ConstantsValue.userID = sharedPrefs?.getString("USER_ID", "")!!
         ConstantsValue.email = sharedPrefs?.getString("USER_EMAIL", "")!!
         ConstantsValue.draftOrderID = sharedPrefs?.getString("CART_ID", "empty")!!
+        ConstantsValue.to = sharedPrefs?.getString("CURRENCY", "EGP")!!
+
+
+        Log.i(TAG, "setupConstantsValue: to-------------------> " + ConstantsValue.to)
 
         if (ConstantsValue.isLogged && ConstantsValue.draftOrderID != "null") {
             getAllItemsInBag()
         }
-
     }
 
     override suspend fun deleteSavedSettings() {
@@ -60,12 +63,9 @@ class Repository private constructor(
         editor?.remove("USER_ID")
         editor?.remove("USER_EMAIL")
         editor?.remove("CART_ID")
+        editor?.remove("CURRENCY")
         editor?.apply()
 
-        val x = sharedPrefs?.getBoolean("IS_LOGGING", false)!!
-        val y = sharedPrefs?.getString("USER_ID", "")!!
-        val z = sharedPrefs?.getString("USER_EMAIL", "")!!
-        val t = sharedPrefs?.getString("CART_ID", "")!!
         lineItems = mutableListOf()
         noteAttributes = mutableListOf()
     }
@@ -87,7 +87,7 @@ class Repository private constructor(
         return remoteSource.getSubCategories()
     }
 
-    override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
+   /* override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
         return remoteSource.getAllProductsInCollectionByID(id)
     }
 
@@ -103,7 +103,8 @@ class Repository private constructor(
             idCollectionDetails,
             categoryTitleComingFromHome
         )
-    }
+    }*/
+
 
     override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
         return remoteSource.getAllOrdersForSpecificCustomerById(id)
@@ -140,25 +141,17 @@ class Repository private constructor(
         return remoteSource.registerCustomer(customer)
     }
 
-    override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleFromFilter: String
-    ): Response<Products> {
-        return remoteSource.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleFromFilter
-        )
-    }
 
     override suspend fun getProductById(productId: String): Response<ProductParent> {
         val response = remoteSource.getProductByID(productId)
         return response
     }
 
+
+
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         val response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         return response
-
     }
 
     override suspend fun getCustomerDetails(email: String): Response<Customers> {
@@ -194,6 +187,8 @@ class Repository private constructor(
     override suspend fun getQualifiedValueCurrency(
         to: String
     ): Response<CurrencyConverter> {
+        editor?.putString("CURRENCY", ConstantsValue.to)
+        editor?.apply()
         val response = remoteSource.getQualifiedValueCurrency(to)
         return response
     }
@@ -207,8 +202,6 @@ class Repository private constructor(
         val response = remoteSource.validateCoupons(code)
         return response
     }
-
-
     override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
         val response = remoteSource.getAllItemsInBag()
         if (!response.body()?.draft_order?.line_items.isNullOrEmpty()) {
@@ -230,13 +223,26 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun addItemsInBag(product: Product): Response<ShoppingBag> {
-           if (ConstantsValue.draftOrderID.trim() == "null") {
-               lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
+    override suspend fun addItemsInBag(
+        product: Product,
+        variantPosition: Int
+    ): Response<ShoppingBag> {
+        Log.i(TAG, "addItemsInBag: draftOrderID--------> " + ConstantsValue.draftOrderID)
+
+        Log.i(TAG, "addItemsInBag before add: lineItems-----------> " + lineItems.size)
+        Log.i(TAG, "addItemsInBag before add: noteAttributes------> " + noteAttributes.size)
+
+
+        if (ConstantsValue.draftOrderID.trim() == "null" ||
+            ConstantsValue.draftOrderID.trim().isEmpty()
+        ) {
+
+            Log.i(TAG, "addItemsInBag: create")
+            lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
             noteAttributes.add(
                 NoteAttribute(
-                    name = product.variants[0].id.toString(),
-                    value = product.images?.get(0)!!.src
+                    name = product.variants[variantPosition].id.toString(),
+                    value = product.images?.get(variantPosition)!!.src
                 )
             )
             val shoppingBag = ShoppingBag(
@@ -257,7 +263,7 @@ class Repository private constructor(
                 lineItems.removeAt(0)
             } else {
                 for (i in lineItems) {
-                    if (i.variant_id == product.variants?.get(0)!!.id) {
+                    if (i.variant_id == product.variants?.get(variantPosition)!!.id) {
                         i.quantity++
                         isExist = true
                         break
@@ -266,11 +272,16 @@ class Repository private constructor(
             }
 
             if (!isExist) {
-                lineItems.add(BagItem(quantity = 1, variant_id = product.variants?.get(0)!!.id))
+                lineItems.add(
+                    BagItem(
+                        quantity = 1,
+                        variant_id = product.variants?.get(variantPosition)!!.id
+                    )
+                )
                 noteAttributes.add(
                     NoteAttribute(
-                        name = product.variants[0].id.toString(),
-                        value = product.images?.get(0)!!.src
+                        name = product.variants[variantPosition].id.toString(),
+                        value = product.images?.get(variantPosition)!!.src
                     )
                 )
             }
@@ -306,10 +317,11 @@ class Repository private constructor(
         return response
     }
 
-    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
+  /*  override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
         val response = remoteSource.getAllAddresesForSpecificCustomer(id)
         return response
-    }
+    }*/
+
 
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
         return remoteSource.postOrders(order)
@@ -332,8 +344,14 @@ class Repository private constructor(
         favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)
     }
-
     override suspend fun deleteFavourite(favId: String) {
         remoteSource.removeFavourite(favId)
+    }
+
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
+        val response = remoteSource.getAllPriceRules()
+        Log.i(TAG, "getAllPriceRules: code-----------------> " + response.code())
+        Log.i(TAG, "getAllPriceRules: size-----------------> " + response.body()?.price_rules?.size)
+        return response
     }
 }

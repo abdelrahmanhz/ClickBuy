@@ -12,7 +12,7 @@ data class Product (
     val title: String? = null,
     val body_html: String? = null,
     val vendor: String? = null,
-    val product_type:  String?,
+    val product_type: String? = null,
     val created_at: String? = null,
     val handle: String? = null,
     val updated_at: String? = null,
@@ -25,7 +25,7 @@ data class Product (
     val variants: List<Variant>? = null,
     val options: List<Option>? = null,
     val images: List<ProductImage>? = null,
-    val image: ProductImage?
+    val image: ProductImage? = null
 )
 data class ProductImage (
     val id: Long,

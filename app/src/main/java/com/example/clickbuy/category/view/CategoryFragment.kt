@@ -168,7 +168,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     else{
                         Toast.makeText(
                             context,
-                            getString(R.string.unauthorized_bag),
+                            getString(R.string.unauthorized_shopping_cart),
                             Toast.LENGTH_LONG).show()
                     }
                 }
@@ -273,9 +273,12 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     private fun clearSearchViewText() {
-        categorySearchView.setQuery("", false)
-        categorySearchView.clearFocus()
-        categorySearchView.isIconified = false
+        if(categorySearchView.query.isNotEmpty()) {
+            categorySearchView.setQuery("", false)
+            categorySearchView.clearFocus()
+            categorySearchView.isIconified = false
+        }
+
     }
 
     private fun initViewModel() {

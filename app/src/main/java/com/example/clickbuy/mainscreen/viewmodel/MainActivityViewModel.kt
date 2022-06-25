@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clickbuy.models.CurrencyConverter
 import com.example.clickbuy.models.RepositoryInterface
+import com.example.clickbuy.util.ConstantsValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -43,9 +44,9 @@ class MainActivityViewModel(iRepo: RepositoryInterface) : ViewModel() {
         viewModelScope.launch {
             Log.i(TAG, "setupConstantsValue: ")
             _iRepo.setupConstantsValue()
+          //  getQualifiedValueCurrency(ConstantsValue.to)
         }
     }
-
 
     init {
         Log.i(TAG, "init: ")
@@ -56,5 +57,6 @@ class MainActivityViewModel(iRepo: RepositoryInterface) : ViewModel() {
         super.onCleared()
         Log.i(TAG, "onCleared: ")
     }
+
 
 }

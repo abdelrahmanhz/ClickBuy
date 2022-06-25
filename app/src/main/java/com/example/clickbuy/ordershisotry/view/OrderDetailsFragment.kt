@@ -63,6 +63,4 @@ class OrderDetailsFragment : Fragment(), OrderDetailsInterface {
     override fun showOrderDetails(lineItemList: List<BagItem>?, itemImageList: List<NoteAttribute>?) {
         setListOrderDetails(lineItemList, itemImageList)
     }
-
-
 }

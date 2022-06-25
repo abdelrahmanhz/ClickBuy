@@ -2,27 +2,35 @@ package com.example.clickbuy.currency.view
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
 import com.example.clickbuy.currency.viewmodel.CurrencyViewModel
 import com.example.clickbuy.currency.viewmodel.CurrencyViewModelFactory
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.mainscreen.view.MainActivity
+import com.example.clickbuy.models.Currency
+import com.example.clickbuy.util.ConnectionLiveData
+import com.example.clickbuy.util.connectInternet
 import com.example.clickbuy.util.isRTL
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.snackbar.Snackbar
 
 
 class CurrencyFragment : Fragment() {
+
+    private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var enableConnection: AppCompatButton
+
     private lateinit var arrowBackImageView: ImageView
     private lateinit var currencyRecyclerView: RecyclerView
     private lateinit var currencyAdapter: CurrencyAdapter
@@ -47,10 +55,29 @@ class CurrencyFragment : Fragment() {
         checkRTL()
         observeViewModel()
 
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) {
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmerAnimation()
+                viewModel.getCurrencies()
+                noInternetAnimation.visibility = View.GONE
+                enableConnection.visibility = View.GONE
+            } else {
+                currencyRecyclerView.visibility = View.GONE
+                shimmerFrameLayout.visibility = View.GONE
+                shimmerFrameLayout.stopShimmerAnimation()
+                noInternetAnimation.visibility = View.VISIBLE
+                enableConnection.visibility = View.VISIBLE
+            }
+        }
+
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
+        enableConnection.setOnClickListener {
+            connectInternet(requireContext())
+        }
 
         return view
     }
@@ -61,8 +88,9 @@ class CurrencyFragment : Fragment() {
         currencyAdapter = CurrencyAdapter()
         currencyRecyclerView.layoutManager = LinearLayoutManager(view.context)
         currencyRecyclerView.adapter = currencyAdapter
-
         arrowBackImageView = view.findViewById(R.id.arrow_back_imageView)
+        enableConnection = view.findViewById(R.id.enable_connection)
+        noInternetAnimation = view.findViewById(R.id.no_internet_animation)
     }
 
     private fun initViewModel() {
@@ -75,8 +103,6 @@ class CurrencyFragment : Fragment() {
 
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CurrencyViewModel::class.java)
-
-        viewModel.getCurrencies()
     }
 
     private fun checkRTL() {
@@ -89,6 +115,7 @@ class CurrencyFragment : Fragment() {
             if (it.isNullOrEmpty()) {
                 showSnackBar()
             } else {
+                (it as MutableList).add(0, Currency("EGP", true, ""))
                 currencyAdapter.setList(it)
                 shimmerFrameLayout.stopShimmerAnimation()
                 shimmerFrameLayout.visibility = View.GONE
@@ -121,14 +148,4 @@ class CurrencyFragment : Fragment() {
         super.onDestroy()
         (requireActivity() as MainActivity).updateCurrency()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-    }
-
-
 }

@@ -6,8 +6,18 @@
     android:layout_height="match_parent"
     android:layout_marginTop="20sp"
     android:padding="10sp"
-    tools:context=".address.view.AddressFragment">
+    tools:context=".address.showaddresses.view.AddressFragment">
 
+
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <TextView
         android:id="@+id/textView"
@@ -74,6 +84,7 @@
             android:id="@+id/empty_address_imageView"
             android:layout_width="wrap_content"
             android:layout_height="350sp"
+            android:contentDescription="@string/no_address_exist"
             android:src="@drawable/ic_empty_address"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

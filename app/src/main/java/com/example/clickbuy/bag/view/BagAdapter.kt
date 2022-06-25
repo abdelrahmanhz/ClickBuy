@@ -39,8 +39,9 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
 
         holder.productImageView.load(imagesList[position].value)
 
-        holder.productNameTextView.text = product.name
+        holder.productNameTextView.text = product.title
         holder.productPriceTextView.text = calculatePrice(product.price)
+        holder.productTypeTextView.text = product.variant_title
         holder.productNumberTextView.text = product.quantity.toString()
 
         holder.minusTextView.setOnClickListener {
@@ -66,6 +67,7 @@ class BagAdapter(var updatingItemsAtBag: UpdatingItemsAtBag) :
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var productNameTextView: TextView = itemView.findViewById(R.id.product_name_textView)
         var productImageView: ImageView = itemView.findViewById(R.id.product_imageView)
+        var productTypeTextView: TextView = itemView.findViewById(R.id.product_type_textView)
         var productPriceTextView: TextView = itemView.findViewById(R.id.product_price_textView)
         var productNumberTextView: TextView = itemView.findViewById(R.id.productNumber_textView)
         var plusTextView: ImageView = itemView.findViewById(R.id.plus_imageView)

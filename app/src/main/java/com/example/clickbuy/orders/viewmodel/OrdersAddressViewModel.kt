@@ -1,6 +1,5 @@
 package com.example.clickbuy.orders.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,13 +15,14 @@ const val TAG = "OrdersAddressViewModel"
 class OrdersAddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private val _iRepo: RepositoryInterface = iRepo
 
-    private var _address = MutableLiveData<Addresses>()
-    var address: LiveData<Addresses> = _address
-    fun getAddressOrder(id: String) {
+    private var _address = MutableLiveData<CustomerAddresses>()
+    var address: LiveData<CustomerAddresses> = _address
+    fun getAddressOrder() {
         ConstantsValue.userID
         viewModelScope.launch {
-            var addressess: Addresses? = null
-            val brandResponse = _iRepo.getAllAddresesForSpecificCustomer(id)
+            var addressess: CustomerAddresses? = null
+            val brandResponse = _iRepo.getAllAddresses()
+
             if (brandResponse.code() == 200) {
                 addressess = brandResponse.body()!!
             }

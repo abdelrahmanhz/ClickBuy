@@ -15,8 +15,6 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
 
     private var _category = MutableLiveData<HashSet<SubCategory>>()
     var category: LiveData<HashSet<SubCategory>> = _category
-    private var _brand = MutableLiveData<Brands>()
-    var brand: LiveData<Brands> = _brand
 
     private var _subCategory = MutableLiveData<Products>()
     var subCategory: LiveData<Products> = _subCategory
@@ -50,10 +48,12 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
                 withContext(Dispatchers.Main) {
                     _subCategory.postValue(categories!!)
                 }
-            }
-            else {
+            } else {
                 _subCategory.postValue((categories!!))
 
+                withContext(Dispatchers.Main) {
+                    _subCategory.postValue(categories!!)
+                }
             }
         }
     }
