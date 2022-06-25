@@ -2,6 +2,7 @@ package com.example.clickbuy
 
 import com.example.clickbuy.models.*
 import com.example.clickbuy.network.RemoteSource
+import org.checkerframework.checker.units.qual.C
 import retrofit2.Response
 
 
@@ -13,7 +14,8 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun getProductByID(productId: String): Response<ProductParent> {
-        TODO("Not yet implemented")
+        val product = Product(id = 6870134227083, title = "ADIDAS | SUPERSTAR 80S")
+        return Response.success(200, ProductParent(product))
     }
 
     override suspend fun getAllProducts(
@@ -53,11 +55,12 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun signIn(email: String): Response<Customers> {
-        TODO("Not yet implemented")
+        val customers = Customers(listOf(Customer(email = "ahmza@gmail.com", tags = "12345678", id = 5764294901899, note = "873313206411")))
+        return Response.success(200, customers)
     }
 
     override suspend fun registerCustomer(customer: CustomerParent): Response<CustomerParent> {
-        TODO("Not yet implemented")
+        return Response.success(200, customer)
     }
 
     override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
@@ -121,15 +124,16 @@ class FakeRepository : RemoteSource {
     }
 
     override suspend fun getDraftOrders(): Response<Favourites> {
-        TODO("Not yet implemented")
+        val favourites = Favourites(listOf(Favourite(line_items = listOf(FavouriteLineItem(id = 40335555035275, product_id = 40335555035275)), note = "fav")))
+        return Response.success(200, favourites)
     }
 
     override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
-        TODO("Not yet implemented")
+        return Response.success(200, favorite)
     }
 
     override suspend fun removeFavourite(id: String): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success(200)
     }
 
     override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {

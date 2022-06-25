@@ -42,5 +42,60 @@ class RepoTest : TestCase() {
         }
     }
 
+    @Test
+    fun getProductByID_fetchProduct_returnSpecificProduct(){
+        runBlocking {
+            val product = dataRepository.getProductById("6870134227083")
+            val productExpected = Product(id = 6870134227083, title = "ADIDAS | SUPERSTAR 80S")
+            assertEquals(productExpected.title, product.body()?.product?.title!!)
+        }
+    }
 
+    @Test
+    fun signIn_checkEmailAndPasswordMatching_returnResponseMessage(){
+        runBlocking {
+            val loggingMessage = dataRepository.signIn("ahmza@gmail.com", "12345674")
+            val loggingMessageExpected = "Entered a wrong password"
+            assertEquals(loggingMessageExpected, loggingMessage)
+        }
+    }
+
+    @Test
+    fun signUp_addNewCustomer_returnCustomerDetails(){
+        runBlocking {
+            val customer = fakeRepository.registerCustomer(CustomerParent(Customer(email = "test@test.com")))
+            val customerExpected = Customer(email = "test@test.com")
+            assertEquals(customerExpected.email, customer.body()?.customer!!.email)
+        }
+    }
+
+    @Test
+    fun getFavourites_fetchAllFavourites_returnAllFavourites(){
+        runBlocking {
+            val favourites = fakeRepository.getDraftOrders()
+            val favouritesExpected = mutableListOf<Favourite>()
+            favouritesExpected.add(Favourite(line_items = listOf(FavouriteLineItem(id = 30335555035274))))
+            favouritesExpected.add(Favourite(line_items = listOf(FavouriteLineItem(id = 40335555035275))))
+            assertNotSame(favouritesExpected[0].line_items[0].id, favourites.body()?.draft_orders?.get(0)?.line_items?.get(0)?.id)
+            assertEquals(favouritesExpected[1].line_items[0].id, favourites.body()?.draft_orders?.get(0)?.line_items?.get(0)?.id)
+        }
+    }
+
+    @Test
+    fun addFavourite_modifyFavourite_returnAddedFavourite(){
+        runBlocking {
+            val favouriteExpected = FavouriteParent(Favourite(line_items = listOf(FavouriteLineItem(id = 30335555035274))))
+            val favourite = fakeRepository.addFavourite(FavouriteParent(Favourite(line_items = listOf(FavouriteLineItem(id = 30335555035274)))))
+            assertEquals(favouriteExpected.draft_order!!.line_items[0].id, favourite.body()?.draft_order?.line_items?.get(0)!!.id)
+        }
+    }
+
+    @Test
+    fun removeFavourite_checkFavouriteId(){
+        runBlocking{
+            val responseCodeExpected = 200
+            val responseCode = fakeRepository.removeFavourite(id = "873157656715").code()
+            assertEquals(responseCodeExpected, responseCode)
+        }
+    }
 }
