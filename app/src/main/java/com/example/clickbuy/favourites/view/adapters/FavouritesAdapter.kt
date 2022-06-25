@@ -1,4 +1,4 @@
-package com.example.clickbuy.favourites.adapters
+package com.example.clickbuy.favourites.view.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
 import com.example.clickbuy.favourites.view.FavouritesFragmentInterface
-import com.example.clickbuy.models.DraftOrder
 import com.example.clickbuy.models.Favourite
 import com.example.clickbuy.util.Extensions.load
+import com.example.clickbuy.util.calculatePrice
 
 class FavouritesAdapter(
     private var favourites: ArrayList<Favourite>,
@@ -33,7 +33,9 @@ class FavouritesAdapter(
     override fun onBindViewHolder(holder: FavouriteViewHolder, position: Int) {
         favourites[position].note_attributes?.first()?.value?.let { holder.favouriteImage.load(it) }
         favourites[position].line_items.first().title.let { holder.favouriteTitle.text = it}
-        favourites[position].line_items.first().price.let { holder.favouritesPrice.text = it}
+        favourites[position].line_items.first().price.let { holder.favouritesPrice.text =
+            it?.let { it1 -> calculatePrice(it1) }
+        }
         holder.favouriteDeleteImage.setOnClickListener {
             view.deleteFavouriteItem(favourites[position], position)
         }

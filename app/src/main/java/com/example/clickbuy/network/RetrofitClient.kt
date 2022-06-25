@@ -40,62 +40,17 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-    override suspend fun getAllProductsInCollectionByID(collectionID: String): Response<Products> {
-        val response = retrofitHelper.getAllProductsInCollectionByID(collectionID)
-        Log.i(TAG, "getAllProductsInCollectionByID code \n ${response.code()}")
-        Log.i(TAG, "getAllProductsInCollectionByID body\n ${response.body()}")
-        return response
-    }
-
     override suspend fun getProductByID(productId: String): Response<ProductParent> {
         val response = retrofitHelper.getProductById(productId)
         Log.i(TAG, "getProductByID: response.code()----> " + response.code())
         return response
     }
-
-    override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
-        val response = retrofitHelper.getCategoryIdByTitle(categoryTitle)
-        Log.i(TAG, "getCategoryIdByTitle: " + response.code())
-
-        return response
-    }
-
     override suspend fun getAllBrands(): Response<Brands> {
         val response = retrofitHelper.getAllBrands()
         Log.i(TAG, "getAllBrands: ${response.body()}")
         return response
     }
 
-
-    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products> {
-        val response = retrofitHelper.getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleComingFromHome
-        )
-        Log.i(
-            TAG,
-            "getAllProductsInSpecificCollectionByIDAndTitle: response.code()----> " + response.code()
-        )
-        return response
-    }
-
-    override suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleFromFilter: String
-    ): Response<Products> {
-        val response = retrofitHelper.getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleFromFilter
-        )
-        Log.i(
-            TAG,
-            "getAllProductsInSpecificCollectionByIDAndTitle: response.code()----> " + response.code()
-        )
-        return response
-    }
 
     override suspend fun getSubCategories(): Response<Products> {
         val response = retrofitHelper.getSubCategories()
@@ -171,6 +126,7 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         Log.i(TAG, "getAllSubCategoriesForSpecificCategory: ")
         val response = retrofitHelper.getAllSubCategoriesForSpecificCategory(
@@ -202,14 +158,6 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
-
-    override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
-        val response = retrofitHelper.getAllAddressesForSpecificCustomer(id)
-        Log.i(TAG, "getAllAddresesForSpecificCustomer: $response")
-        return response
-    }
-
-
     override suspend fun signIn(email: String): Response<Customers> {
         return retrofitHelper.signIn(email)
     }
@@ -236,13 +184,20 @@ class RetrofitClient : RemoteSource {
 
     override suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent> {
         val response = retrofitHelper.addFavourite(favorite)
-        Log.v(TAG, "error body: ${response.errorBody().toString()}");
+        Log.v(TAG, "error body: ${response.errorBody().toString()}")
         Log.i(TAG, "addFavourite: ${response.code()} $response")
         return response
     }
 
     override suspend fun removeFavourite(id: String): Response<Any> {
         return retrofitHelper.removeFavourite(id)
+    }
+
+    override suspend fun getAllPriceRules(): Response<PriceRules> {
+        val response = retrofitHelper.getAllPriceRules()
+        Log.i(TAG, "getAllPriceRules: code----------------> " + response.code())
+        Log.i(TAG, "getAllPriceRules: size----------------> " + response.body()?.price_rules?.size)
+        return response
     }
 
 }

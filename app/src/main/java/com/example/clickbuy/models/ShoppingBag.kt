@@ -37,7 +37,7 @@ class ShoppingBag(
     val updated_at: String
 )*/
 data class DraftOrder(
-    val email: String,
+    val email: String? = null,
     val id: Long? = null,
     val line_items: List<BagItem>,
     val note_attributes: List<NoteAttribute>,

@@ -16,8 +16,14 @@
         app:menu="@menu/appbar_home"
         app:title="@string/app_name" />
 
-    o
-
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBarHome" />
 
     <ScrollView
         android:id="@+id/scroll_view"

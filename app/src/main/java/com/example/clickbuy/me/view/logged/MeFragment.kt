@@ -1,4 +1,4 @@
-package com.example.clickbuy.me.view.loged
+package com.example.clickbuy.me.view.logged
 
 import android.content.Intent
 import android.os.Build
@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
@@ -29,6 +30,7 @@ import com.example.clickbuy.ordershisotry.view.OrdersFragment
 import com.example.clickbuy.util.ConnectionLiveData
 import com.example.clickbuy.util.isRTL
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.connectInternet
 import de.hdodenhof.circleimageview.CircleImageView
 
 private const val TAG = "HomeView"
@@ -36,7 +38,7 @@ private const val TAG = "HomeView"
 class MeFragment : Fragment() {
 
     private lateinit var noInternetAnimation: LottieAnimationView
-    private lateinit var enableConnection: TextView
+    private lateinit var enableConnection: AppCompatButton
 
     private lateinit var welcomeTextView: TextView
     private lateinit var editProfileRelativeLayout: RelativeLayout
@@ -102,11 +104,12 @@ class MeFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
             } else {
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }
+            }*/
+            connectInternet(requireContext())
         }
 
         editProfileRelativeLayout.setOnClickListener {

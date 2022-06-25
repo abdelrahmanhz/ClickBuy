@@ -26,7 +26,7 @@ class ProductReviewsAdapter () : RecyclerView.Adapter<ProductReviewsAdapter.Prod
     private val count = (1..reviews.size).shuffled().take(1)[0]
 
     inner class ProductReviewViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val reviewerImage: ImageView = itemView.findViewById(R.id.review_item_image)
+//        val reviewerImage: ImageView = itemView.findViewById(R.id.review_item_image)
         val reviewer: TextView = itemView.findViewById(R.id.review_item_reviewer)
         val review: TextView = itemView.findViewById(R.id.review_item_desc)
         val rate : RatingBar = itemView.findViewById(R.id.review_item_rate)
@@ -40,7 +40,7 @@ class ProductReviewsAdapter () : RecyclerView.Adapter<ProductReviewsAdapter.Prod
     }
 
     override fun onBindViewHolder(holder: ProductReviewViewHolder, position: Int) {
-        holder.reviewerImage.setImageResource(R.drawable.default_image)
+//        holder.reviewerImage.setImageResource(R.drawable.default_image)
         holder.review.text = reviews[(reviews.indices).shuffled().take(1)[0]].review
         holder.reviewer.text = reviews[(reviews.indices).shuffled().take(1)[0]].reviewer
         holder.rate.rating = reviews[(reviews.indices).shuffled().take(1)[0]].rating

@@ -14,10 +14,10 @@ import com.example.clickbuy.R
 import com.example.clickbuy.payment.view.PaymentFragment
 
 class PaymentWayFragment : Fragment() {
-    private lateinit var placeOrderButton : Button
+    private lateinit var placeOrderButton: Button
     private lateinit var radioGroup: RadioGroup
-    private lateinit var paypalRadioButton :RadioButton
-    private lateinit var cashRadioButton :RadioButton
+    private lateinit var paypalRadioButton: RadioButton
+    private lateinit var cashRadioButton: RadioButton
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,8 +41,9 @@ class PaymentWayFragment : Fragment() {
                 when (radioGroup.checkedRadioButtonId) {
                     R.id.payPalRadioButton -> {
                         paypalRadioButton.isChecked = true
-                        Log.i("TAG", "onViewCreated: paypaaaaall " )
-                        Toast.makeText(requireContext(), "On click : paypal", Toast.LENGTH_SHORT).show()
+                        Log.i("TAG", "onViewCreated: paypaaaaall ")
+                        Toast.makeText(requireContext(), "On click : paypal", Toast.LENGTH_SHORT)
+                            .show()
                         requireActivity().supportFragmentManager.beginTransaction()
                             .replace(R.id.frame, PaymentFragment()).commit()
                     }
@@ -52,17 +53,16 @@ class PaymentWayFragment : Fragment() {
                         placeOrderButton.setOnClickListener {
 
                         }
-                        Log.i("TAG", "onViewCreated: cashhhhhh " )
-                        Toast.makeText(requireContext(), "On click : cashhhh", Toast.LENGTH_SHORT).show()
+                        Log.i("TAG", "onViewCreated: cashhhhhh ")
+                        Toast.makeText(requireContext(), "On click : cashhhh", Toast.LENGTH_SHORT)
+                            .show()
 
                     }
                 }
             })
 
 
-
-
     }
 
-        }
+}
 

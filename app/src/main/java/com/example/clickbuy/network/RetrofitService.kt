@@ -20,11 +20,11 @@ interface RetrofitService {
     @GET("collections/{id}/products.json")
     suspend fun getAllProductsInCollectionByID(@Path("id") id: String): Response<Products>
 
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("custom_collections.json?title={categoryTitle}")
-    suspend fun getCategoryIdByTitle(
-        @Path("categoryTitle") categoryTitle: String
-    ): Response<CustomCollections>
+//    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+//    @GET("custom_collections.json?title={categoryTitle}")
+//    suspend fun getCategoryIdByTitle(
+//        @Path("categoryTitle") categoryTitle: String
+//    ): Response<CustomCollections>
 
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
@@ -37,6 +37,10 @@ interface RetrofitService {
     suspend fun getProductById(@Path("id") id: String): Response<ProductParent>
 
     //Get all Coupons
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @GET("price_rules.json")
+    suspend fun getAllPriceRules(): Response<PriceRules>
+
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("price_rules/1089622311051/discount_codes.json")
     suspend fun getAvailableCoupons(): Response<Coupons>
@@ -127,11 +131,10 @@ interface RetrofitService {
     suspend fun getCurrencies(
     ): Response<Currencies>
 
-    @GET("convert?apikey=UzDffIvEj5rwG6iHMLxXMS5Cz4jsyYBK&amount=1&from=EGP")
+    @GET("convert?apikey=1aK6i9hg5CMorTMZ08lHW5MQloCYsyBi&amount=1&from=EGP")
     suspend fun getQualifiedValueCurrency(
         @Query("to") to: String
     ): Response<CurrencyConverter>
-
 
     //Bag
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
@@ -161,13 +164,6 @@ interface RetrofitService {
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @POST("customers.json")
     suspend fun registerCustomer(@Body customerParent: CustomerParent): Response<CustomerParent>
-
-
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("customers/{id}/addresses.json")
-    suspend fun getAllAddressesForSpecificCustomer(
-        @Path("id") id: String
-    ): Response<Addresses>
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @POST("orders.json")

@@ -5,39 +5,21 @@
     android:id="@+id/parent_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".me.view.loged.MeFragment">
+    tools:context=".me.view.logged.MeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/no_internet_animation"
+        <include
+            layout="@layout/no_connection_view"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
-            android:layout_marginTop="50sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"
-            app:lottie_rawRes="@raw/no_internet"
-            tools:ignore="ImageContrastCheck" />
-
-        <TextView
-            android:id="@+id/enable_connection"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/enable_connection"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_marginTop="200sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/no_internet_animation" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/welcome_textView"
@@ -74,18 +56,22 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_circleImageView">
 
             <ImageView
+                android:id="@+id/ic_edit_profile"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/edit_profile"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/edit_profile_image"
+                android:layout_toEndOf="@+id/ic_edit_profile"
                 android:text="@string/edit_profile"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -94,6 +80,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/edit_profile"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -108,18 +95,22 @@
             app:layout_constraintTop_toBottomOf="@+id/edit_profile_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_address"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/address"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/address_image"
+                android:layout_toEndOf="@+id/ic_address"
                 android:text="@string/address"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -128,6 +119,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/address"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -142,18 +134,22 @@
             app:layout_constraintTop_toBottomOf="@+id/address_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_wishList"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/wishList"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/wishList_image"
+                android:layout_toEndOf="@+id/ic_wishList"
                 android:text="@string/wishList"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -162,6 +158,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/wishList"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -176,18 +173,22 @@
             app:layout_constraintTop_toBottomOf="@+id/wishList_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_currency"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/currency"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/currency_image"
+                android:layout_toEndOf="@+id/ic_currency"
                 android:text="@string/currency"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -196,6 +197,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/currency"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -210,18 +212,22 @@
             app:layout_constraintTop_toBottomOf="@+id/currency_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_bag"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/shopping_cart"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
-                android:text="@string/bag"
-                android:textAlignment="center"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/bag_image"
+                android:layout_toEndOf="@+id/ic_bag"
+                android:text="@string/shopping_cart"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -230,6 +236,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/shopping_cart"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -244,18 +251,22 @@
             app:layout_constraintTop_toBottomOf="@+id/bag_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_order_history"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/order_history"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/order_history_image"
+                android:layout_toEndOf="@+id/ic_order_history"
                 android:text="@string/order_history"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -264,6 +275,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/order_history"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 
@@ -278,18 +290,22 @@
             app:layout_constraintTop_toBottomOf="@+id/order_history_relativeLayout">
 
             <ImageView
+                android:id="@+id/ic_logout"
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:background="@color/backgroundIconInProfile"
+                android:contentDescription="@string/log_out"
                 android:src="@drawable/ic_edit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="50sp"
+                android:layout_marginStart="10sp"
+                android:layout_toStartOf="@+id/logout_image"
+                android:layout_toEndOf="@+id/ic_logout"
                 android:text="@string/log_out"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
@@ -298,6 +314,7 @@
                 android:layout_width="35sp"
                 android:layout_height="35sp"
                 android:layout_alignParentEnd="true"
+                android:contentDescription="@string/log_out"
                 android:src="@drawable/ic_arrow_right" />
         </RelativeLayout>
 

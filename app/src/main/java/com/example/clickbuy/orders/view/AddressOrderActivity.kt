@@ -2,7 +2,6 @@ package com.example.clickbuy.orders.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.clickbuy.R
@@ -23,16 +22,14 @@ class AddressOrderActivity : AppCompatActivity() {
 
         val list = intent.getSerializableExtra("TEST") as ShoppingBag
 
-        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.note_attributes.size}")
-        Log.i(TAG, "onCreate: list---------------> ${list.draft_order.line_items.size}")
 
-        bagList = list.draft_order.line_items
-        imagesList = list.draft_order.note_attributes
+        bagList = list.draft_order.line_items!!
+        imagesList = list.draft_order.note_attributes!!
         totalAmountPrice = list.draft_order.subtotal_price
-        replaceFragment(OrderAddresFragment())
+        replaceFragment(OrderAddressFragment())
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frameOrderAddress, fragment).commit()
     }
 }

@@ -1,6 +1,9 @@
 package com.example.clickbuy.authentication.view
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +15,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.databinding.FragmentSignupBinding
 import com.example.clickbuy.models.Customer
 import com.example.clickbuy.models.CustomerParent
+import com.example.clickbuy.util.ConnectionLiveData
 
 
 class SignupFragment : Fragment() {
@@ -28,7 +32,43 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupButtonsListeners()
+        checkInternetConnection()
+    }
 
+    private fun checkInternetConnection() {
+        ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            if (it) showFormAndHideAnimation()
+            else hideFormAndShowAnimation()
+        }
+
+        binding.signupEnableConnection.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+            else
+                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+        }
+    }
+
+    private fun hideFormAndShowAnimation() {
+        binding.signupNoInternetAnimation.visibility = View.VISIBLE
+        binding.signupEnableConnection.visibility = View.VISIBLE
+        binding.signupBackShape.visibility = View.GONE
+        binding.titleSignup.visibility = View.GONE
+        binding.cardViewSignup.visibility = View.GONE
+        binding.loginOption.visibility = View.GONE
+    }
+
+    private fun showFormAndHideAnimation() {
+        binding.signupNoInternetAnimation.visibility = View.GONE
+        binding.signupEnableConnection.visibility = View.GONE
+        binding.signupBackShape.visibility = View.VISIBLE
+        binding.titleSignup.visibility = View.VISIBLE
+        binding.cardViewSignup.visibility = View.VISIBLE
+        binding.loginOption.visibility = View.VISIBLE
+    }
+
+    private fun setupButtonsListeners() {
         binding.moveToSignInSignup.setOnClickListener { findNavController().popBackStack() }
         binding.signUp.setOnClickListener { submitForm() }
     }

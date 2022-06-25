@@ -174,4 +174,6 @@ dependencies {
     // stripe payment method
     implementation 'com.stripe:stripe-android:17.2.0'
     implementation 'com.android.volley:volley:1.1.0'
+    //Swipe to delete
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
 }

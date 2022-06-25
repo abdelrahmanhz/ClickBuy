@@ -11,7 +11,7 @@ import com.example.clickbuy.R
 import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.databinding.ActivityMainBinding
 import com.example.clickbuy.home.view.HomeFragment
-import com.example.clickbuy.me.view.loged.MeFragment
+import com.example.clickbuy.me.view.logged.MeFragment
 import com.example.clickbuy.me.view.guest.GuestFragment
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModel
 import com.example.clickbuy.mainscreen.viewmodel.MainActivityViewModelFactory
@@ -38,26 +38,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        replaceFragment(HomeFragment())
         initViewModel()
 
         ConnectionLiveData.getInstance(this).observe(this) {
             Log.i(TAG, "observe on connection: ----------------> $it")
             if (it) {
-                viewModel.getQualifiedValueCurrency(ConstantsValue.to)
                 viewModel.setupConstantsValue()
+                viewModel.getQualifiedValueCurrency(ConstantsValue.to)
             } else {
                 Log.i(TAG, "onCreate: no internet")
             }
         }
 
+        replaceFragment(HomeFragment())
+
         viewModel.currencyConverter.observe(this) {
             ConstantsValue.currencyValue = it.result
-            Log.i(
-                TAG,
-                "onCreate:  ConstantsValue.currencyValue ----------> " + ConstantsValue.currencyValue
-            )
-            Log.i(TAG, "onCreate:  it.result ----------> " + it.result)
+            Log.i(TAG, "onCreate: currencyValue ----------> " + ConstantsValue.currencyValue)
+            Log.i(TAG, "onCreate: it.result --------------> " + it.result)
         }
 
         meo = binding.bottomNav
@@ -100,8 +98,6 @@ class MainActivity : AppCompatActivity() {
         )
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
-
-        // viewModel.getQualifiedValueCurrency(ConstantsValue.to)
     }
 
     private fun replaceFragment(fragment: Fragment) {

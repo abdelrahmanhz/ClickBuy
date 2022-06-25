@@ -1,7 +1,7 @@
 package com.example.clickbuy.models
 
 data class PriceRules(
-    val price_rule: PriceRule
+    val price_rules: List<PriceRule>
 )
 
 data class PriceRule(

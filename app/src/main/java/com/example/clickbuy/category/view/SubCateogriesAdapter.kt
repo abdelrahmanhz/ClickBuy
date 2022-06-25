@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.category.view.SubCategoriesFromFilterInterface
 import com.example.clickbuy.models.SubCategory
 
 private const val TAG = "subCategoryImage"
