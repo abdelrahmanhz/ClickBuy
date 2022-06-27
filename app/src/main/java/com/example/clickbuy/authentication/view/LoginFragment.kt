@@ -108,7 +108,7 @@ class LoginFragment : Fragment() {
                     binding.emailSignIn.helperText = ""
                     binding.passwordSignIn.helperText = ""
                     clearFields()
-                    Toast.makeText(requireContext(), getString(R.string.logged_in_successfully), Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireContext(), getString(R.string.logged_in_successfully), Toast.LENGTH_LONG).show()
 
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

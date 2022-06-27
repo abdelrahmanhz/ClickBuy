@@ -1,5 +1,6 @@
 package com.example.clickbuy.category.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,24 +35,19 @@ class CategoryViewModel(irepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-    fun getAllProducts(
-        collectionId: String,
-        vendor: String,
-        productType: String
-    ) {
+    fun getAllProducts(collectionId: String, vendor: String, productType: String) {
         viewModelScope.launch {
-            var categories: Products? = null
             val brandResponse =
                 _irepo.getAllProducts(collectionId, vendor, productType)
-            if (brandResponse.code() == 200) {
-                categories = brandResponse.body()!!
-                withContext(Dispatchers.Main) {
-                    _subCategory.postValue(categories!!)
-                }
-            } else {
-                _subCategory.postValue((categories!!))
-                withContext(Dispatchers.Main) {
-                    _subCategory.postValue(categories!!)
+            withContext(Dispatchers.Main) {
+                if (brandResponse.code() == 200) {
+                    _subCategory.postValue(brandResponse.body())
+                    Log.i("TAG", "getAllProducts: body-------------" + brandResponse.body())
+                    Log.i("TAG", "getAllProducts: size-------------" + brandResponse.body()?.products?.size)
+                    Log.i("TAG", "getAllProducts: products---------" + brandResponse.body()?.products)
+                } else {
+                    Log.i("TAG", "getAllProducts: null---------" + brandResponse.body())
+                    _subCategory.postValue(brandResponse.body())
                 }
             }
         }

@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import android.view.ViewGroup
@@ -30,13 +31,15 @@ import com.example.clickbuy.productdetails.view.ProductDetailsFragment
 import com.example.clickbuy.util.ConnectionLiveData
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.clickbuy.util.ConstantsValue
+import com.example.clickbuy.util.calculatePrice
+import com.example.clickbuy.util.getEquivalentCurrencyValue
+import java.text.DecimalFormat
 
-private const val ID_WOMEN = "273053712523"
-private const val ID_MEN = "273053679755"
-private const val ID_KIDS = "273053745291"
+private const val ID_WOMEN = "274329436299"
+private const val ID_MEN = "274329403531"
+private const val ID_KIDS = "274329469067"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
-    private lateinit var enableConnection: TextView
 
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var subcategoryAdapter: SubCategoriesAdapter
@@ -52,6 +55,8 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     private var vendor: String = ""
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private lateinit var noInternetAnimation: LottieAnimationView
+    private lateinit var enableConnection: TextView
+    private lateinit var noProductsImageView: LottieAnimationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +72,6 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
             if (it) {
@@ -85,6 +89,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 tabLayout.visibility = View.GONE
+                noProductsImageView.visibility = View.GONE
                 myToolbar.visibility = View.GONE
                 categorySearchView.visibility = View.GONE
                 categoryRecyclerView.visibility = View.GONE
@@ -94,6 +99,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         initViewModel()
         initUI(view)
         initTabLayout()
+        observeViewModel()
 
         enableConnection.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -109,15 +115,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        viewModel.subCategory.observe(viewLifecycleOwner) {
-            if (it != null) {
-                categoryRecyclerView.visibility = View.VISIBLE
-                categoryAdapter.setListOfCategory(it.products)
-                subCategoryData = it.products as ArrayList<Product>
-            }
-            shimmerFrameLayout.stopShimmerAnimation()
-            shimmerFrameLayout.visibility = View.GONE
-        }
+
 
         tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -213,7 +211,9 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                                     priceFiltered.add(subCategoryData[i])
                                 categoryAdapter.setListOfCategory(priceFiltered)
                             }
-                            filteredPrice.text = seek.progress.toString()
+
+                            val progressText = seek.progress * ConstantsValue.currencyValue
+                            filteredPrice.text = DecimalFormat("#").format(progressText)
                         }
                     })
                     btnReset.setOnClickListener {
@@ -272,6 +272,27 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         })
     }
 
+    private fun observeViewModel() {
+        Log.i("TAG", "observeViewModel: observe data")
+        viewModel.subCategory.observe(viewLifecycleOwner) {
+            if (it != null && it.products.isNotEmpty()) {
+                categoryRecyclerView.visibility = View.VISIBLE
+                noProductsImageView.visibility = View.GONE
+                categoryAdapter.setListOfCategory(it.products)
+                subCategoryData = it.products as ArrayList<Product>
+                Log.i("TAG", "observeViewModel: exist data")
+            } else {
+                noProductsImageView.visibility = View.VISIBLE
+                categoryRecyclerView.visibility = View.GONE
+                categoryAdapter.setListOfCategory(emptyList())
+                subCategoryData = ArrayList()
+                Log.i("TAG", "observeViewModel: no data")
+            }
+            shimmerFrameLayout.stopShimmerAnimation()
+            shimmerFrameLayout.visibility = View.GONE
+        }
+    }
+
     private fun clearSearchViewText() {
         if (categorySearchView.query.isNotEmpty()) {
             categorySearchView.setQuery("", false)
@@ -300,6 +321,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout_category)
         enableConnection = view.findViewById(R.id.enable_connection_category)
         noInternetAnimation = view.findViewById(R.id.no_internet_animation_category)
+        noProductsImageView = view.findViewById(R.id.no_products_imageView)
         categoryRecyclerView.adapter = categoryAdapter
     }
 
