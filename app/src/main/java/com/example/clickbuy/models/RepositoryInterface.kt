@@ -40,7 +40,6 @@ interface RepositoryInterface {
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
     suspend fun getAvailableCoupons(): Response<Coupons>
     suspend fun validateCoupons(code: String): Response<Coupon>
-    suspend fun getAllPriceRules(): Response<PriceRules>
 
     suspend fun getAllItemsInBag(): Response<ShoppingBag>
     suspend fun updateItemsInBag(shoppingBag: ShoppingBag): Response<ShoppingBag>

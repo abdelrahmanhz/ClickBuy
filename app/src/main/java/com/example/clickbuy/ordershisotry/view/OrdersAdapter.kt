@@ -39,7 +39,8 @@ class OrdersAdapter(val context: Context, orderFragment: OrderDetailsInterface) 
         val date2 = dateFormatter.parse(date?.get(0))
         val time2 = timeFormatter.parse(time?.get(0))
         holder.orderDateTextView.text =
-            dateFormatter.format(date2).plus(context.resources.getString(R.string.at))
+            dateFormatter.format(date2)
+                .plus(("  " + context.resources.getString(R.string.at) + "  "))
                 .plus(timeFormatter.format(time2))
 
         val convertedPrice = calculatePrice(order[position].current_total_price.toString())

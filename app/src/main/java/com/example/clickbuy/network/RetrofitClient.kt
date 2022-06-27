@@ -1,5 +1,6 @@
 package com.example.clickbuy.network
 
+import android.util.Log
 import com.example.clickbuy.models.*
 import com.example.clickbuy.util.ConstantsValue
 import retrofit2.Response
@@ -73,7 +74,9 @@ class RetrofitClient : RemoteSource {
     }
 
     override suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse> {
+        Log.i("AddressViewModel", "end addAddress: repository")
         val response = retrofitHelper.addAddress(ConstantsValue.userID, address)
+        Log.i("AddressViewModel", "addAddress: retrofitClient")
         return response
     }
 
@@ -159,12 +162,6 @@ class RetrofitClient : RemoteSource {
 
     override suspend fun removeFavourite(id: String): Response<Any> {
         return retrofitHelper.removeFavourite(id)
-    }
-
-
-    override suspend fun getAllPriceRules(): Response<PriceRules> {
-        val response = retrofitHelper.getAllPriceRules()
-        return response
     }
 
 }

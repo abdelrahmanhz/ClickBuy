@@ -63,15 +63,12 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_category, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        initViewModel()
-        initUI(view)
-        initTabLayout()
+
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
             if (it) {
                 shimmerFrameLayout.visibility = View.VISIBLE
@@ -94,6 +91,10 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
             }
         }
 
+        initViewModel()
+        initUI(view)
+        initTabLayout()
+
         enableConnection.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
@@ -101,13 +102,14 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                 startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
             }
         }
+
         if (vendor.isNotEmpty())
             myToolbar.setNavigationIcon(R.drawable.ic_back_icon)
         myToolbar.setNavigationOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        viewModel.subCategory.observe(requireActivity()) {
+        viewModel.subCategory.observe(viewLifecycleOwner) {
             if (it != null) {
                 categoryRecyclerView.visibility = View.VISIBLE
                 categoryAdapter.setListOfCategory(it.products)

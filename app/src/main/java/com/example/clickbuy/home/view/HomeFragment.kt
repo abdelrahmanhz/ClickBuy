@@ -23,9 +23,6 @@ import com.example.clickbuy.category.view.CategoryFragment
 import com.example.clickbuy.favourites.view.FavouritesFragment
 import com.example.clickbuy.home.viewmodel.HomeViewModel
 import com.example.clickbuy.home.viewmodel.HomeViewModelFactory
-
-
-import com.example.clickbuy.models.PriceRule
 import com.example.clickbuy.models.Repository
 import com.example.clickbuy.network.RetrofitClient
 import com.example.clickbuy.productdetails.view.ProductDetailsFragment
@@ -83,8 +80,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 myToolbar.visibility = View.VISIBLE
                 viewModel.getAllBrands()
                 viewModel.getAllSalesById()
-                viewModel.getAllPriceRules()
-                //     viewModel.getAvailableCoupons()
+                //   viewModel.getAllPriceRules()
+                viewModel.getAvailableCoupons()
             } else {
                 Log.i("TAG", "onViewCreated: no connection--------------------------->")
                 noInternetAnimation.visibility = View.VISIBLE
@@ -180,11 +177,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         couponsSlider.isAutoCycle = true
         couponsSlider.startAutoCycle()
 
-        Log.i("TAG", "initUI: value----------------------------------- " + ConnectionLiveData.getInstance(requireContext()).value)
-        Log.i("TAG", "initUI: insta----------------------------------- " + ConnectionLiveData.getInstance(requireContext()))
         if (ConnectionLiveData.getInstance(requireContext()).value != true) {
             connectionView.visibility = View.VISIBLE
-            Log.i("TAG", "initUI:------------------------------------------------ visible view")
         }
 
     }
@@ -236,7 +230,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
             }
         }
 
-        viewModel.priceRules.observe(viewLifecycleOwner) {
+        viewModel.coupons.observe(viewLifecycleOwner) {
             Log.i("TAG", "observeViewModel: priceRules------------------------------")
             if (!it.isNullOrEmpty()) {
                 couponsAdapter.setList(it)
@@ -262,11 +256,12 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     }
 
-    override fun copyCouponsDetails(priceRule: PriceRule) {
-        val data = ClipData.newPlainText("coupon", priceRule.title)
+    override fun copyCouponsDetails(couponCode: String) {
+        val data = ClipData.newPlainText("coupon", couponCode)
         clipboardManager.setPrimaryClip(data)
-        ConstantsValue.discountAmount = priceRule.value
+        ConstantsValue.discountAmount = "-10"
         Toast.makeText(requireContext(), getString(R.string.copy_success), Toast.LENGTH_SHORT)
             .show()
     }
+
 }

@@ -24,6 +24,7 @@
                 android:id="@+id/imageViewFilterSubCategory"
                 android:layout_width="50sp"
                 android:layout_height="50sp"
+                android:contentDescription="@string/item_image"
                 android:src="@drawable/default_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

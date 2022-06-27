@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".productdetails.view.ProductDetailsFragment">
 
     <ProgressBar
@@ -16,13 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_details_header" />
 
-    <include layout="@layout/header_layout"
-        android:layout_alignParentTop="true"
+    <include
+        android:id="@+id/product_details_header"
+        layout="@layout/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:id="@+id/product_details_header"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp" />
 
     <ImageView
         android:id="@+id/product_details_empty_image_view"
@@ -40,8 +40,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
         android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_details_header">
 
@@ -66,12 +66,10 @@
                 layout="@layout/product_bottom_sheet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                />
+                android:layout_marginTop="15dp" />
 
         </LinearLayout>
     </ScrollView>
-
 
 
     <androidx.cardview.widget.CardView
@@ -149,10 +147,10 @@
         android:id="@+id/product_details_enable_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/spinner_shape"
+        android:padding="16dp"
         android:text="@string/enable_connection"
         android:textColor="@color/light_green"
-        android:padding="16dp"
-        android:background="@drawable/spinner_shape"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

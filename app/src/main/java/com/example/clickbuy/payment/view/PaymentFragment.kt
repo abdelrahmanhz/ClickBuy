@@ -26,8 +26,6 @@ import com.example.clickbuy.payment.viewmodel.OrderViewModelFactory
 import com.example.clickbuy.payment.viewmodel.PaymentViewModel
 import com.example.clickbuy.payment.viewmodel.PaymentViewModelFactory
 import com.example.clickbuy.util.*
-import com.example.clickbuy.util.Constants.PUBLISH_KEY
-import com.example.clickbuy.util.Constants.SECRET_KEY
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
@@ -36,6 +34,10 @@ import org.json.JSONObject
 import java.text.NumberFormat
 import java.util.*
 
+private const val SECRET_KEY =
+    "sk_test_51LC43aFOCB8Ua6ZfTDtJrqwPlSUbKsrxj7n5ee3o0ThJZwaQArSSoUE3DTuhSopUafFm7ieYKfBBL2I0JIoZsVCu00l34FE62t"
+private const val PUBLISH_KEY =
+    "pk_test_51LC43aFOCB8Ua6ZfGKUdmshB1qM4HY2jt2M23X1brOoiSbfFmTTyrP36uiaE6wnSouGakUzF8EH8cVsz0Xd5SstO00sT1KvP4e"
 
 class PaymentFragment : Fragment() {
 
@@ -215,7 +217,9 @@ class PaymentFragment : Fragment() {
     }
 
     private fun setPaymentMethod() {
-        if (!isCash) {
+        if (isCash) {
+            payButton.text = getString(R.string.placeOrder)
+        } else {
             initPayment()
             payButton.text = getString(R.string.pay)
             payButton.isEnabled = false
@@ -238,6 +242,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun initPayment() {
+        Log.i("TAG", "initPayment: start--------------------------------------------------")
         PaymentConfiguration.init(requireContext(), PUBLISH_KEY)
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
@@ -252,6 +257,10 @@ class PaymentFragment : Fragment() {
                         getEphemeralKey()
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        Log.i(
+                            "TAG",
+                            "initPayment: error--------------------------------------------------" + e.message
+                        )
                     }
                 },
                 Response.ErrorListener {
@@ -260,7 +269,7 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header["Authorization"] = "Bearer $SECRET_KEY"
+                    header.put("Authorization", "Bearer $SECRET_KEY")
                     return header
                 }
             }
@@ -278,11 +287,13 @@ class PaymentFragment : Fragment() {
 
     private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         if (paymentSheetResult is PaymentSheetResult.Completed) {
+            Toast.makeText(requireContext(), "Payment Success!!", Toast.LENGTH_SHORT).show()
             placeOrder()
         }
     }
 
     private fun getEphemeralKey() {
+        Log.i("TAG", "getEphemeralKey: start--------------------------------------------------")
         val request: StringRequest =
             object : StringRequest(
                 Method.POST, "https://api.stripe.com/v1/ephemeral_keys",
@@ -294,6 +305,10 @@ class PaymentFragment : Fragment() {
                         getClientSecret(customerId)
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        Log.i(
+                            "TAG",
+                            "getEphemeralKey: error--------------------------------------------------" + e.message
+                        )
                     }
                 },
                 Response.ErrorListener {
@@ -302,16 +317,17 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header["Authorization"] = "Bearer $SECRET_KEY"
-                    header["Stripe-Version"] = "2020-08-27"
+                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    header.put("Stripe-Version", "2020-08-27")
                     return header
                 }
 
                 override fun getParams(): Map<String, String> {
                     val param: HashMap<String, String> = HashMap<String, String>()
-                    param["customer"] = customerId
+                    param.put("customer", customerId)
                     return param
                 }
+
             }
 
         val requestQueue = Volley.newRequestQueue(requireContext())
@@ -319,6 +335,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun getClientSecret(customerId: String) {
+        Log.i("TAG", "getClientSecret: start--------------------------------------------------")
         val request: StringRequest =
             object : StringRequest(
                 Method.POST, "https://api.stripe.com/v1/payment_intents",
@@ -331,6 +348,10 @@ class PaymentFragment : Fragment() {
                         payButton.revertAnimation()
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        Log.i(
+                            "TAG",
+                            "getClientSecret: error--------------------------------------------------" + e.message
+                        )
                     }
                 },
                 Response.ErrorListener {
@@ -338,22 +359,25 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header["Authorization"] = "Bearer $SECRET_KEY"
+                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    Log.i("TAG", "Throws: ------------------------------------")
                     return header
                 }
 
                 override fun getParams(): Map<String, String> {
                     val param: HashMap<String, String> = HashMap<String, String>()
-                    param["customer"] = customerId
-                    param["amount"] = amountRequired + kaser
-                    param["currency"] = ConstantsValue.to
-                    param["automatic_payment_methods[enabled]"] = "true"
+                    param.put("customer", customerId)
+                    param.put("amount", "10" + "00")
+                    param.put("currency", "usd")
+                    param.put("automatic_payment_methods[enabled]", "true")
+                    Log.i("TAG", "getParams: -----------------------------------------------------")
                     return param
                 }
             }
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(request)
+        Log.i("TAG", "getClientSecret:end -----------------------------------------------------")
     }
 
     private fun placeOrder() {

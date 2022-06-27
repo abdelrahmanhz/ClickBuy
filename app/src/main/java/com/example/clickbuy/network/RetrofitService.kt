@@ -24,11 +24,6 @@ interface RetrofitService {
     @GET("products/{id}.json")
     suspend fun getProductById(@Path("id") id: String): Response<ProductParent>
 
-    //Get all Coupons
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("price_rules.json")
-    suspend fun getAllPriceRules(): Response<PriceRules>
-
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("price_rules/1089622311051/discount_codes.json")
     suspend fun getAvailableCoupons(): Response<Coupons>
@@ -46,20 +41,6 @@ interface RetrofitService {
         @Query("fields") product_type: String,
         @Query("collection_id") id: String
     ): Response<SubCategories>
-
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("products.json?")
-    suspend fun getAllSubCategoriesForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id: String,
-        @Query("vendor") title: String
-    ): Response<Products>
-
-    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
-    @GET("products.json?")
-    suspend fun getAllSubCategoriesFilterForSpecificCategoryByIDAndTitle(
-        @Query("collection_id") id: String,
-        @Query("product_type") title: String
-    ): Response<Products>
 
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
@@ -119,7 +100,7 @@ interface RetrofitService {
     suspend fun getCurrencies(
     ): Response<Currencies>
 
-    @GET("convert?apikey=1aK6i9hg5CMorTMZ08lHW5MQloCYsyBi&amount=1&from=EGP")
+    @GET("convert?apikey=EDAs6E0U7JioVNQEljXFF6g9xqnuzpL5&amount=1&from=EGP")
     suspend fun getQualifiedValueCurrency(
         @Query("to") to: String
     ): Response<CurrencyConverter>

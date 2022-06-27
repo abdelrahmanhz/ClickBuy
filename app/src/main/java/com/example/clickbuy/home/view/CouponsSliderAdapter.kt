@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.clickbuy.R
+import com.example.clickbuy.models.DiscountCode
 import com.example.clickbuy.models.PriceRule
 import com.example.clickbuy.util.calculatePrice
 import com.smarteist.autoimageslider.SliderViewAdapter
@@ -20,8 +21,7 @@ class CouponsSliderAdapter(
 ) :
     SliderViewAdapter<CouponsSliderAdapter.SliderAdapterViewHolder>() {
 
-    // private var couponsList: List<DiscountCode> = emptyList()
-    private var priceRules: List<PriceRule> = emptyList()
+    private var couponsList: List<DiscountCode> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup?): SliderAdapterViewHolder {
         val view: View =
@@ -32,41 +32,36 @@ class CouponsSliderAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: SliderAdapterViewHolder?, position: Int) {
-        /*    val discountCode = couponsList[position]
-            viewHolder?.discountValue?.text = context.resources.getString(R.string.off).plus(" 10%")
-            viewHolder?.codeTextView?.text =
-                context.resources.getString(R.string.discount_code).plus(discountCode.code)
-
-            viewHolder?.itemView?.setOnClickListener {
-                couponsDetailsInterface.copyCouponsDetails(discountCode.code)
-            }*/
-        val priceRule = priceRules[position]
-        //      (-priceRule.value.toDouble()) * ConstantsValue.currencyValue
-        val discountAmount = calculatePrice((-priceRule.value.toDouble()).toString())
+        val discountCode = couponsList[position]
+        val discountAmount = calculatePrice("10")
         viewHolder?.discountValue?.text =
             context.resources.getString(R.string.off).plus(" $discountAmount")
         viewHolder?.codeTextView?.text =
-            context.resources.getString(R.string.use_this_code).plus(" " + priceRule.title)
+            context.resources.getString(R.string.use_this_code).plus("  ${discountCode.code}")
 
         viewHolder?.itemView?.setOnClickListener {
-            couponsDetailsInterface.copyCouponsDetails(priceRule)
+            couponsDetailsInterface.copyCouponsDetails(discountCode.code)
         }
+        /*    val priceRule = priceRules[position]
+            //      (-priceRule.value.toDouble()) * ConstantsValue.currencyValue
+            val discountAmount = calculatePrice((-priceRule.value.toDouble()).toString())
+            viewHolder?.discountValue?.text =
+                context.resources.getString(R.string.off).plus(" $discountAmount")
+            viewHolder?.codeTextView?.text =
+                context.resources.getString(R.string.use_this_code).plus(" " + priceRule.title)
+
+            viewHolder?.itemView?.setOnClickListener {
+                couponsDetailsInterface.copyCouponsDetails(priceRule)
+            }*/
     }
 
     override fun getCount(): Int {
-        return priceRules.size
-        //  return couponsList.size
+        return couponsList.size
     }
 
-    /*  fun setList(couponsList: List<DiscountCode>) {
-          Log.i(TAG, "setList: ")
-          this.couponsList = couponsList
-          notifyDataSetChanged()
-      }*/
-
-    fun setList(priceRules: List<PriceRule>) {
+    fun setList(couponsList: List<DiscountCode>) {
         Log.i(TAG, "setList: ")
-        this.priceRules = priceRules
+        this.couponsList = couponsList
         notifyDataSetChanged()
     }
 

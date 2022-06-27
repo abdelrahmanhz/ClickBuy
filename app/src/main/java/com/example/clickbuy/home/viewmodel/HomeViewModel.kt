@@ -22,8 +22,8 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private var _coupons = MutableLiveData<List<DiscountCode>>()
     var coupons: LiveData<List<DiscountCode>> = _coupons
 
-    private var _priceRules = MutableLiveData<List<PriceRule>>()
-    var priceRules: LiveData<List<PriceRule>> = _priceRules
+   /* private var _priceRules = MutableLiveData<List<PriceRule>>()
+    var priceRules: LiveData<List<PriceRule>> = _priceRules*/
 
     fun getAllBrands() {
         viewModelScope.launch {
@@ -40,7 +40,7 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getAllSalesById() {
         viewModelScope.launch {
-            val salesResponse = _iRepo.getAllProducts("273053778059", "", "")
+            val salesResponse = _iRepo.getAllProducts("274329501835", "", "")
             if (salesResponse.code() == 200) {
                 withContext(Dispatchers.Main) {
                     _saleId.postValue( salesResponse.body()!!)
@@ -50,13 +50,15 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
         }
     }
 
-    fun getAllPriceRules() {
+
+    fun getAvailableCoupons() {
         viewModelScope.launch {
-            val response = _iRepo.getAllPriceRules()
+            val response = _iRepo.getAvailableCoupons()
             withContext(Dispatchers.Main) {
-                if (response.code() == 200 && !response.body()?.price_rules.isNullOrEmpty())
-                    _priceRules.postValue(response.body()?.price_rules)
+                if (response.code() == 200 && !response.body()?.discount_codes.isNullOrEmpty())
+                    _coupons.postValue(response.body()?.discount_codes)
             }
         }
     }
+
 }

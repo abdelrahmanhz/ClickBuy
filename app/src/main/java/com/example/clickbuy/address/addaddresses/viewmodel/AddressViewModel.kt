@@ -40,7 +40,20 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
             val response = _iRepo.getAddressFromApi(placeName)
             withContext(Dispatchers.Main) {
                 if (response.code() == 200) {
-                    _addresses.postValue(response.body())
+                    val list: MutableList<Result> = mutableListOf()
+                    if (response.code() == 200 && !response.body()?.results.isNullOrEmpty()) {
+                        for (i in 0 until response.body()?.results!!.size) {
+                            Log.i(TAG, "getAddress: " + response.body()!!.results[i].components.country)
+                            if (response.body()!!.results[i].components.country == "Egypt") {
+                                list.add(response.body()!!.results[i])
+                            }
+                        }
+                    }
+                    if (list.size > 0)
+                    _addresses.postValue(AddressResponseAPI(list, Status(200, "success"), list.size))
+                    else
+                        _addresses.postValue(AddressResponseAPI(emptyList(), Status(400, "fail"), 0))
+
                 } else {
                     Log.i(TAG, "getAddress: error-------------> " + response.body())
                     _addresses.postValue(AddressResponseAPI(emptyList(), Status(400, "fail"), 0))

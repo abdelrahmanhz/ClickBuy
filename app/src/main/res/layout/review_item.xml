@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/font_bold"
-        android:text="@string/dummy_text"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,8 +25,8 @@
         android:layout_alignParentEnd="true"
         android:isIndicator="true"
         android:numStars="5"
-        android:stepSize="0.5"
         android:rating="3.7"
+        android:stepSize="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,14 +36,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:maxLines="3"
-        android:text="@string/dummy_text"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/review_item_reviewer" />
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

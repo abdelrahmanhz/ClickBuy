@@ -31,13 +31,15 @@ class AddAddressAdapter(var addAddressFragment: AddAddressFragment) :
         }
     }
 
-    override fun getItemCount(): Int { return addresses.size
+    override fun getItemCount(): Int {
+        return addresses.size
     }
 
     fun setListOfAddresses(addresses: List<Result>) {
         this.addresses = addresses.toList()
         notifyDataSetChanged()
     }
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var addressName: TextView
 

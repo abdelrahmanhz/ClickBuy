@@ -33,6 +33,7 @@ class Repository private constructor(
             return instance!!
         }
     }
+
     init {
         this.sharedPrefs = context.getSharedPreferences("DeviceToken", MODE_PRIVATE)
         this.editor = sharedPrefs!!.edit()
@@ -87,23 +88,23 @@ class Repository private constructor(
         return remoteSource.getSubCategories()
     }
 
-   /* override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
-        return remoteSource.getAllProductsInCollectionByID(id)
-    }
+    /* override suspend fun getAllProductsInCollectionByID(id: String): Response<Products> {
+         return remoteSource.getAllProductsInCollectionByID(id)
+     }
 
-    override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
-        return remoteSource.getCategoryIdByTitle(categoryTitle)
-    }
+     override suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections> {
+         return remoteSource.getCategoryIdByTitle(categoryTitle)
+     }
 
-    override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products> {
-        return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(
-            idCollectionDetails,
-            categoryTitleComingFromHome
-        )
-    }*/
+     override suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
+         idCollectionDetails: String,
+         categoryTitleComingFromHome: String
+     ): Response<Products> {
+         return remoteSource.getAllProductsInSpecificCollectionByIDAndTitle(
+             idCollectionDetails,
+             categoryTitleComingFromHome
+         )
+     }*/
 
 
     override suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders> {
@@ -148,7 +149,6 @@ class Repository private constructor(
     }
 
 
-
     override suspend fun getAllSubCategoriesForSpecificCategory(idCollectionDetails: String): Response<SubCategories> {
         val response = remoteSource.getAllSubCategoriesForSpecificCategory(idCollectionDetails)
         return response
@@ -170,7 +170,9 @@ class Repository private constructor(
     }
 
     override suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse> {
+        Log.i("AddressViewModel", "start addAddress: repository")
         val response = remoteSource.addAddress(address)
+        Log.i("AddressViewModel", "get addAddress: repository")
         return response
     }
 
@@ -202,6 +204,7 @@ class Repository private constructor(
         val response = remoteSource.validateCoupons(code)
         return response
     }
+
     override suspend fun getAllItemsInBag(): Response<ShoppingBag> {
         val response = remoteSource.getAllItemsInBag()
         if (!response.body()?.draft_order?.line_items.isNullOrEmpty()) {
@@ -317,10 +320,10 @@ class Repository private constructor(
         return response
     }
 
-  /*  override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
-        val response = remoteSource.getAllAddresesForSpecificCustomer(id)
-        return response
-    }*/
+    /*  override suspend fun getAllAddresesForSpecificCustomer(id: String): Response<Addresses> {
+          val response = remoteSource.getAllAddresesForSpecificCustomer(id)
+          return response
+      }*/
 
 
     override suspend fun postOrders(order: OrderPojo): Response<OrderPojo> {
@@ -344,14 +347,9 @@ class Repository private constructor(
         favorite.draft_order?.email = email
         return remoteSource.addFavourite(favorite)
     }
+
     override suspend fun deleteFavourite(favId: String) {
         remoteSource.removeFavourite(favId)
     }
 
-    override suspend fun getAllPriceRules(): Response<PriceRules> {
-        val response = remoteSource.getAllPriceRules()
-        Log.i(TAG, "getAllPriceRules: code-----------------> " + response.code())
-        Log.i(TAG, "getAllPriceRules: size-----------------> " + response.body()?.price_rules?.size)
-        return response
-    }
 }

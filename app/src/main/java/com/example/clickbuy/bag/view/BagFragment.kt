@@ -71,6 +71,8 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         observeViewModel()
         swipeToDelete()
         checkRTL()
+
+
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
@@ -232,19 +234,14 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.delete_item))
             .setMessage(getString(R.string.delete_item_message))
-            .setNegativeButton(
-                getString(R.string.no_button)
-            ) { dialog: DialogInterface?, _: Int ->
+            .setNegativeButton(getString(R.string.no_button)) { dialog: DialogInterface?, _: Int ->
                 dialog!!.dismiss()
                 bagAdapter.notifyDataSetChanged()
             }
-            .setPositiveButton(
-                getString(R.string.delete_button)
-            ) { dialog: DialogInterface?, _: Int ->
+            .setPositiveButton(getString(R.string.delete_button)) { dialog: DialogInterface?, _: Int ->
                 dialog!!.dismiss()
                 deleteItem(position)
-            }
-            .show()
+            }.setCancelable(false).show()
     }
 
     private fun updateItemsInBag() {

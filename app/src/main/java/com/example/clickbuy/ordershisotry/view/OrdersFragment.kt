@@ -49,11 +49,6 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initUI(view)
-        setUpOrderRecyclerView()
-        initViewModel()
-        observeViewModel()
-
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
             if (it) {
                 shimmerFrameLayout.visibility = View.VISIBLE
@@ -69,6 +64,12 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
                 enableConnection.visibility = View.VISIBLE
             }
         }
+
+        initUI(view)
+        setUpOrderRecyclerView()
+        initViewModel()
+        observeViewModel()
+
 
         arrowBackImageView.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -107,7 +108,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
     }
 
     private fun observeViewModel() {
-        viewModel.order.observe(requireActivity()) {
+        viewModel.order.observe(viewLifecycleOwner) {
             if (it != null) {
                 orderAdapter.setListOfOrders(it.orders)
                 emptyOrdersAnimation.visibility = View.GONE
