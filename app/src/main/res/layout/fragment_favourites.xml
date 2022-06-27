@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".favourites.view.FavouritesFragment">
 
     <ProgressBar
@@ -17,34 +17,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fav_header" />
 
-    <include layout="@layout/header_layout"
-        android:layout_alignParentTop="true"
+    <include
+        android:id="@+id/fav_header"
+        layout="@layout/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:id="@+id/fav_header"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp" />
 
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fav_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingHorizontal="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/favourite_item"
-        app:layout_constraintTop_toBottomOf="@+id/fav_header" />
+        app:layout_constraintTop_toBottomOf="@+id/fav_header"
+        tools:listitem="@layout/favourite_item" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/fav_no_internet_animation"
         android:layout_width="match_parent"
         android:layout_height="350sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fav_header"
         app:lottie_autoPlay="true"
-        android:visibility="gone"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/no_internet"
         tools:ignore="ImageContrastCheck" />
@@ -53,10 +53,10 @@
         android:id="@+id/fav_enable_connection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/spinner_shape"
+        android:padding="16dp"
         android:text="@string/enable_connection"
         android:textColor="@color/light_green"
-        android:padding="16dp"
-        android:background="@drawable/spinner_shape"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

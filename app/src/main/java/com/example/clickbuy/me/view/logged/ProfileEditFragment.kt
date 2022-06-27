@@ -18,8 +18,6 @@ import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.isRTL
 import com.google.android.material.textfield.TextInputEditText
 
-private const val TAG = "ProfileEditFragment"
-
 class ProfileEditFragment : Fragment() {
 
     private lateinit var profileTextView: TextView

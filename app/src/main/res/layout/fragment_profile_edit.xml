@@ -20,6 +20,7 @@
             android:text="@string/profile"
             android:textColor="@color/black"
             android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +29,7 @@
             android:id="@+id/arrow_back_imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/go_back"
             android:src="@drawable/ic_arrow_left"
             app:layout_constraintBottom_toBottomOf="@id/profile_textView"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8sp"
+            android:contentDescription="@string/edit_profile"
             android:src="@drawable/ic_edit"
             app:layout_constraintBottom_toBottomOf="@id/profile_textView"
             app:layout_constraintEnd_toEndOf="parent"

@@ -4,41 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="#AA2929"
+    android:layout_marginTop="20sp"
+    android:padding="10sp"
     tools:context=".orders.view.OrderAddressFragment">
 
+    <TextView
+        android:id="@+id/addressTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:text="@string/billing_address"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/backButtonAddressOrder"
+        android:id="@+id/arrow_back_imageView_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/go_back"
         android:src="@drawable/ic_arrow_left"
+        app:layout_constraintBottom_toBottomOf="@id/addressTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/addressTitle" />
 
-    <TextView
-        android:id="@+id/addressTitle"
-        style="bol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:text="@string/billingaddress"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/addressOrderRecycleView"
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/addressTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/addressOrderRecycleView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addressTitle"
-        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/custom_row_order_address" />
 
 

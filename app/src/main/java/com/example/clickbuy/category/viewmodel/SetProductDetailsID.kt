@@ -1,5 +1,5 @@
 package com.example.clickbuy.category.viewmodel
 
 interface ProductDetailsIDShow {
-   fun  SetProductDetailsID(id:String)
+   fun  setProductDetailsID(id:String)
 }

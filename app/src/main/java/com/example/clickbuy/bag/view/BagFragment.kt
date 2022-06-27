@@ -53,24 +53,40 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
     private lateinit var progressBar: ProgressBar
     private lateinit var bagObject: ShoppingBag
 
-    override fun onStart() {
-        super.onStart()
-        Log.i(TAG, "onStart: -----------------------------> ")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(TAG, "onCreateView: -----------------------------> ")
-        val view = inflater.inflate(R.layout.fragment_bag, container, false)
+        return inflater.inflate(R.layout.fragment_bag, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        checkConnection()
 
         initUI(view)
         initViewModel()
         observeViewModel()
         swipeToDelete()
         checkRTL()
+        arrowBackImageView.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
 
+        checkoutButton.setOnClickListener {
+            val intent = Intent(requireContext(), AddressOrderActivity::class.java)
+            intent.putExtra("TEST", bagObject)
+            startActivity(intent)
+        }
+
+        enableConnection.setOnClickListener {
+            connectInternet(requireContext())
+        }
+    }
+
+    private fun checkConnection() {
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
             if (it) {
                 shimmerFrameLayout.visibility = View.VISIBLE
@@ -89,26 +105,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 enableConnection.visibility = View.VISIBLE
             }
         }
-
-        arrowBackImageView.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
-
-        checkoutButton.setOnClickListener {
-            val intent = Intent(requireContext(), AddressOrderActivity::class.java)
-            intent.putExtra("TEST", bagObject)
-            startActivity(intent)
-        }
-
-        enableConnection.setOnClickListener {
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-            } else {
-                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }*/
-            connectInternet(requireContext())
-        }
-        return view
     }
 
     private fun initUI(view: View) {

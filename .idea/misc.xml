@@ -3,108 +3,37 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/background_filter.xml" value="0.153125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/btn_shape.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/card_backfround.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_back_icon.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1375" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_favorite.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_favorite_border.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_label.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2203125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_address_order.xml" value="0.14583333333333334" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.12409420289855072" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_custom_row.xml" value="0.12864583333333332" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/brands_details_custom_row.xml" value="0.13269927536231885" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/card_item_details_brands.xml" value="0.13858695652173914" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/category_custom_row.xml" value="0.15625" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_bag.xml" value="0.192481884057971" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_brands_filter.xml" value="0.14" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_currency.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_order_address.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_order_details.xml" value="0.1046875" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_order_history.xml" value="0.12760416666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_orders.xml" value="0.12760416666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_row_sales.xml" value="0.16032608695652173" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/custom_subcategory_row.xml" value="0.5" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/filter_popup.xml" value="0.21338155515370705" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_address.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_bag.xml" value="0.1" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_brands_details.xml" value="0.13858695652173914" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.22" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_filter.xml" value="0.15" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.12" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.22" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_me2.xml" value="0.1693840579710145" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_order_addres.xml" value="0.22" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_order_details.xml" value="0.22" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_order_history.xml" value="0.12760416666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_orders.xml" value="0.1578125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_payment.xml" value="0.33" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_payment_method.xml" value="0.1480978260869565" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_payment_way.xml" value="0.22" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_product_details.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/header_layout.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/product_bottom_sheet.xml" value="0.1" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.1" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.1" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/sales_custom_row.xml" value="0.13489583333333333" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/salescustomrow.xml" value="0.128125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/searchhhh.xml" value="0.1453125" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/shimmer_animation_layout.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/shimmer_animation_layout_category.xml" value="0.13958333333333334" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/shimmer_placeholder_layout.xml" value="0.1" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/shimmer_placeholder_layout_category.xml" value="0.11822916666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/layout/shimmer_placeholder_layout_cateogry.xml" value="0.13958333333333334" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/appbar.xml" value="0.20416666666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/appbar_home.xml" value="0.25" />
         <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_menu.xml" value="0.12708333333333333" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/filter_meu.xml" value="0.1296875" />
-        <entry key="..\:/Final Project/ClickBuy/app/src/main/res/menu/search.xml" value="0.20416666666666666" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/background_coupons.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/background_view_border.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/btn_shape.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/button_bg.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_add_address.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_left.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_arrow_right.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_back_ground_bag.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_buy_now.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_check.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_edit.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_minus.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_save_button.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_savebutton.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_splash_icon.xml" value="0.18" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/activity_splash_screen.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/category_custom_row.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_address.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_bag.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_coupons.xml" value="0.4" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_currency.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_history.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_slider.xml" value="0.22871376811594202" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_address.xml" value="0.2" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_bag.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_currency.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_guest.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.2" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_login.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_me.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_history.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_payment.xml" value="0.264" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_product_details.xml" value="0.1334853090172239" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_profile_edit.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/animation_button.xml" value="0.1795" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/drawable/ic_save_button.xml" value="0.1795" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_address.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_order_details.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/custom_row_orders.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/filter_popup.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_address.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_bag.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_currency.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_favourites.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_login.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_addres.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_details.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_orders.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_payment.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_payment_method.xml" value="0.1334853090172239" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_profile_edit.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_signup.xml" value="0.1334853090172239" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/header_layout.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/pager_item.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/product_bottom_sheet.xml" value="0.1334853090172239" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/review_item.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_animation_layout.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_placeholder.xml" value="0.22826086956521738" />
-        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_placeholder_layout.xml" value="0.22826086956521738" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/header_layout.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/no_connection_view.xml" value="0.22780797101449277" />
       </map>
     </option>
   </component>

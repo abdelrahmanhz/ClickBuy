@@ -5,19 +5,9 @@
     android:id="@+id/ConstraintLayout_CurrencyFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="15sp"
-    android:paddingTop="15sp"
-    android:paddingEnd="15sp"
+    android:layout_marginTop="20sp"
+    android:padding="10sp"
     tools:context=".currency.view.CurrencyFragment">
-
-    <include
-        layout="@layout/no_connection_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <TextView
         android:id="@+id/textView"
@@ -40,6 +30,15 @@
         app:layout_constraintBottom_toBottomOf="@id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textView" />
+
+    <include
+        layout="@layout/no_connection_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <include
         layout="@layout/shimmer_animation_layout"

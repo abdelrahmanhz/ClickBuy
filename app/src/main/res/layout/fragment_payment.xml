@@ -81,7 +81,7 @@
             android:id="@+id/validate_code_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/red"
+            android:background="@color/light_green"
             android:text="@string/validate"
             android:textColor="@color/white"
             android:visibility="gone"
@@ -144,18 +144,39 @@
             app:layout_constraintStart_toStartOf="@+id/required_amount_textView"
             app:layout_constraintTop_toTopOf="@id/totalTV" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/pay_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10sp"
+            android:layout_marginStart="10sp"
             android:layout_marginTop="28dp"
-            android:background="@color/red"
-            android:text="@string/pay"
+            android:layout_marginEnd="10sp"
+            android:background="@color/light_green"
+            android:text="@string/placeOrder"
+            android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="19sp"
             android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/totalTV"
+            app:spinning_bar_color="#FFF"
+            app:spinning_bar_padding="6dp"
+            app:spinning_bar_width="4dp"
             tools:layout_editor_absoluteX="10dp" />
+
+
+        <!-- <androidx.appcompat.widget.AppCompatButton
+             android:id="@+id/pay_button"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="10sp"
+             android:layout_marginTop="28dp"
+             android:background="@color/light_green"
+             android:text="@string/pay"
+             android:textColor="@color/white"
+             app:layout_constraintTop_toBottomOf="@id/totalTV"
+             tools:layout_editor_absoluteX="10dp" />-->
 
         <include
             layout="@layout/no_connection_view"

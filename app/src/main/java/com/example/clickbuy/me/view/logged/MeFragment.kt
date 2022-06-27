@@ -1,10 +1,8 @@
 package com.example.clickbuy.me.view.logged
 
-import android.content.Intent
-import android.os.Build
+
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import com.airbnb.lottie.LottieAnimationView
 import com.example.clickbuy.R
@@ -66,18 +63,18 @@ class MeFragment : Fragment() {
     private val currencyFragment = CurrencyFragment()
     private val bagFragment = BagFragment()
     private val orderHistoryFragment = OrdersFragment()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i(TAG, "onCreate: ")
-
-    }
+    private val favouritesFragment = FavouritesFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_me, container, false)
+        return inflater.inflate(R.layout.fragment_me, container, false)
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initView(view)
         initViewModel()
@@ -104,66 +101,38 @@ class MeFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-            } else {
-                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }*/
             connectInternet(requireContext())
         }
 
         editProfileRelativeLayout.setOnClickListener {
-            Log.i("TAG", "onCreateView: editProfileRelativeLayout")
             replaceFragment(profileEditFragment)
         }
 
         addressRelativeLayout.setOnClickListener {
-            Log.i("TAG", "onCreateView: addressRelativeLayout")
             replaceFragment(addressFragment)
         }
 
         wishListRelativeLayout.setOnClickListener {
-            Log.i("TAG", "wishListRelativeLayout")
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.frame, FavouritesFragment())
-                .addToBackStack(null).commit()
+            replaceFragment(favouritesFragment)
         }
 
         bagRelativeLayout.setOnClickListener {
-            Log.i("TAG", "bagRelativeLayout")
             replaceFragment(bagFragment)
         }
 
         currencyRelativeLayout.setOnClickListener {
-            Log.i("TAG", "currencyRelativeLayout")
             replaceFragment(currencyFragment)
         }
 
         orderHistoryRelativeLayout.setOnClickListener {
-            Log.i("TAG", "orderHistoryRelativeLayout")
             replaceFragment(orderHistoryFragment)
         }
 
         logOutRelativeLayout.setOnClickListener {
-            Log.i("TAG", "logOutRelativeLayout")
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.frame, GuestFragment()).commit()
             viewModel.deleteSavedSettings()
         }
-
-        return view
-    }
-
-    private fun setVisibilityView(visibility: Int) {
-        welcomeTextView.visibility = visibility
-        editProfileRelativeLayout.visibility = visibility
-        addressRelativeLayout.visibility = visibility
-        wishListRelativeLayout.visibility = visibility
-        bagRelativeLayout.visibility = visibility
-        currencyRelativeLayout.visibility = visibility
-        orderHistoryRelativeLayout.visibility = visibility
-        logOutRelativeLayout.visibility = visibility
-        profileImage.visibility = visibility
 
     }
 
@@ -199,6 +168,7 @@ class MeFragment : Fragment() {
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(CustomerViewModel::class.java)
     }
+
     private fun checkRTL() {
         if (isRTL()) {
             editProfileImageView.setImageResource(R.drawable.ic_arrow_left)
@@ -211,40 +181,22 @@ class MeFragment : Fragment() {
         }
     }
 
+    private fun setVisibilityView(visibility: Int) {
+        welcomeTextView.visibility = visibility
+        editProfileRelativeLayout.visibility = visibility
+        addressRelativeLayout.visibility = visibility
+        wishListRelativeLayout.visibility = visibility
+        bagRelativeLayout.visibility = visibility
+        currencyRelativeLayout.visibility = visibility
+        orderHistoryRelativeLayout.visibility = visibility
+        logOutRelativeLayout.visibility = visibility
+        profileImage.visibility = visibility
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, fragment)
             .addToBackStack(null).commit()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.i(TAG, "onViewCreated: ")
-
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(TAG, "onPause: ")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(TAG, "onStop: ")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(TAG, "onDestroy: ")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i(TAG, "onDestroyView: ")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.i(TAG, "onDetach: ")
-    }
 }

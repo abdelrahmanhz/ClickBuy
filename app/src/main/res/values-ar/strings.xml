@@ -116,7 +116,12 @@
     <string name="logged_in_successfully">تم تسجيل الدخول بنجاح</string>
     <string name="available">متاح</string>
     <string name="product_details">تفاصيل المنتج</string>
-    <string name="place_order_successfuly" >تم الطلب بنجاح </string>
-    <string name="place_order_faild" >فشل الطلب</string>
-    <string name="billingaddress">عنوان الفواتير</string>
+    <string name="place_order_successfully" >تم الطلب بنجاح </string>
+    <string name="place_order_failed" >فشل الطلب</string>
+    <string name="billing_address">عنوان الشحن</string>
+    <string name="at">  الساعة  </string>
+    <string name="items">  منتجات  </string>
+    <string name="order_items_count">عدد المشتريات:</string>
+    <string name="date">التاريخ:</string>
+    <string name="time">الوقت:</string>
 </resources>

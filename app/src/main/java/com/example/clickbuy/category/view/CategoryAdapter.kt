@@ -39,7 +39,7 @@ class CategoryAdapter(val context: Context , categoryFragment: ProductDetailsIDS
         val priceConverted = calculatePrice(category[position].variants!![0].price)
         holder.priceTextView.text = priceConverted
         holder.itemView.setOnClickListener {
-            productDetailsInterface.SetProductDetailsID(category[position].id.toString())
+            productDetailsInterface.setProductDetailsID(category[position].id.toString())
         }
     }
     fun setListOfCategory(brands: List<Product>){

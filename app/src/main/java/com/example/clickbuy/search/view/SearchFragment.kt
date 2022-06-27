@@ -178,7 +178,7 @@ class SearchFragment : Fragment(), ProductDetailsIDShow {
             activity?.supportFragmentManager?.popBackStack()
         }
     }
-    override fun SetProductDetailsID(id: String) {
+    override fun setProductDetailsID(id: String) {
         val productDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, productDetails)

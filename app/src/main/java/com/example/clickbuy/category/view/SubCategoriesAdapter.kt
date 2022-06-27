@@ -12,8 +12,8 @@ import com.example.clickbuy.R
 import com.example.clickbuy.models.SubCategory
 
 
-class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromFilterInterface) :
-    RecyclerView.Adapter<SubCateogriesAdapter.ViewHolder>() {
+class SubCategoriesAdapter(val context: Context, subCategory: SubCategoriesFromFilterInterface) :
+    RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder>() {
     var subCategoryBrandInterface: SubCategoriesFromFilterInterface = subCategory
     var subCategorySet: HashSet<SubCategory> = HashSet()
     private var checkedPosition = -1
@@ -21,17 +21,13 @@ class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromF
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): SubCateogriesAdapter.ViewHolder {
+    ): SubCategoriesAdapter.ViewHolder {
         val view: View =
             LayoutInflater.from(context).inflate(R.layout.custom_subcategory_row, parent, false)
-        val holder = ViewHolder(view)
-        return holder
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: SubCateogriesAdapter.ViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: SubCategoriesAdapter.ViewHolder, position: Int) {
         holder.subCategoryTitle.text = subCategorySet.elementAt(position).product_type
         holder.bind(subCategorySet.elementAt(position))
         when (subCategorySet.elementAt(position).product_type) {
@@ -51,7 +47,7 @@ class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromF
     }
 
     fun reset() {
-     checkedPosition = -1
+        checkedPosition = -1
         notifyDataSetChanged()
     }
 
@@ -77,7 +73,7 @@ class SubCateogriesAdapter(val context: Context, subCategory: SubCategoriesFromF
             itemView.setOnClickListener {
                 if (checkedPosition != adapterPosition) {
                     notifyItemChanged(checkedPosition)
-                    itemView.setBackgroundColor(Color.BLACK)
+                    itemView.setBackgroundColor(Color.GRAY)
                     checkedPosition = adapterPosition
                     subCategoryBrandInterface.setSubCategoryTitle(
                         elementAt.product_type

@@ -31,20 +31,20 @@ import com.example.clickbuy.util.ConnectionLiveData
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.example.clickbuy.util.ConstantsValue
 
+private const val ID_WOMEN = "273053712523"
+private const val ID_MEN = "273053679755"
+private const val ID_KIDS = "273053745291"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
     private lateinit var enableConnection: TextView
 
     private lateinit var categoryAdapter: CategoryAdapter
-    private lateinit var subcategoryAdapter: SubCateogriesAdapter
+    private lateinit var subcategoryAdapter: SubCategoriesAdapter
     private lateinit var categoryFactory: CategoryViewModelFactory
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var myToolbar: MaterialToolbar
     private lateinit var categorySearchView: SearchView
     private lateinit var viewModel: CategoryViewModel
-    private val ID_WOMEN = "273053712523"
-    private val ID_MEN = "273053679755"
-    private val ID_KIDS = "273053745291"
     private var defaultId = ""
     private lateinit var tabLayout: TabLayout
     private lateinit var subCategoryData: ArrayList<Product>
@@ -183,20 +183,21 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
                     val filteredPrice: TextView = viewLay.findViewById(R.id.filteredPrice)
                     val layoutManager = LinearLayoutManager(CategoryFragment().context)
                     layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-                    subcategoryAdapter = SubCateogriesAdapter(requireContext(), this)
+                    subcategoryAdapter = SubCategoriesAdapter(requireContext(), this)
                     recycler.layoutManager = GridLayoutManager(requireContext(), 3)
                     recycler.layoutManager =
                         LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                     recycler.adapter = subcategoryAdapter
                     viewModel.getAllCategoryProducts(defaultId)
-                    viewModel.category.observe(viewLifecycleOwner, {
+                    viewModel.category.observe(viewLifecycleOwner) {
                         subcategoryAdapter.setListOfSubCategories(it)
-                    })
+                    }
                     priceSeeker.setOnSeekBarChangeListener(object :
                         SeekBar.OnSeekBarChangeListener {
                         override fun onProgressChanged(
                             seek: SeekBar,
-                            progress: Int, fromUser: Boolean
+                            progress: Int,
+                            fromUser: Boolean
                         ) {
                         }
 
@@ -327,7 +328,7 @@ class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDe
 
     }
 
-    override fun SetProductDetailsID(id: String) {
+    override fun setProductDetailsID(id: String) {
         val salesDetails = ProductDetailsFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.frame, salesDetails)

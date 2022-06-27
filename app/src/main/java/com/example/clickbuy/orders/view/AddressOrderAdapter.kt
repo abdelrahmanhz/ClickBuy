@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clickbuy.R
-import com.example.clickbuy.models.Address
 import com.example.clickbuy.models.CustomerAddress
 import com.example.clickbuy.payment.view.AddressInterface
 
@@ -17,8 +16,6 @@ private const val TAG = "AddressOrderAdapter"
 class AddressOrderAdapter(val context: Context, var addressInterface: AddressInterface) :
     RecyclerView.Adapter<AddressOrderAdapter.ViewHolder>() {
     var addresses: List<CustomerAddress> = emptyList()
-    private var checkedPosition = 0
-    private var choosenAdrres: String = ""
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -29,11 +26,11 @@ class AddressOrderAdapter(val context: Context, var addressInterface: AddressInt
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(
-        holder: AddressOrderAdapter.ViewHolder,
-        position: Int
-    ) {
-        holder.titleOfAddress.text = addresses[position].address1.toString()
+    override fun onBindViewHolder(holder: AddressOrderAdapter.ViewHolder, position: Int) {
+        holder.cityBillingAddress.text = addresses[position].address1
+        holder.addressCompleteTextView.text =
+            addresses[position].city.plus(", " + addresses[position].country)
+
         holder.itemView.setOnClickListener {
             addressInterface.showAddress(addresses[position])
         }
@@ -44,14 +41,15 @@ class AddressOrderAdapter(val context: Context, var addressInterface: AddressInt
         return addresses.size
     }
 
-    fun setListOfAddreses(addresees: List<CustomerAddress>) {
-        this.addresses = addresees.toList()
+    fun setListOfAddresses(addresses: List<CustomerAddress>) {
+        this.addresses = addresses.toList()
         Log.i(TAG, "setListOfBrands: ")
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var titleOfAddress: TextView = itemView.findViewById(R.id.titleOfAddress_cus)
+        var cityBillingAddress: TextView = itemView.findViewById(R.id.city_billing_address)
+        var addressCompleteTextView: TextView =
+            itemView.findViewById(R.id.address_complete_textView)
     }
 }

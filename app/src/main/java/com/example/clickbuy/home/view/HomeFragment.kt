@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.ScrollView
 import android.widget.*
-import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,13 +35,12 @@ import com.example.clickbuy.search.view.SearchFragment
 import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.connectInternet
 import com.smarteist.autoimageslider.SliderView
-import org.w3c.dom.Text
 
 
 class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface,
     CouponsDetailsInterface {
 
-
+    private lateinit var connectionView: View
     private lateinit var enableConnection: TextView
     private lateinit var noInternetAnimation: LottieAnimationView
     private lateinit var scrollView: ScrollView
@@ -63,7 +62,6 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -72,15 +70,13 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         clipboardManager =
             requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-        initUI(view)
-        initViewModel()
-        observeViewModel()
-        setUpBrandRecyclerView()
-        setUpSaleRecyclerView()
-
-
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
+            Log.i("TAG", "onViewCreated: inObserve------------------------------------------------")
             if (it) {
+                Log.i(
+                    "TAG",
+                    "onViewCreated: yes connection-----------------------------------------"
+                )
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 scrollView.visibility = View.VISIBLE
@@ -90,12 +86,20 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
                 viewModel.getAllPriceRules()
                 //     viewModel.getAvailableCoupons()
             } else {
+                Log.i("TAG", "onViewCreated: no connection--------------------------->")
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 scrollView.visibility = View.GONE
                 myToolbar.visibility = View.GONE
+
             }
         }
+
+        initUI(view)
+        initViewModel()
+        observeViewModel()
+        setUpBrandRecyclerView()
+        setUpSaleRecyclerView()
 
         enableConnection.setOnClickListener {
             connectInternet(requireContext())
@@ -143,6 +147,8 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     private fun initUI(view: View) {
 
+        connectionView = view.findViewById(R.id.connection_view)
+
         scrollView = view.findViewById(R.id.scroll_view)
         myToolbar = view.findViewById(R.id.toolBarHome)
         val resId: Int = R.anim.lat
@@ -174,6 +180,12 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         couponsSlider.isAutoCycle = true
         couponsSlider.startAutoCycle()
 
+        Log.i("TAG", "initUI: value----------------------------------- " + ConnectionLiveData.getInstance(requireContext()).value)
+        Log.i("TAG", "initUI: insta----------------------------------- " + ConnectionLiveData.getInstance(requireContext()))
+        if (ConnectionLiveData.getInstance(requireContext()).value != true) {
+            connectionView.visibility = View.VISIBLE
+            Log.i("TAG", "initUI:------------------------------------------------ visible view")
+        }
 
     }
 
@@ -204,7 +216,9 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
     }
 
     private fun observeViewModel() {
+        Log.i("TAG", "observeViewModel: ------------------------------")
         viewModel.brand.observe(requireActivity()) {
+            Log.i("TAG", "observeViewModel: brand------------------------------")
             if (it != null) {
                 brandAdapter.setListOfBrands(it.smart_collections)
             } else {
@@ -214,6 +228,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         }
 
         viewModel.saleId.observe(requireActivity()) {
+            Log.i("TAG", "observeViewModel: saleId------------------------------")
             if (it != null) {
                 saleAdapter.setListOfSales(it.products)
             } else {
@@ -222,6 +237,7 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
         }
 
         viewModel.priceRules.observe(viewLifecycleOwner) {
+            Log.i("TAG", "observeViewModel: priceRules------------------------------")
             if (!it.isNullOrEmpty()) {
                 couponsAdapter.setList(it)
             }

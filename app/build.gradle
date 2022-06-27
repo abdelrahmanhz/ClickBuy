@@ -154,16 +154,12 @@ dependencies {
 ////
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    //Animated GIF
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
+    
 
-    //lottie
-//    def lottieVersion = "5.0.2"
-    implementation "com.airbnb.android:lottie:$lottieVersion"
-
-    // stripe payment method
-    implementation 'com.stripe:stripe-android:17.2.0'
-    implementation 'com.android.volley:volley:1.1.0'
     //Swipe to delete
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
+
+    //Progress Button
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
+
 }

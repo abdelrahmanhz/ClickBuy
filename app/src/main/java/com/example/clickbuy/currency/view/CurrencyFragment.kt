@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,15 +39,15 @@ class CurrencyFragment : Fragment() {
     private lateinit var viewModel: CurrencyViewModel
     private lateinit var currentView: View
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_currency, container, false)
+        return inflater.inflate(R.layout.fragment_currency, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         currentView = view
 
         initView(view)
@@ -79,8 +78,6 @@ class CurrencyFragment : Fragment() {
         enableConnection.setOnClickListener {
             connectInternet(requireContext())
         }
-
-        return view
     }
 
     private fun initView(view: View) {
@@ -141,9 +138,6 @@ class CurrencyFragment : Fragment() {
         snackBar.show()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onDestroy() {
         super.onDestroy()

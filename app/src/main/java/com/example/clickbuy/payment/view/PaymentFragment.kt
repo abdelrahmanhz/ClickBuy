@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
 import com.airbnb.lottie.LottieAnimationView
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
@@ -38,7 +39,7 @@ import java.util.*
 
 class PaymentFragment : Fragment() {
 
-    private lateinit var enableConnection: AppCompatButton
+    private lateinit var enableConnection: TextView
     private lateinit var noInternetAnimation: LottieAnimationView
 
     private lateinit var backButton: ImageView
@@ -50,7 +51,7 @@ class PaymentFragment : Fragment() {
     private lateinit var discountAmountTextView: TextView
     private lateinit var totalTV: TextView
     private lateinit var totalAmountTextView: TextView
-    private lateinit var payButton: AppCompatButton
+    private lateinit var payButton: CircularProgressButton
 
     private lateinit var viewModelFactory: PaymentViewModelFactory
     private lateinit var viewModel: PaymentViewModel
@@ -61,8 +62,8 @@ class PaymentFragment : Fragment() {
     private var discountAmount: String = ConstantsValue.discountAmount
 
     private var address: CustomerAddress = CustomerAddress()
-    var bagList: List<BagItem> = emptyList()
-    var imagesList: List<NoteAttribute> = emptyList()
+    private var bagList: List<BagItem> = emptyList()
+    private var imagesList: List<NoteAttribute> = emptyList()
 
     //Payment
     private lateinit var paymentSheet: PaymentSheet
@@ -74,16 +75,20 @@ class PaymentFragment : Fragment() {
 
     private var discountCodes: MutableList<DiscountCodes> = mutableListOf()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view: View = inflater.inflate(R.layout.fragment_payment, container, false)
+        return inflater.inflate(R.layout.fragment_payment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initUI(view)
         initViewModel()
         observeViewModel()
+
         setPaymentMethod()
 
         ConnectionLiveData.getInstance(requireContext()).observe(viewLifecycleOwner) {
@@ -91,15 +96,13 @@ class PaymentFragment : Fragment() {
                 noInternetAnimation.visibility = View.GONE
                 enableConnection.visibility = View.GONE
                 setVisibility(View.VISIBLE)
+
             } else {
                 noInternetAnimation.visibility = View.VISIBLE
                 enableConnection.visibility = View.VISIBLE
                 setVisibility(View.GONE)
             }
         }
-
-        if (isRTL())
-            backButton.setImageResource(R.drawable.ic_arrow_right)
 
         backButton.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -124,7 +127,6 @@ class PaymentFragment : Fragment() {
             connectInternet(requireContext())
         }
 
-        return view
     }
 
     private fun initUI(view: View) {
@@ -147,9 +149,13 @@ class PaymentFragment : Fragment() {
 
         requiredAmountTextView.text =
             calculatePrice(amountRequired)
+        totalAmountTextView.text = requiredAmountTextView.text
 
         bagList = (requireActivity() as AddressOrderActivity).bagList
         imagesList = (requireActivity() as AddressOrderActivity).imagesList
+
+        if (isRTL())
+            backButton.setImageResource(R.drawable.ic_arrow_right)
     }
 
     private fun initViewModel() {
@@ -193,11 +199,7 @@ class PaymentFragment : Fragment() {
 
         orderViewModel.order.observe(viewLifecycleOwner) {
             if (it != null) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.place_order_successfuly),
-                    Toast.LENGTH_LONG
-                ).show()
+                payButton.stopAnimation()
                 val intent = Intent(requireContext(), MainActivity::class.java)
                 intent.flags =
                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -205,26 +207,22 @@ class PaymentFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.place_order_faild),
+                    getString(R.string.place_order_failed),
                     Toast.LENGTH_LONG
                 ).show()
-
             }
         }
     }
 
-    fun setAddress(address: CustomerAddress) {
-        this.address = address
-    }
-
-
     private fun setPaymentMethod() {
-        if (isCash) {
-            payButton.text = getString(R.string.placeOrder)
-        } else {
+        if (!isCash) {
             initPayment()
+            payButton.text = getString(R.string.pay)
+            payButton.isEnabled = false
+            payButton.startAnimation()
         }
     }
+
 
     private fun setVisibility(visibility: Int) {
         requiredTV.visibility = visibility
@@ -236,6 +234,7 @@ class PaymentFragment : Fragment() {
         totalTV.visibility = visibility
         totalAmountTextView.visibility = visibility
         payButton.visibility = visibility
+
     }
 
     private fun initPayment() {
@@ -249,11 +248,7 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         customerId = jsonObject.getString("id")
-                        /* Toast.makeText(
-                             requireContext(),
-                             "Customer Id: $customerId",
-                             Toast.LENGTH_SHORT
-                         ).show()*/
+                        Log.i("TAG", "initPayment: go to getEphemeralKey")
                         getEphemeralKey()
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -265,7 +260,7 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    header["Authorization"] = "Bearer $SECRET_KEY"
                     return header
                 }
             }
@@ -283,7 +278,6 @@ class PaymentFragment : Fragment() {
 
     private fun onPaymentSheetResult(paymentSheetResult: PaymentSheetResult) {
         if (paymentSheetResult is PaymentSheetResult.Completed) {
-            Toast.makeText(requireContext(), "Payment Success!!", Toast.LENGTH_SHORT).show()
             placeOrder()
         }
     }
@@ -296,6 +290,7 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         ephemeralKey = jsonObject.getString("id")
+                        Log.i("TAG", "getEphemeralKey: go to getClientSecret")
                         getClientSecret(customerId)
                     } catch (e: JSONException) {
                         e.printStackTrace()
@@ -307,14 +302,14 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header.put("Authorization", "Bearer $SECRET_KEY")
-                    header.put("Stripe-Version", "2020-08-27")
+                    header["Authorization"] = "Bearer $SECRET_KEY"
+                    header["Stripe-Version"] = "2020-08-27"
                     return header
                 }
 
                 override fun getParams(): Map<String, String> {
                     val param: HashMap<String, String> = HashMap<String, String>()
-                    param.put("customer", customerId)
+                    param["customer"] = customerId
                     return param
                 }
             }
@@ -331,6 +326,9 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         clientSecret = jsonObject.getString("client_secret")
+                        Log.i("TAG", "get successfully")
+                        payButton.isEnabled = true
+                        payButton.revertAnimation()
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -340,16 +338,16 @@ class PaymentFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
-                    header.put("Authorization", "Bearer $SECRET_KEY")
+                    header["Authorization"] = "Bearer $SECRET_KEY"
                     return header
                 }
 
                 override fun getParams(): Map<String, String> {
                     val param: HashMap<String, String> = HashMap<String, String>()
-                    param.put("customer", customerId)
-                    param.put("amount", amountRequired + kaser)
-                    param.put("currency", ConstantsValue.to)
-                    param.put("automatic_payment_methods[enabled]", "true")
+                    param["customer"] = customerId
+                    param["amount"] = amountRequired + kaser
+                    param["currency"] = ConstantsValue.to
+                    param["automatic_payment_methods[enabled]"] = "true"
                     return param
                 }
             }
@@ -359,6 +357,7 @@ class PaymentFragment : Fragment() {
     }
 
     private fun placeOrder() {
+        payButton.startAnimation()
         orderViewModel.postOrder(
             OrderPojo(
                 Order(
@@ -370,11 +369,7 @@ class PaymentFragment : Fragment() {
                 )
             )
         )
-    }
 
-    fun setData(address: CustomerAddress, isCash: Boolean) {
-        this.address = address
-        this.isCash = isCash
     }
 
     private fun paymentFlow() {
@@ -384,5 +379,10 @@ class PaymentFragment : Fragment() {
                 PaymentSheet.CustomerConfiguration(customerId, ephemeralKey)
             )
         )
+    }
+
+    fun setData(address: CustomerAddress, isCash: Boolean) {
+        this.address = address
+        this.isCash = isCash
     }
 }

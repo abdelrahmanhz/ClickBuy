@@ -66,6 +66,6 @@
         android:layout_marginTop="24dp"
         android:src="@drawable/ic_delete"
         app:layout_constraintStart_toEndOf="@+id/doneButton"
-        app:layout_constraintTop_toBottomOf="@+id/priceSlider"/>
+        app:layout_constraintTop_toBottomOf="@+id/priceSlider" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

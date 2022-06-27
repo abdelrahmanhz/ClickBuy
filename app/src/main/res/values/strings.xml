@@ -51,8 +51,8 @@
     <string name="go_back">Go back</string>
     <string name="orders">Orders</string>
     <string name="guest">"Login to see shopping cart "</string>
-    <string name="login">Login / Register</string>
-    <string name="add_to_shopping_cart_fail">faild to add to shopping cart </string>
+    <string name="login">Login</string>
+    <string name="add_to_shopping_cart_fail">failed to add to shopping cart </string>
     <string name="add_to_shopping_cart_success">Item Added to Cart </string>
     <string name="successful_register">You have successfully signed up!</string>
     <string name="register_fail">Email or phone is already taken, can\'t sign up!</string>
@@ -116,8 +116,13 @@
     <string name="logged_in_successfully">Logged in successfully</string>
     <string name="available">Available</string>
     <string name="product_details">Product Details</string>
-    <string name="place_order_successfuly">Order Placed Successfuly</string>
-    <string name="place_order_faild">Order Failed to be Placed </string>
-    <string name="billingaddress">Billing Address</string>
+    <string name="place_order_successfully">Order Placed Successfully</string>
+    <string name="place_order_failed">Order Failed to be Placed </string>
+    <string name="billing_address">Billing Address</string>
+    <string name="at">  At  </string>
+    <string name="items">Items</string>
+    <string name="order_items_count">Items Count:</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
 
 </resources>
