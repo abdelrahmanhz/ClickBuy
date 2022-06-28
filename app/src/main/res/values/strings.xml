@@ -127,5 +127,6 @@
     <string name="delete_address">Delete Address</string>
     <string name="delete_address_message">Are you sure you want to delete this address</string>
     <string name="default_address">This is the default address and can not be deleted</string>
+    <string name="no_orders">You have not placed any order yet</string>
 
 </resources>

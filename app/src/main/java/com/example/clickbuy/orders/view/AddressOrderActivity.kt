@@ -2,14 +2,12 @@ package com.example.clickbuy.orders.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.clickbuy.R
 import com.example.clickbuy.models.BagItem
 import com.example.clickbuy.models.NoteAttribute
 import com.example.clickbuy.models.ShoppingBag
 
-private const val TAG = "AddressOrder"
 
 class AddressOrderActivity : AppCompatActivity() {
     var bagList: List<BagItem> = emptyList()
@@ -23,9 +21,9 @@ class AddressOrderActivity : AppCompatActivity() {
         val list = intent.getSerializableExtra("TEST") as ShoppingBag
 
 
-        bagList = list.draft_order.line_items!!
-        imagesList = list.draft_order.note_attributes!!
-        totalAmountPrice = list.draft_order.subtotal_price
+        bagList = list.draft_order.line_items
+        imagesList = list.draft_order.note_attributes
+        totalAmountPrice = list.draft_order.total_price
         replaceFragment(OrderAddressFragment())
     }
 

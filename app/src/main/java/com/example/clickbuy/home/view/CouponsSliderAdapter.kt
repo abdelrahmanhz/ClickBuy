@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.clickbuy.R
 import com.example.clickbuy.models.DiscountCode
-import com.example.clickbuy.models.PriceRule
+import com.example.clickbuy.util.ConstantsValue
 import com.example.clickbuy.util.calculatePrice
+import com.example.clickbuy.util.getEquivalentCurrencyValue
 import com.smarteist.autoimageslider.SliderViewAdapter
+import java.text.DecimalFormat
 
 
 private const val TAG = "CouponsSliderAdapter"
@@ -39,20 +41,13 @@ class CouponsSliderAdapter(
         viewHolder?.codeTextView?.text =
             context.resources.getString(R.string.use_this_code).plus("  ${discountCode.code}")
 
+        val amount = 10.00 * ConstantsValue.currencyValue
         viewHolder?.itemView?.setOnClickListener {
-            couponsDetailsInterface.copyCouponsDetails(discountCode.code)
+            couponsDetailsInterface.copyCouponsDetails(
+                discountCode.code,
+                amount.toString()
+            )
         }
-        /*    val priceRule = priceRules[position]
-            //      (-priceRule.value.toDouble()) * ConstantsValue.currencyValue
-            val discountAmount = calculatePrice((-priceRule.value.toDouble()).toString())
-            viewHolder?.discountValue?.text =
-                context.resources.getString(R.string.off).plus(" $discountAmount")
-            viewHolder?.codeTextView?.text =
-                context.resources.getString(R.string.use_this_code).plus(" " + priceRule.title)
-
-            viewHolder?.itemView?.setOnClickListener {
-                couponsDetailsInterface.copyCouponsDetails(priceRule)
-            }*/
     }
 
     override fun getCount(): Int {

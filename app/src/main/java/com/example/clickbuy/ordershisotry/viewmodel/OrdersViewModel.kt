@@ -24,6 +24,8 @@ class OrdersViewModel(irepo: RepositoryInterface) : ViewModel() {
                 withContext(Dispatchers.Main) {
                     _order.postValue(orderResponse.body()!!)
                 }
+            } else {
+                _order.postValue(orderResponse.body()!!)
             }
         }
     }

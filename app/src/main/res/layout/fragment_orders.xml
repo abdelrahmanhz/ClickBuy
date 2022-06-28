@@ -72,4 +72,19 @@
         app:lottie_rawRes="@raw/empty_order_history"
         tools:ignore="ImageContrastCheck" />
 
+    <TextView
+        android:id="@+id/empty_order_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:text="@string/no_orders"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/empty_order_imageView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

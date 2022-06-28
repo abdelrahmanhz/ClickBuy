@@ -31,8 +31,10 @@ import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.*
+import kotlin.math.floor
 
 private const val SECRET_KEY =
     "sk_test_51LC43aFOCB8Ua6ZfTDtJrqwPlSUbKsrxj7n5ee3o0ThJZwaQArSSoUE3DTuhSopUafFm7ieYKfBBL2I0JIoZsVCu00l34FE62t"
@@ -72,7 +74,8 @@ class PaymentFragment : Fragment() {
     private lateinit var customerId: String
     private lateinit var ephemeralKey: String
     private lateinit var clientSecret: String
-    private var kaser = "00"
+    private var kaser: String = "00"
+    private var salim: String = ""
     private lateinit var amountRequired: String
 
     private var discountCodes: MutableList<DiscountCodes> = mutableListOf()
@@ -181,16 +184,35 @@ class PaymentFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.validationCoupon.observe(viewLifecycleOwner) {
             if (it != null) {
-                discountAmountTextView.text = getEquivalentCurrencyValue(discountAmount)
+                Log.i("TAG", "observeViewModel: discountAmount-------------------> $discountAmount")
+                discountAmount =
+                    (discountAmount.toDouble() * ConstantsValue.currencyValue).toString()
+                discountAmountTextView.text = calculatePrice(ConstantsValue.discountAmount)
 
-                val amount: Double =
-                    ((requireActivity() as AddressOrderActivity).totalAmountPrice.toDouble()) + (discountAmount.toDouble() * ConstantsValue.currencyValue)
+                val amount: Double = amountRequired.toDouble() - discountAmount.toDouble()
+                //        ((requireActivity() as AddressOrderActivity).totalAmountPrice.toDouble()) + (discountAmount.toDouble() * ConstantsValue.currencyValue)
 
-                totalAmountTextView.text = calculatePrice(amount.toString())
+                totalAmountTextView.text =
+                    DecimalFormat("#.00").format(amount).plus(ConstantsValue.to)
+
+
+                var paidValue =
+                    NumberFormat.getNumberInstance(Locale.US).format(amount)
+                val amounts = paidValue.split(".")
+                salim = amounts[0]
+                Log.i("TAG", "initPayment: amount--------------> " + amount)
+                Log.i("TAG", "initPayment: amounts-------------> " + amounts)
+                Log.i("TAG", "initPayment: paidValue-----------> " + paidValue)
+
+                if (amounts.size > 1)
+                    kaser = amounts[1]
+
+                Log.i("TAG", "observe: salim-------------> " + salim)
+                Log.i("TAG", "observe: kaser-----------> " + kaser)
                 discountCodes.add(
                     0, DiscountCodes(
                         it.discount_code.code,
-                        (-ConstantsValue.discountAmount.toDouble()).toString(),
+                        ConstantsValue.discountAmount2,
                         "fixed_amount"
                     )
                 )
@@ -242,7 +264,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun initPayment() {
-        Log.i("TAG", "initPayment: start--------------------------------------------------")
         PaymentConfiguration.init(requireContext(), PUBLISH_KEY)
         paymentSheet = PaymentSheet(this, ::onPaymentSheetResult)
 
@@ -253,14 +274,9 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         customerId = jsonObject.getString("id")
-                        Log.i("TAG", "initPayment: go to getEphemeralKey")
                         getEphemeralKey()
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        Log.i(
-                            "TAG",
-                            "initPayment: error--------------------------------------------------" + e.message
-                        )
                     }
                 },
                 Response.ErrorListener {
@@ -274,13 +290,19 @@ class PaymentFragment : Fragment() {
                 }
             }
 
+        Log.i("TAG", "initPayment: before-------------> " + amountRequired)
+        amountRequired = (amountRequired.toDouble() * ConstantsValue.currencyValue).toString()
+        Log.i("TAG", "initPayment: before2-------------> " + amountRequired)
         amountRequired =
             NumberFormat.getNumberInstance(Locale.US).format(amountRequired.toDouble())
         val amounts = amountRequired.split(".")
-        amountRequired = amounts[0]
+        salim = amounts[0]
+        Log.i("TAG", "initPayment: after-------------> " + amountRequired)
         if (amounts.size > 1)
             kaser = amounts[1]
 
+        Log.i("TAG", "initPayment: salim-------------> " + salim)
+        Log.i("TAG", "initPayment: kaser-----------> " + kaser)
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(request)
     }
@@ -293,7 +315,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun getEphemeralKey() {
-        Log.i("TAG", "getEphemeralKey: start--------------------------------------------------")
         val request: StringRequest =
             object : StringRequest(
                 Method.POST, "https://api.stripe.com/v1/ephemeral_keys",
@@ -301,14 +322,9 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         ephemeralKey = jsonObject.getString("id")
-                        Log.i("TAG", "getEphemeralKey: go to getClientSecret")
                         getClientSecret(customerId)
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        Log.i(
-                            "TAG",
-                            "getEphemeralKey: error--------------------------------------------------" + e.message
-                        )
                     }
                 },
                 Response.ErrorListener {
@@ -335,7 +351,6 @@ class PaymentFragment : Fragment() {
     }
 
     private fun getClientSecret(customerId: String) {
-        Log.i("TAG", "getClientSecret: start--------------------------------------------------")
         val request: StringRequest =
             object : StringRequest(
                 Method.POST, "https://api.stripe.com/v1/payment_intents",
@@ -343,15 +358,10 @@ class PaymentFragment : Fragment() {
                     try {
                         val jsonObject = JSONObject(response)
                         clientSecret = jsonObject.getString("client_secret")
-                        Log.i("TAG", "get successfully")
                         payButton.isEnabled = true
                         payButton.revertAnimation()
                     } catch (e: JSONException) {
                         e.printStackTrace()
-                        Log.i(
-                            "TAG",
-                            "getClientSecret: error--------------------------------------------------" + e.message
-                        )
                     }
                 },
                 Response.ErrorListener {
@@ -360,24 +370,21 @@ class PaymentFragment : Fragment() {
                 override fun getHeaders(): Map<String, String> {
                     val header: HashMap<String, String> = HashMap<String, String>()
                     header.put("Authorization", "Bearer $SECRET_KEY")
-                    Log.i("TAG", "Throws: ------------------------------------")
                     return header
                 }
 
                 override fun getParams(): Map<String, String> {
                     val param: HashMap<String, String> = HashMap<String, String>()
                     param.put("customer", customerId)
-                    param.put("amount", "10" + "00")
-                    param.put("currency", "usd")
+                    param.put("amount", salim + kaser)
+                    param.put("currency", ConstantsValue.to)
                     param.put("automatic_payment_methods[enabled]", "true")
-                    Log.i("TAG", "getParams: -----------------------------------------------------")
                     return param
                 }
             }
 
         val requestQueue = Volley.newRequestQueue(requireContext())
         requestQueue.add(request)
-        Log.i("TAG", "getClientSecret:end -----------------------------------------------------")
     }
 
     private fun placeOrder() {

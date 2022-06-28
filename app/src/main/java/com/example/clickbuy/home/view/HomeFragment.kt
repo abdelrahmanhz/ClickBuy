@@ -256,10 +256,11 @@ class HomeFragment : Fragment(), CategoryBrandInterface, ProductDetailsInterface
 
     }
 
-    override fun copyCouponsDetails(couponCode: String) {
+    override fun copyCouponsDetails(couponCode: String, discountAmount: String) {
         val data = ClipData.newPlainText("coupon", couponCode)
         clipboardManager.setPrimaryClip(data)
-        ConstantsValue.discountAmount = "-10"
+      //  ConstantsValue.discountAmount = discountAmount
+      //  Log.i("TAG", "copyCouponsDetails: discountAmount-----------------> $discountAmount")
         Toast.makeText(requireContext(), getString(R.string.copy_success), Toast.LENGTH_SHORT)
             .show()
     }

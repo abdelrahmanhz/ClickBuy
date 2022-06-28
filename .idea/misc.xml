@@ -47,6 +47,7 @@
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_category.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_currency.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_favourites.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_guest.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_home.xml" value="0.22780797101449277" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_login.xml" value="0.1334853090172239" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/fragment_order_addres.xml" value="0.22780797101449277" />
@@ -61,6 +62,7 @@
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/no_connection_view.xml" value="0.22780797101449277" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/product_bottom_sheet.xml" value="0.22780797101449277" />
         <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/review_item.xml" value="0.22780797101449277" />
+        <entry key="..\:/Github Projects/ClickBuy/app/src/main/res/layout/shimmer_animation_layout_category.xml" value="0.22780797101449277" />
       </map>
     </option>
   </component>

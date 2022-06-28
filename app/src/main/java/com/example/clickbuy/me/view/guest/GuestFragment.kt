@@ -51,11 +51,6 @@ class GuestFragment : Fragment() {
         }
 
         enableConnection.setOnClickListener {
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                startActivity(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
-            } else {
-                startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
-            }*/
             connectInternet(requireContext())
         }
 

@@ -1,6 +1,7 @@
 package com.example.clickbuy.ordershisotry.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
     private lateinit var enableConnection: TextView
     private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private lateinit var emptyOrdersAnimation: LottieAnimationView
+    private lateinit var emptyOrdersTextView: TextView
     private lateinit var arrowBackImageView: ImageView
     private lateinit var orderRecyclerView: RecyclerView
 
@@ -82,6 +84,7 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
         noInternetAnimation = view.findViewById(R.id.no_internet_animation)
         shimmerFrameLayout = view.findViewById(R.id.shimmer_frame_layout)
         emptyOrdersAnimation = view.findViewById(R.id.empty_order_imageView)
+        emptyOrdersTextView = view.findViewById(R.id.empty_order_textView)
         orderRecyclerView = view.findViewById(R.id.allOrdersRecyclerView)
         arrowBackImageView = view.findViewById(R.id.BackButtonOrder)
         if (isRTL())
@@ -108,14 +111,19 @@ class OrdersFragment : Fragment(), OrderDetailsInterface {
     }
 
     private fun observeViewModel() {
+        Log.i("TAG", "observeViewModel: ")
         viewModel.order.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it != null && it.orders.isNotEmpty()) {
+                Log.i("TAG", "observeViewModel: exist data")
                 orderAdapter.setListOfOrders(it.orders)
                 emptyOrdersAnimation.visibility = View.GONE
+                emptyOrdersTextView.visibility = View.GONE
                 orderRecyclerView.visibility = View.VISIBLE
             } else {
+                Log.i("TAG", "observeViewModel: no data")
                 orderAdapter.setListOfOrders(emptyList())
                 emptyOrdersAnimation.visibility = View.VISIBLE
+                emptyOrdersTextView.visibility = View.VISIBLE
                 orderRecyclerView.visibility = View.GONE
             }
             shimmerFrameLayout.stopShimmerAnimation()

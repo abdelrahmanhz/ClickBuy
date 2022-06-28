@@ -172,12 +172,8 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 )
                     .show()
             }
-            binding.addToCartButton.revertAnimation()
             binding.addToCartButton.isEnabled = true
-            binding.addToCartButton.text =
-                if (product.status.equals("active")) getString(r.string.add_to_cart) else getString(
-                    r.string.not_available
-                )
+
         }
     }
 
@@ -308,7 +304,6 @@ class ProductDetailsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             if (ConstantsValue.isLogged) {
                 viewModel.addItemsInBag(product, variantPosition)
                 binding.addToCartButton.isEnabled = false
-                binding.addToCartButton.startAnimation()
             } else {
                 Toast.makeText(
                     requireContext(),
