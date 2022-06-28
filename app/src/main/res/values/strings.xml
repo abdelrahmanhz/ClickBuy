@@ -124,5 +124,8 @@
     <string name="order_items_count">Items Count:</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
+    <string name="delete_address">Delete Address</string>
+    <string name="delete_address_message">Are you sure you want to delete this address</string>
+    <string name="default_address">This is the default address and can not be deleted</string>
 
 </resources>

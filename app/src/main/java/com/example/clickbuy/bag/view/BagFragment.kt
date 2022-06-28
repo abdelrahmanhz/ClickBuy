@@ -37,7 +37,6 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
 
     private lateinit var noInternetAnimation: LottieAnimationView
     private lateinit var enableConnection: TextView
-
     private lateinit var priceTextView: TextView
     private lateinit var checkoutButton: AppCompatButton
     private lateinit var arrowBackImageView: ImageView
@@ -155,7 +154,7 @@ class BagFragment : Fragment(), UpdatingItemsAtBag {
                 bagList = it.draft_order.line_items
                 imagesList = it.draft_order.note_attributes
                 bagAdapter.setList(it.draft_order.line_items, it.draft_order.note_attributes)
-                priceTextView.text = calculatePrice(it.draft_order.subtotal_price)
+                priceTextView.text = calculatePrice(it.draft_order.total_price)
                 bagObject = it
             } else {
                 bagAdapter.setList(emptyList(), emptyList())

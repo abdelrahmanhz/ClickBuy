@@ -85,6 +85,12 @@ class RetrofitClient : RemoteSource {
         return response
     }
 
+    override suspend fun deleteAddress(addressID: Long): Response<Any> {
+
+        val response = retrofitHelper.deleteAddress(customerId = ConstantsValue.userID, addressId = addressID.toString())
+        return response
+    }
+
     override suspend fun getCurrencies(): Response<Currencies> {
         val response = retrofitHelper.getCurrencies()
         return response

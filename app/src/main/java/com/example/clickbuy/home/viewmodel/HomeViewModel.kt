@@ -40,7 +40,7 @@ class HomeViewModel(iRepo: RepositoryInterface) : ViewModel() {
 
     fun getAllSalesById() {
         viewModelScope.launch {
-            val salesResponse = _iRepo.getAllProducts("274329501835", "", "")
+            val salesResponse = _iRepo.getAllProducts("274500124811", "", "")
             if (salesResponse.code() == 200) {
                 withContext(Dispatchers.Main) {
                     _saleId.postValue( salesResponse.body()!!)

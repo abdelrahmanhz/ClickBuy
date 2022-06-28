@@ -26,6 +26,7 @@ interface RemoteSource {
     suspend fun getAllAddresses(): Response<CustomerAddresses>
     suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse>
     suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI>
+    suspend fun deleteAddress(addressID: Long): Response<Any>
 
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>

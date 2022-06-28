@@ -9,25 +9,18 @@
     android:layout_marginEnd="20sp"
     android:padding="10sp">
 
-    <TextView
-        android:id="@+id/dateOfOrdersTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="6 December"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginVertical="12dp"
         android:elevation="8dp"
+        android:padding="16dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateOfOrdersTextView"
-        card_view:cardElevation="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,9 +29,22 @@
             android:padding="20sp">
 
             <TextView
+                android:id="@+id/dateOfOrdersTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6 December"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:id="@+id/numberOfOrdersTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15sp"
                 android:text="7 order"
                 android:textAlignment="center"
                 android:textColor="@color/black"

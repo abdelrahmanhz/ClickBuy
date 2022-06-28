@@ -14,7 +14,7 @@ interface RetrofitService {
         @Query("vendor") vendor: String,
         @Query("product_type") title: String
     ): Response<Products>
-    
+
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @GET("smart_collections.json")
     suspend fun getAllBrands(): Response<Brands>
@@ -85,6 +85,12 @@ interface RetrofitService {
         @Query("key") key: String = "bb4b6a8e117f4dd8ac7beb0d4105e4a0"
     ): Response<AddressResponseAPI>
 
+    @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
+    @DELETE("customers/{customer_id}/addresses/{address_id}.json")
+    suspend fun deleteAddress(
+        @Path("customer_id") customerId: String,
+        @Path("address_id") addressId: String
+    ): Response<Any>
 
     @Headers(RetrofitHelper.HEADERS_ACCESS_TOKEN, RetrofitHelper.HEADERS_CONTENT_TYPE)
     @POST("customers/{id}/addresses.json")

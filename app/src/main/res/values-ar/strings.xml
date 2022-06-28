@@ -124,4 +124,7 @@
     <string name="order_items_count">عدد المشتريات:</string>
     <string name="date">التاريخ:</string>
     <string name="time">الوقت:</string>
+    <string name="delete_address">حذف العنوان</string>
+    <string name="delete_address_message">هل أنت متأكد أنك تريد حذف هذا العنوان</string>
+    <string name="default_address">هذا هو العنوان الأساسي ولا يمكن حذفه</string>
 </resources>

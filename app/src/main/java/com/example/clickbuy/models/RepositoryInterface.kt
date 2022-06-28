@@ -16,12 +16,6 @@ interface RepositoryInterface {
 
     suspend fun getSubCategories(): Response<Products>
     suspend fun getProductById(productId: String): Response<ProductParent>
-  /*  suspend fun getAllProductsInCollectionByID(id: String): Response<Products>
-    suspend fun getCategoryIdByTitle(categoryTitle: String): Response<CustomCollections>
-    suspend fun getAllProductsInSpecificCollectionByIDAndTitle(
-        idCollectionDetails: String,
-        categoryTitleComingFromHome: String
-    ): Response<Products>*/
 
     suspend fun getAllOrdersForSpecificCustomerById(id: String): Response<Orders>
     suspend fun signIn(email: String, password: String): String
@@ -34,7 +28,7 @@ interface RepositoryInterface {
     suspend fun getAllAddresses(): Response<CustomerAddresses>
     suspend fun addAddress(address: CustomerAddressUpdate): Response<CustomerAddressResponse>
     suspend fun getAddressFromApi(placeName: String): Response<AddressResponseAPI>
-
+    suspend fun deleteAddress(addressID: Long): Response<Any>
 
     suspend fun getCurrencies(): Response<Currencies>
     suspend fun getQualifiedValueCurrency(to: String): Response<CurrencyConverter>
@@ -55,5 +49,6 @@ interface RepositoryInterface {
     suspend fun getFavourites(): Response<Favourites>
     suspend fun addFavourite(favorite: FavouriteParent): Response<FavouriteParent>
     suspend fun deleteFavourite(favId: String)
+
 
 }

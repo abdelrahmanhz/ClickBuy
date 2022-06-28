@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="20sp"
-    android:padding="10sp"
+    android:paddingStart="17sp"
+    android:paddingEnd="17sp"
     tools:context=".ordershisotry.view.OrderDetailsFragment">
 
     <TextView
@@ -43,6 +44,7 @@
         android:id="@+id/dateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="10sp"
         android:text="@string/date"
         android:textColor="@color/black"
@@ -55,6 +57,7 @@
         android:id="@+id/order_date_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginStart="10sp"
         android:text="70"
         android:textColor="@color/black"
@@ -68,6 +71,7 @@
         android:id="@+id/timeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="10sp"
         android:text="@string/time"
         android:textColor="@color/black"
@@ -80,6 +84,7 @@
         android:id="@+id/order_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginStart="10sp"
         android:text="70"
         android:textColor="@color/black"
@@ -94,6 +99,7 @@
         android:id="@+id/priceTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="10sp"
         android:text="@string/price"
         android:textColor="@color/black"
@@ -106,6 +112,7 @@
         android:id="@+id/order_price_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginStart="10sp"
         android:text="70"
         android:textColor="@color/black"
@@ -119,6 +126,7 @@
         android:id="@+id/orderItemsTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginTop="10sp"
         android:text="@string/order_items_count"
         android:textColor="@color/black"
@@ -131,6 +139,7 @@
         android:id="@+id/order_items_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:layout_marginStart="10sp"
         android:text="7"
         android:textColor="@color/black"
@@ -148,6 +157,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderItemsTV" />
+        app:layout_constraintTop_toBottomOf="@+id/orderItemsTV"
+        tools:listitem="@layout/custom_row_order_details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

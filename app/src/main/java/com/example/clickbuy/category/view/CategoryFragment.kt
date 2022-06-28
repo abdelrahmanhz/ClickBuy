@@ -35,9 +35,9 @@ import com.example.clickbuy.util.calculatePrice
 import com.example.clickbuy.util.getEquivalentCurrencyValue
 import java.text.DecimalFormat
 
-private const val ID_WOMEN = "274329436299"
-private const val ID_MEN = "274329403531"
-private const val ID_KIDS = "274329469067"
+private const val ID_WOMEN = "274500059275"
+private const val ID_MEN = "274500026507"
+private const val ID_KIDS = "274500092043"
 
 class CategoryFragment : Fragment(), SubCategoriesFromFilterInterface, ProductDetailsIDShow {
 

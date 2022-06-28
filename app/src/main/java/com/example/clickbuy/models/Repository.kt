@@ -181,6 +181,14 @@ class Repository private constructor(
         return response
     }
 
+    override suspend fun deleteAddress(addressID: Long): Response<Any> {
+        val response = remoteSource.deleteAddress(addressID)
+        Log.i(TAG, "deleteAddress: response------------------> $response")
+        Log.i(TAG, "deleteAddress: code----------------------> ${response.code()}")
+        Log.i(TAG, "deleteAddress: body----------------------> ${response.body()}")
+        return response
+    }
+
     override suspend fun getCurrencies(): Response<Currencies> {
         val response = remoteSource.getCurrencies()
         return response

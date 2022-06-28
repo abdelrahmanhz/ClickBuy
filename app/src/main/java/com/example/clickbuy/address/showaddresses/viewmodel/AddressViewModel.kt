@@ -19,6 +19,9 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
     private var _addresses = MutableLiveData<List<CustomerAddress>>()
     val addresses: LiveData<List<CustomerAddress>> = _addresses
 
+    private var _isRemoved = MutableLiveData<Boolean>()
+    val isRemoved: LiveData<Boolean> = _isRemoved
+
     fun getAllAddresses() {
         viewModelScope.launch {
             val response = _iRepo.getAllAddresses()
@@ -32,7 +35,19 @@ class AddressViewModel(iRepo: RepositoryInterface) : ViewModel() {
                 }
             }
         }
+    }
 
+    fun deleteAddress(addressID: Long) {
+        viewModelScope.launch {
+            val response = _iRepo.deleteAddress(addressID)
+            withContext(Dispatchers.Main) {
+                if (response.code() == 200) {
+                    _isRemoved.postValue(true)
+                } else {
+                    _isRemoved.postValue(false)
+                }
+            }
+        }
     }
 
     init {
